@@ -5,16 +5,18 @@ An online E-store system built in Java 8=>11 and ___ _replace with other platfor
   
 ## Team
 
-- MEMBER1
-- MEMBER2
-- MEMBER3
-- MEMBER4
+- Hayden Cieniawski
+- Clayton Acheson
+- Jonathan Zhu
+- Donovan Cataldo
+- Damon Gonzalez
 
 
 ## Prerequisites
 
 - Java 8=>11 (Make sure to have correct JAVA_HOME setup in your environment)
 - Maven
+- Angular
 -  _add any other tech stack requirements_
 
 
