@@ -9,7 +9,7 @@ An online E-store system built in Java 8=>11 and ___ _replace with other platfor
 - Jonathan Zhu
 - Donovan Cataldo 
 - Clayton Acheson
-- 
+- Damon Gonzalez
 
 
 ## Prerequisites
