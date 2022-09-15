@@ -6,10 +6,10 @@ An online E-store system built in Java 8=>11 and ___ _replace with other platfor
 ## Team
 
 - Hayden Cieniawski
-- Clayton Acheson
-- Jonathan Zhu
-- Donovan Cataldo
-- Damon Gonzalez
+- 
+- 
+- 
+- 
 
 
 ## Prerequisites
