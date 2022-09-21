@@ -26,9 +26,9 @@ import model.Instrument;
 @Component
 public class InstrumentFileDAO implements InstrumentDAO {
     private static final Logger LOG = Logger.getLogger(InstrumentFileDAO.class.getName());
-    Map<Integer,Instrument> Instruments;   // Provides a local cache of the Instrument objects
-                                // so that we don't need to read from the file
-                                // each time
+    Map<Integer,Instrument> instruments;   // Provides a local cache of the Instrument objects
+                                           // so that we don't need to read from the file
+                                           // each time
     private ObjectMapper objectMapper;  // Provides conversion between Instrument
                                         // objects and JSON text format written
                                         // to the file
@@ -43,10 +43,10 @@ public class InstrumentFileDAO implements InstrumentDAO {
      * 
      * @throws IOException when file cannot be accessed or read from
      */
-    public InstrumentFileDAO(@Value("${Instruments.file}") String filename,ObjectMapper objectMapper) throws IOException {
+    public InstrumentFileDAO(@Value("${instruments.file}") String filename,ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
-        load();  // load the Instrumentes from the file
+        load();  // load the Instruments from the file
     }
 
     /**
@@ -61,56 +61,56 @@ public class InstrumentFileDAO implements InstrumentDAO {
     }
 
     /**
-     * Generates an array of {@linkplain Instrument Instrumentes} from the tree map
+     * Generates an array of {@linkplain Instrument Instruments} from the tree map
      * 
-     * @return  The array of {@link Instrument Instrumentes}, may be empty
+     * @return  The array of {@link Instrument Instruments}, may be empty
      */
-    private Instrument[] getInstrumentesArray() {
-        return getInstrumentesArray(null);
+    private Instrument[] getInstrumentsArray() {
+        return getInstrumentsArray(null);
     }
 
     /**
-     * Generates an array of {@linkplain Instrument Instrumentes} from the tree map for any
-     * {@linkplain Instrument Instrumentes} that contains the text specified by containsText
+     * Generates an array of {@linkplain Instrument Instruments} from the tree map for any
+     * {@linkplain Instrument Instruments} that contains the text specified by containsText
      * <br>
-     * If containsText is null, the array contains all of the {@linkplain Instrument Instrumentes}
+     * If containsText is null, the array contains all of the {@linkplain Instrument Instruments}
      * in the tree map
      * 
-     * @return  The array of {@link Instrument Instrumentes}, may be empty
+     * @return  The array of {@link Instrument Instruments}, may be empty
      */
-    private Instrument[] getInstrumentesArray(String containsText) { // if containsText == null, no filter
-        ArrayList<Instrument> InstrumentArrayList = new ArrayList<>();
+    private Instrument[] getInstrumentsArray(String containsText) { // if containsText == null, no filter
+        ArrayList<Instrument> instrumentArrayList = new ArrayList<>();
 
-        for (Instrument Instrument : Instruments.values()) {
+        for (Instrument Instrument : instruments.values()) {
             if (containsText == null || Instrument.getName().contains(containsText)) {
-                InstrumentArrayList.add(Instrument);
+                instrumentArrayList.add(Instrument);
             }
         }
 
-        Instrument[] InstrumentArray = new Instrument[InstrumentArrayList.size()];
-        InstrumentArrayList.toArray(InstrumentArray);
-        return InstrumentArray;
+        Instrument[] instrumentArray = new Instrument[instrumentArrayList.size()];
+        instrumentArrayList.toArray(instrumentArray);
+        return instrumentArray;
     }
 
     /**
-     * Saves the {@linkplain Instrument Instrumentes} from the map into the file as an array of JSON objects
+     * Saves the {@linkplain Instrument Instruments} from the map into the file as an array of JSON objects
      * 
-     * @return true if the {@link Instrument Instrumentes} were written successfully
+     * @return true if the {@link Instrument Instruments} were written successfully
      * 
      * @throws IOException when file cannot be accessed or written to
      */
     private boolean save() throws IOException {
-        Instrument[] InstrumentArray = getInstrumentesArray();
+        Instrument[] instrumentArray = getInstrumentsArray();
 
         // Serializes the Java Objects to JSON objects into the file
         // writeValue will thrown an IOException if there is an issue
         // with the file or reading from the file
-        objectMapper.writeValue(new File(filename),InstrumentArray);
+        objectMapper.writeValue(new File(filename),instrumentArray);
         return true;
     }
 
     /**
-     * Loads {@linkplain Instrument Instrumentes} from the JSON file into the map
+     * Loads {@linkplain Instrument Instruments} from the JSON file into the map
      * <br>
      * Also sets next id to one more than the greatest id found in the file
      * 
@@ -119,19 +119,19 @@ public class InstrumentFileDAO implements InstrumentDAO {
      * @throws IOException when file cannot be accessed or read from
      */
     private boolean load() throws IOException {
-        Instruments = new TreeMap<>();
+        instruments = new TreeMap<>();
         nextId = 0;
 
-        // Deserializes the JSON objects from the file into an array of Instrumentes
+        // Deserializes the JSON objects from the file into an array of Instruments
         // readValue will throw an IOException if there's an issue with the file
         // or reading from the file
-        Instrument[] InstrumentArray = objectMapper.readValue(new File(filename),Instrument[].class);
+        Instrument[] instrumentArray = objectMapper.readValue(new File(filename),Instrument[].class);
 
         // Add each Instrument to the tree map and keep track of the greatest id
-        for (Instrument Instrument : InstrumentArray) {
-            Instruments.put(Instrument.getId(),Instrument);
-            if (Instrument.getId() > nextId)
-                nextId = Instrument.getId();
+        for (Instrument instrument : instrumentArray) {
+            instruments.put(instrument.getId(),instrument);
+            if (instrument.getId() > nextId)
+                nextId = instrument.getId();
         }
         // Make the next id one greater than the maximum from the file
         ++nextId;
@@ -143,8 +143,8 @@ public class InstrumentFileDAO implements InstrumentDAO {
      */
     @Override
     public Instrument[] getInstruments() {
-        synchronized(Instruments) {
-            return getInstrumentesArray();
+        synchronized(instruments) {
+            return getInstrumentsArray();
         }
     }
 
@@ -153,8 +153,8 @@ public class InstrumentFileDAO implements InstrumentDAO {
      */
     @Override
     public Instrument[] findInstruments(String containsText) {
-        synchronized(Instruments) {
-            return getInstrumentesArray(containsText);
+        synchronized(instruments) {
+            return getInstrumentsArray(containsText);
         }
     }
 
@@ -163,9 +163,9 @@ public class InstrumentFileDAO implements InstrumentDAO {
      */
     @Override
     public Instrument getInstrument(int id) {
-        synchronized(Instruments) {
-            if (Instruments.containsKey(id))
-                return Instruments.get(id);
+        synchronized(instruments) {
+            if (instruments.containsKey(id))
+                return instruments.get(id);
             else
                 return null;
         }
@@ -176,11 +176,11 @@ public class InstrumentFileDAO implements InstrumentDAO {
      */
     @Override
     public Instrument createInstrument(Instrument Instrument) throws IOException {
-        synchronized(Instruments) {
+        synchronized(instruments) {
             // We create a new Instrument object because the id field is immutable
             // and we need to assign the next unique id
             Instrument newInstrument = new Instrument(nextId(),Instrument.getName(), Instrument.getPrice(), Instrument.getCategory(), Instrument.getQuantity());
-            Instruments.put(newInstrument.getId(),newInstrument);
+            instruments.put(newInstrument.getId(),newInstrument);
             save(); // may throw an IOException
             return newInstrument;
         }
@@ -191,11 +191,11 @@ public class InstrumentFileDAO implements InstrumentDAO {
      */
     @Override
     public Instrument updateInstrument(Instrument Instrument) throws IOException {
-        synchronized(Instruments) {
-            if (Instruments.containsKey(Instrument.getId()) == false)
+        synchronized(instruments) {
+            if (instruments.containsKey(Instrument.getId()) == false)
                 return null;  // Instrument does not exist
 
-            Instruments.put(Instrument.getId(),Instrument);
+            instruments.put(Instrument.getId(),Instrument);
             save(); // may throw an IOException
             return Instrument;
         }
@@ -206,9 +206,9 @@ public class InstrumentFileDAO implements InstrumentDAO {
      */
     @Override
     public boolean deleteInstrument(int id) throws IOException {
-        synchronized(Instruments) {
-            if (Instruments.containsKey(id)) {
-                Instruments.remove(id);
+        synchronized(instruments) {
+            if (instruments.containsKey(id)) {
+                instruments.remove(id);
                 return save();
             }
             else

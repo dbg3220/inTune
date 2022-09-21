@@ -35,7 +35,7 @@ public class InstrumentController {
     private InstrumentDAO InstrumentDao;
 
     /**
-     * Creates a REST API controller to repond to requests
+     * Creates a REST API controller to respond to requests
      * 
      * @param InstrumentDao The {@link InstrumentDAO Instrument Data Access Object} to perform CRUD operations
      * <br>
@@ -46,30 +46,41 @@ public class InstrumentController {
     }
 
    
-    @GetMapping("/{id}")
-    public ResponseEntity<Instrument> getInstrument(@PathVariable int id) {
-        LOG.info("GET /Instrumentes/" + id);
-        
-    }
+    // @GetMapping("/{id}")
+    // public ResponseEntity<Instrument> getInstrument(@PathVariable int id) {
+    //     LOG.info("GET /Instruments/" + id);        
+    // }
 
    
     @GetMapping("")
-    public ResponseEntity<Instrument[]> getInstrumentes() {
-        LOG.info("GET /Instrumentes");
+    public ResponseEntity<Instrument[]> getInstruments() {
+        LOG.info("GET /instruments");
+        try {
+            Instrument[] instruments = InstrumentDao.getInstruments();
+            if (instruments != null)
+                return new ResponseEntity<Instrument[]>(instruments,HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
        
     }
 
 
-    @GetMapping("/")
-    public ResponseEntity<Instrument[]> searchInstrumentes(@RequestParam String name) {
-        LOG.info("GET /Instrumentes/?name="+name);
+    // @GetMapping("/")
+    // public ResponseEntity<Instrument[]> searchInstrumentes(@RequestParam String name) {
+    //     LOG.info("GET /Instrumentes/?name="+name);
        
-    }
+    // }
 
    
     @PostMapping("")
     public ResponseEntity<Instrument> createInstrument(@RequestBody Instrument Instrument) {
-        LOG.info("POST /Instrumentes " + Instrument);
+        LOG.info("POST /Instruments " + Instrument);
         try {
             Instrument newInstrument = InstrumentDao.createInstrument(Instrument);
             if (newInstrument != null)
@@ -84,17 +95,17 @@ public class InstrumentController {
     }
 
     
-    @PutMapping("")
-    public ResponseEntity<Instrument> updateInstrument(@RequestBody Instrument Instrument) {
-        LOG.info("PUT /Instrumentes " + Instrument);
+    // @PutMapping("")
+    // public ResponseEntity<Instrument> updateInstrument(@RequestBody Instrument Instrument) {
+    //     LOG.info("PUT /Instrumentes " + Instrument);
         
-    }
+    // }
 
    
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Instrument> deleteInstrument(@PathVariable int id) {
-        LOG.info("DELETE /Instrumentes/" + id);
-    }
+    // @DeleteMapping("/{id}")
+    // public ResponseEntity<Instrument> deleteInstrument(@PathVariable int id) {
+    //     LOG.info("DELETE /Instrumentes/" + id);
+    // }
 }
 
      
