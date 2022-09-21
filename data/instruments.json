@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "name": "Box guitar",
+        "price": 149.99
+    },
+    {
+        "id": 2,
+        "name": "Cello",
+        "price": 249.99
+    },
+    {
+        "id": 4,
+        "name": "Violin",
+        "price": 199.99
+    },
+    {
+        "id": 5,
+        "name": "Ukelele",
+        "price": 89.99
+    },
+    {
+        "id": 11,
+        "name": "Clarinet",
+        "price": 109.99
+    },
+    {
+        "id": 13,
+        "name": "Bagpipe",
+        "price": 349.99
+    },
+    {
+        "id": 14,
+        "name": "Cymbals",
+        "price": 99.99
+    },
+    {
+        "id": 19,
+        "name": "Lute",
+        "price": 149.99
+    }
+
+  
+]
