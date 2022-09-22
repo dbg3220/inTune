@@ -20,7 +20,7 @@ import model.persistence.ProductDAO;
 import model.Product;
 
 /**
- * Handles the REST API requests for the Instrument resource
+ * Handles the REST API requests for the product resource
  * <p>
  * {@literal @}RestController Spring annotation identifies this class as a REST API
  * method handler to the Spring framework
@@ -37,7 +37,7 @@ public class ProductController {
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param InstrumentDao The {@link ProductDAO Instrument Data Access Object} to perform CRUD operations
+     * @param ProductDao The {@link ProductDAO Instrument Data Access Object} to perform CRUD operations
      * <br>
      * This dependency is injected by the Spring Framework
      */

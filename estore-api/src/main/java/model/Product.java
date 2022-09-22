@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 /**
- * Represents an Instrument
+ * Represents an product
  * 
  * @author Hayden Cieniawski
  */
@@ -22,10 +22,10 @@ public class Product {
     @JsonProperty("subcategory") private String subcategory;
 
     /**
-     * Create an instrument with the given id, name, and price.
-     * @param id The id of the instrument
-     * @param name The name of the instrument
-     * @param price The price of the instrument
+     * Create a product with the given id, name, and price.
+     * @param id The id of the product
+     * @param name The name of the product
+     * @param price The price of the product
      * 
      * {@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields.  If a field
@@ -42,56 +42,56 @@ public class Product {
     }
 
     /**
-     * Retrieves the id of the instrument
-     * @return The id of the instrument
+     * Retrieves the id of the product
+     * @return The id of the product
      */
     public int getId() {return id;}
 
     /**
-     * Sets the name of the instrument - necessary for JSON object to Java object deserialization
-     * @param name The name of the instrument
+     * Sets the name of the product - necessary for JSON object to Java object deserialization
+     * @param name The name of the product
      */
     public void setName(String name) {this.name = name;}
 
     /**
-     * Retrieves the name of the instrument
-     * @return The name of the instrument
+     * Retrieves the name of the product
+     * @return The name of the product
      */
     public String getName() {return name;}
 
     /**
-     * Sets the price of the instrument - necessary for JSON object to Java object deserialization
-     * @param price The price of the instrument
+     * Sets the price of the product - necessary for JSON object to Java object deserialization
+     * @param price The price of the product
      */
     public void setPrice(double price) {this.price = price;}
 
     /**
-     * Retrieves the price of the instrument
-     * @return The price of the instrument
+     * Retrieves the price of the product
+     * @return The price of the product
      */
     public double getPrice() {return price;}
 
     /**
-     * Sets the category of the instrument - necessary for JSON object to Java object deserialization
-     * @param category The category of the instrument
+     * Sets the category of the product - necessary for JSON object to Java object deserialization
+     * @param category The category of the product
      */
     public void setCategory(String category) {this.category = category;}
 
     /**
-     * Retrieves the category of the instrument
-     * @return The category of the instrument
+     * Retrieves the category of the product
+     * @return The category of the product
      */
     public String getCategory() {return category;}
 
     /**
-     * Sets the quantity of the instrument - necessary for JSON object to Java object deserialization
-     * @param quantity The quantity of the instrument
+     * Sets the quantity of the product - necessary for JSON object to Java object deserialization
+     * @param quantity The quantity of the product
      */
     public void setQuantity(int quantity) {this.quantity = quantity;}
 
     /**
-     * Retrieves the quantity of the instrument
-     * @return The quantity of the instrument
+     * Retrieves the quantity of the product
+     * @return The quantity of the product
      */
     public int getQuantity() {return quantity;}
 
