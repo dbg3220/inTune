@@ -37,7 +37,7 @@ public class ProductController {
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param ProductDao The {@link ProductDAO Instrument Data Access Object} to perform CRUD operations
+     * @param ProductDao The {@link ProductDAO Product Data Access Object} to perform CRUD operations
      * <br>
      * This dependency is injected by the Spring Framework
      */
@@ -47,8 +47,8 @@ public class ProductController {
 
    
     // @GetMapping("/{id}")
-    // public ResponseEntity<Instrument> getInstrument(@PathVariable int id) {
-    //     LOG.info("GET /Instruments/" + id);        
+    // public ResponseEntity<Product> getProduct(@PathVariable int id) {
+    //     LOG.info("GET /Products/" + id);        
     // }
 
    
@@ -72,8 +72,8 @@ public class ProductController {
 
 
     // @GetMapping("/")
-    // public ResponseEntity<Instrument[]> searchInstrumentes(@RequestParam String name) {
-    //     LOG.info("GET /Instrumentes/?name="+name);
+    // public ResponseEntity<Product[]> searchProducts(@RequestParam String name) {
+    //     LOG.info("GET /Productes/?name="+name);
        
     // }
 
@@ -96,14 +96,14 @@ public class ProductController {
 
     
     // @PutMapping("")
-    // public ResponseEntity<Instrument> updateInstrument(@RequestBody Instrument Instrument) {
-    //     LOG.info("PUT /Instrumentes " + Instrument);
+    // public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+    //     LOG.info("PUT /Productes " + product);
     // }
 
    
     // @DeleteMapping("/{id}")
-    // public ResponseEntity<Instrument> deleteInstrument(@PathVariable int id) {
-    //     LOG.info("DELETE /Instrumentes/" + id);
+    // public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
+    //     LOG.info("DELETE /Productes/" + id);
     // }
 }
 
