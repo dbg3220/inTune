@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import model.persistence.InstrumentDAO;
-import model.Instrument;
+import model.persistence.ProductDAO;
+import model.Product;
 
 /**
  * Handles the REST API requests for the Instrument resource
@@ -29,20 +29,20 @@ import model.Instrument;
  */
 
 @RestController
-@RequestMapping("instruments")
-public class InstrumentController {
-    private static final Logger LOG = Logger.getLogger(InstrumentController.class.getName());
-    private InstrumentDAO InstrumentDao;
+@RequestMapping("products")
+public class ProductController {
+    private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
+    private ProductDAO productDao;
 
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param InstrumentDao The {@link InstrumentDAO Instrument Data Access Object} to perform CRUD operations
+     * @param InstrumentDao The {@link ProductDAO Instrument Data Access Object} to perform CRUD operations
      * <br>
      * This dependency is injected by the Spring Framework
      */
-    public InstrumentController(InstrumentDAO InstrumentDao) {
-        this.InstrumentDao = InstrumentDao;
+    public ProductController(ProductDAO productDao) {
+        this.productDao = productDao;
     }
 
    
@@ -53,12 +53,12 @@ public class InstrumentController {
 
    
     @GetMapping("")
-    public ResponseEntity<Instrument[]> getInstruments() {
-        LOG.info("GET /instruments");
+    public ResponseEntity<Product[]> getProducts() {
+        LOG.info("GET /products");
         try {
-            Instrument[] instruments = InstrumentDao.getInstruments();
-            if (instruments != null)
-                return new ResponseEntity<Instrument[]>(instruments,HttpStatus.OK);
+            Product[] products = productDao.getProducts();
+            if (products != null)
+                return new ResponseEntity<Product[]>(products,HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -79,12 +79,12 @@ public class InstrumentController {
 
    
     @PostMapping("")
-    public ResponseEntity<Instrument> createInstrument(@RequestBody Instrument Instrument) {
-        LOG.info("POST /Instruments " + Instrument);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        LOG.info("POST /products " + product);
         try {
-            Instrument newInstrument = InstrumentDao.createInstrument(Instrument);
-            if (newInstrument != null)
-                return new ResponseEntity<Instrument>(newInstrument,HttpStatus.CREATED);
+            Product newProduct= productDao.createProduct(product);
+            if (newProduct != null)
+                return new ResponseEntity<Product>(newProduct,HttpStatus.CREATED);
             else
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -98,7 +98,6 @@ public class InstrumentController {
     // @PutMapping("")
     // public ResponseEntity<Instrument> updateInstrument(@RequestBody Instrument Instrument) {
     //     LOG.info("PUT /Instrumentes " + Instrument);
-        git 
     // }
 
    

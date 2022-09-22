@@ -8,17 +8,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Hayden Cieniawski
  */
-public class Instrument {
-    private static final Logger LOG = Logger.getLogger(Instrument.class.getName());
+public class Product {
+    private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
-    static final String STRING_FORMAT = "Instrument [id=%d, name=%s, price=%f, category=%s, quantity=%d]";
+    static final String STRING_FORMAT = "product [id=%d, name=%s, price=%f, category=%s, subcategory=%s quantity=%d]";
 
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
     @JsonProperty("price") private double price;
     @JsonProperty("category") private String category;
     @JsonProperty("quantity") private int quantity;
+    @JsonProperty("subcategory") private String subcategory;
 
     /**
      * Create an instrument with the given id, name, and price.
@@ -31,12 +32,13 @@ public class Instrument {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Instrument(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") String category, @JsonProperty("quantity") int quantity) {
+    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") String category, @JsonProperty("subcategory") String subcategory, @JsonProperty("quantity") int quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.quantity = quantity;
+        this.subcategory = subcategory;
     }
 
     /**
@@ -92,6 +94,14 @@ public class Instrument {
      * @return The quantity of the instrument
      */
     public int getQuantity() {return quantity;}
+
+    public String getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
+    }
 
     /**
      * {@inheritDoc}
