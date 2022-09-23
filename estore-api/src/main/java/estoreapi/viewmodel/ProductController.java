@@ -1,4 +1,4 @@
-package viewmodel;
+package estoreapi.viewmodel;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import estoreapi.model.Product;
+import estoreapi.persistence.ProductDAO;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import model.persistence.ProductDAO;
-import model.Product;
 
 /**
  * Handles the REST API requests for the product resource

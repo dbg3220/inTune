@@ -1,4 +1,4 @@
-package model;
+package estoreapi.model;
 
 import java.util.logging.Logger;
 

@@ -1,4 +1,4 @@
-package model.persistence;
+package estoreapi.persistence;
 
 
 import java.io.File;
@@ -10,10 +10,10 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import estoreapi.model.Product;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import model.Product;
 
 /**
  * Implements the functionality for JSON file-based peristance for products

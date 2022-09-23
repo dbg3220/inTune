@@ -1,7 +1,8 @@
-package model.persistence;
+package estoreapi.persistence;
 
 import java.io.IOException;
-import model.Product;
+
+import estoreapi.model.Product;
 
 /**
  * Defines the interface for product object persistence
@@ -36,7 +37,7 @@ public interface ProductDAO {
      * @param id The id of the {@link product} to get
      * 
      * @return a {@link product} object with the matching id
-     * <br>
+     * 
      * null if no {@link product} with a matching id is found
      * 
      * @throws IOException if an issue with underlying storage
@@ -50,7 +51,7 @@ public interface ProductDAO {
      * @param id The id of the {@link product} to get
      * 
      * @return a {@link product} object with the matching id
-     * <br>
+     * 
      * null if no {@link product} with a matching id is found
      * 
      * @throws IOException if an issue with underlying storage
@@ -63,7 +64,7 @@ public interface ProductDAO {
      * Creates and saves a {@linkplain product}
      * 
      * @param product {@linkplain product} object to be created and saved
-     * <br>
+
      * The id of the product object is ignored and a new uniqe id is assigned
      *
      * @return new {@link product} if successful, false otherwise 
@@ -90,7 +91,7 @@ public interface ProductDAO {
      * @param id The id of the {@link product}
      * 
      * @return true if the {@link product} was deleted
-     * <br>
+     *
      * false if product with the given id does not exist
      * 
      * @throws IOException if underlying storage cannot be accessed
