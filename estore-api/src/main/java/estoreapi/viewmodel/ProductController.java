@@ -46,10 +46,20 @@ public class ProductController {
     }
 
    
-    // @GetMapping("/{id}")
-    // public ResponseEntity<Product> getProduct(@PathVariable int id) {
-    //     LOG.info("GET /Products/" + id);        
-    // }
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+        LOG.info("GET /Products/" + id);   
+        try {
+            Product product = productDao.getProduct(id);
+            if (product != null)
+                return new ResponseEntity<>(product, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
    
     // @GetMapping("")
@@ -89,10 +99,21 @@ public class ProductController {
     // }
 
    
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
-    //     LOG.info("DELETE /Productes/" + id);
-    // }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
+        LOG.info("DELETE /Products/" + id);
+        try {
+            boolean result = productDao.deleteProduct(id);
+            if (result)
+                return new ResponseEntity<>(HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
      
