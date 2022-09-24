@@ -63,9 +63,9 @@ public class ProductController {
         LOG.info("GET /Productes/?name=" + name);
 
         try {
-            Product[] products = productDao.findProducts(name);
-            if (products != null)
-                return new ResponseEntity<Product[]>(products, HttpStatus.OK);
+            Product[] searchProducts = productDao.findProducts(name);
+            if (searchProducts!= null)
+                return new ResponseEntity<Product[]>(searchProducts, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IOException e) {
