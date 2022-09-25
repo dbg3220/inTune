@@ -60,7 +60,7 @@ public class ProductController {
 
     @GetMapping("/")
     public ResponseEntity<Product[]> searchProducts(@RequestParam String name) {
-        LOG.info("GET /Productes/?name=" + name);
+        LOG.info("GET /products/?name=" + name);
 
         try {
             Product[] searchProducts = productDao.findProducts(name);
