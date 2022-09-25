@@ -107,6 +107,12 @@ public class ProductController {
     //     }
     // }
 
+    /**
+     * Handles the HTTP POST request to create a new product
+     * 
+     * @param product
+     * @return The HTTP response
+     */
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         LOG.info("POST /products " + product);

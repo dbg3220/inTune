@@ -95,10 +95,18 @@ public class Product {
      */
     public int getQuantity() {return quantity;}
 
+    /**
+     * Sets the subcategory of the product - necessary for JSON object to Java object deserialization
+     * @return The subcategory of the product
+     */
     public String getSubcategory() {
         return subcategory;
     }
 
+    /**
+     * Retrieves the subcategory of the product
+     * @param subcategory The subcategory of the product
+     */
     public void setSubcategory(String subcategory) {
         this.subcategory = subcategory;
     }
