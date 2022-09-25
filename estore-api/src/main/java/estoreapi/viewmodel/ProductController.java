@@ -59,13 +59,46 @@ public class ProductController {
     // }
 
     @GetMapping("/")
-    public ResponseEntity<Product[]> searchProducts(@RequestParam String name) {
+    public ResponseEntity<Product[]> searchProductsByName(@RequestParam String name) {
         LOG.info("GET /products/?name=" + name);
 
         try {
-            Product[] searchProducts = productDao.findProducts(name);
-            if (searchProducts!= null)
-                return new ResponseEntity<Product[]>(searchProducts, HttpStatus.OK);
+            Product[] searchProductsByName = productDao.findProducts(name);
+            if (searchProductsByName!= null)
+                return new ResponseEntity<Product[]>(searchProductsByName, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Product[]> searchProductsByCategory(@RequestParam String category) {
+        LOG.info("GET /products/?category=" + category);
+
+        try {
+            Product[] searchProductsByCategory = productDao.findProducts(category);
+            if (searchProductsByCategory!= null)
+                return new ResponseEntity<Product[]>(searchProductsByCategory, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    
+    @GetMapping("/")
+    public ResponseEntity<Product[]> searchProductsBySubcategory(@RequestParam String subcategory) {
+        LOG.info("GET /products/?subcategory=" + subcategory);
+
+        try {
+            Product[] searchProductsBySubcategory = productDao.findProducts(subcategory);
+            if (searchProductsBySubcategory!= null)
+                return new ResponseEntity<Product[]>(searchProductsBySubcategory, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IOException e) {
