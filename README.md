@@ -13,7 +13,7 @@ An online E-store system built in Java 8=>11 and ___ _replace with other platfor
 
 
 ## Prerequisites
-s
+
 - Java 8=>11 (Make sure to have correct JAVA_HOME setup in your environment)
 - Maven
 - Angular
@@ -37,6 +37,12 @@ If any shortcomings, make clear what these are and where they are located.
 
 The Maven build script provides hooks for run unit tests and generate code coverage
 reports in HTML.
+
+To run REST API commands using curl, use the following commands:
+
+1. `curl -X GET http://localhost:8080/products` - get all products
+2. `curl -X GET http://localhost:8080/products/{id}` - get product with id
+3. 
 
 To run tests on all tiers together do this:
 
