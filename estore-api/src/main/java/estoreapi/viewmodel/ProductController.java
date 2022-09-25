@@ -47,7 +47,11 @@ public class ProductController {
         this.productDao = productDao;
     }
 
-   
+   /**
+    * Handles the HTTP GET request for the product resource
+    * @param id The id of the product to retrieve
+    * @return The product with the specified id
+    */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
         LOG.info("GET /Products/" + id);   
@@ -62,7 +66,10 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    /**
+     * Handles the HTTP GET request for the product resource
+     * @return All products
+     */
     @GetMapping("")
     public ResponseEntity<Product[]> getProducts() {
     LOG.info("GET /products");
@@ -74,7 +81,11 @@ public class ProductController {
     }
 
     }
-
+    /**
+     * Handles the HTTP POST request for the product resource
+     * @param name The name of the product(s) to retrieve
+     * @return The products with the specified name
+     */
     @GetMapping("/")
     public ResponseEntity<Product[]> searchProductsByName(@RequestParam String name) {
         LOG.info("GET /products/?name=" + name);
@@ -110,7 +121,7 @@ public class ProductController {
         /**
      * Handles the HTTP POST request to create a new product
      * 
-     * @param product
+     * @param product The product to create
      * @return The HTTP response
      */
     @PostMapping("")
@@ -128,7 +139,11 @@ public class ProductController {
         }
     }
 
-    
+    /**
+     * Handles the HTTP PUT request to update an existing product
+     * @param product The product to update
+     * @return The HTTP response
+     */
     @PutMapping("")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         LOG.info("PUT /heroes " + product);
@@ -151,7 +166,11 @@ public class ProductController {
     //     LOG.info("PUT /Productes " + product);
     // }
 
-   
+   /**
+    * Handles the HTTP DELETE request to delete an existing product
+    * @param id The id of the product to delete
+    * @return The HTTP response
+    */
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
         LOG.info("DELETE /Products/" + id);
