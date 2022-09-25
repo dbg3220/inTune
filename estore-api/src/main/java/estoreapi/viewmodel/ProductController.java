@@ -96,24 +96,7 @@ public class ProductController {
     //     }
     // }
 
-    
-    // @GetMapping("/{subcategory}")
-    // public ResponseEntity<Product[]> searchProductsBySubcategory(@RequestParam String subcategory) {
-    //     LOG.info("GET /products/?subcategory=" + subcategory);
-
-    //     try {
-    //         Product[] searchProductsBySubcategory = productDao.findProducts(subcategory);
-    //         if (searchProductsBySubcategory!= null)
-    //             return new ResponseEntity<Product[]>(searchProductsBySubcategory, HttpStatus.OK);
-    //         else
-    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //     } catch (IOException e) {
-    //         LOG.log(Level.SEVERE, e.getLocalizedMessage());
-    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
-    /**
+        /**
      * Handles the HTTP POST request to create a new product
      * 
      * @param product
@@ -134,10 +117,22 @@ public class ProductController {
         }
     }
 
-    // @PutMapping("")
-    // public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-    // LOG.info("PUT /Productes " + product);
-    // }
+    
+    @PutMapping("")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+        LOG.info("PUT /heroes " + product);
+        try {
+            Product product2 = productDao.updateProduct(product);
+            if (product2 != null)
+                return new ResponseEntity<Product>(product2,HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // @DeleteMapping("/{id}")
     // public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
