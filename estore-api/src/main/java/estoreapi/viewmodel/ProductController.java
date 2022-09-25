@@ -74,38 +74,38 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Product[]> searchProductsByCategory(@RequestParam String category) {
-        LOG.info("GET /products/?category=" + category);
+    // @GetMapping("/{category}")
+    // public ResponseEntity<Product[]> searchProductsByCategory(@RequestParam String category) {
+    //     LOG.info("GET /products/?category=" + category);
 
-        try {
-            Product[] searchProductsByCategory = productDao.findProducts(category);
-            if (searchProductsByCategory!= null)
-                return new ResponseEntity<Product[]>(searchProductsByCategory, HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    //     try {
+    //         Product[] searchProductsByCategory = productDao.findProducts(category);
+    //         if (searchProductsByCategory!= null)
+    //             return new ResponseEntity<Product[]>(searchProductsByCategory, HttpStatus.OK);
+    //         else
+    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     } catch (IOException e) {
+    //         LOG.log(Level.SEVERE, e.getLocalizedMessage());
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
     
-    @GetMapping("/")
-    public ResponseEntity<Product[]> searchProductsBySubcategory(@RequestParam String subcategory) {
-        LOG.info("GET /products/?subcategory=" + subcategory);
+    // @GetMapping("/{subcategory}")
+    // public ResponseEntity<Product[]> searchProductsBySubcategory(@RequestParam String subcategory) {
+    //     LOG.info("GET /products/?subcategory=" + subcategory);
 
-        try {
-            Product[] searchProductsBySubcategory = productDao.findProducts(subcategory);
-            if (searchProductsBySubcategory!= null)
-                return new ResponseEntity<Product[]>(searchProductsBySubcategory, HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    //     try {
+    //         Product[] searchProductsBySubcategory = productDao.findProducts(subcategory);
+    //         if (searchProductsBySubcategory!= null)
+    //             return new ResponseEntity<Product[]>(searchProductsBySubcategory, HttpStatus.OK);
+    //         else
+    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     } catch (IOException e) {
+    //         LOG.log(Level.SEVERE, e.getLocalizedMessage());
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
