@@ -52,11 +52,17 @@ public class ProductController {
     // LOG.info("GET /Products/" + id);
     // }
 
-    // @GetMapping("")
-    // public ResponseEntity<Product[]> getProducts() {
-    // LOG.info("GET /products");
+    @GetMapping("")
+    public ResponseEntity<Product[]> getProducts() {
+    LOG.info("GET /products");
+    try {
+        return new ResponseEntity<>(productDao.getProducts(), HttpStatus.OK);
+    } catch (IOException e) {
+        LOG.log(Level.SEVERE, "Error getting products", e);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-    // }
+    }
 
     @GetMapping("/")
     public ResponseEntity<Product[]> searchProductsByName(@RequestParam String name) {
