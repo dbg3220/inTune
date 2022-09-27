@@ -148,6 +148,12 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         LOG.info("PUT /products " + product);
         try {
+            if(product.getPrice() <= 0){
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            if(product.getQuantity() <= 0){
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
             Product product2 = productDao.updateProduct(product);
             if (product2 != null)
                 return new ResponseEntity<Product>(product2,HttpStatus.OK);
