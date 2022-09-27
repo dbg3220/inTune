@@ -41,12 +41,13 @@ reports in HTML.
 To run REST API commands using curl, use the following commands:
 (Be sure to delete all '|' before executing commands)
 
-1. `curl -X GET http://localhost:8080/products` - get all products
-2. `curl -X GET http://localhost:8080/products/|id|` - get product with id
-3. `curl -X POST -H 'Content-Type:application/json' 'http://localhost:8080/products' -d '{"name": "|String name|", "price": |double price|, "category": "|String Category|", "subcategory": "|String subcategory|", "quantity": |int quantity| }'` - create a product
-4. `curl -X PUT -H 'Content-Type:application/json' 'http://localhost:8080/products/{id}' -d '{"name": "|String name|", "price": |double price|, "category": "|String Category|", "subcategory": "|String subcategory|", "quantity": |int quantity| }'` - update a product
-5. `curl -X DELETE http://localhost:8080/products/|id|` - delete a product
-6. `curl -X GET 'http://localhost:8080/products/?name=|String name|'` - get all products with name containing {String name}
+1. Make sure you are in the estore-api directory. By default you will be in the root, to change directories use `cd estore-api`.
+2. `curl -X GET http://localhost:8080/products` - get all products
+3. `curl -X GET http://localhost:8080/products/|id|` - get product with id
+4. `curl -X POST -H 'Content-Type:application/json' 'http://localhost:8080/products' -d '{"name": "|String name|", "price": |double price|, "category": "|String Category|", "subcategory": "|String subcategory|", "quantity": |int quantity| }'` - create a product
+5. `curl -X PUT -H 'Content-Type:application/json' 'http://localhost:8080/products' -d '{"id": |int id|, "name": "|String name|", "price": |double price|, "category": "|String Category|", "subcategory": "|String subcategory|", "quantity": |int quantity| }'` - update a product
+6. `curl -X DELETE http://localhost:8080/products/|id|` - delete a product
+7. `curl -X GET 'http://localhost:8080/products/?name=|String name|'` - get all products with name containing {String name}
 
 To run tests on all tiers together do this:
 
