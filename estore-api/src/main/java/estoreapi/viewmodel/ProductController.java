@@ -128,6 +128,13 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         LOG.info("POST /products " + product);
         try {
+            if (product.getPrice() < 0) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            if (product.getQuantity() < 0) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            
             Product newProduct = productDao.createProduct(product);
             if (newProduct != null)
                 return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
