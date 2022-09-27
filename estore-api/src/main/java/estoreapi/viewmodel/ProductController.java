@@ -146,7 +146,7 @@ public class ProductController {
      */
     @PutMapping("")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-        LOG.info("PUT /heroes " + product);
+        LOG.info("PUT /product " + product);
         try {
             Product product2 = productDao.updateProduct(product);
             if (product2 != null)
