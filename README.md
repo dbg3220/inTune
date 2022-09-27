@@ -48,6 +48,13 @@ To run REST API commands using curl, use the following commands:
 5. `curl -X PUT -H 'Content-Type:application/json' 'http://localhost:8080/products' -d '{"id": |int id|, "name": "|String name|", "price": |double price|, "category": "|String Category|", "subcategory": "|String subcategory|", "quantity": |int quantity| }'` - update a product
 6. `curl -X DELETE http://localhost:8080/products/|id|` - delete a product
 7. `curl -X GET 'http://localhost:8080/products/?name=|String name|'` - get all products with name containing {String name}
+8. For the powershell terminal
+9. `curl.exe -X GET http://localhost:8080/products`
+10. `curl.exe -X GET http://localhost:8080/products/|id|`
+11. `curl.exe -X POST -H 'Content-Type:application/json' 'http://localhost:8080/products' -d '{\"name\": \"|String name|\", \"price\": |double price|, \"category\": \"|String Category|\", \"subcategory\": \"|String subcategory|\", \"quantity\": |int quantity| }'`
+12. `curl.exe -X PUT -H 'Content-Type:application/json' 'http://localhost:8080/products' -d '{\"id\": |int id|, \"name\": \"|String name|\", \"price\": |double price|, \"category\": \"|String Category|\", \"subcategory\": \"|String subcategory|\", \"quantity\": |int quantity| }'`
+13. `curl.exe -X DELETE http://localhost:8080/products/|id|`
+14. `curl.exe -X GET 'http://localhost:8080/products/?name=|String name|'`
 
 To run tests on all tiers together do this:
 
