@@ -134,8 +134,11 @@ public class ProductController {
             if (product.getQuantity() < 0) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            
-            Product newProduct = productDao.createProduct(product);
+            // if (product) {
+            //     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            // }
+
+            Product newProduct = productDao.createProduct(product); // use conditionals to check the is
             if (newProduct != null)
                 return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
             else

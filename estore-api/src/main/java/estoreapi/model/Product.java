@@ -12,7 +12,7 @@ public abstract class Product {
 
     enum Category {
         STRINGS, 
-        WOODWINGS, 
+        WOODWINDS, 
         PERCUSSION,
         BRASS, 
         KEYBOARDS
@@ -26,7 +26,7 @@ public abstract class Product {
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
     @JsonProperty("price") private double price;
-    @JsonProperty("category") private Enum category;
+    @JsonProperty("category") private Category category;
     @JsonProperty("quantity") private int quantity;
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;
@@ -37,7 +37,7 @@ public abstract class Product {
      * @param id The id of the product
      * @param name The name of the product
      * @param price The price of the product
-     * @param category The category of the product
+     * @param category2 The category of the product
      * @param subcategory The subcategory of the product
      * @param quantity The quantity of the product
      *     * 
@@ -46,13 +46,13 @@ public abstract class Product {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Enum category, 
+    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") estoreapi.model.Lesson.Category category2, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.category = category;
+        this.category = category2;
         this.quantity = quantity;
         this.isInstrument = isInstrument;
         this.isEquipment = isEquipment;
@@ -94,13 +94,13 @@ public abstract class Product {
      * Sets the category of the product - necessary for JSON object to Java object deserialization
      * @param category The category of the product
      */
-    public void setCategory(Enum category) {this.category = category;}
+    public void setCategory(Category category) {this.category = category;}
 
     /**
      * Retrieves the category of the product
      * @return The category of the product
      */
-    public Enum getCategory() {return category;}
+    public Category getCategory() {return category;}
 
     /**
      * Sets the quantity of the product - necessary for JSON object to Java object deserialization

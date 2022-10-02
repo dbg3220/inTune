@@ -32,7 +32,7 @@ public class Lesson extends Product {
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
     @JsonProperty("price") private double price;
-    @JsonProperty("category") private Enum category;
+    @JsonProperty("category") private Category category;
     @JsonProperty("quantity") private int quantity;
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;
@@ -54,7 +54,7 @@ public class Lesson extends Product {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Lesson (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Enum category, 
+    public Lesson (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, @JsonProperty("times") Hashtable times) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
@@ -96,13 +96,13 @@ public class Lesson extends Product {
      * Sets the category of the product - necessary for JSON object to Java object deserialization
      * @param category The category of the product
      */
-    public void setCategory(Enum category) {this.category = category;}
+    public void setCategory(Category category) {this.category = category;}
 
     /**
      * Retrieves the category of the product
      * @return The category of the product
      */
-    public Enum getCategory() {return category;}
+    public estoreapi.model.Product.Category getCategory() {return category;}
 
     /**
      * Sets the quantity of the product - necessary for JSON object to Java object deserialization

@@ -59,7 +59,6 @@ public  class User {
         this.isAdmin = isAdmin;
         this.cart = cart;
         this.friends = friends;
-
     }
 
     /**
