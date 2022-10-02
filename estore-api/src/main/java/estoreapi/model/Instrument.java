@@ -5,10 +5,11 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Represents an product
+ * METHODS NEED TO BE UPDATED TO SEND INFORMATION TO THE SUPERCLASS
  * 
  * @author Hayden Cieniawski
  */
-public abstract class Product {
+public class Instrument extends Product {
 
     enum Category {
         STRINGS, 
@@ -21,7 +22,7 @@ public abstract class Product {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
-    static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b]";
+    static final String STRING_FORMAT = "Instrument [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, size=%s]";
 
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
@@ -31,6 +32,7 @@ public abstract class Product {
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;
     @JsonProperty("isLesson") private boolean isLesson;
+    @JsonProperty("size") private String size;
 
     /**
      * Create a product with the given id, name, and price.
@@ -40,23 +42,17 @@ public abstract class Product {
      * @param category The category of the product
      * @param subcategory The subcategory of the product
      * @param quantity The quantity of the product
-     *     * 
+     *    
      * {@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields.  If a field
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Enum category, 
+    public Instrument (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Enum category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
-    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.quantity = quantity;
-        this.isInstrument = isInstrument;
-        this.isEquipment = isEquipment;
-        this.isLesson = isLesson;
+    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("size") String size) {
+        super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
+        this.size = size;
 
     }
 
@@ -64,7 +60,7 @@ public abstract class Product {
      * Retrieves the id of the product
      * @return The id of the product
      */
-    public int getId() {return id;}
+    public int getId() {return super.getId();}
 
     /**
      * Sets the name of the product - necessary for JSON object to Java object deserialization
@@ -115,10 +111,58 @@ public abstract class Product {
     public int getQuantity() {return quantity;}
 
     /**
+     * Sets the isInstrument of the product - necessary for JSON object to Java object deserialization
+     * @param isInstrument The isInstrument of the product
+     */
+    public void setIsInstrument(boolean isInstrument) {this.isInstrument = isInstrument;}
+
+    /**
+     * Retrieves the isInstrument of the product
+     * @return The isInstrument of the product
+     */
+    public boolean getIsInstrument() {return isInstrument;}
+
+    /**
+     * Sets the isEquipment of the product - necessary for JSON object to Java object deserialization
+     * @param isEquipment The isEquipment of the product
+     */
+    public void setIsEquipment(boolean isEquipment) {this.isEquipment = isEquipment;}
+
+    /**
+     * Retrieves the isEquipment of the product
+     * @return The isEquipment of the product
+     */
+    public boolean getIsEquipment() {return isEquipment;}
+
+    /**
+     * Sets the isLesson of the product - necessary for JSON object to Java object deserialization
+     * @param isLesson The isLesson of the product
+     */
+    public void setIsLesson(boolean isLesson) {this.isLesson = isLesson;}
+
+    /**
+     * Retrieves the isLesson of the product
+     * @return The isLesson of the product
+     */
+    public boolean getIsLesson() {return isLesson;}
+
+    /**
+     * Sets the size of the product - necessary for JSON object to Java object deserialization
+     * @param size The size of the product
+     */
+    public void setSize(String size) {this.size = size;}
+
+    /**
+     * Retrieves the size of the product
+     * @return The size of the product
+     */
+    public String getSize() {return size;}
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson);
+        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,size);
     }
 }
