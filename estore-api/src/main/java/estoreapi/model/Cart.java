@@ -58,16 +58,18 @@ public class Cart {
      * copys the current product array and adds the new product
      * then sets the current product array to the new one
      */
-    public additem(Product item) {
-        
+    public void additem(Product item) {
+        double x = item.getPrice();
+        this.total += x;
     }
 
     /**
      * copys the current product array and removes the product
      * then sets the current product array to the new one
      */
-    public removeitem(Product item) {
-
+    public void removeitem(Product item) {
+        double x = item.getPrice();
+        this.total -= x;
     }
 
 
