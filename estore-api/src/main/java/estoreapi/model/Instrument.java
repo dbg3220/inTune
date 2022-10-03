@@ -11,14 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Instrument extends Product {
 
-    enum Category {
-        STRINGS, 
-        WOODWINDS, 
-        PERCUSSION,
-        BRASS, 
-        KEYBOARDS
-    }
-
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
@@ -53,7 +45,7 @@ public class Instrument extends Product {
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("size") String size) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
         this.size = size;
-
+        
     }
 
     /**
@@ -90,7 +82,7 @@ public class Instrument extends Product {
      * Sets the category of the product - necessary for JSON object to Java object deserialization
      * @param category The category of the product
      */
-    public void setCategory(Category category) {this.category = category;}
+    public void setCategory(Product.Category category) {this.category = category;}
 
     /**
      * Retrieves the category of the product

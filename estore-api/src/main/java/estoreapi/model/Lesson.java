@@ -12,13 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Lesson extends Product {
 
-    enum Category {
-        STRINGS, 
-        WOODWINGS, 
-        PERCUSSION,
-        BRASS, 
-        KEYBOARDS
-    }
     /**
      * Hash Table needs to be filled out with a constant timetable for every lesson
      */
@@ -28,11 +21,11 @@ public class Lesson extends Product {
 
     // Package private for tests
     static final String STRING_FORMAT = "Lesson [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, instructor=%s]";
-
+    
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
     @JsonProperty("price") private double price;
-    @JsonProperty("category") private Category category;
+    @JsonProperty("category") private Product.Category category;
     @JsonProperty("quantity") private int quantity;
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;

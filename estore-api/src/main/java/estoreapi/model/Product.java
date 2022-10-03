@@ -46,7 +46,7 @@ public abstract class Product {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") estoreapi.model.Lesson.Category category2, 
+    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") estoreapi.model.Equipment.Category category2, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson) {
         this.id = id;

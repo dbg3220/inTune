@@ -10,14 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Equipment extends Product {
 
-    enum Category {
-        STRINGS, 
-        WOODWINDS, 
-        PERCUSSION,
-        BRASS, 
-        KEYBOARDS
-    }
-
     private static final Logger LOG = Logger.getLogger(Equipment.class.getName());
 
     // Package private for tests
@@ -26,7 +18,7 @@ public class Equipment extends Product {
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
     @JsonProperty("price") private double price;
-    @JsonProperty("category") private Category category;
+    @JsonProperty("category") private Product.Category category;
     @JsonProperty("quantity") private int quantity;
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;
@@ -46,7 +38,7 @@ public class Equipment extends Product {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Equipment(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Enum category, 
+    public Equipment(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson) {
 
@@ -64,49 +56,49 @@ public class Equipment extends Product {
      * Sets the name of the product - necessary for JSON object to Java object deserialization
      * @param name The name of the product
      */
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {super.setName(name);}
 
     /**
      * Retrieves the name of the product
      * @return The name of the product
      */
-    public String getName() {return name;}
+    public String getName() {return super.getName();}
 
     /**
      * Sets the price of the product - necessary for JSON object to Java object deserialization
      * @param price The price of the product
      */
-    public void setPrice(double price) {this.price = price;}
+    public void setPrice(double price) {super.setPrice(price);}
 
     /**
      * Retrieves the price of the product
      * @return The price of the product
      */
-    public double getPrice() {return price;}
+    public double getPrice() {return super.getPrice();}
 
     /**
      * Sets the category of the product - necessary for JSON object to Java object deserialization
      * @param category The category of the product
      */
-    public void setCategory(Category category) {this.category = category;}
+    public void setCategory(Product.Category category) {super.setCategory(category);}
 
     /**
      * Retrieves the category of the product
      * @return The category of the product
      */
-    public Category getCategory() {return category;}
+    public Product.Category getCategory() {return super.getCategory();}
 
     /**
      * Sets the quantity of the product - necessary for JSON object to Java object deserialization
      * @param quantity The quantity of the product
      */
-    public void setQuantity(int quantity) {this.quantity = quantity;}
+    public void setQuantity(int quantity) {super.setQuantity(quantity);}
 
     /**
      * Retrieves the quantity of the product
      * @return The quantity of the product
      */
-    public int getQuantity() {return quantity;}
+    public int getQuantity() {return super.getQuantity();}
 
     /**
      * {@inheritDoc}
