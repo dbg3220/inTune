@@ -159,6 +159,10 @@ public  class User {
         return friends;
     }
 
+    public void addFriends(User friend){
+        
+    }
+
     /**
      * {@inheritDoc}
      */
