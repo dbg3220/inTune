@@ -41,23 +41,22 @@ public interface UserDAO {
      * 
      * @return A single {@link user} object with the matching username
      * 
+     * null if no {@link user} with a matching username is found
+     * 
      * @throws IOException if an issue with underlying storage
      */
     User findUser(String username) throws IOException;
 
     /**
-     * Finds all {@linkplain users} whose name contains the given text
+     * Finds all {@linkplain users} whose username contains the given text
      * 
-     * @param containsText The text to match against
+     * @param username The text to match against
      * 
-     * @return An array of {@link users} whose names contains the given text, may be empty
+     * @return An array of {@link users} whose usernames contains the given text, may be empty
      * 
      * @throws IOException if an issue with underlying storage
      */
     User[] findUsers(String username) throws IOException;
-
-    /** */
-    User[] getFriends(User user) throws IOException;//Confirm if this method is appropriate here
 
     /**
      * Creates and saves a {@linkplain user}
