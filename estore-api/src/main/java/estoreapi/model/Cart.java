@@ -21,12 +21,12 @@ public class Cart {
     static final String STRING_FORMAT = "Cart [id=%d]";
 
     @JsonProperty("id") private int id;
-    @JsonProperty("items") private Hashtable<String, Integer> items = new Hashtable<String, Integer>();
+    @JsonProperty("items") private Hashtable<Product, Integer> items = new Hashtable<Product, Integer>();
     @JsonProperty("totalPrice") private double total;
 
 
     
-    public Cart (@JsonProperty("id") int id, @JsonProperty("items") Hashtable<String, Integer> items, @JsonProperty("totalPrice") double total) {
+    public Cart (@JsonProperty("id") int id, @JsonProperty("items") Hashtable<Product, Integer> items, @JsonProperty("totalPrice") double total) {
         this.id = id;
         this.items = items;
         this.total = total;
@@ -45,7 +45,7 @@ public class Cart {
      * Retrieves the items in the cart
      * @return The items in the cart
      */
-    public Set<String> getItems() {
+    public Set<Product> getItems() {
         if(!items.isEmpty()){
             return items.keySet(); 
         }
@@ -94,7 +94,7 @@ public class Cart {
             }
             else{
             double x = item.getPrice();
-            items.put(item.getName(), quantity);
+            items.put(item, quantity);
             this.total += (x * (double)quantity);
             item.setQuantity(item.getQuantity()-quantity);
             }
