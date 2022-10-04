@@ -99,22 +99,10 @@ public class Instrument extends Product {
     public int getQuantity() {return super.getQuantity();}
 
     /**
-     * Sets the isInstrument of the product - necessary for JSON object to Java object deserialization
-     * @param isInstrument The isInstrument of the product
-     */
-    public void setIsInstrument(boolean isInstrument) {super.setIsInstrument(isInstrument);}
-
-    /**
      * Retrieves the isInstrument of the product
      * @return The isInstrument of the product
      */
     public boolean getIsInstrument() {return super.getIsInstrument();}
-
-    /**
-     * Sets the isEquipment of the product - necessary for JSON object to Java object deserialization
-     * @param isEquipment The isEquipment of the product
-     */
-    public void setIsEquipment(boolean isEquipment) {super.setIsEquipment(isEquipment);}
 
     /**
      * Retrieves the isEquipment of the product
@@ -122,11 +110,6 @@ public class Instrument extends Product {
      */
     public boolean getIsEquipment() {return super.getIsEquipment();}
 
-    /**
-     * Sets the isLesson of the product - necessary for JSON object to Java object deserialization
-     * @param isLesson The isLesson of the product
-     */
-    public void setIsLesson(boolean isLesson) {super.setIsLesson(isLesson);}
 
     /**
      * Retrieves the isLesson of the product

@@ -29,16 +29,16 @@ public class Lesson extends Product {
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
     @JsonProperty("price") private double price;
-    @JsonProperty("category") private Product.Category category;
-    @JsonProperty("quantity") private int quantity;
-    @JsonProperty("isInstrument") private boolean isInstrument;
-    @JsonProperty("isEquipment") private boolean isEquipment;
-    @JsonProperty("isLesson") private boolean isLesson;
-    @JsonProperty("instructor") private String instructor;
-    @JsonProperty("student") private User student;
-    @JsonProperty("isFull") private Boolean isFull;
-    @JsonProperty("startTime") private String startTime;
-    @JsonProperty("weekDay") private Day weekDay;
+    @JsonProperty("category") private Product.Category category; // Set in assign lesson or lesson over method
+    @JsonProperty("quantity") private int quantity; // Once set should not change (eqqual to 0)
+    @JsonProperty("isInstrument") private boolean isInstrument; // Once set should not change
+    @JsonProperty("isEquipment") private boolean isEquipment; // Once set should not change
+    @JsonProperty("isLesson") private boolean isLesson; // Once set should not change
+    @JsonProperty("instructor") private String instructor; // Set in assign lesson or lesson over method
+    @JsonProperty("student") private User student; // Set in assign lesson or lesson over method
+    @JsonProperty("isFull") private Boolean isFull; // Set in assign lesson or lesson over method
+    @JsonProperty("startTime") private String startTime; // Once set should not change
+    @JsonProperty("weekDay") private Day weekDay; // Once set should not change
 
 /**
  * Each lesson (Mon-Fri 9-5) will have a 30 minute length and will be hardcoded into the json.
@@ -82,67 +82,45 @@ public class Lesson extends Product {
      * Sets the name of the product - necessary for JSON object to Java object deserialization
      * @param name The name of the product
      */
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {super.setName(name);}
 
     /**
      * Retrieves the name of the product
      * @return The name of the product
      */
-    public String getName() {return name;}
+    public String getName() {return super.getName();}
 
     /**
      * Sets the price of the product - necessary for JSON object to Java object deserialization
      * @param price The price of the product
      */
-    public void setPrice(double price) {this.price = price;}
+    public void setPrice(double price) {super.setPrice(price);}
 
     /**
      * Retrieves the price of the product
      * @return The price of the product
      */
-    public double getPrice() {return price;}
+    public double getPrice() {return super.getPrice();}
 
-    /**
-     * Sets the category of the product - necessary for JSON object to Java object deserialization
-     * @param category The category of the product
-     */
-    public void setCategory(Category category) {this.category = category;}
-
-    /**
-     * Sets the isInstrument of the product - necessary for JSON object to Java object deserialization
-     * @param isInstrument The isInstrument of the product
-     */
-    public void setIsInstrument(boolean isInstrument) {this.isInstrument = isInstrument;}
+    public Product.Category getCategory() {return super.getCategory();}
 
     /**
      * Retrieves the isInstrument of the product
      * @return The isInstrument of the product
      */
-    public boolean getIsInstrument() {return isInstrument;}
-
-    /**
-     * Sets the isEquipment of the product - necessary for JSON object to Java object deserialization
-     * @param isEquipment The isEquipment of the product
-     */
-    public void setIsEquipment(boolean isEquipment) {this.isEquipment = isEquipment;}
+    public boolean getIsInstrument() {return super.getIsInstrument();}
 
     /**
      * Retrieves the isEquipment of the product
      * @return The isEquipment of the product
      */
-    public boolean getIsEquipment() {return isEquipment;}
-
-    /**
-     * Sets the isLesson of the product - necessary for JSON object to Java object deserialization
-     * @param isLesson The isLesson of the product
-     */
-    public void setIsLesson(boolean isLesson) {this.isLesson = isLesson;}
+    public boolean getIsEquipment() {return super.getIsEquipment();}
 
     /**
      * Retrieves the isLesson of the product
      * @return The isLesson of the product
      */
-    public boolean getIsLesson() {return isLesson;}
+    public boolean getIsLesson() {return super.getIsLesson();}
 
     /**
      * Retrieves the instructor of the product
@@ -150,17 +128,7 @@ public class Lesson extends Product {
      */
     public String getInstructor() {return instructor;}
 
-    /**
-     * Sets the times of the product - necessary for JSON object to Java object deserialization
-     * @param times The times of the product
-     */
-    public void setTimes(String time) {this.startTime = time;}
-
-    /**
-     * Retrieves the times of the product
-     * @return The times of the product
-     */
-    public String getTimes() {return startTime;}
+    public String getStartTime(){return startTime;}
 
     /**
      * 
@@ -179,7 +147,7 @@ public class Lesson extends Product {
      */
     public Day getWeekDay(){return weekDay;}
 
-    public String getStartTime(){return startTime;}
+    
 
     /**
      * When the lesson has concluded and needs to be reset to an empty lesson, run this method

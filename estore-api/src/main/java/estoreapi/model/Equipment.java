@@ -98,6 +98,25 @@ public class Equipment extends Product {
      */
     public int getQuantity() {return super.getQuantity();}
 
+       /**
+     * Retrieves the isInstrument of the product
+     * @return The isInstrument of the product
+     */
+    public boolean getIsInstrument() {return super.getIsInstrument();}
+
+    /**
+     * Retrieves the isEquipment of the product
+     * @return The isEquipment of the product
+     */
+    public boolean getIsEquipment() {return super.getIsEquipment();}
+
+
+    /**
+     * Retrieves the isLesson of the product
+     * @return The isLesson of the product
+     */
+    public boolean getIsLesson() {return super.getIsLesson();}
+    
     /**
      * {@inheritDoc}
      */
