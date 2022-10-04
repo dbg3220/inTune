@@ -41,9 +41,7 @@ public class Equipment extends Product {
     public Equipment(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson) {
-
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
-
     }
 
     /**

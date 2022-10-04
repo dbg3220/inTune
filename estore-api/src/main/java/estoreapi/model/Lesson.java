@@ -1,5 +1,6 @@
 package estoreapi.model;
 
+import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
@@ -8,20 +9,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents an product
  * METHODS NEED TO BE UPDATED TO SEND INFORMATION TO THE SUPERCLASS
  * 
- * @author Hayden Cieniawski
+ * @author Donovan Cataldo
  */
 public class Lesson extends Product {
 
-    /**
-     * Hash Table needs to be filled out with a constant timetable for every lesson
-     */
-    Hashtable<String, Integer> Times = new Hashtable<String, Integer>();
+    enum Day {
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday
+    }
 
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
     static final String STRING_FORMAT = "Lesson [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, instructor=%s]";
-    
+
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
     @JsonProperty("price") private double price;
@@ -30,9 +34,20 @@ public class Lesson extends Product {
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;
     @JsonProperty("isLesson") private boolean isLesson;
-    @JsonProperty("instructor") private String instructor;
-    @JsonProperty("times") private Hashtable times;
 
+    @JsonProperty("instructor") private String instructor;
+    @JsonProperty("startTime") private String startTime;
+    @JsonProperty("isFull") private Boolean isFull;
+    @JsonProperty("student") private User student;
+    @JsonProperty("weekDay") private Day weekDay;
+    @JsonProperty("lessonLength") private double lessonLength;
+
+/**
+ * Each lesson (Mon-Fri 9-5) will have a 30 minute length and will be hardcoded into the json.
+ * No new lessons will be created and only the student, user, category, and isFull is ever changed
+ * Price will be adjusted by the category of the lesson
+ * 
+ */
     /**
      * Create a product with the given id, name, and price.
      * @param id The id of the product
@@ -49,10 +64,10 @@ public class Lesson extends Product {
      */
     public Lesson (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
-    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, @JsonProperty("times") Hashtable times) {
+    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, @JsonProperty("times") Dictionary times) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
         this.instructor = instructor;
-
+        this.isFull = false;
     }
 
     /**
@@ -92,24 +107,6 @@ public class Lesson extends Product {
     public void setCategory(Category category) {this.category = category;}
 
     /**
-     * Retrieves the category of the product
-     * @return The category of the product
-     */
-    public estoreapi.model.Product.Category getCategory() {return category;}
-
-    /**
-     * Sets the quantity of the product - necessary for JSON object to Java object deserialization
-     * @param quantity The quantity of the product
-     */
-    public void setQuantity(int quantity) {this.quantity = quantity;}
-
-    /**
-     * Retrieves the quantity of the product
-     * @return The quantity of the product
-     */
-    public int getQuantity() {return quantity;}
-
-    /**
      * Sets the isInstrument of the product - necessary for JSON object to Java object deserialization
      * @param isInstrument The isInstrument of the product
      */
@@ -145,11 +142,7 @@ public class Lesson extends Product {
      */
     public boolean getIsLesson() {return isLesson;}
 
-    /**
-     * Sets the instructor of the product - necessary for JSON object to Java object deserialization
-     * @param instructor The instructor of the product
-     */
-    public void setInstructor(String instructor) {this.instructor = instructor;}
+    
 
     /**
      * Retrieves the instructor of the product
@@ -161,19 +154,50 @@ public class Lesson extends Product {
      * Sets the times of the product - necessary for JSON object to Java object deserialization
      * @param times The times of the product
      */
-    public void setTimes(Hashtable times) {this.times = times;}
+    public void setTimes(String time) {this.startTime = time;}
 
     /**
      * Retrieves the times of the product
      * @return The times of the product
      */
-    public Hashtable getTimes() {return times;}
+    public String getTimes() {return startTime;}
+
+    /**
+     * 
+     * @return
+     */
+    public boolean getIsFull(){return isFull;}
+
+    /**
+     * 
+     * @return
+     */
+    public User getStudent(){return student;}
+    /**
+     * 
+     * @return
+     */
+    public Day getWeekDay(){return weekDay;}
+
+    public void lessonOver(){
+        this.student = null;
+        this.isFull = false;
+        this.instructor = null;
+        this.category = null;
+    }
+
+    public void assignLesson(User student, String instructor, Product.Category category){
+        this.student = student;
+        this.isFull = true;
+        this.instructor = instructor;
+        this.category = category;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,instructor,times);
+        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,instructor,startTime);
     }
 }
