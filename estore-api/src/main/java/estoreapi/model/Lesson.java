@@ -34,18 +34,16 @@ public class Lesson extends Product {
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;
     @JsonProperty("isLesson") private boolean isLesson;
-
     @JsonProperty("instructor") private String instructor;
-    @JsonProperty("startTime") private String startTime;
-    @JsonProperty("isFull") private Boolean isFull;
     @JsonProperty("student") private User student;
+    @JsonProperty("isFull") private Boolean isFull;
+    @JsonProperty("startTime") private String startTime;
     @JsonProperty("weekDay") private Day weekDay;
-    @JsonProperty("lessonLength") private double lessonLength;
 
 /**
  * Each lesson (Mon-Fri 9-5) will have a 30 minute length and will be hardcoded into the json.
  * No new lessons will be created and only the student, user, category, and isFull is ever changed
- * Price will be adjusted by the category of the lesson
+ * Price will be adjusted by the category of the lesson. (possibly by lesson length if we want to group lessons sort of like friends)
  * 
  */
     /**
@@ -64,12 +62,16 @@ public class Lesson extends Product {
      */
     public Lesson (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
-    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, @JsonProperty("times") Dictionary times) {
+    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, 
+    @JsonProperty("student") User student, @JsonProperty("weekDay") Day weekDay, @JsonProperty("startTime") String startTime, @JsonProperty("isFull") Boolean isFull) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
         this.instructor = instructor;
-        this.isFull = false;
+        this.isFull = isFull;
+        this.student = student;
+        this.startTime = startTime;
+        this.weekDay = weekDay;
     }
-
+ 
     /**
      * Retrieves the id of the product
      * @return The id of the product
@@ -142,8 +144,6 @@ public class Lesson extends Product {
      */
     public boolean getIsLesson() {return isLesson;}
 
-    
-
     /**
      * Retrieves the instructor of the product
      * @return The instructor of the product
@@ -179,6 +179,12 @@ public class Lesson extends Product {
      */
     public Day getWeekDay(){return weekDay;}
 
+    public String getStartTime(){return startTime;}
+
+    /**
+     * When the lesson has concluded and needs to be reset to an empty lesson, run this method
+     * It clears the student, isfull, instrucor, and the lessons category 
+     */
     public void lessonOver(){
         this.student = null;
         this.isFull = false;
@@ -186,6 +192,12 @@ public class Lesson extends Product {
         this.category = null;
     }
 
+    /**
+     * When a student checks out a lesson, the lesson is changed here and in the JSON file
+     * @param student the user who bought the lesson
+     * @param instructor the person (string) that the user chose to intruct their lesson
+     * @param category the category of the lesson (string, woodwind, keyboard, etc.)
+     */
     public void assignLesson(User student, String instructor, Product.Category category){
         this.student = student;
         this.isFull = true;
@@ -198,6 +210,6 @@ public class Lesson extends Product {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,instructor,startTime);
+        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,instructor,student,weekDay,startTime, isFull);
     }
 }

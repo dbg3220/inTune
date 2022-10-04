@@ -4,9 +4,9 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 /**
- * Represents an product
  * 
- * @author Hayden Cieniawski
+ * 
+ * @author Donovan Cataldo
  */
 public class Equipment extends Product {
 
@@ -26,7 +26,7 @@ public class Equipment extends Product {
 
     /**
      * Create a product with the given id, name, and price.
-     * @param id The id of the product
+     * @param id The id of the 
      * @param name The name of the product
      * @param price The price of the product
      * @param category The category of the product

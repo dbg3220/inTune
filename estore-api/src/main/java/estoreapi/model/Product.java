@@ -31,6 +31,7 @@ public abstract class Product {
     @JsonProperty("isInstrument") private boolean isInstrument;
     @JsonProperty("isEquipment") private boolean isEquipment;
     @JsonProperty("isLesson") private boolean isLesson;
+    @JsonProperty("description") private String description;
 
     /**
      * Create a product with the given id, name, and price.
@@ -57,7 +58,6 @@ public abstract class Product {
         this.isInstrument = isInstrument;
         this.isEquipment = isEquipment;
         this.isLesson = isLesson;
-
     }
 
     /**
@@ -114,6 +114,13 @@ public abstract class Product {
      */
     public int getQuantity() {return quantity;}
 
+    
+    public void setIsEquipment(Boolean isEquipment){this.isEquipment = isEquipment;}
+    public boolean getIsEquipment(){return isEquipment;}
+    public void setIsInstrument(Boolean isIntrument){this.isInstrument = isInstrument;}
+    public boolean getIsInstrument(){return isInstrument;}
+    public void setIsLesson(Boolean isLesson){this.isLesson = isLesson;}
+    public boolean getIsLesson(){return isLesson;}
     /**
      * {@inheritDoc}
      */

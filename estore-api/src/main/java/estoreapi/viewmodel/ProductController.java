@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import estoreapi.model.Equipment;
+import estoreapi.model.Instrument;
+import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
 
@@ -134,15 +137,36 @@ public class ProductController {
             if (product.getQuantity() < 0) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            // if (product) {
-            //     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            // }
-
-            Product newProduct = productDao.createProduct(product); // use conditionals to check the is
-            if (newProduct != null)
-                return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-            else
+            if(product.getIsEquipment()){
+                Product newProduct = productDao.createEquipment((Equipment) product);
+                if (newProduct != null){
+                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+                }
+                else{
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            else if(product.getIsInstrument()){
+                Product newProduct = productDao.createInstrument((Instrument) product);
+                if (newProduct != null){
+                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+                }
+                else{
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            else if(product.getIsLesson()){
+                Product newProduct = productDao.createLesson((Lesson) product);
+                if (newProduct != null){
+                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+                }
+                else{
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            else{
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
