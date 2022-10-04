@@ -46,7 +46,13 @@ public class Cart {
      * @return The items in the cart
      */
     public Set<String> getItems() {
-        return items.keySet();
+        if(!items.isEmpty()){
+            return items.keySet(); 
+        }
+        else{
+            System.out.println("Cart is Empty");
+            return items.keySet();  
+        }
     }
 
     /**
@@ -60,6 +66,10 @@ public class Cart {
             Integer value = items.get(items.keySet().toArray()[i]);
             quantities.add(value);
         }
+        return quantities;
+       }
+       else{
+        System.out.println("Cart is Empty");
         return quantities;
        }
     }
