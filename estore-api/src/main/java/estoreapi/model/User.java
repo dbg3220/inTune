@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents an product
  * 
  * @author Hayden Cieniawski
+ * @author Clayton Acheson
  */
 public  class User {
 
