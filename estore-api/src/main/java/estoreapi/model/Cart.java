@@ -53,8 +53,15 @@ public class Cart {
      * Retrieves the items in the cart
      * @return The items in the cart
      */
-    public ArrayList<Product> getQuantities() {
-        return items;
+    public ArrayList<Integer> getQuantities() {
+       ArrayList<Integer> quantities = new ArrayList<Integer>();
+        if (!items.isEmpty()){
+        for(int i = 0; i < items.size(); i++){
+            Integer value = items.get(items.keySet().toArray()[i]);
+            quantities.add(value);
+        }
+        return quantities;
+       }
     }
 
     /**
@@ -70,10 +77,10 @@ public class Cart {
      * then sets the current product array to the new one
      * Validates that the product is in stock
      */
-    public void additem(Product item, int quantity) {
+    public void additem(Product item, Integer quantity) {
         if(item.getQuantity() > 0){
             double x = item.getPrice();
-            items.put(item, quantity);
+            items.put(item.getName(), quantity);
             this.total += x;
             item.setQuantity(item.getQuantity()-quantity);
         }
@@ -89,7 +96,7 @@ public class Cart {
      */
     public void removeitem(Product item, int quantity) {
         double x = item.getPrice();
-        items.remove(item);
+        items.remove(item.getName());
         this.total -= x;
         item.setQuantity(item.getQuantity() + quantity);
     }
