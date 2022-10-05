@@ -30,10 +30,10 @@ import estoreapi.persistence.UserDAO;
  */
 
 @RestController
-@RequestMapping("products")
+@RequestMapping("users")
 public class UserController {
     
-    private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
+    private static final Logger LOG = Logger.getLogger(UserController.class.getName());
 
     private UserDAO userDAO;
 
@@ -56,7 +56,7 @@ public class UserController {
     */
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable int id) {
-        LOG.info("GET /Products/" + id);   
+        LOG.info("GET /users/" + id);   
         try {
             User user = userDAO.getUser(id);
             if (user != null)
@@ -108,7 +108,7 @@ public class UserController {
     /**
      * Handles the HTTP POST request to create a new user
      * 
-     * @param product The user to create
+     * @param user The user to create
      * @return The HTTP response
      */
     @PostMapping("")
