@@ -32,11 +32,6 @@ import estoreapi.persistence.UserDAO;
 @RestController
 @RequestMapping("users")
 public class UserController {
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> e2a4c092346cb264a6a16f33073db55906bdedf3
     private static final Logger LOG = Logger.getLogger(UserController.class.getName());
 
     private UserDAO userDAO;
@@ -61,11 +56,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable int id) {
-<<<<<<< HEAD
-        LOG.info("GET /users/" + id);   
-=======
         LOG.info("GET /users/" + id);
->>>>>>> e2a4c092346cb264a6a16f33073db55906bdedf3
         try {
             User user = userDAO.getUser(id);
             if (user != null)
