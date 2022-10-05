@@ -6,13 +6,18 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 /**
- * Represents an product
- * METHODS NEED TO BE UPDATED TO SEND INFORMATION TO THE SUPERCLASS
- * 
  * @author Donovan Cataldo
+ * 
+ * A lesson that is a product but also has a student, intructor, startTime, weekDay, and isFull
+ * The lesson should only be created once and never deleted
+ * There will be lessons on a 30 minute interval from 9-5 monday-friday
+ * Once a lesson is created, only the isFull, student, intructor, and category of the lesson should ever be changed
  */
 public class Lesson extends Product {
 
+    /**
+     * An enum that will represent the day that the lesson is set to occur
+     */
     enum Day {
         Monday,
         Tuesday,
@@ -26,34 +31,28 @@ public class Lesson extends Product {
     // Package private for tests
     static final String STRING_FORMAT = "Lesson [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, instructor=%s]";
 
-    @JsonProperty("id") private int id;
-    @JsonProperty("name") private String name;
-    @JsonProperty("price") private double price;
-    @JsonProperty("category") private Product.Category category; // Set in assign lesson or lesson over method
-    @JsonProperty("quantity") private int quantity; // Once set should not change (eqqual to 0)
-    @JsonProperty("isInstrument") private boolean isInstrument; // Once set should not change
-    @JsonProperty("isEquipment") private boolean isEquipment; // Once set should not change
-    @JsonProperty("isLesson") private boolean isLesson; // Once set should not change
-    @JsonProperty("instructor") private String instructor; // Set in assign lesson or lesson over method
-    @JsonProperty("student") private User student; // Set in assign lesson or lesson over method
-    @JsonProperty("isFull") private Boolean isFull; // Set in assign lesson or lesson over method
-    @JsonProperty("startTime") private String startTime; // Once set should not change
-    @JsonProperty("weekDay") private Day weekDay; // Once set should not change
+    @JsonProperty("id") private int id; // The individual ID of each lesson
+    @JsonProperty("name") private String name; // The name of the lesson (Ex. 10am Wednesdy Lesson)
+    @JsonProperty("price") private double price; 
+    @JsonProperty("category") private Product.Category category; // The category of each lesson (Ex. woodwind)
+    @JsonProperty("quantity") private int quantity; // The quantity of each lesson (should always be 1 for lesson)
+    @JsonProperty("isInstrument") private boolean isInstrument; // The boolean of whether or not a lesson isIntrument (False)
+    @JsonProperty("isEquipment") private boolean isEquipment; // The boolean of whether or not a lesson isEquipment (False)
+    @JsonProperty("isLesson") private boolean isLesson; // The boolean of whether or not a lesson isLesson (True)
+    @JsonProperty("instructor") private String instructor; // The intructor teaching the lesson (Ex. Beethoven)
+    @JsonProperty("student") private User student; // The user object of the student who purchased the lesson 
+    @JsonProperty("isFull") private Boolean isFull; // The boolean of whether or not a lesson isFull or not
+    @JsonProperty("startTime") private String startTime; // The startTime of each lesson (Ex. 10am)
+    @JsonProperty("weekDay") private Day weekDay; // The day of the week that the lesson occurs
 
-/**
- * Each lesson (Mon-Fri 9-5) will have a 30 minute length and will be hardcoded into the json.
- * No new lessons will be created and only the student, user, category, and isFull is ever changed
- * Price will be adjusted by the category of the lesson. (possibly by lesson length if we want to group lessons sort of like friends)
- * 
- */
     /**
-     * Create a product with the given id, name, and price.
-     * @param id The id of the product
-     * @param name The name of the product
-     * @param price The price of the product
-     * @param category The category of the product
-     * @param subcategory The subcategory of the product
-     * @param quantity The quantity of the product
+     * Create a lesson with the given id, name, and price.
+     * @param id The id of the lesson
+     * @param name The name of the lesson
+     * @param price The price of the lesson
+     * @param category The category of the lesson
+     * @param subcategory The subcategory of the lesson
+     * @param quantity The quantity of the lesson
      *    
      * {@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields.  If a field
@@ -73,81 +72,88 @@ public class Lesson extends Product {
     }
  
     /**
-     * Retrieves the id of the product
-     * @return The id of the product
+     * Retrieves the id of the lesson
+     * @return The id of the lesson
      */
     public int getId() {return super.getId();}
 
     /**
-     * Sets the name of the product - necessary for JSON object to Java object deserialization
-     * @param name The name of the product
+     * Sets the name of the lesson
+     * @param name The name of the lesson
      */
     public void setName(String name) {super.setName(name);}
 
     /**
-     * Retrieves the name of the product
-     * @return The name of the product
+     * Retrieves the name of the lesson
+     * @return The name of the lesson
      */
     public String getName() {return super.getName();}
 
     /**
-     * Sets the price of the product - necessary for JSON object to Java object deserialization
-     * @param price The price of the product
+     * Sets the price of the lesson
+     * @param price The price of the lesson
      */
     public void setPrice(double price) {super.setPrice(price);}
 
     /**
-     * Retrieves the price of the product
-     * @return The price of the product
+     * Retrieves the price of the lesson
+     * @return The price of the lesson
      */
     public double getPrice() {return super.getPrice();}
 
+    /**
+     * Retrieves the category of the lesson
+     * @return The category of the lesson
+     */
     public Product.Category getCategory() {return super.getCategory();}
 
     /**
-     * Retrieves the isInstrument of the product
-     * @return The isInstrument of the product
+     * Retrieves the isInstrument of the lesson
+     * @return The isInstrument of the lesson
      */
     public boolean getIsInstrument() {return super.getIsInstrument();}
 
     /**
-     * Retrieves the isEquipment of the product
-     * @return The isEquipment of the product
+     * Retrieves the isEquipment of the lesson
+     * @return The isEquipment of the lesson
      */
     public boolean getIsEquipment() {return super.getIsEquipment();}
 
     /**
-     * Retrieves the isLesson of the product
-     * @return The isLesson of the product
+     * Retrieves the isLesson of the =lesson
+     * @return The isLesson of the lesson
      */
     public boolean getIsLesson() {return super.getIsLesson();}
 
     /**
-     * Retrieves the instructor of the product
-     * @return The instructor of the product
+     * Retrieves the instructor of the lesson
+     * @return The instructor of the lesson
      */
     public String getInstructor() {return instructor;}
 
+    /**
+     * Retrieves the startTime of the lesson
+     * @return The startTime of the lesson
+     */
     public String getStartTime(){return startTime;}
 
     /**
-     * 
-     * @return
+     * Retrieves the isFull of the lesson
+     * @return The isFull of the lesson
      */
     public boolean getIsFull(){return isFull;}
 
     /**
-     * 
-     * @return
+     * Retrieves the student of the lesson
+     * @return The student of the lesson
      */
     public User getStudent(){return student;}
+
     /**
-     * 
-     * @return
+     * Retrieves the weekDay of the lesson
+     * @return The weekDay of the lesson
      */
     public Day getWeekDay(){return weekDay;}
-
-    
 
     /**
      * When the lesson has concluded and needs to be reset to an empty lesson, run this method
