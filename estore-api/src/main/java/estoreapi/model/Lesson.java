@@ -29,7 +29,7 @@ public class Lesson extends Product {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
-    static final String STRING_FORMAT = "Lesson [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, instructor=%s]";
+    static final String STRING_FORMAT = "Lesson [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, instructor=%s, student=%s, isFull=%b, startTime=%s, weekDay=%s]";
 
     @JsonProperty("id") private int id; // The individual ID of each lesson
     @JsonProperty("name") private String name; // The name of the lesson (Ex. 10am Wednesdy Lesson)
