@@ -1,53 +1,58 @@
 package estoreapi.model;
 
+import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 /**
- * Represents an product
- * METHODS NEED TO BE UPDATED TO SEND INFORMATION TO THE SUPERCLASS
+ * @author Donovan Cataldo
  * 
- * @author Hayden Cieniawski
+ * A lesson that is a product but also has a student, intructor, startTime, weekDay, and isFull
+ * The lesson should only be created once and never deleted
+ * There will be lessons on a 30 minute interval from 9-5 monday-friday
+ * Once a lesson is created, only the isFull, student, intructor, and category of the lesson should ever be changed
  */
 public class Lesson extends Product {
 
-    enum Category {
-        STRINGS, 
-        WOODWINGS, 
-        PERCUSSION,
-        BRASS, 
-        KEYBOARDS
-    }
     /**
-     * Hash Table needs to be filled out with a constant timetable for every lesson
+     * An enum that will represent the day that the lesson is set to occur
      */
-    Hashtable<String, Integer> Times = new Hashtable<String, Integer>();
+    enum Day {
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday
+    }
 
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
-    static final String STRING_FORMAT = "Lesson [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, instructor=%s]";
+    static final String STRING_FORMAT = "Lesson [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, instructor=%s, student=%s, isFull=%b, startTime=%s, weekDay=%s]";
 
-    @JsonProperty("id") private int id;
-    @JsonProperty("name") private String name;
-    @JsonProperty("price") private double price;
-    @JsonProperty("category") private Category category;
-    @JsonProperty("quantity") private int quantity;
-    @JsonProperty("isInstrument") private boolean isInstrument;
-    @JsonProperty("isEquipment") private boolean isEquipment;
-    @JsonProperty("isLesson") private boolean isLesson;
-    @JsonProperty("instructor") private String instructor;
-    @JsonProperty("times") private Hashtable times;
+    @JsonProperty("id") private int id; // The individual ID of each lesson
+    @JsonProperty("name") private String name; // The name of the lesson (Ex. 10am Wednesdy Lesson)
+    @JsonProperty("price") private double price; 
+    @JsonProperty("category") private Product.Category category; // The category of each lesson (Ex. woodwind)
+    @JsonProperty("quantity") private int quantity; // The quantity of each lesson (should always be 1 for lesson)
+    @JsonProperty("isInstrument") private boolean isInstrument; // The boolean of whether or not a lesson isIntrument (False)
+    @JsonProperty("isEquipment") private boolean isEquipment; // The boolean of whether or not a lesson isEquipment (False)
+    @JsonProperty("isLesson") private boolean isLesson; // The boolean of whether or not a lesson isLesson (True)
+    @JsonProperty("instructor") private String instructor; // The intructor teaching the lesson (Ex. Beethoven)
+    @JsonProperty("student") private User student; // The user object of the student who purchased the lesson 
+    @JsonProperty("isFull") private Boolean isFull; // The boolean of whether or not a lesson isFull or not
+    @JsonProperty("startTime") private String startTime; // The startTime of each lesson (Ex. 10am)
+    @JsonProperty("weekDay") private Day weekDay; // The day of the week that the lesson occurs
 
     /**
-     * Create a product with the given id, name, and price.
-     * @param id The id of the product
-     * @param name The name of the product
-     * @param price The price of the product
-     * @param category The category of the product
-     * @param subcategory The subcategory of the product
-     * @param quantity The quantity of the product
+     * Create a lesson with the given id, name, and price.
+     * @param id The id of the lesson
+     * @param name The name of the lesson
+     * @param price The price of the lesson
+     * @param category The category of the lesson
+     * @param subcategory The subcategory of the lesson
+     * @param quantity The quantity of the lesson
      *    
      * {@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields.  If a field
@@ -56,131 +61,129 @@ public class Lesson extends Product {
      */
     public Lesson (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
-    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, @JsonProperty("times") Hashtable times) {
+    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, 
+    @JsonProperty("student") User student, @JsonProperty("weekDay") Day weekDay, @JsonProperty("startTime") String startTime, @JsonProperty("isFull") Boolean isFull) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
         this.instructor = instructor;
-
+        this.isFull = isFull;
+        this.student = student;
+        this.startTime = startTime;
+        this.weekDay = weekDay;
     }
-
+ 
     /**
-     * Retrieves the id of the product
-     * @return The id of the product
+     * Retrieves the id of the lesson
+     * @return The id of the lesson
      */
     public int getId() {return super.getId();}
 
     /**
-     * Sets the name of the product - necessary for JSON object to Java object deserialization
-     * @param name The name of the product
+     * Sets the name of the lesson
+     * @param name The name of the lesson
      */
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {super.setName(name);}
 
     /**
-     * Retrieves the name of the product
-     * @return The name of the product
+     * Retrieves the name of the lesson
+     * @return The name of the lesson
      */
-    public String getName() {return name;}
+    public String getName() {return super.getName();}
 
     /**
-     * Sets the price of the product - necessary for JSON object to Java object deserialization
-     * @param price The price of the product
+     * Sets the price of the lesson
+     * @param price The price of the lesson
      */
-    public void setPrice(double price) {this.price = price;}
+    public void setPrice(double price) {super.setPrice(price);}
 
     /**
-     * Retrieves the price of the product
-     * @return The price of the product
+     * Retrieves the price of the lesson
+     * @return The price of the lesson
      */
-    public double getPrice() {return price;}
+    public double getPrice() {return super.getPrice();}
 
     /**
-     * Sets the category of the product - necessary for JSON object to Java object deserialization
-     * @param category The category of the product
+     * Retrieves the category of the lesson
+     * @return The category of the lesson
      */
-    public void setCategory(Category category) {this.category = category;}
+    public Product.Category getCategory() {return super.getCategory();}
 
     /**
-     * Retrieves the category of the product
-     * @return The category of the product
+     * Retrieves the isInstrument of the lesson
+     * @return The isInstrument of the lesson
      */
-    public estoreapi.model.Product.Category getCategory() {return category;}
+    public boolean getIsInstrument() {return super.getIsInstrument();}
 
     /**
-     * Sets the quantity of the product - necessary for JSON object to Java object deserialization
-     * @param quantity The quantity of the product
+     * Retrieves the isEquipment of the lesson
+     * @return The isEquipment of the lesson
      */
-    public void setQuantity(int quantity) {this.quantity = quantity;}
+    public boolean getIsEquipment() {return super.getIsEquipment();}
 
     /**
-     * Retrieves the quantity of the product
-     * @return The quantity of the product
+     * Retrieves the isLesson of the =lesson
+     * @return The isLesson of the lesson
      */
-    public int getQuantity() {return quantity;}
+    public boolean getIsLesson() {return super.getIsLesson();}
 
     /**
-     * Sets the isInstrument of the product - necessary for JSON object to Java object deserialization
-     * @param isInstrument The isInstrument of the product
-     */
-    public void setIsInstrument(boolean isInstrument) {this.isInstrument = isInstrument;}
-
-    /**
-     * Retrieves the isInstrument of the product
-     * @return The isInstrument of the product
-     */
-    public boolean getIsInstrument() {return isInstrument;}
-
-    /**
-     * Sets the isEquipment of the product - necessary for JSON object to Java object deserialization
-     * @param isEquipment The isEquipment of the product
-     */
-    public void setIsEquipment(boolean isEquipment) {this.isEquipment = isEquipment;}
-
-    /**
-     * Retrieves the isEquipment of the product
-     * @return The isEquipment of the product
-     */
-    public boolean getIsEquipment() {return isEquipment;}
-
-    /**
-     * Sets the isLesson of the product - necessary for JSON object to Java object deserialization
-     * @param isLesson The isLesson of the product
-     */
-    public void setIsLesson(boolean isLesson) {this.isLesson = isLesson;}
-
-    /**
-     * Retrieves the isLesson of the product
-     * @return The isLesson of the product
-     */
-    public boolean getIsLesson() {return isLesson;}
-
-    /**
-     * Sets the instructor of the product - necessary for JSON object to Java object deserialization
-     * @param instructor The instructor of the product
-     */
-    public void setInstructor(String instructor) {this.instructor = instructor;}
-
-    /**
-     * Retrieves the instructor of the product
-     * @return The instructor of the product
+     * Retrieves the instructor of the lesson
+     * @return The instructor of the lesson
      */
     public String getInstructor() {return instructor;}
 
     /**
-     * Sets the times of the product - necessary for JSON object to Java object deserialization
-     * @param times The times of the product
+     * Retrieves the startTime of the lesson
+     * @return The startTime of the lesson
      */
-    public void setTimes(Hashtable times) {this.times = times;}
+    public String getStartTime(){return startTime;}
 
     /**
-     * Retrieves the times of the product
-     * @return The times of the product
+     * Retrieves the isFull of the lesson
+     * @return The isFull of the lesson
      */
-    public Hashtable getTimes() {return times;}
+    public boolean getIsFull(){return isFull;}
+
+    /**
+     * Retrieves the student of the lesson
+     * @return The student of the lesson
+     */
+    public User getStudent(){return student;}
+
+    /**
+     * Retrieves the weekDay of the lesson
+     * @return The weekDay of the lesson
+     */
+    public Day getWeekDay(){return weekDay;}
+
+    /**
+     * When the lesson has concluded and needs to be reset to an empty lesson, run this method
+     * It clears the student, isfull, instrucor, and the lessons category 
+     */
+    public void lessonOver(){
+        this.student = null;
+        this.isFull = false;
+        this.instructor = null;
+        this.category = null;
+    }
+
+    /**
+     * When a student checks out a lesson, the lesson is changed here and in the JSON file
+     * @param student the user who bought the lesson
+     * @param instructor the person (string) that the user chose to intruct their lesson
+     * @param category the category of the lesson (string, woodwind, keyboard, etc.)
+     */
+    public void assignLesson(User student, String instructor, Product.Category category){
+        this.student = student;
+        this.isFull = true;
+        this.instructor = instructor;
+        this.category = category;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,instructor,times);
+        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,instructor,student,weekDay,startTime, isFull);
     }
 }
