@@ -33,7 +33,7 @@ public class Lesson extends Product {
 
     @JsonProperty("id") private int id; // The individual ID of each lesson
     @JsonProperty("name") private String name; // The name of the lesson (Ex. 10am Wednesdy Lesson)
-    @JsonProperty("price") private double price; 
+    @JsonProperty("price") private double price; // 
     @JsonProperty("category") private Product.Category category; // The category of each lesson (Ex. woodwind)
     @JsonProperty("quantity") private int quantity; // The quantity of each lesson (should always be 1 for lesson)
     @JsonProperty("isInstrument") private boolean isInstrument; // The boolean of whether or not a lesson isIntrument (False)
