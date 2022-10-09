@@ -37,7 +37,7 @@ public class Cart {
      * Retrieves the id of the cart
      * @return The id of the cart
      */
-    public int getid() {
+    public int getId() {
         return id;
     }
 
