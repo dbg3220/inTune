@@ -11,21 +11,48 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import estoreapi.model.Lesson;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+/**
+ * Implements the functionality for JSON file-based peristance for lessons
+ * 
+ * Component Spring annotation instantiates a single instance of this
+ * class and injects the instance into other classes as needed
+ * 
+ * @author Donovan Cataldo
+ */
+@Component
 public class LessonFileDAO implements LessonDAO {
 
-    Map<Integer, Lesson> lessons;   
-    private ObjectMapper objectMapper;  
-    private static int nextId;  
-    private String filename;
+    Map<Integer, Lesson> lessons; // Provides a local cache of the product objects
+                                  // so that we don't need to read from the file each time
+    private ObjectMapper objectMapper; // Provides conversion between product objects and JSON text format written to the file
+    private static int nextId; // The next Id to assign to a new lesson
+    private String filename; // Filename to read from and write to
     
-
+    /**
+     * Creates a product File Data Access Object
+     * 
+     * @param filename Filename to read from and write to
+     * @param objectMapper Provides JSON Object to/from Java Object serialization and deserialization
+     * 
+     * @throws IOException when file cannot be accessed or read from
+     */
     public LessonFileDAO(@Value("${lessons.file}") String filename,ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
-        load();  // load the lessons from the file
+        load(); 
     }
 
+    /**
+     * Loads lessons from the JSON file into the map
+     * 
+     * Also sets next id to one more than the greatest id found in the file
+     * 
+     * @return true if the file was read successfully
+     * 
+     * @throws IOException when file cannot be accessed or read from
+     */
     private boolean load() throws IOException {
         lessons = new TreeMap<>();
         nextId = 0;
@@ -45,6 +72,13 @@ public class LessonFileDAO implements LessonDAO {
         return true;
     }
 
+    /**
+     * Saves the lessons from the map into the file as an array of JSON objects
+     * 
+     * @return true if the lessons were written successfully
+     * 
+     * @throws IOException when file cannot be accessed or written to
+     */
     private boolean save() throws IOException {
         Lesson[] lessonArray = getLessons();
 
@@ -55,6 +89,13 @@ public class LessonFileDAO implements LessonDAO {
         return true;
     }
 
+    /**
+    * Retrieves all lessons in the lesson JSON as an array of lessons
+    * 
+    * @return An array of lesson objects
+    * 
+    * @throws IOException if an issue with underlying storage
+    */
     @Override
     public Lesson[] getLessons() throws IOException {
         synchronized(lessons){
@@ -68,6 +109,16 @@ public class LessonFileDAO implements LessonDAO {
     }
     }
 
+    /**
+    * Retrieves a lesson with the given id
+    * 
+    * @param id The if of the lesson we want to retrieve
+    * 
+    * @return The lesson object with the watching id
+    * null if the lesson is not found
+    * 
+    * @throws IOException if an issue with underlying storage
+    */
     @Override
     public Lesson getLesson(int id) throws IOException {
         synchronized(lessons) {
@@ -78,6 +129,16 @@ public class LessonFileDAO implements LessonDAO {
         }
     }
 
+    /**
+    * Updates and saves a lesson
+    * 
+    * @param lesson the lesson to be updated and saved
+    * 
+    * @return updated lesson if successful
+    * null if unsuccessful
+    * 
+    * @throws IOException if an issue with underlying storage
+    */
     @Override
     public Lesson updateLesson(Lesson lesson) throws IOException {
         synchronized(lessons){
@@ -92,5 +153,4 @@ public class LessonFileDAO implements LessonDAO {
         }
     }
 
-    
 }
