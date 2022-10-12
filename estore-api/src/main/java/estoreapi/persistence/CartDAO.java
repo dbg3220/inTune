@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import estoreapi.model.Cart;
 import estoreapi.model.Product;
+import estoreapi.model.User;
 
 /**
  * Defines the interface for Cart object persistence
@@ -27,6 +28,20 @@ public interface CartDAO {
      * @throws IOException if an issue with underlying storage
      */
     Cart retrieveCart(int id) throws IOException;
+
+    /**
+     * Creates and saves a {@linkplain lesson}
+     * 
+     * @param Cart {@linkplain Cart} object to be created and saved
+
+     * The id of the Cart object is ignored and a new uniqe id is assigned
+     *
+     * @return new {@link cart} if successful, false otherwise 
+     * 
+     * @throws IOException if an issue with underlying storage
+     */
+    Cart createCart(Cart cart, User user) throws IOException;
+
 
     /**
      * Updates and saves a {@linkplain Cart}

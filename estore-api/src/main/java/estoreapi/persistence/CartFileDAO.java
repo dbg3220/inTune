@@ -4,6 +4,7 @@ package estoreapi.persistence;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import estoreapi.model.Cart;
 import estoreapi.model.Product;
+import estoreapi.model.User;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -214,6 +216,21 @@ public class CartFileDAO implements CartDAO {
                 return Cart;
             }
             return null;
+        }
+    }
+
+    /**
+    ** {@inheritDoc}
+     */
+    @Override
+    public Cart createCart(Cart cart, User user) throws IOException {
+        synchronized(Carts) {
+            // We create a new Cart object because the id field is immutable
+            // and we need to assign the next unique id
+            Cart newCart = new Cart(user.getId(),new Hashtable<Product, Integer>(),0.0);   
+            Carts.put(newCart.getId(),newCart);
+            save(); // may throw an IOException
+            return newCart;
         }
     }
 

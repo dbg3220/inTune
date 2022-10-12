@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoreapi.model.Cart;
+import estoreapi.model.User;
 import estoreapi.model.Product;
 import estoreapi.persistence.CartDAO;
 
@@ -99,6 +100,27 @@ public class CartController {
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+        /**
+     * Handles the HTTP POST request to create a new Cart
+     * 
+     * @param Cart The Cart to create
+     * @return The HTTP response
+     */
+    @PostMapping("")
+    public ResponseEntity<Cart> createCart(@RequestBody Cart cart, @RequestParam User user ) {
+        LOG.info("POST /Carts " + cart);
+        try {
+            
+            Cart newCart = CartDao.createCart(cart, user);
+            if (newCart != null)
+                return new ResponseEntity<Cart>(newCart, HttpStatus.CREATED);
+            else
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
