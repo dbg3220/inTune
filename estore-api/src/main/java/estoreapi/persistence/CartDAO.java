@@ -19,14 +19,6 @@ public interface CartDAO {
     Cart[] getCarts() throws IOException;
 
     /**
-     * Finds all {@linkplain Carts} whose name contains the given text
-     * @param Text The text to match against
-     * @return An array of {@link Carts} whose names contains the given text, may be empty
-     * @throws IOException if an issue with underlying storage
-     */
-    Cart[] findCarts(String Text) throws IOException;
-
-    /**
      * Retrieves a {@linkplain Cart} with the given id
      * @param id The id of the {@link Cart} to get
      * @return a {@link Cart} object with the matching id

@@ -152,16 +152,6 @@ public class CartFileDAO implements CartDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Cart[] findCarts(String Text) {
-        synchronized(Carts) {
-            return getCartsArray(Text);
-        }
-    }
-
-    /**
-    ** {@inheritDoc}
-     */
-    @Override
     public Cart retrieveCart(int id) {
         synchronized(Carts) {
             if (Carts.containsKey(id))
