@@ -3,6 +3,7 @@ package estoreapi.persistence;
 import java.io.IOException;
 
 import estoreapi.model.Cart;
+import estoreapi.model.Product;
 
 /**
  * Defines the interface for Cart object persistence
@@ -34,7 +35,17 @@ public interface CartDAO {
      * {@link Cart} could not be found
      * @throws IOException if underlying storage cannot be accessed
      */
-    Cart updateCart(Cart cart) throws IOException;
+    Cart addItem(Cart Cart, Product item, Integer quantity) throws IOException;
+
+    /**
+     * Updates and saves a {@linkplain Cart}
+     * @param {@link Cart} object to be updated and saved
+     * @return updated {@link Cart} if successful, null if
+     * {@link Cart} could not be found
+     * @throws IOException if underlying storage cannot be accessed
+     */
+    Cart removeItem(Cart Cart, Product item, Integer quantity) throws IOException;
+
 
     /**
      * Deletes a {@linkplain Cart} with the given id

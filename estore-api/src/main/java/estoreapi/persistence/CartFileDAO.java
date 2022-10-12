@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import estoreapi.model.Cart;
+import estoreapi.model.Product;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -165,14 +166,54 @@ public class CartFileDAO implements CartDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Cart updateCart(Cart Cart) throws IOException {
+    public Cart addItem(Cart Cart, Product item, Integer quantity) throws IOException {
         synchronized(Carts) {
-            if (Carts.containsKey(Cart.getId()) == false)
+            if (Carts.containsKey(Cart.getId()) == false){
                 return null;  // Cart does not exist
+            }
+            
+            if (Carts.get(Cart.getId()).containsKey(item)){
+                if(quantity > item.getQuantity()){
+                    System.out.println("Invalid item adding");
+                    return null;
+                }
+                double y = Cart.getQuantity(item) + (double) quantity;
+                double x = item.getPrice() * y;
+                Cart.setTotal(Cart.getTotal() - x);
+                save();
+                return Cart;
+            }
 
-            Carts.put(Cart.getId(),Cart);
-            save(); // may throw an IOException
+            Cart.additem(item, quantity);
+            save();
             return Cart;
+            
+        }
+    }
+
+    /**
+    ** {@inheritDoc}
+     */
+    @Override
+    public Cart removeItem(Cart Cart, Product item, Integer quantity) throws IOException {
+        synchronized(Carts) {
+            if (Carts.containsKey(Cart.getId()) == false){
+                return null;  // Cart does not exist
+            }
+            
+            if (Carts.get(Cart.getId()).containsKey(item)){
+                double y = Cart.getQuantity(item) - (double) quantity;
+                if( y < 0){
+                    System.out.println("Invalid removal request");
+                    return null;
+                }
+                double x = item.getPrice() * y;
+                Cart.setTotal(Cart.getTotal() - x);
+                Cart.removeitem(item, quantity);
+                save();
+                return Cart;
+            }
+            return null;
         }
     }
 

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents an product
  * METHODS NEED TO BE UPDATED TO SEND INFORMATION TO THE SUPERCLASS
  * 
- * @author Hayden Cieniawski
  * @author Clayton Acheson
  */
 public class Cart {
@@ -55,6 +54,15 @@ public class Cart {
         }
     }
 
+    public int getQuantity(Product item){
+        for (Product x : items.keySet()){
+            if(x.equals(item)){
+                return item.getQuantity();
+            }
+        }
+        return 0;
+    }
+
     /**
      * Retrieves the items in the cart
      * @return The items in the cart
@@ -80,6 +88,10 @@ public class Cart {
      */
     public double getTotal() {
         return total;
+    }
+
+    public void setTotal(double value) {
+        total += value;
     }
 
     /**
@@ -111,7 +123,7 @@ public class Cart {
      */
     public void removeitem(Product item, int quantity) {
         double x = item.getPrice();
-        items.remove(item.getName());
+        items.remove(item);
         this.total -= x;
         item.setQuantity(item.getQuantity() + quantity);
     }
@@ -124,5 +136,14 @@ public class Cart {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT,id);
+    }
+
+    public boolean containsKey(Product item) {
+        for(Product x : items.keySet()){
+            if (x.equals(item)){
+                return true;
+            }
+        }
+        return false;
     }
 }
