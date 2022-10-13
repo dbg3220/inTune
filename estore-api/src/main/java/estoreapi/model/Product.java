@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public abstract class Product {
 
-    enum Category {
+    public enum Category {
         STRINGS, 
         WOODWINDS, 
         PERCUSSION,

@@ -18,7 +18,7 @@ public class Lesson extends Product {
     /**
      * An enum that will represent the day that the lesson is set to occur
      */
-    enum Day {
+    public enum Day {
         Monday,
         Tuesday,
         Wednesday,
