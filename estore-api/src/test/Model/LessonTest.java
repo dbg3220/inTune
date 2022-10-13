@@ -79,7 +79,7 @@ private Lesson testLesson;
     @Test
     public void testIsEquipment(){
         // Setup
-        boolean expectedTruthValue = true;
+        boolean expectedTruthValue = false;
 
         // Invoke
         testLesson = new Lesson(null, null, 0.0,null, 0, false,expectedTruthValue,true,null, null,null,null,false);
@@ -89,7 +89,7 @@ private Lesson testLesson;
     @Test
     public void testIsLesson(){
         // Setup
-        boolean expectedTruthValue = false;
+        boolean expectedTruthValue = true;
 
         // Invoke
         testLesson = new Lesson(null, null, 0.0,null, 0, false,false,expectedTruthValue, null, null,null,null,false);
