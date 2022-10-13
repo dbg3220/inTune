@@ -45,7 +45,7 @@ public class CartTest {
         int expected_id = 99;
         Cart cart = new Cart(99, generateProducts(), 34000);
 
-        int result = cart.getid();
+        int result = cart.getId();
 
         assertEquals(expected_id, result);
     }
