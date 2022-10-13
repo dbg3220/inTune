@@ -24,23 +24,37 @@ import estoreapi.model.Instrument;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductFileDAO;
 
+/**
+ * The junit test suit for the ProductFileDAO class
+ * 
+ * @author Jonathan Zhu
+ */
+
 @Tag("Persistence-tier")
 public class ProductFileDAOTest {
     ProductFileDAO productFileDAO;
     Product[] testProducts;
     ObjectMapper mockObjectMapper;
 
+
+    /**
+     * Before each test, we will create and inject a Mock Object Mapper to
+     * isolate the tests from the underlying file
+     * 
+     * @throws IOException
+     */
+
     @BeforeEach
     public void setupHeroFileDao() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testProducts = new Product[3];
         testProducts[0] = new Product(99, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
-        }; // why do we need curly braces at the end?
+        }; 
 
         testProducts[1] = new Product(99, "Violin", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
-        }; // why do we need curly braces at the end?
+        }; 
         testProducts[2] = new Product(99, "Viola", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
-        }; // why do we need curly braces at the end?
+        }; 
 
         when(mockObjectMapper
                 .readValue(new File("doesnt_matter.txt"), Product[].class))
@@ -52,7 +66,6 @@ public class ProductFileDAOTest {
     @Test
     public void testGetProducts() {
         // Invoke
-
         Product[] products = productFileDAO.getProducts();
 
         // Analyze
@@ -67,20 +80,19 @@ public class ProductFileDAOTest {
         Product[] products = productFileDAO.findProducts("Instrument");
 
         // Analyze
-
-        assertEquals(products.length, 100);// check if number is correct
-        assertEquals(products[0], testProducts[1]);// check if number is correct
-        assertEquals(products[1], testProducts[2]);// check if number is correct
+        assertEquals(products.length, 100);
+        assertEquals(products[0], testProducts[1]);
+        assertEquals(products[1], testProducts[2]);
 
     }
 
     @Test
     public void testGetProduct() {
         // Invoke
-        Product product = productFileDAO.getProduct(99); // check if number is correct
+        Product product = productFileDAO.getProduct(1); 
 
         // Analyze
-        assertEquals(product, testProducts[0]);// check if number is correct
+        assertEquals(product, testProducts[0]);
     }
 
     /*
@@ -100,7 +112,6 @@ public class ProductFileDAOTest {
     @Test
     public void testCreateInstrument() {
         // Setup
-
         Instrument instrument = new Instrument(99, "viola",
                 122.99, Product.Category.WOODWINDS, 2, true, false, false, "1/2");
 
@@ -147,11 +158,9 @@ public class ProductFileDAOTest {
     @Test
     public void testGetProductNotFound() {
         // Invoke
-
         Product product = productFileDAO.getProduct(1);
 
         // Analyze
-
         assertEquals(product, null);
     }
 
@@ -187,7 +196,6 @@ public class ProductFileDAOTest {
 
     public void testConstructorException() throws IOException {
         // Setup
-
         ObjectMapper mockObjectMapper = mock(ObjectMapper.class);
 
         doThrow(new IOException())
