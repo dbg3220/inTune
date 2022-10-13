@@ -25,7 +25,6 @@ import estoreapi.model.Product;
 @Tag("Model-tier")
 public class CartTest {
 
-    @BeforeEach
     private Hashtable<Product, Integer> generateProducts() {
         Hashtable<Product, Integer> products = new Hashtable<Product, Integer>();
         Product product1 = new Instrument(0, "clarinet", 1000, Product.Category.WOODWINDS,
