@@ -65,16 +65,16 @@ public  class User {
     }
 
     /**
-     * Retrieves the id of the product
-     * @return The id of the product
+     * Retrieves the id of the user
+     * @return The id of the user
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Retrieves the name of the product
-     * @return The name of the product
+     * Retrieves the name of the user
+     * @return The name of the user
      */
     public String getName() {
         return name;
