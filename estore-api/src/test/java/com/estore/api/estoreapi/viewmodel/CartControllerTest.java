@@ -22,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import estoreapi.model.Cart;
+import estoreapi.model.Instrument;
+import estoreapi.model.Product;
 import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.CartFileDAO;
 import estoreapi.viewmodel.CartController;
@@ -48,10 +50,24 @@ public class CartControllerTest {
         cartController = new CartController(mockCartDAO);
      }
 
+     private Hashtable<Product, Integer> generateProducts() {
+        Hashtable<Product, Integer> products = new Hashtable<Product, Integer>();
+        Product product1 = new Instrument(0, "viola", 1000, Product.Category.STRINGS,
+                5, true, false, false, null);
+        Product product2 = new Instrument(1, "violin", 2000, Product.Category.STRINGS,
+                10, true, false, false, null);
+        Product product3 = new Instrument(2, "guitar", 3000, Product.Category.STRINGS,
+                3, true, false, false, "1/2");
+        products.put(product1, product1.getId());
+        products.put(product2, product2.getId());
+        products.put(product3, product3.getId());
+        return products;
+    }
+
      @Test
      public void testGetCart() throws IOException{
         // Setup
-        Cart cart = new Cart(99, 20); // need hashtable example 
+        Cart cart = new Cart(99, generateProducts(), 34000);
 
         when(mockCartDAO.getCarts()).thenReturn(cart);
         // need to fix cart for this to work
@@ -98,7 +114,7 @@ public class CartControllerTest {
     @Test
     public void testCreateCart() throws IOException {  // createCart may throw IOException
         // Setup
-        Cart cart = new Cart(99, 20); // need hashtable example 
+        Cart cart = new Cart(99, generateProducts(), 34000);
         // when createCart is called, return true simulating successful
         // creation and save
         when(mockCartDAO.createCarts()).thenReturn(cart);
@@ -116,7 +132,7 @@ public class CartControllerTest {
     @Test
     public void testCreateCartFailed() throws IOException {  // createCart may throw IOException
         // Setup
-        Cart cart = new Cart(99, 20); // need hashtable example 
+        Cart cart = new Cart(99, generateProducts(), 34000);
         // when createCart is called, return false simulating failed
         // creation and save
         when(mockCartDAO.createCart(cart)).thenReturn(null);
@@ -135,7 +151,7 @@ public class CartControllerTest {
     @Test
     public void testCreateCartHandleException() throws IOException {  // createCart may throw IOException
         // Setup
-        Cart cart = new Cart(99, 20); // need hashtable example 
+        Cart cart = new Cart(99, generateProducts(), 34000);
 
         // When createCart is called on the Mock Cart DAO, throw an IOException
         doThrow(new IOException()).when(mockCartDAO).createCart(cart);
@@ -152,7 +168,7 @@ public class CartControllerTest {
     @Test
     public void testUpdateCart() throws IOException { // updateCart may throw IOException
         // Setup
-        Cart cart = new Cart(99, 20); // need hashtable example 
+        Cart cart = new Cart(99, generateProducts(), 34000);
         // when updateCart is called, return true simulating successful
         // update and save
         when(mockCartDAO.addItem(cart,item,2)).thenReturn(cart);
@@ -173,7 +189,7 @@ public class CartControllerTest {
     @Test
     public void testUpdateCartFailed() throws IOException { // updateCart may throw IOException
         // Setup
-        Cart cart = new Cart(99, 20); // need hashtable example 
+        Cart cart = new Cart(99, generateProducts(), 34000);
         // when updateCart is called, return true simulating successful
         // update and save
         when(mockCartDAO.addItem(cart,item,2)).thenReturn(null);
@@ -190,7 +206,7 @@ public class CartControllerTest {
     @Test
     public void testUpdateCartHandleException() throws IOException { // updateCart may throw IOException
         // Setup
-        Cart cart = new Cart(99, 20); // need hashtable example 
+        Cart cart = new Cart(99, generateProducts(), 34000);
         // When updateCart is called on the Mock Cart DAO, throw an IOException
         doThrow(new IOException()).when(mockCartDAO).addItem(cart, item, 2)
 
@@ -205,8 +221,8 @@ public class CartControllerTest {
     public void testGetHeroes() throws IOException { // getCart may throw IOException
         // Setup
         Cart[] carts = new Cart[2];
-        carts[0] = new Cart(99, 20); // need hashtable example 
-        carts[1] = new Cart(99, 20); // need hashtable example 
+        carts[0] = new Cart(99, generateProducts(), 34000);
+        carts[1] = new Cart(100, generateProducts(), 34001);
         // When getCart is called return the carts created above
         when(mockCartDAO.getCarts()).thenReturn(carts);
 
@@ -237,8 +253,8 @@ public class CartControllerTest {
         // Setup
         String searchString = "la";
         Cart[] carts = new Cart[2];
-        carts[0] = new Cart(99, 20); // need hashtable example 
-        carts[1] = new Cart(99, 20); // need hashtable example 
+        carts[0] = new Cart(99, generateProducts(), 34000);
+        carts[1] = new Cart(100, generateProducts(), 34001);
         // When findCarts is called with the search string, return the two
         /// carts above
         when(mockCartDAO.retrieveCart(searchString)).thenReturn(carts);
