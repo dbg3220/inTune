@@ -22,7 +22,7 @@ private Equipment testEquipment;
         testEquipment = new Equipment(testing_id, null, 0.0, Category.STRINGS, 0, false,true,false);
 
         // Analyze
-        assertEquals(expected_id,testEquipment.getId());
+        assertEquals(testing_id,testEquipment.getId());
     }
     @Test
     public void testName(){

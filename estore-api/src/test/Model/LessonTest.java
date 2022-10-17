@@ -22,7 +22,7 @@ private Lesson testLesson;
         testLesson = new Lesson(testing_id, null, 0.0, Category.STRINGS, 0, false,false,true,null, null,null,null,false);
 
         // Analyze
-        assertEquals(expected_id,testLesson.getId());
+        assertEquals(testing_id,testLesson.getId());
     }
     @Test
     public void testName(){
@@ -109,7 +109,7 @@ private Lesson testLesson;
     @Test
     public void testStudent(){
         // Setup
-        User testingStudent = new User(null, expected_name, null, null, null, null, null, null, null, null, null, false);
+        User testingStudent = new User(null, "Donovan", null, null, null, null, null, null, null, null, null, false);
 
         // Invoke
         testLesson = new Lesson(null, null, 0.0,null, 0, false,false,false, null, testingStudent,null,null,false);

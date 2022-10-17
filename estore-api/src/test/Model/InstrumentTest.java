@@ -22,7 +22,7 @@ private Instrument testInstrument;
         testInstrument = new Instrument(testing_id, null, 0.0, Category.STRINGS, 0, true,false,false);
 
         // Analyze
-        assertEquals(expected_id,testInstrument.getId());
+        assertEquals(testing_id,testInstrument.getId());
     }
     @Test
     public void testName(){
