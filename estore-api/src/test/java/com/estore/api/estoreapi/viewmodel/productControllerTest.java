@@ -35,7 +35,11 @@ public class productControllerTest {
     ProductController productController;
 
     public productControllerTest(){
-        mockDAO = new ProductFileDAO(products.JSON, new ObjectMapper());
+        try {
+            mockDAO = new ProductFileDAO("products.JSON", new ObjectMapper());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @BeforeEach
