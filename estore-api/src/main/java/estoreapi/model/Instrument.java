@@ -3,6 +3,7 @@ package estoreapi.model;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author Donovan Cataldo
  * 
@@ -15,128 +16,220 @@ public class Instrument extends Product {
     // Package private for tests
     static final String STRING_FORMAT = "Instrument [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b, size=%s]";
 
-    @JsonProperty("id") private int id; // The individual ID of each intrument
-    @JsonProperty("name") private String name; // The name of the intrument (Ex. Ludwig Universal Brass Snare Drum)
-    @JsonProperty("price") private double price; // The price of the intrument
-    @JsonProperty("category") private Product.Category category; // The category of each intrument (Ex. woodwind)
-    @JsonProperty("quantity") private int quantity; // The quantity in stock of the intrument 
-    @JsonProperty("isInstrument") private boolean isInstrument; // The boolean of whether or not a intrument isIntrument (True)
-    @JsonProperty("isEquipment") private boolean isEquipment; // The boolean of whether or not a intrument isEquipment (False)
-    @JsonProperty("isLesson") private boolean isLesson; // The boolean of whether or not a intrument isLesson (False)
-    @JsonProperty("size") private String size; // The size of the intrument (Ex. 1/2)
+    @JsonProperty("id")
+    private int id;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("price")
+    private double price;
+    @JsonProperty("category")
+    private Product.Category category;
+    @JsonProperty("quantity")
+    private int quantity;
+    @JsonProperty("isInstrument")
+    private boolean isInstrument;
+    @JsonProperty("isEquipment")
+    private boolean isEquipment;
+    @JsonProperty("isLesson")
+    private boolean isLesson;
+    @JsonProperty("size")
+    private String size;
 
     /**
-     * Create an intrument with the given id, name, and price.
-     * @param id The id of the intrument
-     * @param name The name of the intrument
-     * @param price The price of the intrument
-     * @param category The category of the intrument
-     * @param subcategory The subcategory of the intrument
-     * @param quantity The quantity of the intrument
-     *    
-     * {@literal @}JsonProperty is used in serialization and deserialization
-     * of the JSON object to the Java object in mapping the fields.  If a field
-     * is not provided in the JSON object, the Java field gets the default Java
-     * value, i.e. 0 for int
+     * Create a product with the given id, name, and price.
+     * 
+     * @param id          The id of the product
+     * @param name        The name of the product
+     * @param price       The price of the product
+     * @param category    The category of the product
+     * @param subcategory The subcategory of the product
+     * @param quantity    The quantity of the product
+     * 
+     *                    {@literal @}JsonProperty is used in serialization and
+     *                    deserialization
+     *                    of the JSON object to the Java object in mapping the
+     *                    fields. If a field
+     *                    is not provided in the JSON object, the Java field gets
+     *                    the default Java
+     *                    value, i.e. 0 for int
      */
-    public Instrument (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
-    @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
-    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("size") String size) {
+    public Instrument(@JsonProperty("id") int id, @JsonProperty("name") String name,
+            @JsonProperty("price") double price, @JsonProperty("category") Product.Category category,
+            @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument,
+            @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson,
+            @JsonProperty("size") String size) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
         this.size = size;
     }
 
     /**
-     * Retrieves the id of the intrument
-     * @return The id of the intrument
+     * Retrieves the id of the product
+     * 
+     * @return The id of the product
      */
-    public int getId() {return super.getId();}
+    public int getId() {
+        return super.getId();
+    }
 
     /**
-     * Sets the name of the intrument
-     * @param name The name of the intrument
+     * Sets the name of the product - necessary for JSON object to Java object
+     * deserialization
+     * 
+     * @param name The name of the product
      */
-    public void setName(String name) {super.setName(name);}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
-     * Retrieves the name of the intrument
-     * @return The name of the intrument
+     * Retrieves the name of the product
+     * 
+     * @return The name of the product
      */
-    public String getName() {return super.getName();}
+    public String getName() {
+        return name;
+    }
 
     /**
-     * Sets the price of the intrument
-     * @param price The price of the intrument
+     * Sets the price of the product - necessary for JSON object to Java object
+     * deserialization
+     * 
+     * @param price The price of the product
      */
-    public void setPrice(double price) {super.setPrice(price);}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     /**
-     * Retrieves the price of the intrument
-     * @return The price of the intrument
+     * Retrieves the price of the product
+     * 
+     * @return The price of the product
      */
-    public double getPrice() {return super.getPrice();}
+    public double getPrice() {
+        return price;
+    }
 
     /**
-     * Sets the category of the intrument
-     * @param category The category of the intrument
+     * Sets the category of the product - necessary for JSON object to Java object
+     * deserialization
+     * 
+     * @param category The category of the product
      */
-    public void setCategory(Product.Category category) {super.setCategory(category);}
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     /**
-     * Retrieves the category of the intrument
-     * @return The category of the intrument
+     * Retrieves the category of the product
+     * 
+     * @return The category of the product
      */
-    public Product.Category getCategory() {return super.getCategory();}
+    public Product.Category getCategory() {
+        return this.category;
+    }
 
     /**
-     * Sets the quantity of the intrument
-     * @param quantity The quantity of the intrument
+     * Sets the quantity of the product - necessary for JSON object to Java object
+     * deserialization
+     * 
+     * @param quantity The quantity of the product
      */
-    public void setQuantity(int quantity) {super.setQuantity(quantity);}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     /**
-     * Retrieves the quantity of the intrument
-     * @return The quantity of the intrument
+     * Retrieves the quantity of the product
+     * 
+     * @return The quantity of the product
      */
-    public int getQuantity() {return super.getQuantity();}
+    public int getQuantity() {
+        return quantity;
+    }
 
     /**
-     * Retrieves the isInstrument of the intrument
-     * @return The isInstrument of the intrument
+     * Sets the isInstrument of the product - necessary for JSON object to Java
+     * object deserialization
+     * 
+     * @param isInstrument The isInstrument of the product
      */
-    public boolean getIsInstrument() {return super.getIsInstrument();}
+    public void setIsInstrument(boolean isInstrument) {
+        this.isInstrument = isInstrument;
+    }
 
     /**
-     * Retrieves the isEquipment of the intrument
-     * @return The isEquipment of the intrument
+     * Retrieves the isInstrument of the product
+     * 
+     * @return The isInstrument of the product
      */
-    public boolean getIsEquipment() {return super.getIsEquipment();}
-
-
-    /**
-     * Retrieves the isLesson of the intrument
-     * @return The isLesson of the intrument
-     */
-    public boolean getIsLesson() {return super.getIsLesson();}
+    public boolean getIsInstrument() {
+        return isInstrument;
+    }
 
     /**
-     * Sets the size of the intrument
-     * @param size The size of the intrument
+     * Sets the isEquipment of the product - necessary for JSON object to Java
+     * object deserialization
+     * 
+     * @param isEquipment The isEquipment of the product
      */
-    public void setSize(String size) {this.size = size;}
+    public void setIsEquipment(boolean isEquipment) {
+        this.isEquipment = isEquipment;
+    }
 
     /**
-     * Retrieves the size of the intrument
-     * @return The size of the intrument
+     * Retrieves the isEquipment of the product
+     * 
+     * @return The isEquipment of the product
      */
-    public String getSize() {return size;}
+    public boolean getIsEquipment() {
+        return isEquipment;
+    }
+
+    /**
+     * Sets the isLesson of the product - necessary for JSON object to Java object
+     * deserialization
+     * 
+     * @param isLesson The isLesson of the product
+     */
+    public void setIsLesson(boolean isLesson) {
+        this.isLesson = isLesson;
+    }
+
+    /**
+     * Retrieves the isLesson of the product
+     * 
+     * @return The isLesson of the product
+     */
+    public boolean getIsLesson() {
+        return isLesson;
+    }
+
+    /**
+     * Sets the size of the product - necessary for JSON object to Java object
+     * deserialization
+     * 
+     * @param size The size of the product
+     */
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    /**
+     * Retrieves the size of the product
+     * 
+     * @return The size of the product
+     */
+    public String getSize() {
+        return size;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,size);
+        return String.format(STRING_FORMAT, id, name, price, category, quantity, isInstrument, isEquipment, isLesson,
+                size);
     }
 
     @Override
