@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 @RequestMapping("products")
 public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
-    private ProductDAO productDao;
+    private static ProductDAO productDao;
 
     /**
      * Creates a REST API controller to respond to requests
@@ -56,7 +56,7 @@ public class ProductController {
     * @return The product with the specified id
     */
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+    public static ResponseEntity<Product> getProduct(@PathVariable int id) {
         LOG.info("GET /Products/" + id);   
         try {
             Product product = productDao.getProduct(id);
@@ -74,7 +74,7 @@ public class ProductController {
      * @return All products
      */
     @GetMapping("")
-    public ResponseEntity<Product[]> getProducts() {
+    public static ResponseEntity<Product[]> getProducts() {
     LOG.info("GET /products");
     try {
         return new ResponseEntity<>(productDao.getProducts(), HttpStatus.OK);

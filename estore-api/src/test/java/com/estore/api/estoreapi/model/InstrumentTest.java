@@ -1,3 +1,5 @@
+package com.estore.api.estoreapi.model;
+
 import estoreapi.model.Product;
 import estoreapi.model.Product.Category;
 import estoreapi.model.Instrument;
@@ -19,7 +21,7 @@ private Instrument testInstrument;
         int testing_id = 16;
 
         // Invoke
-        testInstrument = new Instrument(testing_id, null, 0.0, Category.STRINGS, 0, true,false,false);
+        testInstrument = new Instrument(testing_id, null, 0.0, Category.STRINGS, 0, true,false,false, null);
 
         // Analyze
         assertEquals(testing_id,testInstrument.getId());
@@ -30,7 +32,7 @@ private Instrument testInstrument;
         String expected_name = "Cello";
 
         // Invoke
-        testInstrument = new Instrument(null, expected_name, 0.0, Category.STRINGS, 0, true,false,false);
+        testInstrument = new Instrument(12, expected_name, 0.0, Category.STRINGS, 0, true,false,false, null);
 
         // Analyze
         assertEquals(expected_name,testInstrument.getName());
@@ -41,7 +43,7 @@ private Instrument testInstrument;
         double expectedInstrumentPrice = 1699.99;
 
         // Invoke
-        testInstrument = new Instrument(null, null, expectedInstrumentPrice, Category.STRINGS, 0, true,false,false);
+        testInstrument = new Instrument(12, null, expectedInstrumentPrice, Category.STRINGS, 0, true,false,false, null);
 
         // Analyze
         assertEquals(expectedInstrumentPrice,testInstrument.getPrice());
@@ -52,8 +54,7 @@ private Instrument testInstrument;
         Product.Category expectedCategory = Category.STRINGS;
 
         // Invoke
-        testInstrument = new Instrument(null, null, 0.0, expectedCategory, 0, true,false,false);
-        // Analyze
+        testInstrument = new Instrument(12, null, 0.0, expectedCategory, 0, true,false,false, null);
         assertEquals(expectedCategory,testInstrument.getCategory());
     }
     @Test
@@ -62,7 +63,7 @@ private Instrument testInstrument;
         int expectedQuantity = 4;
 
         // Invoke
-        testInstrument = new Instrument(null, null, 0.0,null, expectedQuantity, true,false,false);
+        testInstrument = new Instrument(12, null, 0.0, Category.STRINGS, expectedQuantity, true,false,false, null);
         // Analyze
         assertEquals(expectedQuantity,testInstrument.getQuantity());
     }
@@ -72,9 +73,9 @@ private Instrument testInstrument;
         boolean expectedTruthValue = true;
 
         // Invoke
-        testInstrument = new Instrument(null, null, 0.0,null, 0, expectedTruthValue,false,false);
+        testInstrument = new Instrument(12, null, 0.0, Category.STRINGS, 0, expectedTruthValue,false,false, null);
         // Analyze
-        assertEquals(expectedTruthValue,testInstrument.isInstrument());
+        assertEquals(expectedTruthValue,testInstrument.getIsInstrument());
     }
     @Test
     public void testIsEquipment(){
@@ -82,9 +83,9 @@ private Instrument testInstrument;
         boolean expectedTruthValue = false;
 
         // Invoke
-        testInstrument = new Instrument(null, null, 0.0,null, 0, false,expectedTruthValue,false);
+        testInstrument = new Instrument(12, null, 0.0, Category.STRINGS, 0, false,expectedTruthValue,false, null);
         // Analyze
-        assertEquals(expectedTruthValue,testInstrument.isEquipment());
+        assertEquals(expectedTruthValue,testInstrument.getIsEquipment());
     }
     @Test
     public void testIsLesson(){
@@ -92,9 +93,9 @@ private Instrument testInstrument;
         boolean expectedTruthValue = false;
 
         // Invoke
-        testInstrument = new Instrument(null, null, 0.0,null, 0, false,false,expectedTruthValue);
+        testInstrument = new Instrument(12, null, 0.0, Category.STRINGS, 0, true,false,expectedTruthValue, null);
         // Analyze
-        assertEquals(expectedTruthValue,testInstrument.isLesson());
+        assertEquals(expectedTruthValue,testInstrument.getIsLesson());
     }
 
 }

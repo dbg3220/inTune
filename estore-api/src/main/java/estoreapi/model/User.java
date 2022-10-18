@@ -44,10 +44,13 @@ public class User {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public User(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("username") String username, 
-    @JsonProperty("email") String email, @JsonProperty("password") String password, @JsonProperty("address") String address, 
-    @JsonProperty("ccnum") String ccnum, @JsonProperty("ccmon") int ccmon, @JsonProperty("ccyear") int ccyear, 
-    @JsonProperty("cart") Cart cart, @JsonProperty("friends") User[] friends, @JsonProperty("isAdmin") boolean isAdmin) {
+    public User(@JsonProperty("id") int id , @JsonProperty("name") String name, 
+    @JsonProperty("username") String username, @JsonProperty("email") String email, 
+    @JsonProperty("password") String password, @JsonProperty("address") String address, 
+    @JsonProperty("ccnum") String ccnum, @JsonProperty("ccmon") int ccmon, 
+    @JsonProperty("ccyear") int ccyear, @JsonProperty("cart") Cart cart, 
+    @JsonProperty("friends") User[] friends, 
+    @JsonProperty("isAdmin") boolean isAdmin) {
         this.id = id;
         this.name = name;
         this.username = username;

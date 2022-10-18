@@ -1,8 +1,8 @@
 import estoreapi.model.Lesson;
 import estoreapi.model.Product;
+import estoreapi.model.User;
 import estoreapi.persistence.LessonDAO;
 import estoreapi.viewmodel.LessonController;
-import estoreapi.viewmodel.LessonControllerTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
@@ -11,9 +11,6 @@ import static org.mockito.Mockito.when;
 
 import java.beans.Transient;
 import java.io.IOException;
-
-import com.heroes.api.heroesapi.persistence.HeroDAO;
-import com.heroes.api.heroesapi.model.Hero;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -46,8 +43,9 @@ public class LessonControllerTest {
     @Test
     public void testGetLesson() throws IOException { // getlesson may throw IOException
         // Setup
+        User testuser = new User(5000, "Test1", "Test1", null, null, null, null, 0, 0, null, null, false);
         Lesson lesson = new Lesson(99, "Viola", 122.99, Product.Category.WOODWINDS, 1, false, false, true,
-                "John Doe", "SWEN-261", "Monday", 12, false);
+                "John Doe", testuser, Lesson.Day.Monday, "12:00", false);
 
         // When the same id is passed in, our mock Lesson DAO will return the Lesson object
         when(mockLessonDAO.getLesson(lesson.getId())).thenReturn(lesson);
@@ -85,27 +83,10 @@ public class LessonControllerTest {
         doThrow(new IOException()).when(mockLessonDAO).getLesson(lessonId); 
 
         // Invoke
-        ResponseEntity<Lesson> response = lessonController.getLesson(lessonid);
+        ResponseEntity<Lesson> response = lessonController.getLesson(lessonId);
 
         // Analyze
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    @Test
-    public void testCreateLesson() throws IOException { // createLesson may throw IOException
-        // Setup
-        Lesson lesson = new Lesson(99, "Viola", 122.99, Product.Category.WOODWINDS, 1, false, false, true,
-                "John Doe", "SWEN-261", "Monday", 12, false);
-        // when createLesson is called, return true simulating successful
-        // creation and save
-        when(mockLessonDAO.createLesson(lesson)).thenReturn(lesson);
-
-        // Invoke
-        ResponseEntity<Lesson> response = lessonController.createLesson(lesson);
-
-        // Analyze
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(lesson, response.getBody());
     }
 
     @Test

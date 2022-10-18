@@ -1,3 +1,5 @@
+package com.estore.api.estoreapi.model;
+
 import estoreapi.model.Cart;
 import estoreapi.model.User;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +25,7 @@ private User testUser;
         int expected_id = 99;
 
         // Invoke
-        testUser = new User(expected_id, null, null, null, null, null, null, 0, 0, null, null, false);
+        testUser = new User(expected_id, null, null, null, null, null, null, expected_id, expected_id, null, null, false);
 
         // Analyze
         assertEquals(expected_id,testUser.getId());
@@ -34,7 +36,7 @@ private User testUser;
         String expected_name = "Donovan";
 
         // Invoke
-        testUser = new User(null, expected_name, null, null, null, null, null, null, null, null, null, false);
+        testUser = new User(12, expected_name, null, null, null, null, null, 0, 0, null, null, false);
 
         // Analyze
         assertEquals(expected_name,testUser.getName());
@@ -45,7 +47,7 @@ private User testUser;
         String expected_username = "Kenn";
 
         // Invoke
-        testUser = new User(null, null, expected_username, null, null, null, null, null, null, null, null, false);
+        testUser = new User(12, null, expected_username, null, null, null, null, 0, 0, null, null, false);
 
         // Analyze
         assertEquals(expected_username,testUser.getUsername());
@@ -56,7 +58,7 @@ private User testUser;
         String expected_email = "ILOVESWEN@rit.edu";
 
         // Invoke
-        testUser = new User(null, null, null, expected_email, null, null, null, null, null, null, null, false);
+        testUser = new User(12, null, null, expected_email, null, null, null, 0, 0, null, null, false);
 
         // Analyze
         assertEquals(expected_email,testUser.getEmail());
@@ -67,7 +69,7 @@ private User testUser;
         String expected_password = "MyFirstPetsName1234";
 
         // Invoke
-        testUser = new User(null, null, null, null, expected_password, null, null, null, null, null, null, false);
+        testUser = new User(12, null, null, null, expected_password, null, null, 0, 0, null, null, false);
 
         // Analyze
         assertEquals(expected_password,testUser.getPassword());
@@ -78,7 +80,7 @@ private User testUser;
         String expected_address = "1 Lomb Memorial Dr, Rochester, NY 14623";
 
         // Invoke
-        testUser = new User(null, null, null, null, null, expected_address, null, null, null, null, null, false);
+        testUser = new User(12, null, null, null, null, expected_address, null, 0, 0, null, null, false);
 
         // Analyze
         assertEquals(expected_address,testUser.getAddress());
@@ -89,7 +91,7 @@ private User testUser;
         String expected_ccnum = "1111-1111-1111";
 
         // Invoke
-        testUser = new User(null, null, null, null, null, null, expected_ccnum, null, null, null, null, false);
+        testUser = new User(12, null, null, null, null, null, expected_ccnum, 0, 0, null, null, false);
 
         // Analyze
         assertEquals(expected_ccnum,testUser.getccnum());
@@ -97,10 +99,10 @@ private User testUser;
     @Test
     public void testCcmon(){
         // Setup
-        String expected_ccmon = "12";
+        int expected_ccmon = 12;
 
         // Invoke
-        testUser = new User(null, null, null, null, null, null, null, expected_ccmon, null, null, null, false);
+        testUser = new User(12, null, null, null, null, null, null, expected_ccmon, 0, null, null, false);
 
         // Analyze
         assertEquals(expected_ccmon,testUser.getccmon());
@@ -108,10 +110,10 @@ private User testUser;
     @Test
     public void testCcyear(){
         // Setup
-        String expected_ccyear = "25";
+        int expected_ccyear = 25;
 
         // Invoke
-        testUser = new User(null, null, null, null, null, null, null, null,expected_ccyear , null, null, false);
+        testUser = new User(12, null, null, null, null, null, null, 0, expected_ccyear, null, null, false);
 
         // Analyze
         assertEquals(expected_ccyear,testUser.getccyear());
@@ -122,7 +124,7 @@ private User testUser;
         Cart expected_cart = new Cart(99, null, 0);
 
         // Invoke
-        testUser = new User(0, null, null, null, null, null, null, null, null, expected_cart, null, false);
+        testUser = new User(12, null, null, null, null, null, null, 0, 0, expected_cart, null, false);
 
         // Analyze
         assertEquals(expected_cart,testUser.getCart());
@@ -133,7 +135,7 @@ private User testUser;
         User[] expected_friends = new User[5];
         expected_friends[0] = new User(5000, "Test1", "Test1", null, null, null, null, 0, 0, null, null, false);
         expected_friends[1] = new User(0, "Test2", "Test2", null, null, null, null, 0, 0, null, null, false);
-        expected_friends[2] = new User(null, "test3", "Test3", null, null, null, null, 0, 0, null, null, false);
+        expected_friends[2] = new User(3, "test3", "Test3", null, null, null, null, 0, 0, null, null, false);
         expected_friends[3] = new User(27, "Test4", "Test4", null, null, null, null, 0, 0, null, null, false);
         expected_friends[4] = new User(99, "Test5", "Test5", null, null, null, null, 0, 0, null, null, false);
 
@@ -149,7 +151,7 @@ private User testUser;
         Boolean exepected_isadmin = true;
 
         // Invoke 
-        testUser = new User(null, null, null, null, null, null, null, 0, 0, null, null, exepected_isadmin);
+        testUser = new User(12, null, null, null, null, null, null, 0, 0, null, null, exepected_isadmin);
     
         // Analyze
         assertEquals(exepected_isadmin,testUser.isAdmin());
