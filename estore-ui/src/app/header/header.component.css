@@ -1,8 +1,16 @@
-nav a {
-    color: black;
+nav ul{
+
+    float : right;
+    background-color: black;
+
+}
+
+nav a{
+    color: white;
     text-decoration: none;
     padding: 0 10px;
     font-size: 1.2em;
     font-weight: bold;
     text-transform: uppercase;
+    
 }
