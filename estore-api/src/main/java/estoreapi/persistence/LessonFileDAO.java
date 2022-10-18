@@ -142,7 +142,7 @@ public class LessonFileDAO implements LessonDAO {
     @Override
     public Lesson updateLesson(Lesson lesson) throws IOException {
         synchronized(lessons){
-            if(lessons.containsValue(lesson)){
+            if(lessons.containsKey(lesson.getId())){
                 lessons.put(lesson.getId(), lesson);
                 save();
                 return lesson;

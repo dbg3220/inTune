@@ -48,12 +48,12 @@ public class ProductFileDAOTest {
     public void setupHeroFileDao() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testProducts = new Product[3];
-        testProducts[0] = new Product(99, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        testProducts[0] = new Product(1, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
         }; 
 
-        testProducts[1] = new Product(99, "Violin", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        testProducts[1] = new Product(2, "Violin", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
         }; 
-        testProducts[2] = new Product(99, "Viola", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        testProducts[2] = new Product(3, "Viola", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
         }; 
 
         when(mockObjectMapper
@@ -77,10 +77,10 @@ public class ProductFileDAOTest {
     @Test
     public void testFindProducts() {
         // Invoke
-        Product[] products = productFileDAO.findProducts("Instrument");
+        Product[] products = productFileDAO.findProducts("Vi");
 
         // Analyze
-        assertEquals(products.length, 100);
+        assertEquals(products.length, 2);
         assertEquals(products[0], testProducts[1]);
         assertEquals(products[1], testProducts[2]);
 
@@ -158,7 +158,7 @@ public class ProductFileDAOTest {
     @Test
     public void testGetProductNotFound() {
         // Invoke
-        Product product = productFileDAO.getProduct(1);
+        Product product = productFileDAO.getProduct(99);
 
         // Analyze
         assertEquals(product, null);
