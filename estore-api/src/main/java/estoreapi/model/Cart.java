@@ -1,6 +1,8 @@
 package estoreapi.model;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents an product
  * METHODS NEED TO BE UPDATED TO SEND INFORMATION TO THE SUPERCLASS
  * 
- * @author Hayden Cieniawski
+ * @author Clayton Acheson
  */
 public class Cart {
 
@@ -18,12 +20,12 @@ public class Cart {
     static final String STRING_FORMAT = "Cart [id=%d]";
 
     @JsonProperty("id") private int id;
-    @JsonProperty("items") private Product[] items;
+    @JsonProperty("items") private Hashtable<Product, Integer> items = new Hashtable<Product, Integer>();
     @JsonProperty("totalPrice") private double total;
 
 
     
-    public Cart (@JsonProperty("id") int id, @JsonProperty("items") Product[] items, @JsonProperty("totalPrice") double total) {
+    public Cart (@JsonProperty("id") int id, @JsonProperty("items") Hashtable<Product, Integer> items, @JsonProperty("totalPrice") double total) {
         this.id = id;
         this.items = items;
         this.total = total;
@@ -34,16 +36,50 @@ public class Cart {
      * Retrieves the id of the cart
      * @return The id of the cart
      */
-    public int getid() {
-        return id;
+    public int getId() {
+        return this.id;
     }
 
     /**
      * Retrieves the items in the cart
      * @return The items in the cart
      */
-    public Product[] getItems() {
-        return items;
+    public Hashtable<Product,Integer> getItems() {
+        if(!items.isEmpty()){
+            return this.items;
+        }
+        else{
+            System.out.println("Cart is Empty");
+            return this.items;  
+        }
+    }
+
+    public int getQuantity(Product item){
+        for (Product x : items.keySet()){
+            if(x.equals(item)){
+                return item.getQuantity();
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Retrieves the items in the cart
+     * @return The items in the cart
+     */
+    public ArrayList<Integer> getQuantities() {
+       ArrayList<Integer> quantities = new ArrayList<Integer>();
+        if (!items.isEmpty()){
+        for(int i = 0; i < items.size(); i++){
+            Integer value = items.get(items.keySet().toArray()[i]);
+            quantities.add(value);
+        }
+        return quantities;
+       }
+       else{
+        System.out.println("Cart is Empty");
+        return quantities;
+       }
     }
 
     /**
@@ -51,25 +87,45 @@ public class Cart {
      * @return The total price of the cart
      */
     public double getTotal() {
-        return total;
+        return this.total;
+    }
+
+    public void setTotal(double value) {
+        this.total += value;
     }
 
     /**
      * copys the current product array and adds the new product
      * then sets the current product array to the new one
+     * Validates that the product is in stock
      */
-    public void additem(Product item) {
-        double x = item.getPrice();
-        this.total += x;
+    public void additem(Product item, Integer quantity) {
+        if(item.getQuantity() > 0){
+            if(quantity > item.getQuantity()){
+                System.out.println("Unforunately, we do not have the requested quantity");
+            }
+            else{
+            double x = item.getPrice();
+            items.put(item, quantity);
+            this.total += (x * (double)quantity);
+            item.setQuantity(item.getQuantity()-quantity);
+            }
+        }
+        else{
+            System.out.println("Product is currently unavailable");
+        }
     }
 
     /**
      * copys the current product array and removes the product
      * then sets the current product array to the new one
+     * Sets the quantity of the given product
      */
-    public void removeitem(Product item) {
+    public void removeitem(Product item, int quantity) {
         double x = item.getPrice();
+        items.remove(item);
         this.total -= x;
+        item.setQuantity(item.getQuantity() + quantity);
     }
 
 
@@ -80,5 +136,14 @@ public class Cart {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT,id);
+    }
+
+    public boolean containsKey(Product item) {
+        for(Product x : items.keySet()){
+            if (x.equals(item)){
+                return true;
+            }
+        }
+        return false;
     }
 }

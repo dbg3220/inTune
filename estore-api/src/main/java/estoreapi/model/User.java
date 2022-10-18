@@ -1,5 +1,6 @@
 package estoreapi.model;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Hayden Cieniawski
  * @author Damon Gonzalez
+ * @author Clayton Acheson
  */
 public class User {
 
@@ -27,8 +29,8 @@ public class User {
     @JsonProperty("ccmon") private int ccmon;
     @JsonProperty("ccyear") private int ccyear;
     @JsonProperty("cart") private Cart cart;
-    @JsonProperty("friends") private User[] friends;
     @JsonProperty("isAdmin") private boolean isAdmin;
+    @JsonProperty("friends") private User[] friends;
 
     /**
      * Create a user with the given id, name, and price.
@@ -62,7 +64,7 @@ public class User {
         this.ccyear = ccyear;
         this.cart = cart;
         this.friends = friends;
-        this.isAdmin = isAdmin;
+
     }
 
     /**
@@ -152,6 +154,7 @@ public class User {
     public User[] getFriends() {
         return friends;
     }
+
 
     /**
      * Checks if this user is admin
