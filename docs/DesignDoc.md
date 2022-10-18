@@ -16,8 +16,8 @@ geometry: margin=1in
 
 To create a web store that allows users to rent and purchase instruments, as well as partake in lessons. Users will be able to log into the website with an email and password, and then have payment and shipping information saved.
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+To allow customers to interact with the full inventory and capability of the music store from
+a personal computer.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -35,14 +35,33 @@ This section describes the features of the application.
 > story.  Focus on top-level features from the Vision document and
 > maybe Epics and critical Stories._
 
+
+
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+The MVP will consist of a fully functional estore with a working backend representation of relevant data types.
+Any user will be able to login with a username and password or create an accoutn if they have no login. Products
+checked out in their cart will be remembered between sessions and any user should be able to see all products through
+a search bar.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+1. Create Account
+2. Edit Products
+3. Get products by category
+4. Get product by Subcategory
+5. Browse my cart
+6. Save my cart
+7. Save payment and Address Info
+8. Learn about an Instrument
+9. Browse Instrument Categories
+10. Log in
+
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+1. Renting instruments
+2. Participate in the Community Blog
+3. Seeing the Community Board
+3. Add friends
+4. See Bands that are looking for musicians
 
 
 ## Application Domain
@@ -98,21 +117,15 @@ with the e-store application.
 
 
 ### ViewModel Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
-
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+The ViewModel Tier is the Rest-API of our program and it consists only of controllers
+for data types used in the View tier. It acts as the point of contact between our front end
+and back end. It interacts with HTTP requests and responds with certain bodies and certin error
+codes as responses(i.e. OK, CREATED, INTERNAL_SERVER_ERROR, CONFLICT)
 
 
 ### Model Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
-
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+The model tier has Product, User, Cart, Lesson, Equipment, and Instrument classes which represent
+the existence of such objects while the backend Spring Java framework is running.
 
 ### Static Code Analysis/Design Improvements
 > _Discuss design improvements that you would make if the project were
