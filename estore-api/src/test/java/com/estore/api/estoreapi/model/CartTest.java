@@ -20,6 +20,7 @@ import estoreapi.model.Cart;
 import estoreapi.model.Instrument;
 import estoreapi.model.Lesson;
 import estoreapi.model.Product;
+import estoreapi.model.Equipment;
 
 /**
  * The unit test suite for the Cart class
@@ -61,7 +62,7 @@ public class CartTest {
         // Hashtable<Product,Integer> result = cart.getItems();
         
         Object[] testArray = expected_items.keySet().toArray();
-        Object[] resultArray = (Product[])cart.getItems().keySet().toArray();
+        Object[] resultArray = cart.getItems().keySet().toArray();
         for(int i = 0; i < resultArray.length; i++){
             if(resultArray[i] instanceof Lesson){
                 Lesson resultLesson = (Lesson)resultArray[i];
@@ -71,7 +72,7 @@ public class CartTest {
             if(resultArray[i] instanceof Instrument){
                 Instrument resultInstrument = (Instrument)resultArray[i];
                 Instrument testInstrument = (Instrument)testArray[i];
-                assertEquals(resultInstrument, testInstrument);
+                assertEquals(resultInstrument,testInstrument);
             }
             if(resultArray[i] instanceof Equipment){
                 Equipment resultEquipment = (Equipment)resultArray[i];

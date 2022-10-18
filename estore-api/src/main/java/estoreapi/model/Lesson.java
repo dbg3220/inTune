@@ -186,4 +186,29 @@ public class Lesson extends Product {
     public String toString() {
         return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,instructor,student,weekDay,startTime, isFull);
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Lesson){
+            Lesson x = (Lesson) o;
+            if(this.id == x.getId() &&
+            this.name == x.getName() &&
+            this.price == x.getPrice() &&
+            this.category == x.getCategory() &&
+            this.quantity == x.getQuantity() &&
+            this.isInstrument == x.getIsInstrument() &&
+            this.isEquipment == x.getIsEquipment() &&
+            this.isLesson == x.getIsLesson() &&
+            this.instructor == x.getInstructor() &&
+            this.student == x.getStudent() &&
+            this.weekDay == x.getWeekDay() &&
+            this.startTime == x.getStartTime() &&
+            this.isFull == x.getIsFull()){
+                
+                return true;
+            }
+
+        }
+        return false;
+    }
 }
