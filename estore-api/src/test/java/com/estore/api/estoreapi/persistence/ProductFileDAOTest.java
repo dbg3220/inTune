@@ -77,10 +77,10 @@ public class ProductFileDAOTest {
     @Test
     public void testFindProducts() {
         // Invoke
-        Product[] products = productFileDAO.findProducts("Instrument");
+        Product[] products = productFileDAO.findProducts("Vi");
 
         // Analyze
-        assertEquals(products.length, 100);
+        assertEquals(products.length, 2);
         assertEquals(products[0], testProducts[1]);
         assertEquals(products[1], testProducts[2]);
 
@@ -158,7 +158,7 @@ public class ProductFileDAOTest {
     @Test
     public void testGetProductNotFound() {
         // Invoke
-        Product product = productFileDAO.getProduct(1);
+        Product product = productFileDAO.getProduct(99);
 
         // Analyze
         assertEquals(product, null);
