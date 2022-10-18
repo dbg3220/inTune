@@ -41,7 +41,7 @@ private Instrument testInstrument;
         double expectedInstrumentPrice = 1699.99;
 
         // Invoke
-        testInstrument = new Instrument(null, null, expected_InstrumentPrice, Category.STRINGS, 0, true,false,false);
+        testInstrument = new Instrument(null, null, expectedInstrumentPrice, Category.STRINGS, 0, true,false,false);
 
         // Analyze
         assertEquals(expectedInstrumentPrice,testInstrument.getPrice());

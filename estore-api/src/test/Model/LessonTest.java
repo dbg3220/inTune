@@ -74,7 +74,7 @@ private Lesson testLesson;
         // Invoke
         testLesson = new Lesson(null, null, 0.0,null, 0, expectedTruthValue,false,true,null, null,null,null,false);
         // Analyze
-        assertEquals(expectedTruthValue,testLesson.isLesson());
+        assertEquals(expectedTruthValue,testLesson.isInstrument());
     }
     @Test
     public void testIsEquipment(){
