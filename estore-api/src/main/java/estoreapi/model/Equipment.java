@@ -125,4 +125,25 @@ public class Equipment extends Product {
     public String toString() {
         return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof Equipment){
+            Equipment other = (Equipment) object;
+            if( this.id == other.id &&
+                this.name.equals(other.getName()) &&
+                this.price == other.price &&
+                this.quantity == other.quantity &&
+                this.category == other.category &&
+                this.isLesson == other.isLesson &&
+                this.isEquipment == other.isEquipment &&
+                this.isInstrument == other.isInstrument ) {
+                    return true;
+                }
+        }
+        return false;
+    }
 }
