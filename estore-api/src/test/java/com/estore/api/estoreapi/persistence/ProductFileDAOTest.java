@@ -112,7 +112,7 @@ public class ProductFileDAOTest {
     @Test
     public void testCreateInstrument() {
         // Setup
-        Instrument instrument = new Instrument(99, "viola",
+        Instrument instrument = new Instrument(99, "Viola",
                 122.99, Product.Category.WOODWINDS, 2, true, false, false, "1/2");
 
         // Invoke
