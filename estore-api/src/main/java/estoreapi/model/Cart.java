@@ -37,7 +37,7 @@ public class Cart {
      * @return The id of the cart
      */
     public int getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -87,11 +87,11 @@ public class Cart {
      * @return The total price of the cart
      */
     public double getTotal() {
-        return total;
+        return this.total;
     }
 
     public void setTotal(double value) {
-        total += value;
+        this.total += value;
     }
 
     /**
