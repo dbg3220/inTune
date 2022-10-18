@@ -3,11 +3,6 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
-> _The following template provides the headings for your Design
-> Documentation.  As you edit each section make sure you remove these
-> commentary 'blockquotes'; the lines that start with a > character
-> and appear in the generated PDF in italics._
-
 ## Team Information
 * Team name: In-Tune
 * Team members
@@ -19,8 +14,7 @@ geometry: margin=1in
 
 ## Executive Summary
 
-This is a summary of the project.
-
+To create a web store that allows users to rent and purchase instruments, as well as partake in lessons. Users will be able to log into the website with an email and password, and then have payment and shipping information saved.
 ### Purpose
 > _Provide a very brief statement about the project and the most
 > important user group and user goals._
