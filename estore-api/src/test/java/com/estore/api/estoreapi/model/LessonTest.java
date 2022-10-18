@@ -114,7 +114,11 @@ private Lesson testLesson;
     public void testStudent(){
         String expected_name = "James";
         // Setup
+<<<<<<< HEAD:estore-api/src/test/java/com/estore/api/estoreapi/model/LessonTest.java
         User testingStudent = new User(12, expected_name, null, null, null, null, null, 0, 0, null, null, false);
+=======
+        User testingStudent = new User(null, "Donovan", null, null, null, null, null, null, null, null, null, false);
+>>>>>>> dfb81a0e41254eab97d15d7bf7e27e64a40fde59:estore-api/src/test/Model/LessonTest.java
 
         // Invoke
         testLesson = new Lesson(12, null, 0.0,null, 0, false,false,false, null, testingStudent,null,null,false);
