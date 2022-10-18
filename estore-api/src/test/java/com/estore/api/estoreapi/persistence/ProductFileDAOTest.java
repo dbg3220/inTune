@@ -112,25 +112,25 @@ public class ProductFileDAOTest {
     @Test
     public void testCreateInstrument() {
         // Setup
-        Instrument instrument = new Instrument(99, "Viola",
+        Instrument testinstrument = new Instrument(3, "Viola",
                 122.99, Product.Category.WOODWINDS, 2, true, false, false, "1/2");
 
         // Invoke
-        Product result = assertDoesNotThrow(() -> productFileDAO.createInstrument(instrument),
+        Product result = assertDoesNotThrow(() -> productFileDAO.createInstrument(testinstrument),
                                                 "Unexpected exception thrown");
 
         // Analyze 
         assertNotNull(result);
-        Product actual = productFileDAO.getProduct(instrument.getId());
-        assertEquals(actual.getId(), instrument.getId());
-        assertEquals(actual.getName(), instrument.getName());
+        Product actual = productFileDAO.getProduct(testinstrument.getId());
+        assertEquals(testinstrument.getId(), actual.getId());
+        assertEquals(actual.getName(), testinstrument.getName());
     }
 
 
 
     @Test
     public void testUpdateProduct() {
-        Product product = new Product(99, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        Product product = new Product(1, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
         };
 
         Product result = assertDoesNotThrow(() -> productFileDAO.updateProduct(product),

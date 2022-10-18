@@ -138,4 +138,19 @@ public class Instrument extends Product {
     public String toString() {
         return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson,size);
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Instrument){
+            Instrument object =  (Instrument) o;
+            if((object.getName() == this.name) && (object.getPrice() == this.price) && (object.getCategory() == this.category) && (object.getQuantity() == this.quantity) && 
+            (object.isEquipment == this.isEquipment) && (object.getIsInstrument() == this.isInstrument) && (object.getIsLesson() == this.isLesson) && (object.getSize() == this.size)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
 }
