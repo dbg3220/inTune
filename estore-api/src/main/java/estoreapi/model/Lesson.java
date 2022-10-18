@@ -47,7 +47,7 @@ public class Lesson extends Product {
 
     /**
      * Create a lesson with the given id, name, and price.
-     * @param id The id of the lesson
+     * @param invalid The id of the lesson
      * @param name The name of the lesson
      * @param price The price of the lesson
      * @param category The category of the lesson
@@ -62,13 +62,13 @@ public class Lesson extends Product {
     public Lesson (@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson, @JsonProperty("instructor") String instructor, 
-    @JsonProperty("student") User student, @JsonProperty("weekDay") Day weekDay, @JsonProperty("startTime") String startTime, @JsonProperty("isFull") Boolean isFull) {
+    @JsonProperty("student") User student, @JsonProperty("weekDay") Day WeekDay, @JsonProperty("startTime") String startTime, @JsonProperty("isFull") Boolean isFull) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);
         this.instructor = instructor;
         this.isFull = isFull;
         this.student = student;
         this.startTime = startTime;
-        this.weekDay = weekDay;
+        this.weekDay = WeekDay;
     }
  
     /**

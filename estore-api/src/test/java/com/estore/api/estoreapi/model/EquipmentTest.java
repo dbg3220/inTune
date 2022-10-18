@@ -1,8 +1,11 @@
+package com.estore.api.estoreapi.model;
+
 import estoreapi.model.Product;
 import estoreapi.model.Product.Category;
 import estoreapi.model.Equipment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 /**
@@ -11,8 +14,9 @@ import org.junit.jupiter.api.Test;
  * @author Clayton Acheson
  */
 
+@Tag("Model-tier")
 public class EquipmentTest {
-private Equipment testEquipment;
+    private Equipment testEquipment;
     @Test
     public void testID(){
         // Setup
@@ -22,7 +26,7 @@ private Equipment testEquipment;
         testEquipment = new Equipment(testing_id, null, 0.0, Category.STRINGS, 0, false,true,false);
 
         // Analyze
-        assertEquals(expected_id,testEquipment.getId());
+        assertEquals(testing_id,testEquipment.getId());
     }
     @Test
     public void testName(){
@@ -30,7 +34,7 @@ private Equipment testEquipment;
         String expected_name = "Rosin";
 
         // Invoke
-        testEquipment = new Equipment(null, expected_name, 0.0, Category.STRINGS, 0, false,true,false);
+        testEquipment = new Equipment(12, expected_name, 0.0, Category.STRINGS, 0, false,true,false);
 
         // Analyze
         assertEquals(expected_name,testEquipment.getName());
@@ -41,7 +45,7 @@ private Equipment testEquipment;
         double expectedEquipmentPrice = 16.99;
 
         // Invoke
-        testEquipment = new Equipment(null, null, expectedEquipmentPrice, Category.STRINGS, 0, false,true,false);
+        testEquipment = new Equipment(12, null, expectedEquipmentPrice, Category.STRINGS, 0, false,true,false);
 
         // Analyze
         assertEquals(expectedEquipmentPrice,testEquipment.getPrice());
@@ -52,7 +56,7 @@ private Equipment testEquipment;
         Product.Category expectedCategory = Category.STRINGS;
 
         // Invoke
-        testEquipment = new Equipment(null, null, 0.0, expectedCategory, 0, false,true,false);
+        testEquipment = new Equipment(12, null, 0.0, expectedCategory, 0, false,true,false);
         // Analyze
         assertEquals(expectedCategory,testEquipment.getCategory());
     }
@@ -62,7 +66,7 @@ private Equipment testEquipment;
         int expectedQuantity = 20;
 
         // Invoke
-        testEquipment = new Equipment(null, null, 0.0,null, expectedQuantity, false,true,false);
+        testEquipment = new Equipment(12, null, 0.0,null, expectedQuantity, false,true,false);
         // Analyze
         assertEquals(expectedQuantity,testEquipment.getQuantity());
     }
@@ -72,9 +76,9 @@ private Equipment testEquipment;
         boolean expectedTruthValue = false;
 
         // Invoke
-        testEquipment = new Equipment(null, null, 0.0,null, 0, expectedTruthValue,true,false);
+        testEquipment = new Equipment(12, null, 0.0,null, 0, expectedTruthValue,true,false);
         // Analyze
-        assertEquals(expectedTruthValue,testEquipment.isInstrument());
+        assertEquals(expectedTruthValue,testEquipment.getIsInstrument());
     }
     @Test
     public void testIsEquipment(){
@@ -82,9 +86,9 @@ private Equipment testEquipment;
         boolean expectedTruthValue = true;
 
         // Invoke
-        testEquipment = new Equipment(null, null, 0.0,null, 0, false,expectedTruthValue,false);
+        testEquipment = new Equipment(12, null, 0.0,null, 0, false,expectedTruthValue,false);
         // Analyze
-        assertEquals(expectedTruthValue,testEquipment.isEquipment());
+        assertEquals(expectedTruthValue,testEquipment.getIsEquipment());
     }
     @Test
     public void testIsLesson(){
@@ -92,9 +96,9 @@ private Equipment testEquipment;
         boolean expectedTruthValue = false;
 
         // Invoke
-        testEquipment = new Equipment(null, null, 0.0,null, 0, false,true,expectedTruthValue);
+        testEquipment = new Equipment(12, null, 0.0,null, 0, false,true,expectedTruthValue);
         // Analyze
-        assertEquals(expectedTruthValue,testEquipment.isLesson());
+        assertEquals(expectedTruthValue,testEquipment.getIsLesson());
     }
 
 }

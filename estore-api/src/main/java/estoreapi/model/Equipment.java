@@ -27,7 +27,7 @@ public class Equipment extends Product {
 
     /**
      * Create equipment with the given id, name, and price.
-     * @param id The id of the equiptment
+     * @param invalid The id of the equiptment
      * @param name The name of the equiptment
      * @param price The price of the equiptment
      * @param category The category of the equiptment
@@ -39,7 +39,7 @@ public class Equipment extends Product {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Equipment(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
+    public Equipment(@JsonProperty("id") int id , @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
     @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson) {
         super(id, name, price, category, quantity, isInstrument, isEquipment, isLesson);

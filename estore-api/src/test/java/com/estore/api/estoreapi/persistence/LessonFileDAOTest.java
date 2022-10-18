@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,7 @@ import estoreapi.model.User;
  * 
  * @author Damon Gonzalez
  */
+@Tag("Persistence-tier")
 public class LessonFileDAOTest {
     LessonFileDAO lessonFileDAO;
     Lesson[] testLessons;

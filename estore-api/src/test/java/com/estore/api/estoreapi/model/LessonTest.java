@@ -1,4 +1,8 @@
+package com.estore.api.estoreapi.model;
+
 import estoreapi.model.Product;
+import estoreapi.model.User;
+import estoreapi.model.Lesson.Day;
 import estoreapi.model.Product.Category;
 import estoreapi.model.Lesson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +26,7 @@ private Lesson testLesson;
         testLesson = new Lesson(testing_id, null, 0.0, Category.STRINGS, 0, false,false,true,null, null,null,null,false);
 
         // Analyze
-        assertEquals(expected_id,testLesson.getId());
+        assertEquals(testing_id,testLesson.getId());
     }
     @Test
     public void testName(){
@@ -30,7 +34,7 @@ private Lesson testLesson;
         String expected_name = "Cello Lesson";
 
         // Invoke
-        testLesson = new Lesson(null, expected_name, 0.0, Category.STRINGS, 0, false,false,true,null, null,null,null,false);
+        testLesson = new Lesson(12, expected_name, 0.0, Category.STRINGS, 0, false,false,true,null, null,null,null,false);
 
         // Analyze
         assertEquals(expected_name,testLesson.getName());
@@ -41,7 +45,7 @@ private Lesson testLesson;
         double expectedLessonPrice = 60.0;
 
         // Invoke
-        testLesson = new Lesson(null, null, expectedLessonPrice, Category.STRINGS, 0, false,false,true,null, null,null,null,false);
+        testLesson = new Lesson(12, null, expectedLessonPrice, Category.STRINGS, 0, false,false,true,null, null,null,null,false);
 
         // Analyze
         assertEquals(expectedLessonPrice,testLesson.getPrice());
@@ -52,7 +56,7 @@ private Lesson testLesson;
         Product.Category expectedCategory = Category.STRINGS;
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0, expectedCategory, 0, false,false,true,null, null,null,null,false);
+        testLesson = new Lesson(12, null, 0.0, expectedCategory, 0, false,false,true,null, null,null,null,false);
         // Analyze
         assertEquals(expectedCategory,testLesson.getCategory());
     }
@@ -62,7 +66,7 @@ private Lesson testLesson;
         int expectedQuantity = 2;
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, expectedQuantity, false,false,true,null, null,null,null,false);
+        testLesson = new Lesson(12, null, 0.0,null, expectedQuantity, false,false,true,null, null,null,null,false);
         // Analyze
         assertEquals(expectedQuantity,testLesson.getQuantity());
     }
@@ -72,9 +76,9 @@ private Lesson testLesson;
         boolean expectedTruthValue = false;
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, expectedTruthValue,false,true,null, null,null,null,false);
+        testLesson = new Lesson(12, null, 0.0,null, 0, expectedTruthValue,false,true,null, null,null,null,false);
         // Analyze
-        assertEquals(expectedTruthValue,testLesson.isLesson());
+        assertEquals(expectedTruthValue,testLesson.getIsInstrument());
     }
     @Test
     public void testIsEquipment(){
@@ -82,9 +86,9 @@ private Lesson testLesson;
         boolean expectedTruthValue = false;
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, false,expectedTruthValue,true,null, null,null,null,false);
+        testLesson = new Lesson(12, null, 0.0,null, 0, false,expectedTruthValue,true,null, null,null,null,false);
         // Analyze
-        assertEquals(expectedTruthValue,testLesson.isEquipment());
+        assertEquals(expectedTruthValue,testLesson.getIsEquipment());
     }
     @Test
     public void testIsLesson(){
@@ -92,9 +96,9 @@ private Lesson testLesson;
         boolean expectedTruthValue = true;
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, false,false,expectedTruthValue, null, null,null,null,false);
+        testLesson = new Lesson(12, null, 0.0,null, 0, false,false,expectedTruthValue, null, null,null,null,false);
         // Analyze
-        assertEquals(expectedTruthValue,testLesson.isLesson());
+        assertEquals(expectedTruthValue,testLesson.getIsLesson());
     }
     @Test
     public void testInstructor(){
@@ -102,17 +106,18 @@ private Lesson testLesson;
         String testingInstructor = "Dr.Ma";
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, false,false,false, testingInstructor, null,null,null,false);
+        testLesson = new Lesson(12, null, 0.0,null, 0, false,false,false, testingInstructor, null,null,null,false);
         // Analyze
         assertEquals(testingInstructor,testLesson.getInstructor());
     }
     @Test
     public void testStudent(){
+        String expected_name = "James";
         // Setup
-        User testingStudent = new User(null, expected_name, null, null, null, null, null, null, null, null, null, false);
+        User testingStudent = new User(12, expected_name, null, null, null, null, null, 0, 0, null, null, false);
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, false,false,false, null, testingStudent,null,null,false);
+        testLesson = new Lesson(12, null, 0.0,null, 0, false,false,false, null, testingStudent,null,null,false);
         // Analyze
         assertEquals(testingStudent,testLesson.getStudent());
     }
@@ -122,9 +127,9 @@ private Lesson testLesson;
         boolean testValue = true;
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, false,false,false, null, null,null,null,testValue);
+        testLesson = new Lesson(12, null, 0.0,null, 0, false,false,false, null, null,null,null,testValue);
         // Analyze
-        assertEquals(testValue,testLesson.isFull());
+        assertEquals(testValue,testLesson.getIsFull());
     }
     @Test
     public void testStartTime(){
@@ -132,17 +137,17 @@ private Lesson testLesson;
         String testingStartTime = "12:00pm";
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, false,false,false, null, null,null,testingStartTime,false);
+        testLesson = new Lesson(12, null, 0.0,null, 0, false,false,false, null, null,null,testingStartTime,false);
         // Analyze
         assertEquals(testingStartTime,testLesson.getStartTime());
     }
     @Test
     public void testWeekDay(){
         // Setup
-        String testingWeekDay = "Tuesday";
+        Day testingWeekDay = Lesson.Day.Tuesday;
 
         // Invoke
-        testLesson = new Lesson(null, null, 0.0,null, 0, false,false,false, null, null,testingWeekDay,null,false);
+        testLesson = new Lesson(12, null, 0.0,null, 0, false,false,false, null, null,testingWeekDay,null,false);
         // Analyze
         assertEquals(testingWeekDay,testLesson.getWeekDay());
     }
