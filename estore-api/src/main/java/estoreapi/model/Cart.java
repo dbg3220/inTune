@@ -44,13 +44,13 @@ public class Cart {
      * Retrieves the items in the cart
      * @return The items in the cart
      */
-    public Set<Product> getItems() {
+    public Hashtable<Product,Integer> getItems() {
         if(!items.isEmpty()){
-            return items.keySet(); 
+            return this.items;
         }
         else{
             System.out.println("Cart is Empty");
-            return items.keySet();  
+            return this.items;  
         }
     }
 
