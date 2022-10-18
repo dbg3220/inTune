@@ -8,20 +8,29 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import estoreapi.model.Instrument;
 import estoreapi.model.Equipment;
 import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
 import estoreapi.persistence.ProductFileDAO;
+import estoreapi.model.Product.Category;
+
 /**
  * The unit test for the product controller
  * 
  * @author Donovan Cataldo
  */
+@Tag("Controller-tier")
 public class productControllerTest {
     ProductDAO mockDAO;
     ProductController productController;
+
+    public productControllerTest(){
+        mockDAO = new ProductFileDAO(products.JSON, new ObjectMapper());
+    }
 
     @BeforeEach
     public void setUpProductController(){
@@ -32,9 +41,9 @@ public class productControllerTest {
     @Test
     public void testGetProduct(){
         // Setup
-        Product product = new Equipment(1, "Violin Bow", 100, null, 5, false, true, false);
+        Product product = new Equipment(1, "Violin Bow", 100, Category.WOODWINDS, 5, false, true, false);
         when(mockDAO.getProduct(product.getId())).thenReturn(product);
-
+        
         // Invoke
         ResponseEntity<Product> response = ProductController.GetProduct(product.getId());
 

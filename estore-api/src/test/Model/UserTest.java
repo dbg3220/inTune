@@ -12,6 +12,11 @@ import org.junit.jupiter.api.Test;
 
 public class UserTest {
 private User testUser;
+
+    public UserTest(){
+        
+    }
+
     @Test
     public void testID(){
         // Setup
