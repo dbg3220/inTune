@@ -14,7 +14,8 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 1000,
         category: "string",
         subcategory: "violin",
-        quantity: 1
+        quantity: 1,
+        image: "https://cdn.shopify.com/s/files/1/0182/0563/products/MaestroVNTop_682x1800_7159c927-5752-43e0-9c2e-a19df87bf18b_1200x.JPG?v=1621442263"
       },
       {
         id: 2,
@@ -22,7 +23,8 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 1000,
         category: "string",
         subcategory: "guitar",
-        quantity: 1
+        quantity: 1,
+        image : "https://upload.wikimedia.org/wikipedia/commons/4/45/GuitareClassique5.png"
       },
       {
         id: 3,
@@ -30,7 +32,8 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 1000,
         category: "string",
         subcategory: "bass",
-        quantity: 1
+        quantity: 1,
+        image : "https://usa.yamaha.com/files/Image-Index_TRBX_1080x1080_2e72e1d0e9ac01702086b34f5f94a50c.jpg?impolicy=resize&imwid=396&imhei=396"
       },
       {
         id: 4,
@@ -38,7 +41,8 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 1000,
         category: "test",
         subcategory: "test",
-        quantity: 1
+        quantity: 1,
+        image : "https://images.ctfassets.net/lh3zuq09vnm2/1ENjVxhiWtm7LCwLFhgiW9/3132b27acddbfab3131686ea80310fdc/conducting-usability-test_yon4BQT.svg"
       },
       {
         id: 5,
@@ -46,7 +50,8 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 1000,
         category: "hi",
         subcategory: "hi",
-        quantity: 1
+        quantity: 1,
+        image: null
       },
     ];
     return {products};

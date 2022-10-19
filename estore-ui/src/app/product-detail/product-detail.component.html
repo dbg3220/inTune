@@ -1,10 +1,23 @@
 <div *ngIf="product">
-  <h2>{{product.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{product.id}}</div>
-  <div>
+  <div class="flex">
+    <h2 class="mx-auto my-10 text-5xl">{{product.name | uppercase}}</h2>
+  </div>
+  <!-- <div><span>id: </span>{{product.id}}</div> -->
+  <!-- <div>
     <label for="product-name">Hero name: </label>
     <input id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
-  </div>
+  </div> -->
   
-  <button type="button" (click)="goBack()">go back</button>
+  <!-- <button type="button" (click)="goBack()">go back</button> -->
+  <div>
+    <div class="flex">
+      <div class="mx-auto my-6 w-60 h-96">
+        <div><img src="{{product.image}}" alt="{{product.name}}" class="object-fill"></div>
+      </div>
+    </div>
+  <div class="flex">
+    <div class="mx-auto">
+      <h1 class="text-3xl">Price: ${{product.price}}</h1>
+    </div>
+  </div>
 </div>

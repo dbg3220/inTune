@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
 import { ProductsComponent } from './products/products.component';
 import {HttpClientModule} from "@angular/common/http";
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -16,7 +15,6 @@ import { InMemoryDataService } from './in-memory-data.service';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     ProductsComponent,
     ProductDetailComponent,
     MessagesComponent,

@@ -2,9 +2,10 @@
   <h2 class="mx-auto">Top Products</h2>
 </div>
 <div class="flex text-3xl">
-  <a *ngFor="let product of products" routerLink = "/detail/{{product.id}}"
-    class="mx-auto ">
-    {{product.name}}
-
-  </a>
+  <div class="mx-auto">
+    <a *ngFor="let product of products" routerLink = "/detail/{{product.id}}"
+        class="mx-5 px-10 rounded-lg hover:bg-black hover:text-white ease-in-out duration-300">
+      {{product.name}}
+    </a>
+  </div>
 </div>
