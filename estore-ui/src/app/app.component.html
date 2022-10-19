@@ -1,8 +1,10 @@
 <!-- <app-header></app-header> -->
 <h1>{{title}}</h1>
 <nav>
-    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/products" routerLinkActive="active">Products</a>
+  <input id="search_box" type="search" placeholder="search products by category" [ngModel]="this.searchText" (ngModelChange)="this.changeSearch($event)">
+  <button name="Reset Searched Products" (click)="this.reset()">clear</button>
+   <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+   <a routerLink="/products" routerLinkActive="active">Products</a>
 </nav>
 <router-outlet></router-outlet>
 <app-messages></app-messages>
