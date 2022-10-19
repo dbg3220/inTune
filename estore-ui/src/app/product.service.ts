@@ -24,11 +24,20 @@ export class ProductService {
   }
 
   getProduct(id: number): Observable<Product> {
-    const product = PRODUCTS.find(p => p.id === id)!;
-    this.messageService.add(`ProductService: fetched hero id=${id}`)
-    return of(product);
+    const url = `${this.productsURL}/${id}`;
+    return this.http.get<Product>(url)
   }
 
+  updateProduct(product: Product): Observable<any> {
+    return this.http.put(this.productsURL, product, this.httpOptions)
+  }
 
+  addProduct(product: Product): Observable<Product> {
+  return this.http.post<Product>(this.productsURL, product, this.httpOptions);
+}
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
 }

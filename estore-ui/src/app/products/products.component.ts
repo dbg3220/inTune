@@ -28,6 +28,15 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts().subscribe(products => this.products = products);
   }
 
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.productService.addProduct({ name } as Product)
+      .subscribe(product => {
+        this.products.push(product);
+      });
+  }
+
   ngOnInit(): void {
     this.getProducts();
   }
