@@ -121,7 +121,7 @@ private User testUser;
     @Test
     public void testCart(){
         // Setup
-        Cart expected_cart = new Cart(99, null, 0);
+        Cart expected_cart = new Cart(99);
 
         // Invoke
         testUser = new User(12, null, null, null, null, null, null, 0, 0, expected_cart, null, false);

@@ -47,7 +47,7 @@ public interface CartDAO {
      * Updates and saves a {@linkplain Cart}
      * @param {@link Cart} object to be updated and saved
      * @return updated {@link Cart} if successful, null if
-     * {@link Cart} could not be found
+     * {@link Cart} could not be found or invalid quantity given
      * @throws IOException if underlying storage cannot be accessed
      */
     Cart addItem(Cart Cart, Product item, Integer quantity) throws IOException;

@@ -4,7 +4,6 @@ package estoreapi.persistence;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
@@ -29,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CartFileDAO implements CartDAO {
     private static final Logger LOG = Logger.getLogger(CartFileDAO.class.getName());
-    Map<Integer,Cart> Carts;   // Provides a local cache of the Cart objects
+    Map<Integer,Cart> carts;   // Provides a local cache of the Cart objects
                                            // so that we don't need to read from the file
                                            // each time
     private ObjectMapper objectMapper;  // Provides conversion between Cart
@@ -46,7 +45,7 @@ public class CartFileDAO implements CartDAO {
      * 
      * @throws IOException when file cannot be accessed or read from
      */
-    public CartFileDAO(@Value("${Carts.file}") String filename,ObjectMapper objectMapper) throws IOException {
+    public CartFileDAO(@Value("${carts.file}") String filename,ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
         load();  // load the Carts from the file
@@ -84,9 +83,9 @@ public class CartFileDAO implements CartDAO {
     private Cart[] getCartsArray(String containsText) { // if containsText == null, no filter
         ArrayList<Cart> CartArrayList = new ArrayList<>();
 
-        for (Cart Cart : Carts.values()) {
-            if (containsText == null || Cart.getId() == Integer.parseInt(containsText)) {
-                CartArrayList.add(Cart);
+        for (Cart cart : carts.values()) {
+            if (containsText == null || cart.getId() == Integer.parseInt(containsText)) {
+                CartArrayList.add(cart);
             }
         }
 
@@ -122,7 +121,7 @@ public class CartFileDAO implements CartDAO {
      * @throws IOException when file cannot be accessed or read from
      */
     private boolean load() throws IOException {
-        Carts = new TreeMap<>();
+        carts = new TreeMap<>();
         nextId = 0;
 
         // Deserializes the JSON objects from the file into an array of Carts
@@ -132,7 +131,7 @@ public class CartFileDAO implements CartDAO {
 
         // Add each Cart to the tree map and keep track of the greatest id
         for (Cart Cart : CartArray) {
-            Carts.put(Cart.getId(), Cart);
+            carts.put(Cart.getId(), Cart);
             if (Cart.getId() > nextId)
                 nextId = Cart.getId();
         }
@@ -146,7 +145,7 @@ public class CartFileDAO implements CartDAO {
      */
     @Override
     public Cart[] getCarts() {
-        synchronized(Carts) {
+        synchronized(carts) {
             return getCartArray();
         }
     }
@@ -156,9 +155,9 @@ public class CartFileDAO implements CartDAO {
      */
     @Override
     public Cart retrieveCart(int id) {
-        synchronized(Carts) {
-            if (Carts.containsKey(id))
-                return Carts.get(id);
+        synchronized(carts) {
+            if (carts.containsKey(id))
+                return carts.get(id);
             else
                 return null;
         }
@@ -168,27 +167,23 @@ public class CartFileDAO implements CartDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Cart addItem(Cart Cart, Product item, Integer quantity) throws IOException {
-        synchronized(Carts) {
-            if (Carts.containsKey(Cart.getId()) == false){
+    public Cart addItem(Cart cart, Product item, Integer quantity) throws IOException {
+        synchronized(carts) {
+            if (carts.containsKey(cart.getId()) == false){
                 return null;  // Cart does not exist
             }
             
-            if (Carts.get(Cart.getId()).containsKey(item)){
+            if (carts.get(cart.getId()).containsProduct(item)){
                 if(quantity > item.getQuantity()){
-                    System.out.println("Invalid item adding");
                     return null;
                 }
-                double y = Cart.getQuantity(item) + (double) quantity;
-                double x = item.getPrice() * y;
-                Cart.setTotal(Cart.getTotal() - x);
                 save();
-                return Cart;
+                return cart;
             }
 
-            Cart.additem(item, quantity);
+            cart.addProduct(item, quantity);
             save();
-            return Cart;
+            return cart;
             
         }
     }
@@ -197,23 +192,19 @@ public class CartFileDAO implements CartDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Cart removeItem(Cart Cart, Product item, Integer quantity) throws IOException {
-        synchronized(Carts) {
-            if (Carts.containsKey(Cart.getId()) == false){
+    public Cart removeItem(Cart cart, Product item, Integer quantity) throws IOException {
+        synchronized(carts) {
+            if (carts.containsKey(cart.getId()) == false){
                 return null;  // Cart does not exist
             }
             
-            if (Carts.get(Cart.getId()).containsKey(item)){
-                double y = Cart.getQuantity(item) - (double) quantity;
-                if( y < 0){
-                    System.out.println("Invalid removal request");
+            if (carts.get(cart.getId()).containsProduct(item)){
+                if( cart.getQuantity(item) < quantity ){
                     return null;
                 }
-                double x = item.getPrice() * y;
-                Cart.setTotal(Cart.getTotal() - x);
-                Cart.removeitem(item, quantity);
+                cart.removeProduct(item, quantity);
                 save();
-                return Cart;
+                return cart;
             }
             return null;
         }
@@ -224,11 +215,11 @@ public class CartFileDAO implements CartDAO {
      */
     @Override
     public Cart createCart(Cart cart, User user) throws IOException {
-        synchronized(Carts) {
+        synchronized(carts) {
             // We create a new Cart object because the id field is immutable
             // and we need to assign the next unique id
-            Cart newCart = new Cart(user.getId(),new Hashtable<Product, Integer>(),0.0);   
-            Carts.put(newCart.getId(),newCart);
+            Cart newCart = new Cart(user.getId());  
+            carts.put(newCart.getId(),newCart);
             save(); // may throw an IOException
             return newCart;
         }
@@ -239,9 +230,9 @@ public class CartFileDAO implements CartDAO {
      */
     @Override
     public boolean deleteCart(int id) throws IOException {
-        synchronized(Carts) {
-            if (Carts.containsKey(id)) {
-                Carts.remove(id);
+        synchronized(carts) {
+            if (carts.containsKey(id)) {
+                carts.remove(id);
                 return save();
             }
             else

@@ -8,10 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Set;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -30,24 +27,24 @@ import estoreapi.model.Equipment;
 @Tag("Model-tier")
 public class CartTest {
 
-    private Hashtable<Product, Integer> generateProducts() {
-        Hashtable<Product, Integer> products = new Hashtable<Product, Integer>();
-        Product product1 = new Instrument(0, "clarinet", 1000, Product.Category.WOODWINDS,
+    private ArrayList<Product> generateProducts() {
+        ArrayList<Product> products = new ArrayList<>();
+        Product product1 = new Instrument(0, "Clarinet", 1000, Product.Category.WOODWINDS,
                 5, true, false, false, null);
         Product product2 = new Instrument(1, "Trumpet", 2000, Product.Category.BRASS,
-                10, true, false, false, "1/2");
+                10, true, false, false, null);
         Product product3 = new Instrument(2, "Cello", 3000, Product.Category.STRINGS,
-                3, true, false, false, null);
-        products.put(product1, product1.getQuantity());
-        products.put(product2, product2.getQuantity());
-        products.put(product3, product3.getQuantity());
+                3, true, false, false, "1/2");
+        products.add(product1);
+        products.add(product2);
+        products.add(product3);
         return products;
     }
 
     @Test
     public void testGetId() {
         int expected_id = 99;
-        Cart cart = new Cart(99, generateProducts(), 34000);
+        Cart cart = new Cart(99);
 
         int result = cart.getId();
 
@@ -55,54 +52,45 @@ public class CartTest {
     }
 
     @Test
-    public void testGetItems() {
-        Hashtable<Product, Integer> expected_items = generateProducts();
-        Cart cart = new Cart(99, generateProducts(), 34000);
+    public void testGetProducts() {
+        ArrayList<Product> expectedProducts = generateProducts();
+        Cart cart = new Cart(0);
+        for(Product product : expectedProducts){
+            cart.addProduct(product, 1);
+        }
 
-        // Hashtable<Product,Integer> result = cart.getItems();
-        
-        Object[] testArray = expected_items.keySet().toArray();
-        Object[] resultArray = cart.getItems().keySet().toArray();
-        assertArrayEquals(testArray, resultArray);
-        for(int i = 0; i < resultArray.length; i++){
-            if(resultArray[i] instanceof Lesson){
-                Lesson resultLesson = (Lesson)resultArray[i];
-                Lesson testLesson = (Lesson)testArray[i];
-                assertEquals(resultLesson, testLesson);
-            }
-            if(resultArray[i] instanceof Instrument){
-                Instrument resultInstrument = (Instrument)resultArray[i];
-                Instrument testInstrument = (Instrument)testArray[i];
-                assertEquals(resultInstrument,testInstrument);
-            }
-            if(resultArray[i] instanceof Equipment){
-                Equipment resultEquipment = (Equipment)resultArray[i];
-                Equipment testEquipment = (Equipment)testArray[i];
-                assertEquals(resultEquipment, testEquipment);
-            }
+        ArrayList<Product> result = cart.getProducts();
+        for(int i = 0; i < expectedProducts.size(); i++){
+            assertEquals(expectedProducts.get(i), result.get(i));
         }
     }
 
     @Test
-    public void getQuantities() {
-        ArrayList<Integer> expected_quantities = new ArrayList<Integer>(Arrays.asList(5, 10, 3));
-        Cart cart = new Cart(99, generateProducts(), 34000);
-        assertEquals(3, cart.getItems().size());
+    public void testGetQuantities() {
+        ArrayList<Integer> expectedQuantities = new ArrayList<>(Arrays.asList(1, 2, 3));
+        ArrayList<Product> products = generateProducts();
+        Cart cart = new Cart(0);
+        for(int i = 0; i < products.size(); i++){
+            cart.addProduct(products.get(i), expectedQuantities.get(i));
+        }
 
         ArrayList<Integer> result = cart.getQuantities();
 
         for(int i = 0; i < result.size(); i++){
-            int x = expected_quantities.get(i);
-            int y = result.get(i);
-            assertEquals(x,y);
+            assertEquals(expectedQuantities.get(i), result.get(i));
         }
-       
     }
 
     @Test
     public void testGetTotal() {
-        double expected_total = 34000;
-        Cart cart = new Cart(99, generateProducts(), 34000);
+        double expected_total = 6000;
+
+        ArrayList<Product> products = generateProducts();
+        Cart cart = new Cart(0);
+
+        for(Product product : products){
+            cart.addProduct(product, 1);
+        }
 
         double result = cart.getTotal();
 
@@ -111,33 +99,29 @@ public class CartTest {
 
     @Test
     public void testAddItem() {
-        Product expected_product = new Instrument(10, "Bass", 0, Product.Category.STRINGS, 100, true, false, false,
-                "1/3");
-        Cart cart = new Cart(99, generateProducts(), 34000);
-        cart.additem(expected_product, 1);
-        int x = cart.getItems().keySet().size();
-        assertEquals(4,x);
-        Boolean result = cart.getItems().keySet().contains(expected_product);
-
-        assertTrue(result);
+        Product expectedProduct = new Instrument(0, "Bass", 0, Product.Category.STRINGS, 
+                                                100, true, false, false, "1/3");
+        Cart cart = new Cart(0);
+        cart.addProduct(expectedProduct, 1);
+        
+        assertEquals(expectedProduct, cart.getProducts().get(0));
     }
 
     @Test
     public void testRemoveItem() {
-        Product expected_product = new Instrument(10, "Bass", 0, Product.Category.STRINGS, 1, true, false, false,
+        Product expected_value = new Instrument(10, "Bass", 0, Product.Category.STRINGS, 100, true, false, false,
                 "1/3");
-        Cart cart = new Cart(99, generateProducts(), 34000);
-        cart.additem(expected_product, 1);
-        cart.removeitem(expected_product, 0);
+        Cart cart = new Cart(0);
+        cart.addProduct(expected_value, 1);
 
-        Boolean result = cart.getItems().contains(expected_product);
+        cart.removeProduct(expected_value, 1);
 
-        assertFalse(result);
+        assertFalse(cart.containsProduct(expected_value));
     }
 
     @Test
     public void testToString() {
-        Cart cart = new Cart(99, generateProducts(), 34000);
+        Cart cart = new Cart(99);
         String expected_string = "Cart [id=99]";
 
         String result = cart.toString();
