@@ -143,7 +143,7 @@ public class Instrument extends Product {
     public boolean equals(Object o){
         if(o instanceof Instrument){
             Instrument object =  (Instrument) o;
-            if((object.getName() == this.name) && (object.getPrice() == this.price) && (object.getCategory() == this.category) && (object.getQuantity() == this.quantity) && 
+            if((object.getName().equals(this.name)) && (object.getPrice() == this.price) && (object.getCategory() == this.category) && (object.getQuantity() == this.quantity) && 
             (object.isEquipment == this.isEquipment) && (object.getIsInstrument() == this.isInstrument) && (object.getIsLesson() == this.isLesson) && (object.getSize() == this.size)){
                 return true;
             }

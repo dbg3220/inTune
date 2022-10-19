@@ -100,16 +100,12 @@ public class Cart {
      * Validates that the product is in stock
      */
     public void additem(Product item, Integer quantity) {
-        if(item.getQuantity() > 0){
-            if(quantity > item.getQuantity()){
-                System.out.println("Unforunately, we do not have the requested quantity");
-            }
-            else{
+        if(item.getQuantity() < quantity){
             double x = item.getPrice();
             items.put(item, quantity);
             this.total += (x * (double)quantity);
             item.setQuantity(item.getQuantity()-quantity);
-            }
+
         }
         else{
             System.out.println("Product is currently unavailable");
