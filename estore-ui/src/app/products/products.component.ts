@@ -14,14 +14,15 @@ export class ProductsComponent implements OnInit {
 
   products: Product[] = [];
 
-  selectedProduct?: Product;
 
+  selectedProduct?: Product;
 
   onSelect(product: Product): void {
     this.selectedProduct = product;
     this.messageService.add(`ProductsComponent: Selected product id=${product.id}`);
   }
-  constructor(private productService: ProductService, 
+
+  constructor(private productService: ProductService,
     private messageService: MessageService) { }
 
   getProducts(): void {
@@ -38,7 +39,14 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProducts();
+    this.productService.getProducts().subscribe((products => {
+      this.products = products;
+    } ));
+    // setTimeout(() => {
+    //     this.products = [];
+    //     console.log("Delayed for 1 second.");
+    //   }, 3000
+    // )
   }
 
 }
