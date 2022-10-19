@@ -32,7 +32,7 @@ private Instrument testInstrument;
         String expected_name = "Cello";
 
         // Invoke
-        testInstrument = new Instrument(12, expected_name, 0.0, Category.STRINGS, 0, true,false,false, null);
+        testInstrument = new Instrument(13, expected_name, 0.0, Category.STRINGS, 0, true,false,false, null);
 
         // Analyze
         assertEquals(expected_name,testInstrument.getName());

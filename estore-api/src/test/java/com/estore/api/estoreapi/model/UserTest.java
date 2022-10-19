@@ -151,9 +151,9 @@ private User testUser;
         Boolean exepected_isadmin = true;
 
         // Invoke 
-        testUser = new User(12, null, null, null, null, null, null, 0, 0, null, null, exepected_isadmin);
+        testUser = new User(0, null, null, null, null, null, null, 0, 0, null, null, exepected_isadmin);
     
         // Analyze
-        assertEquals(exepected_isadmin,testUser.isAdmin());
+        assertEquals(exepected_isadmin, testUser.isAdmin());
     }
 }

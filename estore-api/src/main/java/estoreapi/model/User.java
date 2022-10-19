@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import ch.qos.logback.core.joran.action.IADataForComplexProperty;
 /**
  * Represents a user
  * 
@@ -64,6 +66,7 @@ public class User {
         this.ccyear = ccyear;
         this.cart = cart;
         this.friends = friends;
+        this.isAdmin = isAdmin;
 
     }
 

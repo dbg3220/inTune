@@ -55,7 +55,7 @@ public class CartFileDAOTest {
 
     private Hashtable<Product, Integer> generateProducts(){
         Product product1 = new Lesson(0, "Clarinet Lesson", 100, Product.Category.WOODWINDS, 1
-                                    , false, false, true, "Dr Marcy Bacon", null);
+                                    , false, false, true, "Dr Marcy Bacon", null, null, null, null);
         Product product2 = new Instrument(1, "Harp", 4000, Product.Category.STRINGS, 1
                                     , true, false, false, null);
         Hashtable<Product, Integer> hashtable = new Hashtable<Product, Integer>();
@@ -84,7 +84,7 @@ public class CartFileDAOTest {
     @Test
     public void testAddItem() {
         Product newProduct = new Lesson(3, null, 0, null, 0, 
-                                        false, false, true, null, null);
+                                        false, false, true, null, null, null, null, null);
 
         assertDoesNotThrow(() -> cartFileDAO.addItem(testCarts[0], newProduct, 5));
         Boolean result = cartFileDAO.retrieveCart(0).containsKey(newProduct);
@@ -95,7 +95,7 @@ public class CartFileDAOTest {
     @Test
     public void testRemoveItem() {
         Product newProduct = new Lesson(0, "Clarinet Lesson", 100, Product.Category.WOODWINDS, 1
-                                    , false, false, true, "Dr Marcy Bacon", null);
+                                    , false, false, true, "Dr Marcy Bacon", null, null, null, null);
 
         assertDoesNotThrow(() -> cartFileDAO.removeItem(testCarts[0], newProduct, 1));
         Boolean result = cartFileDAO.retrieveCart(0).containsKey(newProduct);
@@ -106,8 +106,7 @@ public class CartFileDAOTest {
     @Test
     public void testCreateCart() {
         Cart cart = new Cart(5, null, 0);
-        User user = new User(10, null, null, null, null, 
-                                null, 0, 0, 0, false, null, new User[0]);
+        User user = new User(0, null, null, null, null, null, null, 0, 0, cart, null, false);
 
         assertDoesNotThrow(() -> cartFileDAO.createCart(cart, user));
         Cart result1 = cartFileDAO.retrieveCart(10);
@@ -120,8 +119,7 @@ public class CartFileDAOTest {
     @Test
     public void testDeleteCart() {
         Cart cart = new Cart(5, null, 0);
-        User user = new User(10, null, null, null, null, 
-                                null, 0, 0, 0, false, null, new User[0]);
+        User user = new User(0, null, null, null, null, null, null, 0, 0, cart, null, false);
 
         assertDoesNotThrow(() -> cartFileDAO.createCart(cart, user));
         assertDoesNotThrow(() -> cartFileDAO.deleteCart(5));

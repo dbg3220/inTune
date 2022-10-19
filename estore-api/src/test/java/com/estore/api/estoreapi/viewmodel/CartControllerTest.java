@@ -101,7 +101,7 @@ public class CartControllerTest {
         // Setup
         int cartId = 99;
         // When getCart is called on the Mock Cart DAO, throw an IOException
-        doThrow(new IOException()).when(mockCartDAO).getCarts();
+        doThrow(new IOException()).when(mockCartDAO).retrieveCart(cartId);
 
         // Invoke
         ResponseEntity<Cart> response = cartController.getCart(cartId);
@@ -115,7 +115,7 @@ public class CartControllerTest {
         // Setup
         Cart cart = new Cart(99, generateProducts(), 34000);
         
-        User user = new User(2, null, null, null, null, null, 2, 2, 2, false, cart, null);
+        User user = new User(2, "clayton", null, null, null, null, null, 0, 0, cart, null, false);
         // when createCart is called, return true simulating successful
         // creation and save
         when(mockCartDAO.createCart(cart,user)).thenReturn(cart);
@@ -134,7 +134,7 @@ public class CartControllerTest {
     public void testCreateCartFailed() throws IOException {  // createCart may throw IOException
         // Setup
         Cart cart = new Cart(99, generateProducts(), 34000);
-        User user = new User(2, null, null, null, null, null, 2, 2, 2, false, cart, null);
+        User user = new User(2, null, null, null, null, null, null, 0, 0, cart, null, false);
         // creation and save
         when(mockCartDAO.createCart(cart,user)).thenReturn(null);
         // cart and user needs to be in this test for createCarts
@@ -153,7 +153,7 @@ public class CartControllerTest {
     public void testCreateCartHandleException() throws IOException {  // createCart may throw IOException
         // Setup
         Cart cart = new Cart(99, generateProducts(), 34000);
-        User user = new User(2, null, null, null, null, null, 2, 2, 2, false, cart, null);
+        User user = new User(2, null, null, null, null, null, null, 0, 0, cart, null, false);
 
         // When createCart is called on the Mock Cart DAO, throw an IOException
         doThrow(new IOException()).when(mockCartDAO).createCart(cart,user);

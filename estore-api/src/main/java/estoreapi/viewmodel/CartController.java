@@ -62,9 +62,9 @@ public class CartController {
             if (Cart != null)
                 return new ResponseEntity<>(Cart, HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } catch (IOException e){
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (IOException e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -165,7 +165,7 @@ public class CartController {
             if (result)
                 return new ResponseEntity<>(HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
