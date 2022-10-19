@@ -42,7 +42,7 @@ export class InMemoryDataService implements InMemoryDbService {
       },
       {
         id: 5,
-        name: "HIIII",
+        name: "Hi",
         price: 1000,
         category: "hi",
         subcategory: "hi",

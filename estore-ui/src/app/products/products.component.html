@@ -1,8 +1,7 @@
-<h2>Products Page</h2>
 <ul class="products">
   <li *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}">
-      {{product.name}}  <label>$</label><span>{{ product.price }}.00</span>
+      <span class="badge">{{product.id}}</span> {{product.name}}
     </a>
   </li>
 </ul>

@@ -1,6 +1,7 @@
-<h2>Dashboards Page</h2>
+<h2>Top Products</h2>
 <div class="products-menu">
   <a *ngFor="let product of products" routerLink = "/detail/{{product.id}}">
-    {{ product.id }} | {{ product.name }} | {{product.quantity}} <label>$</label><span>{{ product.price }}.00</span>
+    {{product.name}}
+
   </a>
 </div>

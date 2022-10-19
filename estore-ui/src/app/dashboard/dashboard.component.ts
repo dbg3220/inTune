@@ -13,10 +13,10 @@ export class DashboardComponent implements OnInit {
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.getProducts();
+    this.getHeroes();
   }
 
-  getProducts(): void {
+  getHeroes(): void {
     this.productService.getProducts()
       .subscribe(products => this.products = products.slice(1, 5));
   }
