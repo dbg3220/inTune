@@ -35,6 +35,10 @@ export class ProductService {
   addProduct(product: Product): Observable<Product> {
   return this.http.post<Product>(this.productsURL, product, this.httpOptions);
 }
+  deleteProduct(id : number): Observable<Product> {
+    const url = `${this.productsURL}/${id}`;
+    return this.http.delete<Product>(url, this.httpOptions)
+  }
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

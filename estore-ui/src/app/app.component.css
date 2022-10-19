@@ -1,8 +1,27 @@
-nav a {
+/* nav a {
     color: black;
     text-decoration: none;
     padding: 0 10px;
     font-size: 1.2em;
     font-weight: bold;
     text-transform: uppercase;
+    text-align: right;
 }
+nav a:hover {
+    color: #eee;
+    background-color: black;
+    border-radius: 10px;
+    width: auto;
+    height: auto;
+}
+
+nav {
+    text-align: right;
+}
+
+.container {
+    flex: auto;
+    display: flex;
+    flex-direction: row;
+} */
+

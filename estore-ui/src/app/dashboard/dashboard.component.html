@@ -1,6 +1,9 @@
-<h2>Top Products</h2>
-<div class="products-menu">
-  <a *ngFor="let product of products" routerLink = "/detail/{{product.id}}">
+<div class="flex py-16 text-5xl">
+  <h2 class="mx-auto">Top Products</h2>
+</div>
+<div class="flex text-3xl">
+  <a *ngFor="let product of products" routerLink = "/detail/{{product.id}}"
+    class="mx-auto ">
     {{product.name}}
 
   </a>

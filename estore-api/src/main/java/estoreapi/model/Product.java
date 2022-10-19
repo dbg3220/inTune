@@ -52,7 +52,7 @@ public abstract class Product {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.category = category2;
+        this.category = category;
         this.quantity = quantity;
         this.isInstrument = isInstrument;
         this.isEquipment = isEquipment;

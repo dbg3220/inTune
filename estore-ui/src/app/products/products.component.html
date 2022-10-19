@@ -3,6 +3,8 @@
     <a routerLink="/detail/{{product.id}}">
       <span class="badge">{{product.id}}</span> {{product.name}}
     </a>
+    <button type="button" class="delete" title="delete product"
+  (click)="delete(product)">x</button>
   </li>
 </ul>
 
