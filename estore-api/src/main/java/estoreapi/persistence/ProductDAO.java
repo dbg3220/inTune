@@ -2,6 +2,7 @@ package estoreapi.persistence;
 
 import java.io.IOException;
 
+import estoreapi.model.Equipment;
 import estoreapi.model.Instrument;
 import estoreapi.model.Product;
 import estoreapi.model.Lesson;
@@ -88,6 +89,18 @@ public interface ProductDAO {
      * @throws IOException if an issue with underlying storage
      */
     Product createLesson(Lesson lesson) throws IOException;
+
+    /**
+     * Creates a new equipment product
+     *  
+     * @param The object to be created
+     * 
+     * @return new object if creation was successful, false otherwise
+     * 
+     * @throws IOException if an issue with underlying storage
+     */
+    Product createEquipment(Equipment equipment) throws IOException;
+
 
     /**
      * Updates and saves a {@linkplain product}

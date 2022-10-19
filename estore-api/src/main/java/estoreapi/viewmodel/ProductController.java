@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import estoreapi.model.Equipment;
+import estoreapi.model.Instrument;
+import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
 
@@ -33,7 +36,7 @@ import java.util.logging.Logger;
 @RequestMapping("products")
 public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
-    private ProductDAO productDao;
+    private static ProductDAO productDao;
 
     /**
      * Creates a REST API controller to respond to requests
@@ -53,7 +56,7 @@ public class ProductController {
     * @return The product with the specified id
     */
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+    public static ResponseEntity<Product> getProduct(@PathVariable int id) {
         LOG.info("GET /Products/" + id);   
         try {
             Product product = productDao.getProduct(id);
@@ -71,7 +74,7 @@ public class ProductController {
      * @return All products
      */
     @GetMapping("")
-    public ResponseEntity<Product[]> getProducts() {
+    public static ResponseEntity<Product[]> getProducts() {
     LOG.info("GET /products");
     try {
         return new ResponseEntity<>(productDao.getProducts(), HttpStatus.OK);
@@ -134,15 +137,36 @@ public class ProductController {
             if (product.getQuantity() < 0) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            // if (product) {
-            //     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            // }
-
-            Product newProduct = productDao.createProduct(product); // use conditionals to check the is
-            if (newProduct != null)
-                return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-            else
+            if(product.getIsEquipment()){
+                Product newProduct = productDao.createEquipment((Equipment) product);
+                if (newProduct != null){
+                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+                }
+                else{
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            else if(product.getIsInstrument()){
+                Product newProduct = productDao.createInstrument((Instrument) product);
+                if (newProduct != null){
+                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+                }
+                else{
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            else if(product.getIsLesson()){
+                Product newProduct = productDao.createLesson((Lesson) product);
+                if (newProduct != null){
+                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+                }
+                else{
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            else{
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

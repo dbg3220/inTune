@@ -1,49 +1,70 @@
 package estoreapi.model;
 
-import java.util.Hashtable;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- * Represents an product
- * METHODS NEED TO BE UPDATED TO SEND INFORMATION TO THE SUPERCLASS
+ * Class for the functionality of a Cart within the model-tier
  * 
- * @author Hayden Cieniawski
+ * @author Damon Gonzalez
  */
 public class Cart {
 
-
-
-    // Package private for tests
-    static final String STRING_FORMAT = "Cart [id=%d]";
+    protected static final String STRING_FORMAT = "Cart [id=%d]";
 
     @JsonProperty("id") private int id;
-    @JsonProperty("items") private Product[] items;
-    @JsonProperty("totalPrice") private double total;
+    @JsonProperty("products") private ArrayList<Product> products;
+    @JsonProperty("quantities") private ArrayList<Integer> quantities;
 
-
-    
-    public Cart (@JsonProperty("id") int id, @JsonProperty("items") Product[] items, @JsonProperty("totalPrice") double total) {
+    /**
+     * Public constructor for the Cart class
+     * @param id The id of the cart, corresponds to the id of the User whose cart
+     *  this belongs to
+     */
+    public Cart (@JsonProperty("id") int id) {
         this.id = id;
-        this.items = items;
-        this.total = total;
-
+        products = new ArrayList<>();
+        quantities = new ArrayList<>();
     }
 
     /**
-     * Retrieves the id of the cart
+     * Gives the id of the cart
      * @return The id of the cart
      */
-    public int getid() {
+    public int getId() {
         return id;
     }
 
     /**
-     * Retrieves the items in the cart
-     * @return The items in the cart
+     * Gives all products present in the cart
+     * @return An arraylist of products
      */
-    public Product[] getItems() {
-        return items;
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    /**
+     * Gives the quantities of the products in the cart
+     * @return The quantities of the products
+     */
+    public ArrayList<Integer> getQuantities() {
+        return quantities;
+    }
+
+    /**
+     * Gives the amount a user has of a certain product in their cart
+     * @param product The product in question
+     * @return If the product is in the cart than it returns that quantity, 
+     *  otherwise it returns -1
+     */
+    public int getQuantity(Product product){
+        for(int i = 0; i < products.size(); i++){
+            if(products.get(i).equals(product)){
+                return quantities.get(i);
+            }
+        }
+        return -1;
     }
 
     /**
@@ -51,28 +72,69 @@ public class Cart {
      * @return The total price of the cart
      */
     public double getTotal() {
+        double total = 0;
+
+        for(int i = 0; i < products.size(); i++){
+            Product product = products.get(i);
+            int quantity = quantities.get(i);
+            total += product.getPrice() * quantity;
+        }
+
         return total;
     }
 
     /**
-     * copys the current product array and adds the new product
-     * then sets the current product array to the new one
+     * Checks if the cart contains a certain product
+     * @param product The product 
+     * @return true if the product is in the cart, fale otherwise
      */
-    public void additem(Product item) {
-        double x = item.getPrice();
-        this.total += x;
+    public boolean containsProduct(Product product){
+        return products.contains(product);
     }
 
     /**
-     * copys the current product array and removes the product
-     * then sets the current product array to the new one
+     * Adds a product to the cart with the specified new quantity, does
+     * not take into consideration how many of the products exist in 
+     * the inventory
+     * @param product The product to be added
+     * @param quantity The quantity of that product to be added, assumed to be > 0
      */
-    public void removeitem(Product item) {
-        double x = item.getPrice();
-        this.total -= x;
+    public void addProduct(Product product, Integer quantity) {
+        if(products.contains(product)){
+            int index = products.indexOf(product);
+            int initialQuantity = quantities.get(index);
+            quantities.set(index, initialQuantity + quantity);
+        } else {
+            products.add(product);
+            quantities.add(quantity);
+        }
     }
 
+    /**
+     * Removes a product from the cart
+     * @param product The product to be removed
+     * @param quantity The quantity of the product to be removed, assumed to be > 0
+     * @return true if the operation was performed successfully, false otherwise
+     */
+    public boolean removeProduct(Product product, int quantity) {
+        if(!products.contains(product))
+            return false;
 
+        int index = products.indexOf(product);
+        int initialQuantity = quantities.get(index);
+
+        if(quantity > initialQuantity)
+            return false;
+
+        quantities.set(index, initialQuantity - quantity);
+
+        if(quantities.get(index) == 0){
+            quantities.remove(index);
+            products.remove(index);
+        }
+
+        return true;
+    }
 
     /**
      * {@inheritDoc}
