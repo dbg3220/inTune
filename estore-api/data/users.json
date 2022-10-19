@@ -1,0 +1,50 @@
+[
+    {
+        "id": 0,
+        "name": null,
+        "username": "admin",
+        "email": null,
+        "password": "admin",
+        "address": null,
+        "ccnum": null,
+        "ccmon": null,
+        "ccyear": null,
+        "isAdmin": true
+    },
+    {
+        "id": 1,
+        "name": "Damon B Gonzalez",
+        "username": "dbg3220",
+        "email": "dbg3220@rit.edu",
+        "password": "password123", 
+        "address": "1 Lomb Memorial Dr, Rochester, NY 14623", 
+        "ccnum": "1234123412341234", 
+        "ccmon": 1, 
+        "ccyear": 2050, 
+        "isAdmin": false
+    },
+    {
+        "id": 2,
+        "name": "Robert Downey Jr",
+        "username": "ironman",
+        "email": "rdj@gmail.com",
+        "password": "jarvis", 
+        "address": "10880 Malibu Point, 90265", 
+        "ccnum": "3333333333333333", 
+        "ccmon": 1, 
+        "ccyear": 2050, 
+        "isAdmin": false
+    },
+    {
+        "id": 3,
+        "name": "Joe Rogan",
+        "username": "JRogan",
+        "email": "gorilla@gmail.com",
+        "password": "train_by_day", 
+        "address": "1600 Pennsylvania Avenue, NW, Washington DC, 20006", 
+        "ccnum": "2222222222222222",
+        "ccmon": 1, 
+        "ccyear": 2050, 
+        "isAdmin": false
+    }
+]
