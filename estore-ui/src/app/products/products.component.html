@@ -1,18 +1,25 @@
-<ul class="products">
+<ul class="grid grid-cols-3 ">
   <li *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}">
-      <span class="badge">{{product.id}}</span> {{product.name}}    </a>
-    <button type="button" class="delete" title="delete product"
-  (click)="delete(product)">x</button>
+      <div class="flex flex-col items-center justify-center my-10">
+        <img class="w-64 h-64 object-contain" src="{{product.image}}" alt="product image">
+        <div class="mt-5">
+          <h3 class="text-2xl text-center">{{product.name}}</h3>
+          <p class="text-xl text-center">${{product.price}}</p>
+          <button></button>
+        </div>
+      </div>
+    </a>
+    <!-- <button type="button" class="delete" title="delete product"
+  (click)="delete(product)">x</button> -->
   </li>
 </ul>
 
-<div>
+<!-- <div>
   <label for="new-product">Product name: </label>
   <input id="new-product" #productName />
 
-  <!-- (click) passes input value to add() and then clears the input -->
   <button type="button" class="add-button" (click)="add(productName.value); productName.value=''">
     Add product
   </button>
-</div>
+</div> -->
