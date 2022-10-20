@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   getProducts(): void {
     this.productService.fetchProducts().subscribe(products =>
     {
-      this.products = products.slice(1, 5);
+      this.products = products;
       this.productService.setProductsView(this.products);
       this.filteredItems = JSON.parse(JSON.stringify(this.products)); // clone
       this.productService.setProductsClone(this.products);

@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class HeroService {
+export class UserService {
 
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
@@ -25,6 +25,11 @@ export class HeroService {
   //     //   catchError(this.handleError<Product[]>('getProducts', []))
   //     // )
   // }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.usersURL)
+  }
+
 
   
 

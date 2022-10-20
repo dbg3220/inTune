@@ -82,15 +82,6 @@ export class InMemoryDataService implements InMemoryDbService {
       },
       {
         id: 9,
-        name: "Violin",
-        price: 249.99,
-        category: "string",
-        subcategory: "violin",
-        quantity: 1,
-        image: "https://cdn.shopify.com/s/files/1/0182/0563/products/MaestroVNTop_682x1800_7159c927-5752-43e0-9c2e-a19df87bf18b_1200x.JPG?v=1621442263"
-      },
-      {
-        id: 10,
         name: "Triangle",
         price: 59.99,
         category: "percussion",
@@ -149,4 +140,5 @@ export class InMemoryDataService implements InMemoryDbService {
   genId(products: Product[]): number {
     return products.length > 0 ? Math.max(...products.map(product => product.id)) + 1 : 11;
   }
+  
 }
