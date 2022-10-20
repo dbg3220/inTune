@@ -111,7 +111,7 @@ public class CartFileDAOTest {
         User user = new User(0, null, null, null, null, 
                             null, null, 0, 0, cart, null, false);
 
-        assertDoesNotThrow(() -> cartFileDAO.createCart(cart, user));
+        assertDoesNotThrow(() -> cartFileDAO.createCart(cart));
         Cart result1 = cartFileDAO.retrieveCart(0);
         assertNotNull(result1);
         //look for a cart that doesn't exist
@@ -125,7 +125,7 @@ public class CartFileDAOTest {
         User user = new User(0, null, null, null, null, 
                             null, null, 0, 0, cart, null, false);
 
-        assertDoesNotThrow(() -> cartFileDAO.createCart(cart, user));
+        assertDoesNotThrow(() -> cartFileDAO.createCart(cart));
         assertDoesNotThrow(() -> cartFileDAO.deleteCart(5));
 
         Cart result = cartFileDAO.retrieveCart(5);

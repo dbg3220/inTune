@@ -118,11 +118,11 @@ public class CartControllerTest {
         User user = new User(2, "clayton", null, null, null, null, null, 0, 0, cart, null, false);
         // when createCart is called, return true simulating successful
         // creation and save
-        when(mockCartDAO.createCart(cart,user)).thenReturn(cart);
+        when(mockCartDAO.createCart(cart)).thenReturn(cart);
         // cart and user needs to be in this test for createCarts
 
         // Invoke
-        ResponseEntity<Cart> response = cartController.createCart(cart,user);
+        ResponseEntity<Cart> response = cartController.createCart(cart);
         // cart and user needs to be in this test for createCarts
 
         // Analyze
@@ -136,12 +136,12 @@ public class CartControllerTest {
         Cart cart = new Cart(99);
         User user = new User(2, null, null, null, null, null, null, 0, 0, cart, null, false);
         // creation and save
-        when(mockCartDAO.createCart(cart,user)).thenReturn(null);
+        when(mockCartDAO.createCart(cart)).thenReturn(null);
         // cart and user needs to be in this test for createCarts
         
 
         // Invoke
-        ResponseEntity<Cart> response = cartController.createCart(cart,user);
+        ResponseEntity<Cart> response = cartController.createCart(cart);
         // cart and user needs to be in this test for createCarts
 
         // Analyze
@@ -156,11 +156,11 @@ public class CartControllerTest {
         User user = new User(2, null, null, null, null, null, null, 0, 0, cart, null, false);
 
         // When createCart is called on the Mock Cart DAO, throw an IOException
-        doThrow(new IOException()).when(mockCartDAO).createCart(cart,user);
+        doThrow(new IOException()).when(mockCartDAO).createCart(cart);
         // cart and user needs to be in this test for createCarts
 
         // Invoke
-        ResponseEntity<Cart> response = cartController.createCart(cart,user);
+        ResponseEntity<Cart> response = cartController.createCart(cart);
         // cart and user needs to be in this test for createCarts
 
         // Analyze

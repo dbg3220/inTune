@@ -110,11 +110,11 @@ public class CartController {
      * @return The HTTP response
      */
     @PostMapping("")
-    public ResponseEntity<Cart> createCart(@RequestBody Cart cart, @RequestParam User user ) {
+    public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
         LOG.info("POST /Carts " + cart);
         try {
             
-            Cart newCart = CartDao.createCart(cart, user);
+            Cart newCart = CartDao.createCart(cart);
             if (newCart != null)
                 return new ResponseEntity<Cart>(newCart, HttpStatus.CREATED);
             else
