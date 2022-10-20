@@ -2,7 +2,10 @@ package estoreapi.persistence;
 
 import java.io.IOException;
 
+import estoreapi.model.Equipment;
+import estoreapi.model.Instrument;
 import estoreapi.model.Product;
+import estoreapi.model.Lesson;
 
 /**
  * Defines the interface for product object persistence
@@ -61,7 +64,7 @@ public interface ProductDAO {
     Product findProductSubcategory(int id) throws IOException;
 
     /**
-     * Creates and saves a {@linkplain product}
+     * Creates and saves a {@linkplain lesson}
      * 
      * @param product {@linkplain product} object to be created and saved
 
@@ -71,7 +74,33 @@ public interface ProductDAO {
      * 
      * @throws IOException if an issue with underlying storage
      */
-    Product createProduct(Product product) throws IOException;
+    Product createInstrument(Instrument instrument) throws IOException;
+
+
+    /**
+     * Creates and saves a {@linkplain lesson}
+     * 
+     * @param product {@linkplain product} object to be created and saved
+
+     * The id of the product object is ignored and a new uniqe id is assigned
+     *
+     * @return new {@link product} if successful, false otherwise 
+     * 
+     * @throws IOException if an issue with underlying storage
+     */
+    Product createLesson(Lesson lesson) throws IOException;
+
+    /**
+     * Creates a new equipment product
+     *  
+     * @param The object to be created
+     * 
+     * @return new object if creation was successful, false otherwise
+     * 
+     * @throws IOException if an issue with underlying storage
+     */
+    Product createEquipment(Equipment equipment) throws IOException;
+
 
     /**
      * Updates and saves a {@linkplain product}
