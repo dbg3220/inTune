@@ -61,7 +61,12 @@ public class CartTest {
 
         ArrayList<Product> result = cart.getProducts();
         for(int i = 0; i < expectedProducts.size(); i++){
-            assertEquals(expectedProducts.get(i), result.get(i));
+            Product expectedProduct = expectedProducts.get(i);
+            Product actualProduct = result.get(i);
+            if(expectedProduct.equals(actualProduct)){
+                int test = 0;
+            }
+            assertEquals(expectedProduct, actualProduct);
         }
     }
 
