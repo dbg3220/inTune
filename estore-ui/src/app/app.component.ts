@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { Product } from './product';
 import { ProductService } from './product.service';
+import {filter, Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
   products: Product[] = [];
   filteredItems: Product[] = [];
   searchText: any;
+  componentDestroyed$ = new Subject();
 
   constructor(private productService: ProductService) {
   }
@@ -29,6 +31,9 @@ export class AppComponent implements OnInit {
       this.filteredItems = JSON.parse(JSON.stringify(this.products)); // clone
       this.productService.setProductsClone(this.products);
     });
+
+    this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
+      .subscribe(products => this.products = products);
   }
 
   changeSearch($event: any) {
