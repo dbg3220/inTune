@@ -61,7 +61,7 @@ export class ProductService {
   }
 
   resetFilters() {
-    this.products = this.searchFilterProductsClone;
+    this.products.next(this.searchFilterProductsClone);
   }
 
   updateProduct(product: Product): Observable<any> {

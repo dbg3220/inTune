@@ -16,8 +16,7 @@ export class AppComponent implements OnInit {
   searchText: any;
   componentDestroyed$ = new Subject();
 
-  constructor(private productService: ProductService) {
-  }
+  constructor(private productService: ProductService) {}
 
   ngOnInit() {
     this.getProducts();
@@ -38,13 +37,15 @@ export class AppComponent implements OnInit {
 
   changeSearch($event: any) {
     this.searchText = $event;
-    console.log('Searching ...', $event);
-    this.productService.setProductsView(this.filteredItems.filter(item => item.category.includes(this.searchText)));
+    // console.log('Searching ...', $event);
+    this.productService.setProductsView(this.filteredItems.filter(item => item.name.includes(this.searchText)));
   }
 
   reset() {
     this.searchText = '';
-    this.productService.resetFilters();
-    this.getProducts();
+    this.productService.getClonedProductsAsObservable().subscribe(cloned => {
+      // console.log('Cloned: ', cloned);
+      this.productService.setProductsView(cloned);
+    });
   }
 }
