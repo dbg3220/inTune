@@ -4,7 +4,8 @@
     "@angular/forms": "^14.2.6",
     "@angular/material": "^14.2.5",
     "@angular/router": "^14.2.6",
-    "angular-in-memory-web-api": "^0.14.0"
+    "angular-in-memory-web-api": "^0.14.0",
+    "framer-motion": "^7.6.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",

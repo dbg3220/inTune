@@ -1,27 +1,9 @@
-/* nav a {
-    color: black;
-    text-decoration: none;
-    padding: 0 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: right;
-}
-nav a:hover {
-    color: #eee;
-    background-color: black;
-    border-radius: 10px;
-    width: auto;
-    height: auto;
-}
 
-nav {
-    text-align: right;
-}
-
-.container {
-    flex: auto;
-    display: flex;
-    flex-direction: row;
-} */
-
+/* clears the ‘X’ from Internet Explorer */
+input[type=search]::-ms-clear { display: none; width : 0; height: 0; }
+input[type=search]::-ms-reveal { display: none; width : 0; height: 0; }
+/* clears the ‘X’ from Chrome */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
