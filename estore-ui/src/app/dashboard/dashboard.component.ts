@@ -11,7 +11,7 @@ import {filter, Subject, takeUntil} from "rxjs";
 export class DashboardComponent implements OnInit {
   products: Product[] = [];
   componentDestroyed$ = new Subject(); // tracks components lifecycle for subscription of the observable, component will automatically repaint if data changes
-
+  
   constructor(private productService: ProductService) { }
 
     ngOnInit(): void {
@@ -20,6 +20,6 @@ export class DashboardComponent implements OnInit {
 
     getProducts(): void {
       this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
-        .subscribe(products => this.products = products);
+        .subscribe(products => this.products = products.slice(1, 5));
     }
 }

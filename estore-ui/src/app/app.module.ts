@@ -12,6 +12,8 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 import { LoginComponent } from './login/login.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -20,10 +22,12 @@ import { LoginComponent } from './login/login.component';
     ProductDetailComponent,
     MessagesComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,

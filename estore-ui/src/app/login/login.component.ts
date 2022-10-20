@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
+import { UsernameValidator } from '../custom-username.validator';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+} from "@angular/forms";
+
+// import { CustomUserValidator } from "../shared/custom-email.validator";
 
 @Component({
   selector: 'app-login',
@@ -8,17 +16,24 @@ import { UserService } from '../user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  users: User[] = [];
+  login!: FormGroup;
 
-  constructor(private userService: UserService) { }
-
-  ngOnInit(): void {
-    this.getUsers();
+  get username(){
+    return this.login.get('username');
   }
 
-  getUsers(): void {
-    this.userService.getUsers()
-      .subscribe(users => this.users = users);
+  constructor(
+    private fb: FormBuilder,
+    private usernameValidator: UsernameValidator) { }
+
+  ngOnInit(): void {
+    this.createForm();
+  }
+
+  createForm() {
+    this.login = this.fb.group({
+      username: ["", [Validators.required], [this.usernameValidator.existingUsernameValidator()]],
+    });
   }
 
 }

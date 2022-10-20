@@ -6,3 +6,39 @@
         <div><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Login</button></div>
     </div>
 </div>
+<!-- <div class="columns">
+    <div class="column is-one-third">
+      <form [formGroup]="login" novalidate>
+        <div class="field">
+          <label class="label" for="name">Name</label>
+          <div class="control">
+            <input
+              class="input is-primary"
+              type="text"
+              id="name"
+              formControlName="name"
+            />
+            <div *ngIf="username.invalid && (username.dirty || username.touched)">
+              <p class="help is-danger" *ngIf="username.errors.required">
+                username is required.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button
+              class="button is-primary"
+              type="submit"
+              [disabled]="login.pristine || login.invalid"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="column">
+      <pre class="user-pre">{{ userForm.value | json }}</pre>
+    </div>
+  </div> -->
