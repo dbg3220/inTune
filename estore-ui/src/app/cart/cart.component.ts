@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MessengerService } from '../messenger.service';
+import { Product } from '../product';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 
-  constructor() { }
+  cartItems : Product[] = [
+    
+  ];
 
-  ngOnInit(): void {
-  }
+  constructor(private msg: MessengerService) { }
 
+  ngOnInit(): void{
+
+
+    this.msg.getMsg().subscribe( product => {
+      console.log(product)
+
+  })
+
+}
 }

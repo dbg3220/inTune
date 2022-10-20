@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 
 import { ProductService } from '../product.service';
 import { Product } from '../product';
+import { MessengerService } from '../messenger.service';
+
+
 
 @Component({
   selector: 'app-product-detail',
@@ -12,12 +15,13 @@ import { Product } from '../product';
   styleUrls: [ './product-detail.component.css' ]
 })
 export class ProductDetailComponent implements OnInit {
-  product: Product | undefined;
+  product!: Product;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private location: Location
+    private location: Location,
+    private msg: MessengerService
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +35,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   goBack(): void {
+    console.log("works")
     this.location.back();
   }
 
@@ -38,5 +43,10 @@ export class ProductDetailComponent implements OnInit {
     if (this.product){
       this.productService.updateProduct(this.product).subscribe(() => this.goBack)
     }
+  }
+
+  handleAddToCart(){
+    console.log("works")
+    this.msg.sendMsg(this.product)
   }
 }
