@@ -32,7 +32,8 @@ export class ProductService {
   }
 
   getProducts(): Observable<Product[]> {
-    return this.products.asObservable();
+    this.messageService.add('ProductService: fetched products')
+    return this.http.get<Product[]>(this.productsURL)
   }
   getFilteredProducts(): Observable<Product[]> {
     return this.searchFilterProductsClone;
@@ -54,7 +55,7 @@ export class ProductService {
   resetFilters() {
     this.products = this.searchFilterProductsClone;
   }
-  
+
   updateProduct(product: Product): Observable<any> {
     return this.http.put(this.productsURL, product, this.httpOptions)
   }
