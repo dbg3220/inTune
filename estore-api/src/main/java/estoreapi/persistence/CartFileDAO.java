@@ -45,7 +45,7 @@ public class CartFileDAO implements CartDAO {
      * 
      * @throws IOException when file cannot be accessed or read from
      */
-    public CartFileDAO(@Value("${carts.file}") String filename,ObjectMapper objectMapper) throws IOException {
+    public CartFileDAO(@Value("${Carts.file}") String filename,ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
         load();  // load the Carts from the file
@@ -67,7 +67,7 @@ public class CartFileDAO implements CartDAO {
      * 
      * @return  The array of {@link Cart carts}, may be empty
      */
-    private Cart[] getCartArray() {
+    private Cart[] getCartsArray() {
         return getCartsArray(null);
     }
 
@@ -102,7 +102,7 @@ public class CartFileDAO implements CartDAO {
      * @throws IOException when file cannot be accessed or written to
      */
     private boolean save() throws IOException {
-        Cart[] CartArray = getCartArray();
+        Cart[] CartArray = getCartsArray();
 
         // Serializes the Java Objects to JSON objects into the file
         // writeValue will thrown an IOException if there is an issue
@@ -146,7 +146,7 @@ public class CartFileDAO implements CartDAO {
     @Override
     public Cart[] getCarts() {
         synchronized(carts) {
-            return getCartArray();
+            return getCartsArray();
         }
     }
 
@@ -214,14 +214,29 @@ public class CartFileDAO implements CartDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Cart createCart(Cart cart, User user) throws IOException {
+    public Cart createCart(Cart cart) throws IOException {
         synchronized(carts) {
             // We create a new Cart object because the id field is immutable
             // and we need to assign the next unique id
-            Cart newCart = new Cart(user.getId());  
+            Cart newCart = new Cart(nextId());  
             carts.put(newCart.getId(),newCart);
             save(); // may throw an IOException
             return newCart;
+        }
+    }
+
+     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Cart updateCart(Cart cart) throws IOException {
+        synchronized(carts){
+            if(carts.containsKey(cart.getId())){
+                carts.put(cart.getId(), cart);
+                return cart;
+            } else {
+                return null;
+            }
         }
     }
 

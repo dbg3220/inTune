@@ -40,7 +40,7 @@ public interface CartDAO {
      * 
      * @throws IOException if an issue with underlying storage
      */
-    Cart createCart(Cart cart, User user) throws IOException;
+    Cart createCart(Cart cart) throws IOException;
 
 
     /**
@@ -70,4 +70,20 @@ public interface CartDAO {
      * @throws IOException if underlying storage cannot be accessed
      */
     boolean deleteCart(int id) throws IOException;
+
+/**
+     * Updates and saves a {@linkplain Cart}
+     * 
+     * @param {@link Cart} object to be updated and saved
+     * 
+     * @return updated {@link Cart} if successful, null if
+     * {@link Cart} could not be found
+     * 
+     * @throws IOException if underlying storage cannot be accessed
+     */
+    Cart updateCart(Cart Cart) throws IOException;
+
+
 }
+
+
