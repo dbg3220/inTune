@@ -15,8 +15,8 @@ export class ProductService {
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
   private productsURL = 'api/products';  // URL to web api
-  private products: any = new BehaviorSubject([]);
-  private searchFilterProductsClone: any = new BehaviorSubject([]);
+  private products: BehaviorSubject<any> = new BehaviorSubject(null);
+  private searchFilterProductsClone: BehaviorSubject<any> = new BehaviorSubject(null);
 
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
@@ -29,6 +29,14 @@ export class ProductService {
   fetchProducts() {
     this.messageService.add('ProductService: fetched products')
     return this.http.get<Product[]>(this.productsURL);
+  }
+
+  getProductsAsObservable() {
+    return this.products.asObservable();
+  }
+
+  getClonedProductsAsObservable() {
+    return this.searchFilterProductsClone.asObservable();
   }
 
   getProducts(): Observable<Product[]> {
@@ -68,7 +76,7 @@ export class ProductService {
     return this.http.delete<Product>(url, this.httpOptions)
   }
 
-  
+
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
