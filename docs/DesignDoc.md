@@ -15,6 +15,7 @@ geometry: margin=1in
 ## Executive Summary
 
 To create a web store that allows users to rent and purchase instruments, as well as partake in lessons. Users will be able to log into the website with an email and password, and then have payment and shipping information saved.
+
 ### Purpose
 To allow customers to interact with the full inventory and capability of the music store from
 a personal computer.
@@ -24,8 +25,7 @@ a personal computer.
 
 | Term | Definition |
 |------|------------|
-| SPA | Single Page |
-
+| SPA  | Single Page|
 
 ## Requirements
 
@@ -35,6 +35,12 @@ This section describes the features of the application.
 > story.  Focus on top-level features from the Vision document and
 > maybe Epics and critical Stories._
 
+Any user who is not the admin will be able to log in using their username and be presented with a home page where they
+can browse products in multiple ways(search bar, top products, by category). They will be able to add any product in
+the store to their cart with a requested quantity that is equal to or less than the amount the store has in inventory.
+If a user logs out than the products in their cart will be retained. The admin will have the ability to login with the
+username 'admin' and be presented with a home page similar to that of a regular user but will include the ability to edit
+the inventory of the store.
 
 
 ### Definition of MVP
@@ -47,13 +53,12 @@ a search bar.
 1. Create Account
 2. Edit Products
 3. Get products by category
-4. Get product by Subcategory
-5. Browse my cart
-6. Save my cart
-7. Save payment and Address Info
-8. Learn about an Instrument
-9. Browse Instrument Categories
-10. Log in
+4. Browse my cart
+5. Save my cart
+6. Save payment and Address Info
+7. Learn about an Instrument
+8. Browse Instrument Categories
+9. Log in
 
 
 ### Roadmap of Enhancements
@@ -62,6 +67,8 @@ a search bar.
 3. Seeing the Community Board
 3. Add friends
 4. See Bands that are looking for musicians
+4. Get product by Subcategory
+
 
 
 ## Application Domain
@@ -77,7 +84,11 @@ This section describes the application domain.
 
 ## Architecture and Design
 
-This section describes the application architecture.
+The application architecture will be separated into 2 distinct components, an angular frontend implementation
+and a Spring API backend implementation. 
+Frontend:
+Backend: The Spring API will implement a Model, View, View_Model structure that will use a local database
+in the form of json files, 1 json file for each type of object being handled by the backend.
 
 ### Summary
 
@@ -87,18 +98,16 @@ The following Tiers/Layers model shows a high-level view of the webapp's archite
 
 The e-store web application, is built using the Model–View–ViewModel (MVVM) architecture pattern. 
 
-The Model stores the application data objects including any functionality to provide persistance. 
+The Model stores the application data objects including any functionality to provide persistence. 
 
-The View is the client-side SPA built with Angular utilizing HTML, CSS and TypeScript. The ViewModel provides RESTful APIs to the client (View) as well as any logic required to manipulate the data objects from the Model.
+The View is the client-side SPA built with Angular utilizing HTML, CSS and TypeScript. 
+The ViewModel provides RESTful APIs to the client (View) as well as any logic required to 
+manipulate the data objects from the Model.
 
 Both the ViewModel and Model are built using Java and Spring Framework. Details of the components within these tiers are supplied below.
 
 
 ### Overview of User Interface
-
-This section describes the web interface flow; this is how the user views and interacts
-with the e-store application.
-
 > _Provide a summary of the application's user interface.  Describe, from
 > the user's perspective, the flow of the pages in the web application._
 
@@ -124,24 +133,14 @@ codes as responses(i.e. OK, CREATED, INTERNAL_SERVER_ERROR, CONFLICT)
 
 
 ### Model Tier
-The model tier has Product, User, Cart, Lesson, Equipment, and Instrument classes which represent
-the existence of such objects while the backend Spring Java framework is running.
+The Model Tier has Product, User, Cart classes which represent the data being stored in the
+local database. They represent little functionality of the application besides what is needed
+to maintain their internal state.
 
 ### Static Code Analysis/Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements._
-
-> _With the results from the Static Code Analysis exercise, 
-> discuss the resulting issues/metrics measurements along with your analysis
-> and recommendations for further improvements. Where relevant, include 
-> screenshots from the tool and/or corresponding source code that was flagged._
 
 ## Testing
-> _This section will provide information about the testing performed
-> and the results of the testing._
+Currently only 98% of backend tests pass.
 
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their
