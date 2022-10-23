@@ -23,7 +23,7 @@ public class Product {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
-    static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%b, image=%b]";
+    static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";
 
     @JsonProperty("id")
     private int id; // The product ID
@@ -37,7 +37,7 @@ public class Product {
     private int quantity; // The amount of the product in stock
     @JsonProperty("description")
     private String description; // The description of the product, for the product page
-    @JsonProperty("size")
+    @JsonProperty("image")
     private String image; // The size of the intrument (Ex. 1/2)
 
     /**
@@ -46,22 +46,21 @@ public class Product {
      * @param id          The id of the product
      * @param name        The name of the product
      * @param price       The price of the product
-     * @param category2   The category of the product
-     * @param subcategory The subcategory of the product
+     * @param category    The category of the product
      * @param quantity    The quantity of the product
+     * @param description The description of the product
+     * @param image       The image to be displayed with the product
      *                    *
-     *                    {@literal @}JsonProperty is used in serialization and
-     *                    deserialization
-     *                    of the JSON object to the Java object in mapping the
-     *                    fields. If a field
-     *                    is not provided in the JSON object, the Java field gets
+     *{@literal @}JsonProperty is used in serialization and deserialization
+     * of the JSON object to the Java object in mapping the fields. If a field
+     * is not provided in the JSON object, the Java field gets
      *                    the default Java
      *                    value, i.e. 0 for int
      */
     public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price,
             @JsonProperty("category") Category category,
             @JsonProperty("quantity") int quantity, @JsonProperty("description") String description,
-            @JsonProperty("size") String image) {
+            @JsonProperty("image") String image) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -193,7 +192,7 @@ public class Product {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, name, price, getCategory(), quantity, description);
+        return String.format(STRING_FORMAT, id, name, price, getCategory(), quantity, description, image);
     }
 
     /**
