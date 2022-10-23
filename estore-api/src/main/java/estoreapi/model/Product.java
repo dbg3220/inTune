@@ -153,7 +153,7 @@ public class Product {
            if(check.id == this.id && 
            check.name.equals(this.name) && 
            check.price == this.price &&
-           check.getStatus() == this.getStatus() &&
+           check.getStatus().equals(this.getStatus()) &&
            check.quantity == this.quantity &&
            check.description.equals(this.description) &&
            check.image.equals(this.image)){
