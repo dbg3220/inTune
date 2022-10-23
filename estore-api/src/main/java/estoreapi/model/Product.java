@@ -29,8 +29,6 @@ public class Product {
     @JsonProperty("price") private double price; //The price of the given product
     @JsonProperty("category") private Category category; //The category of the product, for front-end classification
     @JsonProperty("quantity") private int quantity; //The amount of the product in stock
-    @JsonProperty("isInstrument") private boolean isInstrument; //If the product is an Instrument
-    @JsonProperty("isEquipment") private boolean isEquipment; //If the product is an Equipment
     @JsonProperty("description") private String description; //The description of the product, for the product page
     @JsonProperty("size") private String image; // The size of the intrument (Ex. 1/2)
 
