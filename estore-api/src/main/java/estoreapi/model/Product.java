@@ -48,16 +48,13 @@ public class Product {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") estoreapi.model.Equipment.Category category2, 
-    @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
-    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("description") String description, @JsonProperty("size") String image) {
+    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") Category category, 
+    @JsonProperty("quantity") int quantity, @JsonProperty("description") String description, @JsonProperty("size") String image) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.quantity = quantity;
-        this.isInstrument = isInstrument;
-        this.isEquipment = isEquipment;
         this.description = description;
         this.image = image;
     }
@@ -98,11 +95,13 @@ public class Product {
      */
     public void setCategory(Category category) {this.category = category;}
 
-    /**
-     * Retrieves the category of the product
-     * @return The category of the product
+   /**
+     * Retrieves the specific enum of the product
+     * @return The quantity of the product
      */
-    public Category getCategory() {return category;}
+    public String getStatus() {
+        return category.name();
+    }
 
     /**
      * Sets the quantity of the product - necessary for JSON object to Java object deserialization
@@ -137,14 +136,6 @@ public class Product {
      * @return The image of the product
      */
     public String getImage(){return image;}
-
-    /**
-     * Retrieves the specific enum of the product
-     * @return The quantity of the product
-     */
-    public String getStatus() {
-        return category.name();
-    }
 
     /**
      * {@inheritDoc}
