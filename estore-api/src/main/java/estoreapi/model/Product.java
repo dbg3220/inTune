@@ -7,8 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents an product
  * 
  * @author Hayden Cieniawski
+ * @author Clayton Acheson
  */
-public abstract class Product {
+public class Product {
 
     public enum Category {
         STRINGS, 
@@ -23,15 +24,15 @@ public abstract class Product {
     // Package private for tests
     static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b]";
 
-    @JsonProperty("id") private int id;
-    @JsonProperty("name") private String name;
-    @JsonProperty("price") private double price;
-    @JsonProperty("category") private Category category;
-    @JsonProperty("quantity") private int quantity;
-    @JsonProperty("isInstrument") private boolean isInstrument;
-    @JsonProperty("isEquipment") private boolean isEquipment;
-    @JsonProperty("isLesson") private boolean isLesson;
-    @JsonProperty("description") private String description;
+    @JsonProperty("id") private int id; //The product ID
+    @JsonProperty("name") private String name; //The name of the product to be displayed
+    @JsonProperty("price") private double price; //The price of the given product
+    @JsonProperty("category") private Category category; //The category of the product, for front-end classification
+    @JsonProperty("quantity") private int quantity; //The amount of the product in stock
+    @JsonProperty("isInstrument") private boolean isInstrument; //If the product is an Instrument
+    @JsonProperty("isEquipment") private boolean isEquipment; //If the product is an Equipment
+    @JsonProperty("description") private String description; //The description of the product, for the product page
+    @JsonProperty("size") private String image; // The size of the intrument (Ex. 1/2)
 
     /**
      * Create a product with the given id, name, and price.
@@ -49,7 +50,7 @@ public abstract class Product {
      */
     public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("category") estoreapi.model.Equipment.Category category2, 
     @JsonProperty("quantity") int quantity, @JsonProperty("isInstrument") boolean isInstrument, 
-    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("isLesson") boolean isLesson) {
+    @JsonProperty("isEquipment") boolean isEquipment, @JsonProperty("description") String description, @JsonProperty("size") String image) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -57,7 +58,8 @@ public abstract class Product {
         this.quantity = quantity;
         this.isInstrument = isInstrument;
         this.isEquipment = isEquipment;
-        this.isLesson = isLesson;
+        this.description = description;
+        this.image = image;
     }
 
     /**
@@ -114,18 +116,61 @@ public abstract class Product {
      */
     public int getQuantity() {return quantity;}
 
-    
-    public void setIsEquipment(Boolean isEquipment){this.isEquipment = isEquipment;}
-    public boolean getIsEquipment(){return isEquipment;}
-    public void setIsInstrument(Boolean isIntrument){this.isInstrument = isInstrument;}
-    public boolean getIsInstrument(){return isInstrument;}
-    public void setIsLesson(Boolean isLesson){this.isLesson = isLesson;}
-    public boolean getIsLesson(){return isLesson;}
+    /**
+     * Sets the Description of the product
+     */
+    public void setDescription (String desc){this.description = desc;}
+
+    /**
+     * Retrieves the Description of the product
+     * @return The Description of the product
+     */
+    public String getDescription(){return description;}
+
+    /**
+     * Sets the Image of the product
+     */
+    public void setImage (String img){this.image = img;}
+
+    /**
+     * Retrieves the Image of the product
+     * @return The image of the product
+     */
+    public String getImage(){return image;}
+
+    /**
+     * Retrieves the specific enum of the product
+     * @return The quantity of the product
+     */
+    public String getStatus() {
+        return category.name();
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,name,price,category,quantity,isInstrument,isEquipment,isLesson);
+        return String.format(STRING_FORMAT,id,name,price,getStatus(),quantity,description);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Product){
+           Product check = (Product) o;
+           if(check.getId() == this.id && 
+           check.getName() == this.name && 
+           check.getPrice() == this.price &&
+           check.getStatus() == this.getStatus() &&
+           check.getQuantity() == this.quantity &&
+           check.getDescription() == this.description){
+            return true;
+           }
+           return false;
+        }
+        return false;
     }
 }
