@@ -150,12 +150,13 @@ public class Product {
     public boolean equals(Object o) {
         if(o instanceof Product){
            Product check = (Product) o;
-           if(check.getId() == this.id && 
-           check.getName() == this.name && 
-           check.getPrice() == this.price &&
+           if(check.id == this.id && 
+           check.name.equals(this.name) && 
+           check.price == this.price &&
            check.getStatus() == this.getStatus() &&
-           check.getQuantity() == this.quantity &&
-           check.getDescription() == this.description){
+           check.quantity == this.quantity &&
+           check.description.equals(this.description) &&
+           check.image.equals(this.image)){
             return true;
            }
            return false;
