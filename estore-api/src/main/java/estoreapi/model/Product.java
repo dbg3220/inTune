@@ -22,7 +22,7 @@ public class Product {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
-    static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, isInstrument=%b, isEquipment=%b, isLesson=%b]";
+    static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%b, image=%b]";
 
     @JsonProperty("id") private int id; //The product ID
     @JsonProperty("name") private String name; //The name of the product to be displayed
