@@ -108,8 +108,7 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 
 
 ### Overview of User Interface
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+On landing, the user will be displayed with a selection of the most popular products by name. This will herein be referred to as the dashboard. From here, they will also be able to see, at the header, there will be four options. These include the Dashboard, Products, Login, and Cart. Products will present the user with a list of all current products available along with their photo, name, and price. There is a search bar on this page that allows users to look up products by first name. From here, a user can click on any product to be taken to that products detail page. Here, the user will be able to add the product to their unique cart (if logged in). If they do not have an account/are not logged in, they will be informed that they need to log in. Otherwise, the product can be added to their cart. The login page is a simple page prompting for users to enter their username. A success page will be followed once the user is signed in. Finally, there is a cart page, it is here that users can see what products they have in their cart and how many of each.
 
 
 ### View Tier
@@ -121,14 +120,14 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 > _You must also provide sequence diagrams as is relevant to a particular aspects 
 > of the design that you are describing.  For example, in e-store you might create a 
 > sequence diagram of a customer searching for an item and adding to their cart. 
-> Be sure to include an relevant HTTP reuqests from the client-side to the server-side 
+> Be sure to include an relevant HTTP requests from the client-side to the server-side 
 > to help illustrate the end-to-end flow._
 
 
 ### ViewModel Tier
 The ViewModel Tier is the Rest-API of our program and it consists only of controllers
 for data types used in the View tier. It acts as the point of contact between our front end
-and back end. It interacts with HTTP requests and responds with certain bodies and certin error
+and back end. It interacts with HTTP requests and responds with certain bodies and certain error
 codes as responses(i.e. OK, CREATED, INTERNAL_SERVER_ERROR, CONFLICT)
 
 
