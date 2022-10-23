@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   changeSearch($event: any) {
     this.searchText = $event;
     // console.log('Searching ...', $event);
-    this.productService.setProductsView(this.filteredItems.filter(item => item.name.includes(this.searchText)));
+    this.productService.setProductsView(this.filteredItems.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
   }
 
   reset() {
