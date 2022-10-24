@@ -44,20 +44,6 @@ public interface ProductDAO {
      */
     Product getProduct(int id) throws IOException;
 
-    
-    /**
-     * Retrieves a {@linkplain product} with the given id
-     * 
-     * @param id The id of the {@link product} to get
-     * 
-     * @return a {@link product} object with the matching id
-     * 
-     * null if no {@link product} with a matching id is found
-     * 
-     * @throws IOException if an issue with underlying storage
-     */
-    Product findProductCategory(int id) throws IOException;
-
     /**
      * Creates and saves a {@linkplain Product product}
      * 

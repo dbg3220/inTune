@@ -1,9 +1,5 @@
 package estoreapi.persistence;
 
-/**
-     * Fixing create lesson
-     * Implement create equitment
-     */
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -179,11 +175,12 @@ public class ProductFileDAO implements ProductDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Product createProduct(Product Prod) throws IOException {
+    public Product createProduct(Product product) throws IOException {
         synchronized(products) {
             // We create a new Product object because the id field is immutable
             // and we need to assign the next unique id
-            Product newProduct = new Product(nextId(),Prod.getName(),Prod.getPrice(),Prod.getCategory(),Prod.getQuantity(),Prod.getDescription(),Prod.getImage());
+            Product newProduct = new Product(nextId(), product.getName(), product.getPrice(), product.getCategory(),
+                                             product.getQuantity(), product.getDescription(), product.getImage());
             products.put(newProduct.getId(),newProduct);
             save(); // may throw an IOException
             return newProduct;
@@ -219,11 +216,4 @@ public class ProductFileDAO implements ProductDAO {
                 return false;
         }
     }
-
-    @Override
-    public Product findProductCategory(int id) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }
