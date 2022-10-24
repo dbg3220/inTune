@@ -74,9 +74,10 @@ public class ProductController {
     public static ResponseEntity<Product[]> getProducts() {
     LOG.info("GET /products");
     try {
-        return new ResponseEntity<>(productDao.getProducts(), HttpStatus.OK);
+        Product[] products = productDao.getProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
     } catch (IOException e) {
-        LOG.log(Level.SEVERE, "Error getting products", e);
+        LOG.log(Level.SEVERE, e.getLocalizedMessage());
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -91,38 +92,19 @@ public class ProductController {
         LOG.info("GET /products/?name=" + name);
 
         try {
-            Product[] searchProductsByName = productDao.findProducts(name);
-            if (searchProductsByName!= null)
-                return new ResponseEntity<Product[]>(searchProductsByName, HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.OK);
+            Product[] products = productDao.findProducts(name);
+            return new ResponseEntity<>(products, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // @GetMapping("/{category}")
-    // public ResponseEntity<Product[]> searchProductsByCategory(@RequestParam String category) {
-    //     LOG.info("GET /products/?category=" + category);
-
-    //     try {
-    //         Product[] searchProductsByCategory = productDao.findProducts(category);
-    //         if (searchProductsByCategory!= null)
-    //             return new ResponseEntity<Product[]>(searchProductsByCategory, HttpStatus.OK);
-    //         else
-    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //     } catch (IOException e) {
-    //         LOG.log(Level.SEVERE, e.getLocalizedMessage());
-    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
     @PostMapping("")
-    public ResponseEntity<Product> createProduct(@RequestBody Product Product) {
-        LOG.info("POST /products " + Product);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        LOG.info("POST /products " + product);
         try {
-            Product Product1 = productDao.createProduct(Product);
+            Product Product1 = productDao.createProduct(product);
             if (Product1 != null)
                 return new ResponseEntity<Product>(Product1,HttpStatus.CREATED);
             else
@@ -160,12 +142,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    
-    // @PutMapping("")
-    // public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-    //     LOG.info("PUT /Productes " + product);
-    // }
 
    /**
     * Handles the HTTP DELETE request to delete an existing product
