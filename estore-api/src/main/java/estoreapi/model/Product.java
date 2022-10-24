@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Hayden Cieniawski
  * @author Clayton Acheson
+ * @author Damon Gonzalez
  */
 public class Product {
 
@@ -57,10 +58,13 @@ public class Product {
      *                    the default Java
      *                    value, i.e. 0 for int
      */
-    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price,
-            @JsonProperty("category") Category category,
-            @JsonProperty("quantity") int quantity, @JsonProperty("description") String description,
-            @JsonProperty("image") String image) {
+    public Product( @JsonProperty("id") int id, 
+                    @JsonProperty("name") String name, 
+                    @JsonProperty("price") double price,
+                    @JsonProperty("category") Category category,
+                    @JsonProperty("quantity") int quantity, 
+                    @JsonProperty("description") String description,
+                    @JsonProperty("image") String image) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -128,15 +132,6 @@ public class Product {
     }
 
     /**
-     * Retrieves the specific enum of the product
-     * 
-     * @return The quantity of the product
-     */
-    public String getCategoryName() {
-        return category.name();
-    }
-
-    /**
      * Retrieves the category of the product
      * @return The category of the product
      */
@@ -198,26 +193,23 @@ public class Product {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, name, price, getCategoryName(), quantity, description, image);
+        return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof Product) {
-            Product check = (Product) o;
-            if (check.id == this.id &&
-                    check.name.equals(this.name) &&
-                    check.price == this.price &&
-                    check.getCategoryName().equals(this.getCategoryName()) &&
-                    check.quantity == this.quantity &&
-                    check.description.equals(this.description) &&
-                    check.image.equals(this.image)) {
-                return true;
-            }
-            return false;
+    public boolean equals(Object other) {
+        if(other instanceof Product){
+            Product otherProduct = (Product) other;
+            return this.id == otherProduct.id &&
+                   this.name.equals(otherProduct.name) &&
+                   this.price == otherProduct.price &&
+                   this.category.equals(otherProduct.category) &&
+                   this.quantity == otherProduct.quantity &&
+                   this.description.equals(otherProduct.description) &&
+                   this.image.equals(otherProduct.image);
         }
         return false;
     }
