@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
 import estoreapi.persistence.ProductFileDAO;
@@ -275,7 +274,7 @@ public class productControllerTest {
         ResponseEntity<Product> response = productController.deleteProduct(productID);
 
         // Analyze
-        assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
 
     }
 

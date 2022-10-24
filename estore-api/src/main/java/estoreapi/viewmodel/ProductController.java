@@ -60,7 +60,7 @@ public class ProductController {
             if (product != null)
                 return new ResponseEntity<>(product, HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IOException e){
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -95,7 +95,7 @@ public class ProductController {
             if (searchProductsByName!= null)
                 return new ResponseEntity<Product[]>(searchProductsByName, HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -126,7 +126,7 @@ public class ProductController {
             if (Product1 != null)
                 return new ResponseEntity<Product>(Product1,HttpStatus.CREATED);
             else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
@@ -144,10 +144,10 @@ public class ProductController {
         LOG.info("PUT /products " + product);
         try {
             if(product.getPrice() < 0){
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             if(product.getQuantity() < 0){
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             Product product2 = productDao.updateProduct(product);
             if (product2 != null)
@@ -180,7 +180,7 @@ public class ProductController {
             if (result)
                 return new ResponseEntity<>(HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
