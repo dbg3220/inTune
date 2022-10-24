@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
  * class and injects the instance into other classes as needed
  * 
  * @author Hayden Cieniawski
+ * @author Clayton Acheson
  */
 @Component
 public class ProductFileDAO implements ProductDAO {

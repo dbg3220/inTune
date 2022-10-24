@@ -118,23 +118,19 @@ public class ProductController {
     //     }
     // }
 
-        /**
-     * Handles the HTTP POST request to create a new product
-     * 
-     * @param product The product to create
-     * @return The HTTP response
-     */
     @PostMapping("")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) throws IOException {
-        LOG.info("POST /products " + product);
-        if (product.getPrice() < 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Product> createProduct(@RequestBody Product Product) {
+        LOG.info("POST /products " + Product);
+        try {
+            Product Product1 = productDao.createProduct(Product);
+            if (Product1 != null)
+                return new ResponseEntity<Product>(Product1,HttpStatus.CREATED);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if (product.getQuantity() < 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
