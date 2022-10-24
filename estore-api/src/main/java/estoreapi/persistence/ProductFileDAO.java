@@ -178,6 +178,21 @@ public class ProductFileDAO implements ProductDAO {
     ** {@inheritDoc}
      */
     @Override
+    public Product createProduct(Product Prod) throws IOException {
+        synchronized(products) {
+            // We create a new Product object because the id field is immutable
+            // and we need to assign the next unique id
+            Product newProduct = new Product(nextId(),Prod.getName(),Prod.getPrice(),Prod.getCategory(),Prod.getQuantity(),Prod.getDescription(),Prod.getImage());
+            products.put(newProduct.getId(),newProduct);
+            save(); // may throw an IOException
+            return newProduct;
+        }
+    }
+
+    /**
+    ** {@inheritDoc}
+     */
+    @Override
     public Product updateProduct(Product product) throws IOException {
         synchronized(products) {
             if (products.containsKey(product.getId()) == false)

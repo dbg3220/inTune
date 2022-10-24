@@ -58,6 +58,18 @@ public interface ProductDAO {
      */
     Product findProductCategory(int id) throws IOException;
 
+    /**
+     * Creates and saves a {@linkplain Product product}
+     * 
+     * @param Product {@linkplain Product product} object to be created and saved
+     * <br>
+     * The id of the Product object is ignored and a new uniqe id is assigned
+     *
+     * @return new {@link Product product} if successful, false otherwise 
+     * 
+     * @throws IOException if an issue with underlying storage
+     */
+    Product createProduct(Product Prod) throws IOException;
 
     /**
      * Updates and saves a {@linkplain product}

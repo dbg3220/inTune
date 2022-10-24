@@ -132,9 +132,15 @@ public class Product {
      * 
      * @return The quantity of the product
      */
-    public String getCategory() {
+    public String getCategoryName() {
         return category.name();
     }
+
+    /**
+     * Retrieves the category of the product
+     * @return The category of the product
+     */
+    public Category getCategory() {return category;}
 
     /**
      * Sets the quantity of the product - necessary for JSON object to Java object
@@ -192,7 +198,7 @@ public class Product {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, name, price, getCategory(), quantity, description, image);
+        return String.format(STRING_FORMAT, id, name, price, getCategoryName(), quantity, description, image);
     }
 
     /**
@@ -205,7 +211,7 @@ public class Product {
             if (check.id == this.id &&
                     check.name.equals(this.name) &&
                     check.price == this.price &&
-                    check.getCategory().equals(this.getCategory()) &&
+                    check.getCategoryName().equals(this.getCategoryName()) &&
                     check.quantity == this.quantity &&
                     check.description.equals(this.description) &&
                     check.image.equals(this.image)) {
