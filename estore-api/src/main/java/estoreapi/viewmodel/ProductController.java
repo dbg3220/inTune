@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import estoreapi.model.Equipment;
-import estoreapi.model.Instrument;
-import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
 
@@ -30,6 +26,7 @@ import java.util.logging.Logger;
  * method handler to the Spring framework
  * 
  * @author Hayden Cieniawski
+ * @author Clayton Acheson
  */
 
 @RestController
@@ -128,48 +125,16 @@ public class ProductController {
      * @return The HTTP response
      */
     @PostMapping("")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) throws IOException {
         LOG.info("POST /products " + product);
-        try {
-            if (product.getPrice() < 0) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if (product.getQuantity() < 0) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if(product.getIsEquipment()){
-                Product newProduct = productDao.createEquipment((Equipment) product);
-                if (newProduct != null){
-                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-                }
-                else{
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
-            else if(product.getIsInstrument()){
-                Product newProduct = productDao.createInstrument((Instrument) product);
-                if (newProduct != null){
-                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-                }
-                else{
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
-            else if(product.getIsLesson()){
-                Product newProduct = productDao.createLesson((Lesson) product);
-                if (newProduct != null){
-                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-                }
-                else{
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
-            else{
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (product.getPrice() < 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (product.getQuantity() < 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 

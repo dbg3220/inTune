@@ -13,9 +13,6 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import estoreapi.model.Equipment;
-import estoreapi.model.Instrument;
-import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -181,48 +178,6 @@ public class ProductFileDAO implements ProductDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Product createInstrument(Instrument instrument) throws IOException {
-        synchronized(products) {
-            // We create a new product object because the id field is immutable
-            // and we need to assign the next unique id
-            Product newProduct = new Instrument(nextId(),instrument.getName(), instrument.getPrice(), instrument.getCategory(), instrument.getQuantity(),
-                    instrument.getIsInstrument(), instrument.getIsEquipment(), instrument.getIsLesson(), instrument.getSize());    
-            products.put(newProduct.getId(),newProduct);
-            save(); // may throw an IOException
-            return newProduct;
-        }
-    }
-    @Override
-    public Product createEquipment(Equipment equipment)throws IOException{
-        synchronized(products){
-            Product newProdct = new Equipment(nextId(), equipment.getName(), equipment.getPrice(), equipment.getCategory(), equipment.getQuantity(),
-            equipment.getIsEquipment(), equipment.getIsEquipment(), equipment.getIsLesson());
-            products.put(newProdct.getId(),newProdct);
-            save();
-            return newProdct;
-        }
-    }
-
-        /**
-    ** {@inheritDoc}
-     */
-    @Override
-    public Product createLesson(Lesson lesson) throws IOException {
-        synchronized(products) {
-            // We create a new product object because the id field is immutable
-            // and we need to assign the next unique id
-            Product newProduct = new Lesson(nextId(), lesson.getName(), lesson.getPrice(), lesson.getCategory(), lesson.getQuantity(), lesson.getIsInstrument(),
-            lesson.getIsEquipment(), lesson.getIsLesson(), lesson.getInstructor(), lesson.getStudent(), lesson.getWeekDay(), lesson.getStartTime(), lesson.getIsFull());
-            products.put(newProduct.getId(),newProduct);
-            save(); // may throw an IOException
-            return newProduct;
-        }
-    }
-
-    /**
-    ** {@inheritDoc}
-     */
-    @Override
     public Product updateProduct(Product product) throws IOException {
         synchronized(products) {
             if (products.containsKey(product.getId()) == false)
@@ -255,9 +210,4 @@ public class ProductFileDAO implements ProductDAO {
         return null;
     }
 
-    @Override
-    public Product findProductSubcategory(int id) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
