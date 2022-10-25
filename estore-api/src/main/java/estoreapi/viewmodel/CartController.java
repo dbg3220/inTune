@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoreapi.model.Cart;
-import estoreapi.model.User;
 import estoreapi.model.Product;
 import estoreapi.persistence.CartDAO;
+import estoreapi.persistence.ProductDAO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,21 +33,22 @@ import java.util.logging.Logger;
  */
 
 @RestController
-@RequestMapping("Carts")
+@RequestMapping("carts")
 public class CartController {
     private static final Logger LOG = Logger.getLogger(CartController.class.getName());
-    private CartDAO CartDao;
+    private CartDAO cartDao;
+    private ProductDAO productDao;
 
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param CartDao The {@link CartDAO Cart Data Access Object} to
+     * @param cartDao The {@link CartDAO Cart Data Access Object} to
      *                   perform CRUD operations
-     *                   <br>
-     *                   This dependency is injected by the Spring Framework
+     * @param productDAO
      */
-    public CartController(CartDAO CartDao) {
-        this.CartDao = CartDao;
+    public CartController(CartDAO cartDao, ProductDAO productDao) {
+        this.cartDao = cartDao;
+        this.productDao = productDao;
     }
 
    /**
@@ -56,11 +58,11 @@ public class CartController {
     */
     @GetMapping("/{id}")
     public ResponseEntity<Cart> getCart(@PathVariable int id) {
-        LOG.info("GET /Carts/" + id);   
+        LOG.info("GET /carts/" + id);   
         try {
-            Cart Cart = CartDao.retrieveCart(id);
-            if (Cart != null)
-                return new ResponseEntity<>(Cart, HttpStatus.OK);
+            Cart cart = cartDao.getCart(id);
+            if (cart != null)
+                return new ResponseEntity<>(cart, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } 
@@ -68,57 +70,16 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Handles the HTTP GET request for the Cart resource
      * @return All Carts
      */
     @GetMapping("")
     public ResponseEntity<Cart[]> getCarts() {
-    LOG.info("GET /Carts");
-    try {
-        return new ResponseEntity<>(CartDao.getCarts(), HttpStatus.OK);
-    } catch (IOException e) {
-        LOG.log(Level.SEVERE, "Error getting Carts", e);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    }
-    /**
-     * Handles the HTTP PUT request to update an existing Cart
-     * @param Cart The Cart to update
-     * @return The HTTP response
-     */
-    @PutMapping("")
-    public ResponseEntity<Cart> removeItem(@RequestBody Cart Cart, @RequestParam Product item, @RequestParam int quantity) {
-        LOG.info("PUT /Carts " + Cart);
+        LOG.info("GET /carts");
         try {
-            Cart Cart2 = CartDao.removeItem(Cart, item, quantity);
-            if (Cart2 != null)
-                return new ResponseEntity<Cart>(Cart2,HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-        /**
-     * Handles the HTTP POST request to create a new Cart
-     * 
-     * @param Cart The Cart to create
-     * @return The HTTP response
-     */
-    @PostMapping("")
-    public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
-        LOG.info("POST /Carts " + cart);
-        try {
-            
-            Cart newCart = CartDao.createCart(cart);
-            if (newCart != null)
-                return new ResponseEntity<Cart>(newCart, HttpStatus.CREATED);
-            else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(cartDao.getCarts(), HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -126,31 +87,35 @@ public class CartController {
     }
 
     /**
-     * Handles the HTTP PUT request to update an existing Cart
-     * @param Cart The Cart to update
-     * @return The HTTP response
+     * Handles the HTTP PUT request for the Cart resource, checks the new cart
+     * to ensure that it does not violate the inventory
+     * @param cart The updated cart
+     * @return The new cart where it is updated
      */
     @PutMapping("")
-    public ResponseEntity<Cart> addItem(@RequestBody Cart Cart, @RequestParam Product item, @RequestParam int quantity) {
-        LOG.info("PUT /Carts " + Cart);
+    public ResponseEntity<Cart> updateCart(@RequestBody Cart cart){
+        LOG.info("PUT /carts" + cart);
         try {
-            Cart Cart2 = CartDao.addItem(Cart, item, quantity);
-            if (Cart2 != null)
-                return new ResponseEntity<Cart>(Cart2,HttpStatus.OK);
+            ArrayList<Integer> newProductIDS = cart.getProductIDS();
+            ArrayList<Integer> newQuantities = cart.getQuantities();
+            for(int i = 0; i < newProductIDS.size(); i++){
+                int productID = newProductIDS.get(i);
+                int quantity = newQuantities.get(i);
+                Product product = productDao.getProduct(productID);
+                if(quantity > product.getQuantity()){
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+            Cart newCart = cartDao.updateCart(cart);
+            if(newCart != null)
+                return new ResponseEntity<Cart>(newCart, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    
-    // @PutMapping("")
-    // public ResponseEntity<Cart> updateCart(@RequestBody Cart Cart) {
-    //     LOG.info("PUT /Cartes " + Cart);
-    // }
 
    /**
     * Handles the HTTP DELETE request to delete an existing Cart
@@ -159,9 +124,9 @@ public class CartController {
     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Cart> deleteCart(@PathVariable int id) {
-        LOG.info("DELETE /Carts/" + id);
+        LOG.info("DELETE /carts/" + id);
         try {
-            boolean result = CartDao.deleteCart(id);
+            boolean result = cartDao.deleteCart(id);
             if (result)
                 return new ResponseEntity<>(HttpStatus.OK);
             else
