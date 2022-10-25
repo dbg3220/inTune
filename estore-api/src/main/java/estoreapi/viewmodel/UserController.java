@@ -42,10 +42,10 @@ public class UserController {
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param UserDAO The {@link UserDAO User Data Access Object} to
+     * @param userDAO The {@link UserDAO User Data Access Object} to
      *                perform CRUD operations
-     *                <br>
-     *                This dependency is injected by the Spring Framework
+     * @param cartDAO The {@link CartDAO Cart Data Access Object} to
+     *                perform CRUD operations
      */
     public UserController(UserDAO userDAO, CartDAO cartDAO) {
         this.userDAO = userDAO;
