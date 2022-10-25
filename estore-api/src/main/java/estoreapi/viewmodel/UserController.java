@@ -150,6 +150,8 @@ public class UserController {
      * 
      * If a user is deleted than their corresponding cart is also deleted
      * 
+     * If a request for the user admin is made than the request is rejected
+     * 
      * @param id The id of the user to delete
      * @return The HTTP response
      */
@@ -157,6 +159,9 @@ public class UserController {
     public ResponseEntity<User> deleteUser(@PathVariable int id) {
         LOG.info("DELETE /users/ " + id);
         try {
+            if(id == 0){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
             boolean userResult = userDAO.deleteUser(id);
             if(!userResult){
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
