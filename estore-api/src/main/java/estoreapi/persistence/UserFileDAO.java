@@ -205,27 +205,10 @@ public class UserFileDAO implements UserDAO{
     @Override
     public User createUser(User user) throws IOException {
         synchronized(users){
-            User newUser = new User(nextId(), user.getName(), user.getUsername(), user.getEmail(), 
-                                    user.getPassword(), user.getAddress(), user.getccnum(), user.getccmon(),
-                                    user.getccyear(), user.getCart(), user.getFriends(), user.isAdmin());
-                                    users.put(newUser.getId(), newUser);
+            User newUser = new User(nextId(), user.getUsername());
+            users.put(nextId(), newUser);
             save();
             return newUser;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User updateUser(User user) throws IOException {
-        synchronized(users){
-            if(users.containsKey(user.getId())){
-                users.put(user.getId(), user);
-                return user;
-            } else {
-                return null;
-            }
         }
     }
 
@@ -237,7 +220,8 @@ public class UserFileDAO implements UserDAO{
         synchronized(users) {
             if (users.containsKey(id)) {
                 users.remove(id);
-                return save();
+                save();
+                return true;
             }
             else {
                 return false;
