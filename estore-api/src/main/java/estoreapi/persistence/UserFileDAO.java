@@ -156,6 +156,22 @@ public class UserFileDAO implements UserDAO{
     }
 
     /**
+     * Private helper method to check if a username is taken so that
+     * duplicate users with different ids can't be added to the database
+     * @param username The username to check
+     * @return true if there is a user with the same username, false otherwise
+     */
+    private boolean isUsernameTaken(String username){
+        User[] users = getUsersArray();
+        for(User user : users){
+            if(user.getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -205,6 +221,9 @@ public class UserFileDAO implements UserDAO{
     @Override
     public User createUser(User user) throws IOException {
         synchronized(users){
+            if(isUsernameTaken(user.getUsername())){
+                return null;
+            }
             User newUser = new User(nextId(), user.getUsername());
             users.put(nextId(), newUser);
             save();
