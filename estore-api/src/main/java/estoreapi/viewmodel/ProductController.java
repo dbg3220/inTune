@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import estoreapi.model.Equipment;
-import estoreapi.model.Instrument;
-import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
 
@@ -30,6 +26,7 @@ import java.util.logging.Logger;
  * method handler to the Spring framework
  * 
  * @author Hayden Cieniawski
+ * @author Clayton Acheson
  */
 
 @RestController
@@ -63,7 +60,7 @@ public class ProductController {
             if (product != null)
                 return new ResponseEntity<>(product, HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IOException e){
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -77,9 +74,10 @@ public class ProductController {
     public static ResponseEntity<Product[]> getProducts() {
     LOG.info("GET /products");
     try {
-        return new ResponseEntity<>(productDao.getProducts(), HttpStatus.OK);
+        Product[] products = productDao.getProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
     } catch (IOException e) {
-        LOG.log(Level.SEVERE, "Error getting products", e);
+        LOG.log(Level.SEVERE, e.getLocalizedMessage());
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -94,81 +92,26 @@ public class ProductController {
         LOG.info("GET /products/?name=" + name);
 
         try {
-            Product[] searchProductsByName = productDao.findProducts(name);
-            if (searchProductsByName!= null)
-                return new ResponseEntity<Product[]>(searchProductsByName, HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            Product[] products = productDao.findProducts(name);
+            return new ResponseEntity<>(products, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // @GetMapping("/{category}")
-    // public ResponseEntity<Product[]> searchProductsByCategory(@RequestParam String category) {
-    //     LOG.info("GET /products/?category=" + category);
-
-    //     try {
-    //         Product[] searchProductsByCategory = productDao.findProducts(category);
-    //         if (searchProductsByCategory!= null)
-    //             return new ResponseEntity<Product[]>(searchProductsByCategory, HttpStatus.OK);
-    //         else
-    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //     } catch (IOException e) {
-    //         LOG.log(Level.SEVERE, e.getLocalizedMessage());
-    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
-        /**
-     * Handles the HTTP POST request to create a new product
-     * 
-     * @param product The product to create
-     * @return The HTTP response
-     */
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         LOG.info("POST /products " + product);
         try {
-            if (product.getPrice() < 0) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if (product.getQuantity() < 0) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if(product.getIsEquipment()){
-                Product newProduct = productDao.createEquipment((Equipment) product);
-                if (newProduct != null){
-                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-                }
-                else{
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
-            else if(product.getIsInstrument()){
-                Product newProduct = productDao.createInstrument((Instrument) product);
-                if (newProduct != null){
-                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-                }
-                else{
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
-            else if(product.getIsLesson()){
-                Product newProduct = productDao.createLesson((Lesson) product);
-                if (newProduct != null){
-                    return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
-                }
-                else{
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-            }
-            else{
+            Product Product1 = productDao.createProduct(product);
+            if (Product1 != null)
+                return new ResponseEntity<Product>(Product1,HttpStatus.CREATED);
+            else
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -183,10 +126,10 @@ public class ProductController {
         LOG.info("PUT /products " + product);
         try {
             if(product.getPrice() < 0){
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             if(product.getQuantity() < 0){
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             Product product2 = productDao.updateProduct(product);
             if (product2 != null)
@@ -199,12 +142,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    
-    // @PutMapping("")
-    // public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-    //     LOG.info("PUT /Productes " + product);
-    // }
 
    /**
     * Handles the HTTP DELETE request to delete an existing product
@@ -219,7 +156,7 @@ public class ProductController {
             if (result)
                 return new ResponseEntity<>(HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());

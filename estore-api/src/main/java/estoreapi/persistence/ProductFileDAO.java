@@ -1,9 +1,5 @@
 package estoreapi.persistence;
 
-/**
-     * Fixing create lesson
-     * Implement create equitment
-     */
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,9 +9,6 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import estoreapi.model.Equipment;
-import estoreapi.model.Instrument;
-import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +21,7 @@ import org.springframework.stereotype.Component;
  * class and injects the instance into other classes as needed
  * 
  * @author Hayden Cieniawski
+ * @author Clayton Acheson
  */
 @Component
 public class ProductFileDAO implements ProductDAO {
@@ -181,38 +175,12 @@ public class ProductFileDAO implements ProductDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Product createInstrument(Instrument instrument) throws IOException {
+    public Product createProduct(Product product) throws IOException {
         synchronized(products) {
-            // We create a new product object because the id field is immutable
+            // We create a new Product object because the id field is immutable
             // and we need to assign the next unique id
-            Product newProduct = new Instrument(nextId(),instrument.getName(), instrument.getPrice(), instrument.getCategory(), instrument.getQuantity(),
-                    instrument.getIsInstrument(), instrument.getIsEquipment(), instrument.getIsLesson(), instrument.getSize());    
-            products.put(newProduct.getId(),newProduct);
-            save(); // may throw an IOException
-            return newProduct;
-        }
-    }
-    @Override
-    public Product createEquipment(Equipment equipment)throws IOException{
-        synchronized(products){
-            Product newProdct = new Equipment(nextId(), equipment.getName(), equipment.getPrice(), equipment.getCategory(), equipment.getQuantity(),
-            equipment.getIsEquipment(), equipment.getIsEquipment(), equipment.getIsLesson());
-            products.put(newProdct.getId(),newProdct);
-            save();
-            return newProdct;
-        }
-    }
-
-        /**
-    ** {@inheritDoc}
-     */
-    @Override
-    public Product createLesson(Lesson lesson) throws IOException {
-        synchronized(products) {
-            // We create a new product object because the id field is immutable
-            // and we need to assign the next unique id
-            Product newProduct = new Lesson(nextId(), lesson.getName(), lesson.getPrice(), lesson.getCategory(), lesson.getQuantity(), lesson.getIsInstrument(),
-            lesson.getIsEquipment(), lesson.getIsLesson(), lesson.getInstructor(), lesson.getStudent(), lesson.getWeekDay(), lesson.getStartTime(), lesson.getIsFull());
+            Product newProduct = new Product(nextId(), product.getName(), product.getPrice(), product.getCategory(),
+                                             product.getQuantity(), product.getDescription(), product.getImage());
             products.put(newProduct.getId(),newProduct);
             save(); // may throw an IOException
             return newProduct;
@@ -247,17 +215,5 @@ public class ProductFileDAO implements ProductDAO {
             else
                 return false;
         }
-    }
-
-    @Override
-    public Product findProductCategory(int id) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Product findProductSubcategory(int id) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

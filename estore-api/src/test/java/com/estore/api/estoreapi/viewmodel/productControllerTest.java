@@ -14,33 +14,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import estoreapi.model.Instrument;
-import estoreapi.model.Equipment;
-import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
-import estoreapi.persistence.ProductFileDAO;
 import estoreapi.model.Product.Category;
 
 /**
  * The unit test for the product controller
  * 
  * @author Donovan Cataldo
+ * @author Clayton Acheson
  */
 @Tag("Controller-tier")
-public class productControllerTest {
+public class ProductControllerTest {
     ProductDAO mockDAO;
     ProductController productController;
-
-    public productControllerTest(){
-        try {
-            mockDAO = new ProductFileDAO("products.JSON", new ObjectMapper());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @BeforeEach
     public void setUpProductController(){
@@ -49,9 +36,9 @@ public class productControllerTest {
     }
 
     @Test
-    public void testGetProduct() throws IOException{
+    public void testGetProduct() throws Exception{
         // Setup
-        Product product = new Equipment(1, "Violin Bow", 100, Category.WOODWINDS, 5, false, true, false);
+        Product product = new Product(1, "Violin Bow", 100, Category.WOODWINDS, 5, "Good beginner Bow","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg" );
         when(mockDAO.getProduct(product.getId())).thenReturn(product);
         
         // Invoke
@@ -62,7 +49,7 @@ public class productControllerTest {
         assertEquals(product,response.getBody());
     }
 
-    public void testGetProductNotFound() throws IOException{
+    public void testGetProductNotFound() throws Exception{
         // Setup
         int productID = 100000;
         when(mockDAO.getProduct(productID)).thenReturn(null);
@@ -74,7 +61,7 @@ public class productControllerTest {
         assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
     }
 
-    public void testGetProductHandleException() throws IOException{
+    public void testGetProductHandleException() throws Exception{
         // Setup
         int productID = 100000;
         doThrow(new IOException()).when(mockDAO).getProduct(productID);
@@ -87,12 +74,12 @@ public class productControllerTest {
     }
 
     @Test
-    public void testGetProducts() throws IOException{
+    public void testGetProducts() throws Exception{
         // Setup
         Product[] products = new Product[3];
-        products[0] = new Equipment(1, "Violin Bow", 100, null, 5, false, true, false);
-        products[1] = new Instrument(2, "Violin", 500, null, 2, true, false, false, "Massive");
-        products[2] = new Lesson(3, "9 am monday Lesson", 30, null, 2, false, false, true, "Clayton", null, null, null, false);
+        products[0] = new Product(1, "Violin Bow", 100.99, Category.STRINGS, 5,"Very good for begineer Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg");
+        products[1] = new Product(2, "Violin", 500.99, null, 2,"Hand crafted violin sings beautifully in the high range of the String family", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg");
+        products[2] = new Product(3, "Rosin", 1000.99, null, 6, "Have to keep the bow fresh with the ability to grip the Strings","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg" );
         when(mockDAO.getProducts()).thenReturn(products);
 
         // Invoke
@@ -104,7 +91,7 @@ public class productControllerTest {
     } 
 
     @Test
-    public void testsearchProductsHandleException() throws IOException{
+    public void testsearchProductsHandleException() throws Exception{
         // Setup
         doThrow(new IOException()).when(mockDAO).getProducts();
 
@@ -116,12 +103,12 @@ public class productControllerTest {
     }
     
     @Test
-    public void testsearchProductsByName() throws IOException{
+    public void testsearchProductsByName() throws Exception{
         // Setup
         String testString = "Violin";
         Product[] products = new Product[3];
-        products[0] = new Equipment(1, "Violin Bow", 100, null, 5, false, true, false);
-        products[1] = new Instrument(2, "Violin", 500, null, 2, true, false, false, "Massive");
+        products[0] = new Product(1, "Violin Bow", 100, null, 5, "Good bow for beginner Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg");
+        products[1] = new Product(2, "Violin", 500, null, 2,"Hand crafted violin sings beautifully in the high range of the String family","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg" );
         when(mockDAO.findProducts(testString)).thenReturn(products);
 
         // Invoke
@@ -132,89 +119,36 @@ public class productControllerTest {
         assertEquals(products,response.getBody());
     }
 
-    // @Test
-    // public void testsearchProductsByNameHandleException(){
-    //     // Setup
-    //     String testString = "Violin";
-    //     doThrow(new IOException()).when(mockDAO).searchProductsByName(testString);
-
-    //     // Invoke
-    //     ResponseEntity<Product[]> response = productController.searchProductsByName(testString);
-
-    //     // Analyze
-    //     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
-    // }
-
     @Test
-    public void testCreateProduct() throws IOException{
+    public void testCreateProduct() throws Exception{
         // Setup
-        Equipment product = new Equipment(1, "test", 5, null, 0, false, true, false);
-        when(mockDAO.createEquipment(product)).thenReturn(product);
+        Product product = new Product(52, "testing", 5, Category.STRINGS, 0, "testing the testing testing", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg");
+        when(mockDAO.createProduct(product)).thenReturn(product);
         // Invoke
         ResponseEntity<Product> response = productController.createProduct(product);
 
         // Analyze
         assertEquals(HttpStatus.CREATED,response.getStatusCode());
         assertEquals(product,response.getBody());
+    }
 
-        // // Setup
-        // product = new Instrument(2, "test", 10, null, 10, true, false, false, null);
-        // when(mockDAO.createProduct(product)).thenReturn(product);
-
-        // // Invoke
-        // response = productController.createProduct(product);
-
-        // // Analyze
-        // assertEquals(HttpStatus.CREATED,response.getStatusCode());
-        // assertEquals(product,response.getBody());
-
+    @Test
+    public void testCreateProductHandleException() throws Exception{
         // Setup
-    //     product = new Lesson(3, "test", 0, null, 0, true, false, false, null, null, null, null, null);
-    //     when(mockDAO.createProduct(product)).thenReturn(product);
+        Product product = new Product(0, "", 0, Category.STRINGS, 0, "", "");
+        doThrow(new IOException()).when(mockDAO).createProduct(product);
 
-    //     // Invoke
-    //     response = productController.createProduct(product);
+        // Invoke
+        ResponseEntity<Product> response = productController.createProduct(product);
 
-    //     // Analyze
-    //     assertEquals(HttpStatus.CREATED,response.getStatusCode());
-    //     assertEquals(product,response.getBody());
-    // }
-
-    // @Test
-    // public void testCreateProductHandleException(){
-    //     // Setup
-    //     Product product = new Equipment(0, null, 0, null, 0, false, true, false);
-    //     doThrow(new IOException()).when(mockDAO).createProduct(product);
-
-    //     // Invoke
-    //     ResponseEntity<Product> response = productController.createProduct(product);
-
-    //     // Analyze
-    //     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
-
-    //     product = new Instrument(0, null, 0, null, 0, true, false, false, null);
-    //     doThrow(new IOException()).when(mockDAO).createProduct(product);
-
-    //     // Invoke
-    //     response = productController.createProduct(product);
-
-    //     // Analyze
-    //     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
-
-    //     product = new Lesson(0, null, 0, null, 0, false, false, true, null, null, null, null, null);
-    //     doThrow(new IOException()).when(mockDAO).createProduct(product);
-
-    //     // Invoke
-    //     response = productController.createProduct(product);
-
-    //     // Analyze
-    //     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        // Analyze
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
     }
 
     @Test
     public void testUpdateProduct() throws IOException{
         // Setup
-        Product product = new Equipment(0, null, 0, null, 0, false, true, false);
+        Product product = new Product(0, "Test", 0, Category.STRINGS, 0, "Something","test.jpg");
         when(mockDAO.updateProduct(product)).thenReturn(product);
         ResponseEntity<Product> response = productController.updateProduct(product);
         product.setName("TestChange");
@@ -230,7 +164,7 @@ public class productControllerTest {
     @Test
     public void testUpdateProductFailed() throws IOException{
         // Setup
-        Product product = new Equipment(1, null, 10, null, 0, false, true, false);
+        Product product = new Product(1, null, 10, Category.STRINGS, 0, null,null);
         when(mockDAO.updateProduct(product)).thenReturn(null);
 
         // Invoke
@@ -243,7 +177,7 @@ public class productControllerTest {
     @Test
     public void testUpdateProductHandleException() throws IOException{
         // Setup
-        Product product = new Equipment(1, null, 0, null, 0, false, true, false);
+        Product product = new Product(1, null, 0, Category.STRINGS, 0, null,null);
         doThrow(new IOException()).when(mockDAO).updateProduct(product);
 
         // Invoke
@@ -276,7 +210,7 @@ public class productControllerTest {
         ResponseEntity<Product> response = productController.deleteProduct(productID);
 
         // Analyze
-        assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
 
     }
 
