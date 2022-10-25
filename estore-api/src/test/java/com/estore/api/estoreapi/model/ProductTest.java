@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 @Tag("Model-tier")
 public class ProductTest {
     private Product testProduct;
+
     @Test
     public void testID(){
         // Setup
@@ -26,6 +27,7 @@ public class ProductTest {
         // Analyze
         assertEquals(testing_id,testProduct.getId());
     }
+
     @Test
     public void testName(){
         // Setup
@@ -38,6 +40,7 @@ public class ProductTest {
         assertEquals(expected_name,testProduct.getName());
 
     }
+
     @Test
     public void testProductPrice(){
         // Setup
@@ -49,6 +52,7 @@ public class ProductTest {
         // Analyze
         assertEquals(expectedProductPrice,testProduct.getPrice());
     }
+
     @Test
     public void testCategory(){
         // Setup
@@ -58,11 +62,8 @@ public class ProductTest {
         testProduct = new Product(12, null, 0.0, expectedCategory, 0,null,null);
         // Analyze
         assertEquals(expectedCategory,testProduct.getCategory());
-
-        String testString = "STRINGS";
-
-        assertEquals(testString, testProduct.getCategoryName());
     }
+
     @Test
     public void testQuantity(){
         // Setup
@@ -73,6 +74,7 @@ public class ProductTest {
         // Analyze
         assertEquals(expectedQuantity,testProduct.getQuantity());
     }
+
     @Test
     public void testDescription(){
         // Setup
@@ -83,6 +85,7 @@ public class ProductTest {
         // Analyze
         assertEquals(testDesc,testProduct.getDescription());
     }
+
     @Test
     public void testImage(){
         // Setup
@@ -93,5 +96,4 @@ public class ProductTest {
         // Analyze
         assertEquals(testImage,testProduct.getImage());
     }
-
 }

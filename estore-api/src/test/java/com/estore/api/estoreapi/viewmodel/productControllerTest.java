@@ -28,11 +28,11 @@ import estoreapi.model.Product.Category;
  * @author Clayton Acheson
  */
 @Tag("Controller-tier")
-public class productControllerTest {
+public class ProductControllerTest {
     ProductDAO mockDAO;
     ProductController productController;
 
-    public productControllerTest(){
+    public ProductControllerTest(){
         try {
             mockDAO = new ProductFileDAO("products.JSON", new ObjectMapper());
         } catch (IOException e) {
