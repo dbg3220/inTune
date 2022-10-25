@@ -30,6 +30,16 @@ public class Cart {
         this.productIDS = productIDS;
         this.quantities = quantities;
     }
+    
+    /**
+     * Secondary constructor for use when carts are created in real time by users
+     * and they have no products in them
+     * @param id The id of the cart, corresponds to the id of the User whose cart
+     *  this belongs to
+     */
+    public Cart (int id){
+        this(id, new ArrayList<>(), new ArrayList<>());
+    }
 
     /**
      * Gives the id of the cart
@@ -37,6 +47,14 @@ public class Cart {
      */
     public int getId() {
         return id;
+    }
+
+    /**
+     * Sets the id of the cart
+     * @param id The new id
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -76,35 +94,6 @@ public class Cart {
      */
     public boolean containsProduct(int id){
         return productIDS.contains(id);
-    }
-
-    /**
-     * Adds a product to the cart with the specified new quantity, does
-     * not take into consideration how many of the products exist in 
-     * the inventory
-     * @param id The id of the product to be added
-     * @param quantity The quantity of the product to be added, assumed to be > 0
-     */
-    public void addProduct(int id, int quantity) {
-        int index = productIDS.indexOf(id);
-        if(index != -1){
-            int initialQuantity = quantities.get(index);
-            quantities.set(index, initialQuantity + quantity);
-        } else {
-            productIDS.add(id);
-            quantities.add(quantity);
-        }
-    }
-
-    /**
-     * Removes a product from the cart
-     * @param id The id of the product to be removed
-     * @param quantity The quantity of the product to be removed, assumed to be > 0
-     * @return true if the operation was performed successfully, false otherwise
-     */
-    public boolean removeProduct(Product product, int quantity) {
-        //TODO
-        return false;
     }
 
     /**
