@@ -34,7 +34,7 @@ public class Cart {
     /**
      * Secondary constructor for use when carts are created in real time by users
      * and they have no products in them
-     * @param id The id of the cart, corresponds to the id of the User whose cart
+     * @param id The id of the cart, corresponds to the id of the user whose cart
      *  this belongs to
      */
     public Cart (int id){
@@ -102,5 +102,19 @@ public class Cart {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT,id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object other){
+        if(other instanceof Cart){
+            Cart otherCart = (Cart) other;
+            return this.id == otherCart.id &&
+                   this.productIDS.equals(otherCart.productIDS) &&
+                   this.quantities.equals(otherCart.quantities);
+        }
+        return false;
     }
 }

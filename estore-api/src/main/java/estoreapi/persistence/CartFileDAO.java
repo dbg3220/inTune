@@ -32,7 +32,6 @@ public class CartFileDAO implements CartDAO {
     private ObjectMapper objectMapper;  // Provides conversion between Cart
                                         // objects and JSON text format written
                                         // to the file
-    private static int nextId;  // The next Id to assign to a new Cart
     private String filename;    // Filename to read from and write to
 
     /**
@@ -47,17 +46,6 @@ public class CartFileDAO implements CartDAO {
         this.filename = filename;
         this.objectMapper = objectMapper;
         load();  // load the Carts from the file
-    }
-
-    /**
-     * Generates the next id for a new {@linkplain Cart Cart}
-     * 
-     * @return The next id
-     */
-    private synchronized static int nextId() {
-        int id = nextId;
-        ++nextId;
-        return id;
     }
 
     /**
@@ -109,21 +97,17 @@ public class CartFileDAO implements CartDAO {
      */
     private boolean load() throws IOException {
         carts = new TreeMap<>();
-        nextId = 0;
 
         // Deserializes the JSON objects from the file into an array of Carts
         // readValue will throw an IOException if there's an issue with the file
         // or reading from the file
         Cart[] cartArray = objectMapper.readValue(new File(filename),Cart[].class);
 
-        // Add each Cart to the tree map and keep track of the greatest id
+        // Add each Cart to the tree map
         for (Cart cart : cartArray) {
             carts.put(cart.getId(), cart);
-            if (cart.getId() > nextId)
-                nextId = cart.getId();
         }
         // Make the next id one greater than the maximum from the file
-        ++nextId;
         return true;
     }
 
@@ -168,11 +152,15 @@ public class CartFileDAO implements CartDAO {
     ** {@inheritDoc}
      */
     @Override
-    public Cart createCart() throws IOException {
+    public Cart createCart(int id) throws IOException {
         synchronized(carts) {
+            // Checks if a cart with the same id was created
+            if(carts.containsKey(id)){
+                return null;
+            }
             // We create a new Cart object because the id field is immutable
             // and we need to assign the next unique id
-            Cart newCart = new Cart(nextId());  
+            Cart newCart = new Cart(id);
             carts.put(newCart.getId(),newCart);
             save(); // may throw an IOException
             return newCart;

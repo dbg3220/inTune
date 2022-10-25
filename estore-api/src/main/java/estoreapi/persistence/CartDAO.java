@@ -32,7 +32,7 @@ public interface CartDAO {
      * @return The new created {@linkplain Cart}
      * @throws IOException if an issue with underlying storage
      */
-    Cart createCart() throws IOException;
+    Cart createCart(int id) throws IOException;
 
     /**
      * Updates a {@linkplain Cart}
