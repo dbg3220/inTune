@@ -17,6 +17,9 @@ export class ProductService {
   private productsURL = 'api/products';  // URL to web api
   private products: BehaviorSubject<any> = new BehaviorSubject(null);
   private searchFilterProductsClone: BehaviorSubject<any> = new BehaviorSubject(null);
+  private _productCart = new BehaviorSubject<Product[]>([]);
+  readonly productCart$ = this._productCart.asObservable();
+  private productCart: Product[] = [];
 
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
@@ -74,6 +77,29 @@ export class ProductService {
   deleteProduct(id : number): Observable<Product> {
     const url = `${this.productsURL}/${id}`;
     return this.http.delete<Product>(url, this.httpOptions)
+  }
+
+  addToCart(product: Product)
+  {
+    let found: boolean = false;
+    for(let x of this.productCart) {
+        if(product.id === x.id)
+        {
+          found = true;
+          product.quantity++;
+        }
+    }
+      //if(!found) {
+        if(!found) {
+          this.productCart.push(product);
+        }
+        this._productCart.next(Object.assign([], this.productCart));
+      //}
+
+  }
+  getCart(): Observable<Product[]>
+  {
+    return this.productCart$;
   }
 
 
