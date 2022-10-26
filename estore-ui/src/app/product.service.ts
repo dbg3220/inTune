@@ -97,12 +97,30 @@ export class ProductService {
       //}
 
   }
+  
+  removeToCart(product:Product)
+  {
+    let found: boolean = false;
+    this.productCart.forEach( (item, index) => {
+      if(item.id === product.id) {
+          if(product.quantity > 1)
+          {
+            product.quantity--;
+          }
+          else {
+            this.productCart.splice(index, 1);
+          }
+        }
+    });
+
+    this._productCart.next(Object.assign([], this.productCart));
+
+  }
+
   getCart(): Observable<Product[]>
   {
     return this.productCart$;
   }
-
-
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -16,6 +16,11 @@ export class CartComponent implements OnInit {
 
   constructor(private msg: MessengerService,private productService: ProductService) { }
 
+  removeProductCart(product: Product)
+  {
+    this.productService.removeToCart(product);
+  }
+
   ngOnInit(): void{
     this.productService.getCart().pipe(filter(cart => !!cart), takeUntil(this.componentDestroyed$))
       .subscribe(cartItems => this.cartItems = cartItems);
