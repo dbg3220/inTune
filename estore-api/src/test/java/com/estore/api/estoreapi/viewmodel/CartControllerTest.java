@@ -9,11 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/*
-import com.heroes.api.heroesapi.persistence.HeroDAO;
-import com.heroes.api.heroesapi.model.Hero;
-*/
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -29,7 +24,7 @@ import estoreapi.persistence.ProductDAO;
 import estoreapi.viewmodel.CartController;
 
 /**
- * Test the Hero Controller class
+ * Test the CartController class
  * 
  * @author Jonathan Zhu
  * @author Damon Gonzalez

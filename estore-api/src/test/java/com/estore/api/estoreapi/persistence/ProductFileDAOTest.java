@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.heroes.api.heroesapi.model.Hero;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -45,7 +44,7 @@ public class ProductFileDAOTest {
      */
 
     @BeforeEach
-    public void setupHeroFileDao() throws IOException {
+    public void setupProductFileDao() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testProducts = new Product[3];
         testProducts[0] = new Product(1, "Guitar", 122.99, Product.Category.WOODWINDS, 2, "Classical Guitar", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg") {
