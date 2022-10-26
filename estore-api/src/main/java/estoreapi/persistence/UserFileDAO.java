@@ -225,7 +225,7 @@ public class UserFileDAO implements UserDAO{
                 return null;
             }
             User newUser = new User(nextId(), user.getUsername());
-            users.put(nextId(), newUser);
+            users.put(newUser.getId(), newUser);
             save();
             return newUser;
         }
