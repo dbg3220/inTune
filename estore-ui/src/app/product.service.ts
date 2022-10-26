@@ -97,7 +97,7 @@ export class ProductService {
       //}
 
   }
-  
+
   removeToCart(product:Product)
   {
     let found: boolean = false;
