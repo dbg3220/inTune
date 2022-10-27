@@ -16,6 +16,7 @@ import { MessengerService } from '../messenger.service';
 })
 export class ProductDetailComponent implements OnInit {
   product!: Product;
+  added: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,5 +50,6 @@ export class ProductDetailComponent implements OnInit {
     console.log("works")
     this.productService.addToCart(this.product);
     this.msg.sendMsg(this.product)
+    this.added = true;
   }
 }
