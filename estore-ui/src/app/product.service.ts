@@ -14,7 +14,7 @@ export class ProductService {
 
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
-  private productsURL = 'api/products';  // URL to web api
+  private productsURL = 'http://localhost:8080/products';  // URL to web api
   private products: BehaviorSubject<any> = new BehaviorSubject(null);
   private searchFilterProductsClone: BehaviorSubject<any> = new BehaviorSubject(null);
   private _productCart = new BehaviorSubject<Product[]>([]);

@@ -14,13 +14,11 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.heroes.api.heroesapi.model.Hero;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import estoreapi.model.Instrument;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductFileDAO;
 
@@ -28,6 +26,7 @@ import estoreapi.persistence.ProductFileDAO;
  * The junit test suit for the ProductFileDAO class
  * 
  * @author Jonathan Zhu
+ * @author Clayton Acheson
  */
 
 @Tag("Persistence-tier")
@@ -45,15 +44,15 @@ public class ProductFileDAOTest {
      */
 
     @BeforeEach
-    public void setupHeroFileDao() throws IOException {
+    public void setupProductFileDao() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testProducts = new Product[3];
-        testProducts[0] = new Product(1, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        testProducts[0] = new Product(1, "Guitar", 122.99, Product.Category.WOODWINDS, 2, "Classical Guitar", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg") {
         }; 
 
-        testProducts[1] = new Product(2, "Violin", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        testProducts[1] = new Product(2, "Violin", 122.99, Product.Category.WOODWINDS, 2, "Violin","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg") {
         }; 
-        testProducts[2] = new Product(3, "Viola", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        testProducts[2] = new Product(3, "Viola", 122.99, Product.Category.WOODWINDS, 2, "Viola","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg") {
         }; 
 
         when(mockObjectMapper
@@ -109,28 +108,11 @@ public class ProductFileDAOTest {
     }
     */
 
-    @Test
-    public void testCreateInstrument() {
-        // Setup
-        Instrument testinstrument = new Instrument(3, "Viola",
-                122.99, Product.Category.WOODWINDS, 2, true, false, false, "1/2");
-
-        // Invoke
-        Product result = assertDoesNotThrow(() -> productFileDAO.createInstrument(testinstrument),
-                                                "Unexpected exception thrown");
-
-        // Analyze 
-        assertNotNull(result);
-        Product actual = productFileDAO.getProduct(testinstrument.getId());
-        assertEquals(testinstrument.getId(), actual.getId());
-        assertEquals(actual.getName(), testinstrument.getName());
-    }
-
 
 
     @Test
     public void testUpdateProduct() {
-        Product product = new Product(1, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
+        Product product = new Product(1, "Guitar", 122.99, Product.Category.WOODWINDS, 2, "Classical Guitar", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg") {
         };
 
         Product result = assertDoesNotThrow(() -> productFileDAO.updateProduct(product),
@@ -147,11 +129,10 @@ public class ProductFileDAOTest {
                 .when(mockObjectMapper)
                 .writeValue(any(File.class), any(Product[].class));
 
-        Instrument instrument = new Instrument(99, "viola", 122.99, Product.Category.WOODWINDS, 2, true, false, false,
-                "1/2");
+        Product instrument = new Product(99, "viola", 122.99, Product.Category.WOODWINDS, 2, "Viola: the neglected middle child", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg");
 
         assertThrows(IOException.class,
-                () -> productFileDAO.createInstrument(instrument),
+                () -> productFileDAO.createProduct(instrument),
                 "IOException not thrown");
     }
 
@@ -181,8 +162,7 @@ public class ProductFileDAOTest {
     @Test
     public void testUpdateProductNotFound() {
         // Setup
-        Product product = new Product(99, "Guitar", 122.99, Product.Category.WOODWINDS, 2, true, false, false) {
-        };
+        Product product = new Product(99, "Guitar", 122.99, Product.Category.WOODWINDS, 2, "Classical Guitar", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg");
 
         // Invoke
         Product result = assertDoesNotThrow(() -> productFileDAO.updateProduct(product),

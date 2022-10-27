@@ -6,12 +6,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.util.Hashtable;
-
-/*
-import com.heroes.api.heroesapi.persistence.HeroDAO;
-import com.heroes.api.heroesapi.model.Hero;
-*/
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -20,23 +16,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import estoreapi.model.Cart;
-import estoreapi.model.Instrument;
 import estoreapi.model.Product;
-import estoreapi.model.User;
+import estoreapi.model.Product.Category;
 import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.CartFileDAO;
+import estoreapi.persistence.ProductDAO;
 import estoreapi.viewmodel.CartController;
 
 /**
- * Test the Hero Controller class
+ * Test the CartController class
  * 
  * @author Jonathan Zhu
+ * @author Damon Gonzalez
  */
 
 @Tag("Controller-tier")
 public class CartControllerTest {
     private CartController cartController;
     private CartDAO mockCartDAO;
+    private ProductDAO mockProductDAO;
 
     /**
      * Before each test, create a new CartController object and inject
@@ -46,38 +44,22 @@ public class CartControllerTest {
      @BeforeEach
      public void setupCartController() {
         mockCartDAO = mock(CartDAO.class);
-        cartController = new CartController(mockCartDAO);
+        mockProductDAO = mock(ProductDAO.class);
+        cartController = new CartController(mockCartDAO, mockProductDAO);
      }
-
-     private Hashtable<Product, Integer> generateProducts() {
-        Hashtable<Product, Integer> products = new Hashtable<Product, Integer>();
-        Product product1 = new Instrument(0, "viola", 1000, Product.Category.STRINGS,
-                5, true, false, false, null);
-        Product product2 = new Instrument(1, "violin", 2000, Product.Category.STRINGS,
-                10, true, false, false, null);
-        Product product3 = new Instrument(2, "guitar", 3000, Product.Category.STRINGS,
-                3, true, false, false, "1/2");
-        products.put(product1, product1.getId());
-        products.put(product2, product2.getId());
-        products.put(product3, product3.getId());
-        return products;
-    }
 
      @Test
      public void testGetCart() throws IOException{
         // Setup
-        Cart cart = new Cart(99);
-
-        when(mockCartDAO.retrieveCart(cart.getId())).thenReturn(cart);
-        // need to fix cart for this to work
-
+        int cartID = 99;
+        Cart cart = new Cart(cartID);
+        when(mockCartDAO.getCart(cart.getId())).thenReturn(cart);
         // Invoke
-        ResponseEntity<Cart> response = cartController.getCart(cart.getId());
+        ResponseEntity<Cart> response = cartController.getCart(cartID);
 
         // Analyze
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(cart,response.getBody());
-        
      }
 
     @Test
@@ -88,7 +70,6 @@ public class CartControllerTest {
         // no Cart found
         when(mockCartDAO.getCarts()).thenReturn(null);
         
-
         // Invoke
         ResponseEntity<Cart> response = cartController.getCart(cartId);
 
@@ -101,7 +82,7 @@ public class CartControllerTest {
         // Setup
         int cartId = 99;
         // When getCart is called on the Mock Cart DAO, throw an IOException
-        doThrow(new IOException()).when(mockCartDAO).retrieveCart(cartId);
+        doThrow(new IOException()).when(mockCartDAO).getCart(cartId);
 
         // Invoke
         ResponseEntity<Cart> response = cartController.getCart(cartId);
@@ -111,77 +92,21 @@ public class CartControllerTest {
     }
 
     @Test
-    public void testCreateCart() throws IOException {  // createCart may throw IOException
-        // Setup
-        Cart cart = new Cart(99);
-        
-        User user = new User(2, "clayton", null, null, null, null, null, 0, 0, cart, null, false);
-        // when createCart is called, return true simulating successful
-        // creation and save
-        when(mockCartDAO.createCart(cart)).thenReturn(cart);
-        // cart and user needs to be in this test for createCarts
-
-        // Invoke
-        ResponseEntity<Cart> response = cartController.createCart(cart);
-        // cart and user needs to be in this test for createCarts
-
-        // Analyze
-        assertEquals(HttpStatus.CREATED,response.getStatusCode());
-        assertEquals(cart,response.getBody());
-    }
-
-    @Test
-    public void testCreateCartFailed() throws IOException {  // createCart may throw IOException
-        // Setup
-        Cart cart = new Cart(99);
-        User user = new User(2, null, null, null, null, null, null, 0, 0, cart, null, false);
-        // creation and save
-        when(mockCartDAO.createCart(cart)).thenReturn(null);
-        // cart and user needs to be in this test for createCarts
-        
-
-        // Invoke
-        ResponseEntity<Cart> response = cartController.createCart(cart);
-        // cart and user needs to be in this test for createCarts
-
-        // Analyze
-        assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
-    }
-
-
-    @Test
-    public void testCreateCartHandleException() throws IOException {  // createCart may throw IOException
-        // Setup
-        Cart cart = new Cart(99);
-        User user = new User(2, null, null, null, null, null, null, 0, 0, cart, null, false);
-
-        // When createCart is called on the Mock Cart DAO, throw an IOException
-        doThrow(new IOException()).when(mockCartDAO).createCart(cart);
-        // cart and user needs to be in this test for createCarts
-
-        // Invoke
-        ResponseEntity<Cart> response = cartController.createCart(cart);
-        // cart and user needs to be in this test for createCarts
-
-        // Analyze
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
-    }
-
-    @Test
     public void testUpdateCart() throws IOException { // updateCart may throw IOException
         // Setup
         Cart cart = new Cart(99);
-        Product item = new Product(2,"viola",122.2,null,2,true,false,false) {};
+        Product product = new Product(1, "Clarinet", 100, Category.WOODWINDS, 100,
+                                        "a good instrument", "squidward.png");
         // when updateCart is called, return true simulating successful
         // update and save
-        when(mockCartDAO.addItem(cart,item,2)).thenReturn(cart);
+        when(mockCartDAO.updateCart(cart)).thenReturn(cart);
         // need to create product item to add to this
-        ResponseEntity<Cart> response = cartController.addItem(cart,item,2);
-         // need to create product item to add to this;
-        cart.addProduct(item,2);
-
+        ResponseEntity<Cart> response = cartController.updateCart(cart);
+        cart = new Cart(99, new ArrayList<>(Arrays.asList(1)), new ArrayList<>(Arrays.asList(5)));
+        when(mockCartDAO.updateCart(cart)).thenReturn(cart);   
+        when(mockProductDAO.getProduct(1)).thenReturn(product);
         // Invoke
-        response = cartController.addItem(cart, item, 2);
+        response = cartController.updateCart(cart);
         // need to create product item to add to this;
 
         // Analyze
@@ -193,14 +118,18 @@ public class CartControllerTest {
     public void testUpdateCartFailed() throws IOException { // updateCart may throw IOException
         // Setup
         Cart cart = new Cart(99);
-        Product item = new Product(2,"viola",122.2,null,2,true,false,false) {};
+        Product product = new Product(1, "Clarinet", 100, Category.WOODWINDS, 100,
+                                        "a good instrument", "squidward.png");
         // when updateCart is called, return true simulating successful
         // update and save
-        when(mockCartDAO.addItem(cart,item,2)).thenReturn(null);
-        // need to create product item to add to this;
-
+        when(mockCartDAO.updateCart(cart)).thenReturn(cart);
+        // need to create product item to add to this
+        ResponseEntity<Cart> response = cartController.updateCart(cart);
+        cart = new Cart(99, new ArrayList<>(Arrays.asList(1)), new ArrayList<>(Arrays.asList(5)));
+        when(mockCartDAO.updateCart(cart)).thenReturn(null);   
+        when(mockProductDAO.getProduct(1)).thenReturn(product);
         // Invoke
-        ResponseEntity<Cart> response = cartController.addItem(cart,item,2);
+        response = cartController.updateCart(cart);
         // need to create product item to add to this;
 
         // Analyze
@@ -211,19 +140,18 @@ public class CartControllerTest {
     public void testUpdateCartHandleException() throws IOException { // updateCart may throw IOException
         // Setup
         Cart cart = new Cart(99);
-        Product item = new Product(2,"viola",122.2,null,2,true,false,false) {};
         // When updateCart is called on the Mock Cart DAO, throw an IOException
-        doThrow(new IOException()).when(mockCartDAO).addItem(cart, item, 2);
+        doThrow(new IOException()).when(mockCartDAO).updateCart(cart);
 
         // Invoke
-        ResponseEntity<Cart> response = cartController.addItem(cart,item,2);
+        ResponseEntity<Cart> response = cartController.updateCart(cart);
 
         // Analyze
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
     }
 
     @Test
-    public void testGetHeroes() throws IOException { // getCart may throw IOException
+    public void testGetCarts() throws IOException { // getCart may throw IOException
         // Setup
         Cart[] carts = new Cart[2];
         carts[0] = new Cart(99);
@@ -238,7 +166,6 @@ public class CartControllerTest {
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(carts,response.getBody());
     }
-
     
     @Test
     public void testGetCartsHandleException() throws IOException { // getCart may throw IOException
@@ -254,7 +181,7 @@ public class CartControllerTest {
     }
 
     @Test
-    public void testDeleteHero() throws IOException { // deleteCart may throw IOException
+    public void testDeleteCart() throws IOException { // deleteCart may throw IOException
         // Setup
         int cartId = 99;
         // when deleteCart is called return true, simulating successful deletion
@@ -294,9 +221,4 @@ public class CartControllerTest {
         // Analyze
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
     }
-
-
-
-
-    
 }
