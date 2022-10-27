@@ -92,6 +92,7 @@ export class ProductService {
       //if(!found) {
         if(!found) {
           this.productCart.push(product);
+          product.quantity = 1;
         }
         this._productCart.next(Object.assign([], this.productCart));
       //}

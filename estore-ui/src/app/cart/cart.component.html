@@ -4,20 +4,21 @@
         <h2 *ngIf="cartItems.length === 0 " class="text-3xl mb-5 text-gray-700">Your cart is empty!</h2>
         <div *ngIf="cartItems.length > 0" class="flex flex-col">
             <div *ngFor="let item of cartItems" class="flex flex-row justify-between">
-                <div class="flex flex-row">
+                <div class="flex flex-row gap-36">
                     <div class="mx-auto my-6">
                         <div><img class="w-96 h-96 object-contain" src="{{item.image}}" alt="product image"></div>
                     </div>
-                    <div class="mx-auto my-6">
+                    <div class="mx-auto my-auto my-6">
                         <h1 class="text-3xl mb-5">{{item.name}}</h1>
                         <h2 class="text-3xl mb-5">Price: ${{item.price}}</h2>
                         <h2 class="text-3xl mb-5">Quantity: {{item.quantity}}</h2>
+                        <button (click)="this.removeProductCart(item)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Remove</button>
                     </div>
                 </div>
                 <div class="mx-auto my-6">
-                    <button (click)="this.removeProductCart(item)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Remove</button>
+                    
                 </div>
             </div>
-          <h3>Subtotal({{this.subQuantity}}): ${{this.subTotals}}</h3>
+          <h3 class="my-20 text-4xl ">Subtotal({{this.subQuantity}} items): ${{this.subTotals}}</h3>
     </div>
 </div>
