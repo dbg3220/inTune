@@ -156,6 +156,22 @@ public class UserFileDAO implements UserDAO{
     }
 
     /**
+     * Private helper method to check if a username is taken so that
+     * duplicate users with different ids can't be added to the database
+     * @param username The username to check
+     * @return true if there is a user with the same username, false otherwise
+     */
+    private boolean isUsernameTaken(String username){
+        User[] users = getUsersArray();
+        for(User user : users){
+            if(user.getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -205,27 +221,13 @@ public class UserFileDAO implements UserDAO{
     @Override
     public User createUser(User user) throws IOException {
         synchronized(users){
-            User newUser = new User(nextId(), user.getName(), user.getUsername(), user.getEmail(), 
-                                    user.getPassword(), user.getAddress(), user.getccnum(), user.getccmon(),
-                                    user.getccyear(), user.getCart(), user.getFriends(), user.isAdmin());
-                                    users.put(newUser.getId(), newUser);
-            save();
-            return newUser;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User updateUser(User user) throws IOException {
-        synchronized(users){
-            if(users.containsKey(user.getId())){
-                users.put(user.getId(), user);
-                return user;
-            } else {
+            if(isUsernameTaken(user.getUsername())){
                 return null;
             }
+            User newUser = new User(nextId(), user.getUsername());
+            users.put(newUser.getId(), newUser);
+            save();
+            return newUser;
         }
     }
 
@@ -237,7 +239,8 @@ public class UserFileDAO implements UserDAO{
         synchronized(users) {
             if (users.containsKey(id)) {
                 users.remove(id);
-                return save();
+                save();
+                return true;
             }
             else {
                 return false;

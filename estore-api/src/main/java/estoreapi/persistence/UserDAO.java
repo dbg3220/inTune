@@ -13,7 +13,7 @@ import estoreapi.model.User;
 public interface UserDAO {
 
     /**
-     * Retrieves all {@linkplain users}
+     * Gets all {@linkplain users}
      * 
      * @return An array of {@link user} objects, may be empty
      * 
@@ -22,9 +22,9 @@ public interface UserDAO {
     User[] getUsers() throws IOException;
 
     /**
-     * Retrieves a {@linkplain user} with the given id
+     * Gets a {@linkplain User} with the given id
      * 
-     * @param id The id of the {@link user} to get
+     * @param id The id of the {@link User} to get
      * 
      * @return a {@link user} object with the matching id
      * 
@@ -35,7 +35,7 @@ public interface UserDAO {
     User getUser(int id) throws IOException;
     
     /**
-     * Finds a {@linkplain user} with the given username
+     * Finds a {@linkplain User} with the given username
      * 
      * @param username The text to match against
      * 
@@ -48,7 +48,7 @@ public interface UserDAO {
     User findUser(String username) throws IOException;
 
     /**
-     * Finds all {@linkplain users} whose username contains the given text
+     * Finds all users whose username contains the given text
      * 
      * @param username The text to match against
      * 
@@ -56,39 +56,27 @@ public interface UserDAO {
      * 
      * @throws IOException if an issue with underlying storage
      */
-    User[] findUsers(String username) throws IOException;
+    User[] findUsers(String containsText) throws IOException;
 
     /**
-     * Creates and saves a {@linkplain user}
+     * Creates and saves a {@linkplain User}
      * 
-     * @param user {@linkplain user} object to be created and saved
+     * @param user {@linkplain User} object to be created and saved
 
      * The id of the user object is ignored and a new uniqe id is assigned
      *
-     * @return new {@link user} if successful, false otherwise 
+     * @return new {@link User} if successful, false otherwise 
      * 
      * @throws IOException if an issue with underlying storage
      */
     User createUser(User user) throws IOException;
-    
-    /**
-     * Updates and saves a {@linkplain user}
-     * 
-     * @param {@link user} object to be updated and saved
-     * 
-     * @return updated {@link user} if successful, null if
-     * {@link user} could not be found
-     * 
-     * @throws IOException if underlying storage cannot be accessed
-     */
-    User updateUser(User user) throws IOException;
 
     /**
-     * Deletes a {@linkplain user} with the given id
+     * Deletes a {@linkplain User} with the given id
      * 
-     * @param id The id of the {@link user}
+     * @param id The id of the {@link User}
      * 
-     * @return true if the {@link user} was deleted
+     * @return true if the {@link User} was deleted
      *
      * false if user with the given id does not exist
      * 

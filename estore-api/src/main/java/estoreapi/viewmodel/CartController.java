@@ -119,6 +119,10 @@ public class CartController {
 
    /**
     * Handles the HTTP DELETE request to delete an existing Cart
+    *
+    * WARNING: This is a dangerous method to invoke because it deletes a cart
+    *  without deleting the user whose cart it belongs to, used at the admin's
+    *  discretion.
     * @param id The id of the Cart to delete
     * @return The HTTP response
     */

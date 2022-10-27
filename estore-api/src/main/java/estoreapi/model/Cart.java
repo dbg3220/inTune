@@ -25,7 +25,9 @@ public class Cart {
      * @param quantities A list of quantities for each product where the index of
      * each quantity corresponds to the index of each product id
      */
-    public Cart (@JsonProperty("id") int id, ArrayList<Integer> productIDS, ArrayList<Integer> quantities) {
+    public Cart (@JsonProperty("id") int id, 
+                 @JsonProperty("products") ArrayList<Integer> productIDS, 
+                 @JsonProperty("quantities") ArrayList<Integer> quantities) {
         this.id = id;
         this.productIDS = productIDS;
         this.quantities = quantities;
