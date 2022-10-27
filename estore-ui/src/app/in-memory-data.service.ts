@@ -14,7 +14,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 99.99,
         category: "string",
         subcategory: "violin",
-        quantity: 1,
+        quantity: 0,
         image: "https://cdn.shopify.com/s/files/1/0182/0563/products/MaestroVNTop_682x1800_7159c927-5752-43e0-9c2e-a19df87bf18b_1200x.JPG?v=1621442263"
       },
       {
@@ -23,7 +23,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 159.99,
         category: "string",
         subcategory: "guitar",
-        quantity: 1,
+        quantity: 0,
         image : "https://upload.wikimedia.org/wikipedia/commons/4/45/GuitareClassique5.png"
       },
       {
@@ -32,7 +32,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 219.99,
         category: "string",
         subcategory: "bass",
-        quantity: 1,
+        quantity: 0,
         image : "https://images.musicstore.de/images/1280/j-und-d-bass-guitar-jb-black_1_BAS0000913-001.jpg"
       },
       {
@@ -41,7 +41,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 529.99,
         category: "percussion",
         subcategory: "drums",
-        quantity: 1,
+        quantity: 0,
         image : "https://armadillo.sirv.com/assets/gallery/d2522rsp/d2522rsp.jpg"
       },
       {
@@ -50,7 +50,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 249.99,
         category: "string",
         subcategory: "cello",
-        quantity: 1,
+        quantity: 0,
         image: "https://cdn.shopify.com/s/files/1/0182/0563/products/MaestroCelloTop_400x1040_84cb4427-ca2b-4c9f-b40a-5621ad795ebb_800x.JPG?v=1569187496"
       },
       {
@@ -59,7 +59,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 49.99,
         category: "woodwind",
         subcategory: "clarinet",
-        quantity: 1,
+        quantity: 0,
         image: "https://m.media-amazon.com/images/I/514wgFQDU+L.jpg"
       },
       {
@@ -68,7 +68,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 199.99,
         category: "woodwing",
         subcategory: "bassoon",
-        quantity: 1,
+        quantity: 0,
         image: "https://media.wwbw.com/is/image/MMGS7/M100E-Professional-Bassoon/L58593000000000-00-1600x1600.jpg"
       },
       {
@@ -77,7 +77,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 199.99,
         category: "horn",
         subcategory: "trumpet",
-        quantity: 1,
+        quantity: 0,
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Yamaha_Trumpet_YTR-8335LA_crop.jpg/1200px-Yamaha_Trumpet_YTR-8335LA_crop.jpg"
       },
       {
@@ -86,7 +86,7 @@ export class InMemoryDataService implements InMemoryDbService {
         price: 59.99,
         category: "percussion",
         subcategory: "triangle",
-        quantity: 1,
+        quantity: 0,
         image: "https://m.media-amazon.com/images/I/71QNie7RV7L.jpg"
       },
     ];
@@ -140,5 +140,5 @@ export class InMemoryDataService implements InMemoryDbService {
   genId(products: Product[]): number {
     return products.length > 0 ? Math.max(...products.map(product => product.id)) + 1 : 11;
   }
-  
+
 }
