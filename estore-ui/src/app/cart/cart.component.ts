@@ -21,8 +21,15 @@ export class CartComponent implements OnInit {
   removeProductCart(product: Product)
   {
     this.productService.removeToCart(product);
-  }
+    // when removed, set subTotals and subQuantity to 0 to refresh the amount
+    // Call subTotal() to get the new subTotals and subQuantityS
+    this.subTotals = 0;
+    this.subQuantity = 0;
+    this.subTotal();
 
+
+  }
+  // need to fix, when removing condition, subtracts quantity and price
   subTotal()
   {
     for(let product of this.cartItems)
