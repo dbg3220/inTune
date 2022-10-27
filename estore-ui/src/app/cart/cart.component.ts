@@ -3,6 +3,7 @@ import { MessengerService } from '../messenger.service';
 import { Product } from '../product';
 import {filter, Subject, takeUntil} from "rxjs";
 import {ProductService} from "../product.service";
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -27,9 +28,7 @@ export class CartComponent implements OnInit {
     this.subQuantity = 0;
     this.subTotal();
 
-
   }
-  // need to fix, when removing condition, subtracts quantity and price
   subTotal()
   {
     for(let product of this.cartItems)
@@ -38,7 +37,6 @@ export class CartComponent implements OnInit {
       this.subQuantity = this.subQuantity + product.quantity;
     }
   }
-
 
   ngOnInit(): void{
     this.productService.getCart().pipe(filter(cart => !!cart), takeUntil(this.componentDestroyed$))
