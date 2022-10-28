@@ -34,6 +34,7 @@ export class CartComponent implements OnInit {
     for(let product of this.cartItems)
     {
       this.subTotals = this.subTotals + (product.price * product.quantity);
+      this.subTotals = Number(parseFloat(String(this.subTotals)).toFixed(2));
       this.subQuantity = this.subQuantity + product.quantity;
     }
   }
