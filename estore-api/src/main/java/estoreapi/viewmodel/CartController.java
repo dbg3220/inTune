@@ -96,6 +96,9 @@ public class CartController {
     public ResponseEntity<Cart> updateCart(@RequestBody Cart cart){
         LOG.info("PUT /carts" + cart);
         try {
+            if(cart.getId() == 0){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//cannot change the cart of an admin
+            }
             ArrayList<Integer> newProductIDS = cart.getProductIDS();
             ArrayList<Integer> newQuantities = cart.getQuantities();
             for(int i = 0; i < newProductIDS.size(); i++){
@@ -130,6 +133,9 @@ public class CartController {
     public ResponseEntity<Cart> deleteCart(@PathVariable int id) {
         LOG.info("DELETE /carts/" + id);
         try {
+            if(id == 0){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//cannot change the cart of an admin
+            }
             boolean result = cartDao.deleteCart(id);
             if (result)
                 return new ResponseEntity<>(HttpStatus.OK);
