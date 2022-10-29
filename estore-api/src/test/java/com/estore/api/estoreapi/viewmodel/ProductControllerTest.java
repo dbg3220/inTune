@@ -14,7 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import estoreapi.model.Cart;
 import estoreapi.model.Product;
+import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.ProductDAO;
 import estoreapi.model.Product.Category;
 
@@ -27,12 +29,14 @@ import estoreapi.model.Product.Category;
 @Tag("Controller-tier")
 public class ProductControllerTest {
     ProductDAO mockDAO;
+    CartDAO mockCartDAO;
     ProductController productController;
 
     @BeforeEach
     public void setUpProductController(){
         mockDAO = mock(ProductDAO.class);
-        productController = new ProductController(mockDAO);
+        mockCartDAO = mock(CartDAO.class);
+        productController = new ProductController(mockDAO, mockCartDAO);
     }
 
     @Test
@@ -42,32 +46,34 @@ public class ProductControllerTest {
         when(mockDAO.getProduct(product.getId())).thenReturn(product);
         
         // Invoke
-        ResponseEntity<Product> response = ProductController.getProduct(product.getId());
+        ResponseEntity<Product> response = productController.getProduct(product.getId());
 
         // Analyze
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(product,response.getBody());
     }
 
+    @Test
     public void testGetProductNotFound() throws Exception{
         // Setup
         int productID = 100000;
         when(mockDAO.getProduct(productID)).thenReturn(null);
 
         // Invoke
-        ResponseEntity<Product> response = ProductController.getProduct(productID);
+        ResponseEntity<Product> response = productController.getProduct(productID);
 
         // Analyze
-        assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
     }
 
+    @Test
     public void testGetProductHandleException() throws Exception{
         // Setup
         int productID = 100000;
         doThrow(new IOException()).when(mockDAO).getProduct(productID);
 
         // Invoke
-        ResponseEntity<Product> response = ProductController.getProduct(productID);
+        ResponseEntity<Product> response = productController.getProduct(productID);
 
         // Analyze
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
@@ -83,7 +89,7 @@ public class ProductControllerTest {
         when(mockDAO.getProducts()).thenReturn(products);
 
         // Invoke
-        ResponseEntity<Product[]> response = ProductController.getProducts();
+        ResponseEntity<Product[]> response = productController.getProducts();
 
         // Analyze
         assertEquals(HttpStatus.OK,response.getStatusCode());
@@ -91,19 +97,16 @@ public class ProductControllerTest {
     } 
 
     @Test
-    public void testsearchProductsHandleException() throws Exception{
-        // Setup
+    public void testGetProductsHandleException() throws Exception{
         doThrow(new IOException()).when(mockDAO).getProducts();
 
-        // Invoke
-        ResponseEntity<Product[]> response = ProductController.getProducts();
+        ResponseEntity<Product[]> response = productController.getProducts();
 
-        // Analyze
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
     
     @Test
-    public void testsearchProductsByName() throws Exception{
+    public void testFindProducts() throws Exception{
         // Setup
         String testString = "Violin";
         Product[] products = new Product[3];
@@ -112,11 +115,24 @@ public class ProductControllerTest {
         when(mockDAO.findProducts(testString)).thenReturn(products);
 
         // Invoke
-        ResponseEntity<Product[]> response = productController.searchProductsByName(testString);
+        ResponseEntity<Product[]> response = productController.findProducts(testString);
 
         // Analyze
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(products,response.getBody());
+    }
+
+    @Test
+    public void testFindProductsHandleException() throws Exception{
+        // Setup
+        String searchStr = "doesn't_matter";
+        doThrow(new IOException()).when(mockDAO).findProducts(searchStr);
+
+        // Invoke
+        ResponseEntity<Product[]> response = productController.findProducts(searchStr);
+
+        // Analyze
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
@@ -150,6 +166,8 @@ public class ProductControllerTest {
         // Setup
         Product product = new Product(0, "Test", 0, Category.STRINGS, 0, "Something","test.jpg");
         when(mockDAO.updateProduct(product)).thenReturn(product);
+        when(mockCartDAO.getCarts()).thenReturn(new Cart[0]);
+
         ResponseEntity<Product> response = productController.updateProduct(product);
         product.setName("TestChange");
 
@@ -192,6 +210,7 @@ public class ProductControllerTest {
         // Setup
         int productID = 99;
         when(mockDAO.deleteProduct(productID)).thenReturn(true);
+        when(mockCartDAO.getCarts()).thenReturn(new Cart[0]);
 
         // Invoke
         ResponseEntity<Product> response = productController.deleteProduct(productID);
