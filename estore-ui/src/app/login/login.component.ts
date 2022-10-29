@@ -17,23 +17,21 @@ import {
 })
 export class LoginComponent implements OnInit {
   login!: FormGroup;
+  users: User[] = [];
+  
 
   get username(){
     return this.login.get('username');
   }
 
   constructor(
+    private userService: UserService,
     private fb: FormBuilder,
-    private usernameValidator: UsernameValidator) { }
+    // private usernameValidator: UsernameValidator
+  ) {}
 
   ngOnInit(): void {
-    this.createForm();
   }
 
-  createForm() {
-    this.login = this.fb.group({
-      username: ["", [Validators.required], [this.usernameValidator.existingUsernameValidator()]],
-    });
-  }
 
 }
