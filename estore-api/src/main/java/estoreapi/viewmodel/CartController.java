@@ -94,7 +94,7 @@ public class CartController {
      */
     @PutMapping("")
     public ResponseEntity<Cart> updateCart(@RequestBody Cart cart){
-        LOG.info("PUT /carts" + cart);
+        LOG.info("PUT /carts " + cart);
         try {
             if(cart.getId() == 0){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//cannot change the cart of an admin
