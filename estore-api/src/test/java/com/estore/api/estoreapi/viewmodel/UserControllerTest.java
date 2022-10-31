@@ -90,7 +90,7 @@ public class UserControllerTest {
         User testUser = new User(1, "Douglas Smith");
         Cart testCart = new Cart(1);
         when(mockDao.createUser(testUser)).thenReturn(testUser);
-        when(cartMockDao.createCart(0)).thenReturn(testCart);
+        when(cartMockDao.createCart(testUser.getId())).thenReturn(testCart);
 
         ResponseEntity<User> response = userController.createUser(testUser);
 

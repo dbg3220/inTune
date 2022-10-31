@@ -144,6 +144,7 @@ public class CartFileDAO implements CartDAO {
                 return null;
             }
             carts.put(cart.getId(), cart);
+            save();
             return cart;
         }
     }

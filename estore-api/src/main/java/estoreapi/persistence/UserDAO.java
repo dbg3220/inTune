@@ -13,9 +13,9 @@ import estoreapi.model.User;
 public interface UserDAO {
 
     /**
-     * Gets all {@linkplain users}
+     * Gets all users
      * 
-     * @return An array of {@link user} objects, may be empty
+     * @return An array of {@link User} objects, may be empty
      * 
      * @throws IOException if an issue with underlying storage
      */
@@ -26,9 +26,9 @@ public interface UserDAO {
      * 
      * @param id The id of the {@link User} to get
      * 
-     * @return a {@link user} object with the matching id
+     * @return a {@link User} object with the matching id
      * 
-     * null if no {@link user} with a matching id is found
+     * null if no {@link User} with a matching id is found
      * 
      * @throws IOException if an issue with underlying storage
      */
@@ -39,9 +39,9 @@ public interface UserDAO {
      * 
      * @param username The text to match against
      * 
-     * @return A single {@link user} object with the matching username
+     * @return A single {@link User} object with the matching username
      * 
-     * null if no {@link user} with a matching username is found
+     * null if no {@link User} with a matching username is found
      * 
      * @throws IOException if an issue with underlying storage
      */
@@ -52,7 +52,7 @@ public interface UserDAO {
      * 
      * @param username The text to match against
      * 
-     * @return An array of {@link users} whose usernames contains the given text, may be empty
+     * @return An array of users whose usernames contains the given text, may be empty
      * 
      * @throws IOException if an issue with underlying storage
      */

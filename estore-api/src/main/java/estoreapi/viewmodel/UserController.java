@@ -78,6 +78,7 @@ public class UserController {
      */
     @GetMapping("")
     public ResponseEntity<User[]> getUsers() {
+        LOG.info("GET /users");
         try {
             User[] users = userDAO.getUsers();
             return new ResponseEntity<>(users, HttpStatus.OK);

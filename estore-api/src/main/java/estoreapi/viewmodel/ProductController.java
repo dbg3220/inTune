@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import estoreapi.model.Cart;
 import estoreapi.model.Product;
+import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.ProductDAO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,24 +31,29 @@ import java.util.logging.Logger;
  * 
  * @author Hayden Cieniawski
  * @author Clayton Acheson
+ * @author Damon Gonzalez
  */
-
 @RestController
 @RequestMapping("products")
 public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
-    private static ProductDAO productDao;
+    private ProductDAO productDao;
+    private CartDAO cartDao;
 
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param ProductDao The {@link ProductDAO Product Data Access Object} to
+     * @param productDao The {@link ProductDAO Product Data Access Object} to
      *                   perform CRUD operations
      *                   <br>
-     *                   This dependency is injected by the Spring Framework
+     * @param cartDao    The {@link CartDAO Cart Data Access Object} to perform
+     *                   perform CRUD operations
+     *                   
+     * These dependencies are injected by the spring framework
      */
-    public ProductController(ProductDAO productDao) {
+    public ProductController(ProductDAO productDao, CartDAO cartDao) {
         this.productDao = productDao;
+        this.cartDao = cartDao;
     }
 
    /**
@@ -53,7 +62,7 @@ public class ProductController {
     * @return The product with the specified id
     */
     @GetMapping("/{id}")
-    public static ResponseEntity<Product> getProduct(@PathVariable int id) {
+    public ResponseEntity<Product> getProduct(@PathVariable int id) {
         LOG.info("GET /Products/" + id);   
         try {
             Product product = productDao.getProduct(id);
@@ -71,26 +80,25 @@ public class ProductController {
      * @return All products
      */
     @GetMapping("")
-    public static ResponseEntity<Product[]> getProducts() {
-    LOG.info("GET /products");
-    try {
-        Product[] products = productDao.getProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    } catch (IOException e) {
-        LOG.log(Level.SEVERE, e.getLocalizedMessage());
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Product[]> getProducts() {
+        LOG.info("GET /products");
+        try {
+            Product[] products = productDao.getProducts();
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     }
     /**
-     * Handles the HTTP POST request for the product resource
-     * @param name The name of the product(s) to retrieve
-     * @return The products with the specified name
+     * Handles the HTTP GET request for the product resource
+     * @param name The text to search against
+     * @return All products whose name includes the specified parameter
      */
     @GetMapping("/")
-    public ResponseEntity<Product[]> searchProductsByName(@RequestParam String name) {
+    public ResponseEntity<Product[]> findProducts(@RequestParam String name) {
         LOG.info("GET /products/?name=" + name);
-
         try {
             Product[] products = productDao.findProducts(name);
             return new ResponseEntity<>(products, HttpStatus.OK);
@@ -100,13 +108,19 @@ public class ProductController {
         }
     }
 
+    /**
+     * Handles the HTTP POST request for the product resource
+     * @param product The product to create
+     * @return The product that was created including a unique identifier id that
+     *  was assigned by the server
+     */
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         LOG.info("POST /products " + product);
         try {
-            Product Product1 = productDao.createProduct(product);
-            if (Product1 != null)
-                return new ResponseEntity<Product>(Product1,HttpStatus.CREATED);
+            Product newProduct = productDao.createProduct(product);
+            if (newProduct != null)
+                return new ResponseEntity<Product>(newProduct,HttpStatus.CREATED);
             else
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -131,11 +145,30 @@ public class ProductController {
             if(product.getQuantity() < 0){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            Product product2 = productDao.updateProduct(product);
-            if (product2 != null)
-                return new ResponseEntity<Product>(product2,HttpStatus.OK);
-            else
+            Product newProduct = productDao.updateProduct(product);
+            if (newProduct != null){
+                int productID = newProduct.getId();
+                Cart[] carts = cartDao.getCarts();
+                for(Cart cart : carts){
+                    boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
+                    ArrayList<Integer> productIDS = cart.getProductIDS();
+                    ArrayList<Integer> quantities = cart.getQuantities();
+                    for(int i = 0; i < productIDS.size(); i++){
+                        if(productIDS.get(i) == productID && quantities.get(i) > newProduct.getQuantity()){
+                            adjustCart = true;
+                            quantities.set(i, newProduct.getQuantity());
+                        }
+                    }
+                    if(adjustCart){
+                        Cart newCart = new Cart(cart.getId(), productIDS, quantities);
+                        cartDao.updateCart(newCart);
+                    }
+                }
+                return new ResponseEntity<Product>(newProduct,HttpStatus.OK);
+            }
+            else{
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
@@ -153,10 +186,29 @@ public class ProductController {
         LOG.info("DELETE /Products/" + id);
         try {
             boolean result = productDao.deleteProduct(id);
-            if (result)
+            if (result){
+                Cart[] carts = cartDao.getCarts();
+                for(Cart cart : carts){
+                    boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
+                    ArrayList<Integer> productIDS = cart.getProductIDS();
+                    ArrayList<Integer> quantities = cart.getQuantities();
+                    for(int i = 0; i < productIDS.size(); i++){
+                        if(productIDS.get(i) == id){
+                            adjustCart = true;
+                            productIDS.remove(i);
+                            quantities.remove(i);
+                        }
+                    }
+                    if(adjustCart){
+                        Cart newCart = new Cart(cart.getId(), productIDS, quantities);
+                        cartDao.updateCart(newCart);
+                    }
+                }
                 return new ResponseEntity<>(HttpStatus.OK);
-            else
+            }
+            else{
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
