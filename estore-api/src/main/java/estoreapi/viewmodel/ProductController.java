@@ -93,14 +93,14 @@ public class ProductController {
     }
     /**
      * Handles the HTTP GET request for the product resource
-     * @param containsText The text to search against
+     * @param name The text to search against
      * @return All products whose name includes the specified parameter
      */
     @GetMapping("/")
-    public ResponseEntity<Product[]> findProducts(@RequestParam String containsText) {
-        LOG.info("GET /products/?name=" + containsText);
+    public ResponseEntity<Product[]> findProducts(@RequestParam String name) {
+        LOG.info("GET /products/?name=" + name);
         try {
-            Product[] products = productDao.findProducts(containsText);
+            Product[] products = productDao.findProducts(name);
             return new ResponseEntity<>(products, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
