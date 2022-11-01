@@ -90,13 +90,11 @@ export class ProductService {
         product.quantity++;
       }
     }
-    //if(!found) {
     if (!found) {
       this.productCart.push(product);
       product.quantity = 1;
     }
     this._productCart.next(Object.assign([], this.productCart));
-    //}
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
   }
 
