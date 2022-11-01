@@ -30,14 +30,26 @@ public class Review {
         this.description = description;
     }
 
+    /**
+     * Retrieves the id of the user who left the review
+     * @return The user id
+     */
     public int getUserID(){
         return userID;
     }
 
+    /**
+     * Retrieves the rating the user left on the product
+     * @return The rating
+     */
     public int getRating(){
         return rating;
     }
 
+    /**
+     * Retrieves the description the user left of the product
+     * @return The description
+     */
     public String getDescription(){
         return description;
     }

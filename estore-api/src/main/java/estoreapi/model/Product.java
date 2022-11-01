@@ -53,6 +53,7 @@ public class Product {
      * @param quantity    The quantity of the product
      * @param description The description of the product
      * @param image       The image to be displayed with the product
+     * @param reviews     The reviews of the product left by users
      *                    *
      *{@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields. If a field
