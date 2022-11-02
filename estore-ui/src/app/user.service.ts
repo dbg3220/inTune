@@ -14,10 +14,8 @@ export class UserService {
 
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
-  private usersURL = 'api/users';  // URL to web api
-  private users: any = new BehaviorSubject([]);
-  private searchFilterProductsClone: any = new BehaviorSubject([]);
-
+  private usersURL = 'http://localhost:8080/users';  // URL to web api
+  private users: BehaviorSubject<any> = new BehaviorSubject(null);
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
   //   return this.http.get<Product[]>(this.productsURL)
@@ -30,6 +28,10 @@ export class UserService {
     return this.http.get<User[]>(this.usersURL)
   }
 
+  getUsersAsObservable() {
+    return this.users.asObservable();
+  }
+
   getUser(username: string): Observable<User> {
     const url = `${this.usersURL}/${username}`;
     return this.http.get<User>(url)
@@ -40,12 +42,17 @@ export class UserService {
     return user;
   }
 
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>(this.usersURL, user);
+  }
+
 
 
   
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    
   };
 
 }

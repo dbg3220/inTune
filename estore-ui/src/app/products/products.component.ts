@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
     private messageService: MessageService) { }
 
   getProducts(): void {
-    this.productService.getProducts().subscribe(products => this.products = products);
+    // this.productService.getProducts().subscribe(products => this.products = products);
   }
 
   add(name: string): void {
