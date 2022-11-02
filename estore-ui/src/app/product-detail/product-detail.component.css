@@ -27,8 +27,8 @@ h1{ margin-right: 120px; }
 
 .backButton{
   position: absolute;
-  top:18%;
-  right: 93%;
-  width: 120px;
+  top: 15%;
+  right: 47%;
+  width: 100%;
   transform: translateY(-100%);
 }
