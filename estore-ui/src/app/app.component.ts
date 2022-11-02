@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { Product } from './product';
 import { ProductService } from './product.service';
-import {filter, Subject, takeUntil} from "rxjs";
+import {BehaviorSubject, filter, Subject, takeUntil} from "rxjs";
+import { User } from './user';
 
 @Component({
   selector: 'app-root',
@@ -15,11 +16,17 @@ export class AppComponent implements OnInit {
   filteredItems: Product[] = [];
   searchText: any;
   componentDestroyed$ = new Subject();
+  private userSource = new BehaviorSubject('test');
+  currentUser = this.userSource.asObservable();
 
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
     this.getProducts();
+  }
+
+  changeUser(user: string) {
+    this.userSource.next(user);
   }
 
   getProducts(): void {

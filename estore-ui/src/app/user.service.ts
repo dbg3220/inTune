@@ -16,6 +16,8 @@ export class UserService {
 
   private usersURL = 'http://localhost:8080/users';  // URL to web api
   private users: BehaviorSubject<any> = new BehaviorSubject(null);
+  private _user = new BehaviorSubject<string>("");
+  readonly currentUser$ = this._user.asObservable();
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
   //   return this.http.get<Product[]>(this.productsURL)
@@ -45,6 +47,17 @@ export class UserService {
   addUser(user: User): Observable<User> {
     return this.http.post<User>(this.usersURL, user);
   }
+
+  getCurrentUser(): Observable<string>
+  {
+    return this.currentUser$;
+  }
+
+  setCurrentUser(user: string) {
+    this._user.next(user);
+  }
+
+
 
 
 

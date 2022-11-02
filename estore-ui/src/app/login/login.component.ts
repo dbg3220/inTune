@@ -7,8 +7,8 @@ import {
   FormBuilder,
   Validators,
 } from "@angular/forms";
-import { filter, Subject } from 'rxjs';
-
+import { filter, Subject, takeUntil } from 'rxjs';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 // import { CustomUserValidator } from "../shared/custom-email.validator";
 
 @Component({
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       if (user.username === username) {
         this.exists = true;
         console.log("exists");
+        this.userService.setCurrentUser(username);
         return
       }
     }
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
     .subscribe(user => {
       this.users.push(user);
     });
+    this.userService.setCurrentUser(username);
     console.log(this.login.value + "added");
     this.exists = true;
     this.message = "It seems you aren't registered. We have added you as a user. Welcome " + username;
@@ -83,6 +85,15 @@ export class LoginComponent implements OnInit {
     this.login = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
     });
+    this.userService.getCurrentUser().pipe(filter(user => !!user), takeUntil(this.componentDestroyed$))
+      .subscribe(user =>{
+        this.user = user;
+      });
+      if (this.user) {
+        this.exists = true;
+      }
+    console.log(this.user);
+    
   }
 
 
