@@ -20,7 +20,13 @@
       <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
       <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
       <div><button type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Add to Cart</button></div>
+      <div><button type="button"(click)="handleAddReview()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Add a review</button></div>
       <div class="text-green-600 text-2xl pt-5" *ngIf="added">{{product.name}} added to cart</div>
+      <h1 class="text-3xl mb-5">Number of reviews: {{product.reviews.length}}</h1>
+      <li *ngFor="let review of product.reviews">
+        <h3 class="text-xl text-center">Rating 1-5:{{review.rating}}</h3>
+        <p class="text-xl text-center">{{review.description}}</p>
+      </li>
     </div>
   </div>
 </div>

@@ -48,4 +48,6 @@ export class ProductsComponent implements OnInit {
       .subscribe(products => this.products = products);
 }
 
+
+
 }
