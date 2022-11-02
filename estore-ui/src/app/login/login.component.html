@@ -13,6 +13,7 @@
         <div><input class="text-center" id="username" formControlName="username" type="text" value="username" placeholder="Username" class="w-96 h-12 mt-5 mb-3 rounded-lg border-2 border-black"></div>
         <div><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="submit">Login</button></div>
       </form>
+      <button *ngIf = "exists" (click) = "onLogout()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3"> Logout</button>
       <!-- <form [formGroup]="login" *ngIf="!exists"(ngSubmit)="onSignup()">
         <div><input class="text-center" id="username" formControlName="username" type="text" value="username" placeholder="Username" class="w-96 h-12 mt-5 mb-3 rounded-lg border-2 border-black"></div>
         <div *ngIf="exists"><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="submit">Login</button></div>

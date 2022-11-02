@@ -49,6 +49,12 @@ export class LoginComponent implements OnInit {
     this.message = "It seems you aren't registered. We have added you as a user. Welcome " + username;
   }
 
+  onLogout() {
+    this.userService.setCurrentUser("");
+    this.user = "";
+    this.exists = false;
+  }
+
   // onSignup() {
   //   const username = this.login.get('username')?.value;
   //   console.log(this.login.value);
