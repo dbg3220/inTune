@@ -4,6 +4,7 @@ import {Product} from '../product';
 import {filter, Subject, takeUntil} from "rxjs";
 import {ProductService} from "../product.service";
 import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-cart',
@@ -18,8 +19,12 @@ export class CartComponent implements OnInit {
   subTotals: number = 0;
   subQuantity: number = 0;
 
-  constructor(private msg: MessengerService, private productService: ProductService, private router: Router) {
-  }
+  constructor(
+    private msg: MessengerService,
+    private productService: ProductService,
+    private router: Router,
+    private location: Location
+  ) {}
 
   removeProductCart(product: Product) {
     this.productService.removeToCart(product);
@@ -54,4 +59,9 @@ export class CartComponent implements OnInit {
   routeToCheckoutComponent() {
     this.router.navigate(['/checkout']);
   }
+  goBack(): void {
+    console.log("works")
+    this.location.back();
+  }
+
 }
