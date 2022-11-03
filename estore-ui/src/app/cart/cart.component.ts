@@ -27,7 +27,7 @@ export class CartComponent implements OnInit {
     private msg: MessengerService,
     private productService: ProductService,
     private router: Router,
-    private location: Location
+    private location: Location,
     private userService: UserService
   ) {}
   user: string = "";
