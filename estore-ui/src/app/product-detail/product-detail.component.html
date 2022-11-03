@@ -37,7 +37,14 @@
       <div *ngIf="isAdmin" ><button type="button"(click)="handleDelete()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white my-5 px-7 py-3" type="button">Delete</button></div>
       <div *ngIf="!isAdmin">
         <div class="text-green-600 text-2xl my-5" *ngIf="added">{{product.name}} added to cart</div>
+        <div class="backButton">
+        <button type="button" (click)="goBack()"
+                class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 fa fa-arrow-left fa-2x"
+                type="button">&nbsp;&nbsp;Back
+        </button>
+
       </div>
     </div>
   </div>
 </div>
+
