@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.logging.Logger;
+
 /**
  * Class for the functionality of a Cart within the model-tier
  * 
@@ -12,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Cart {
 
     protected static final String STRING_FORMAT = "Cart [id=%d]";
+
+    private static final Logger LOG = Logger.getLogger(Cart.class.getName());
 
     @JsonProperty("id") private int id;
     @JsonProperty("products") private ArrayList<Integer> productIDS;
