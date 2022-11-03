@@ -89,5 +89,6 @@ export class ProductDetailComponent implements OnInit {
   handleAddReview(userID: Number, rating: Number, description: String){
     this.product.reviews.push({userID, rating, description} as Review)
     this.productService.updateProduct(this.product);
+    this.save();
   }
 }

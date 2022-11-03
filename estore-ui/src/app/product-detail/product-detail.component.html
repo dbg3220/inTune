@@ -2,15 +2,12 @@
   <div class="flex">
     <h2 class="mx-auto my-10 text-5xl">{{product.name | uppercase}}</h2>
   </div>
-  <!-- <div><span>id: </span>{{product.id}}</div> -->
   <div class="flex" *ngIf="isAdmin">
     <div class="mx-auto grid grid-cols-2 gap-5">
       <label for="product-name">Product name: </label>
       <input class="border border-black"id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
       <label for="product-price">Product price: </label>
       <input class="border border-black"id="product-price" [(ngModel)]="product.price" placeholder="Product name"/>
-      <!-- <label for="product-category">Product category: </label>
-      <input id="product-category" [(ngModel)]="product.category" placeholder="Product name"/> -->
       <label for="product-quantity">Product quantity: </label>
       <input class="border border-black"id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product name"/>
       <label for="product-description">Product description: </label>
@@ -30,6 +27,7 @@
       <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
       <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
       <div><button type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Add to Cart</button></div>
+      <h1 class="text-3xl mb-5">Number of reviews: {{product.reviews.length}}</h1>
       <form action="#">
         <label for="ratings">Rating 1-5: </label>
         <select id="new-review" #reviewRating>
@@ -50,9 +48,8 @@
                 type="button">&nbsp;&nbsp;Back
               </button>
       </div>
-      <h1 class="text-3xl mb-5">Number of reviews: {{product.reviews.length}}</h1>
       <li *ngFor="let review of product.reviews">
-        <h3 >Rating 1-5: {{review.rating}}</h3>
+        <h3 >Rating: {{review.rating}}</h3>
         <p >{{review.description}}</p>
       </li>
     </div>
