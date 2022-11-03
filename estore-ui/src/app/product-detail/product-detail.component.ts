@@ -6,6 +6,9 @@ import { Location } from '@angular/common';
 import { ProductService } from '../product.service';
 import { Product } from '../product';
 import { MessengerService } from '../messenger.service';
+import { UserService } from '../user.service';
+import { filter, takeUntil } from 'rxjs';
+
 
 
 
@@ -17,16 +20,28 @@ import { MessengerService } from '../messenger.service';
 export class ProductDetailComponent implements OnInit {
   product!: Product;
   added: boolean = false;
+  user: string = "";
+  isAdmin: boolean = false;
+  deleted: boolean = false;
+
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
     private location: Location,
-    private msg: MessengerService
+    private msg: MessengerService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.getProduct();
+    this.userService.getCurrentUser().pipe(filter(user => !!user))
+    .subscribe(user =>{
+      this.user = user;
+    });
+    if (this.user == 'admin'){
+      this.isAdmin = true;
+    }
   }
 
   getProduct(): void {
@@ -44,6 +59,11 @@ export class ProductDetailComponent implements OnInit {
     if (this.product){
       this.productService.updateProduct(this.product).subscribe(() => this.goBack)
     }
+  }
+
+  handleDelete(){
+    this.productService.deleteProduct(this.product.id).subscribe(() => this.goBack())
+    this.deleted = true;
   }
 
   handleAddToCart(){

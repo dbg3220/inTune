@@ -22,3 +22,13 @@ label {
     color: #ccc;
     cursor: auto;
   } */
+
+h1{ margin-right: 120px; }
+
+.backButton{
+  position: absolute;
+  top: 15%;
+  right: 47%;
+  width: 100%;
+  transform: translateY(-100%);
+}
