@@ -12,11 +12,14 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 
-  constructor(private messageService: MessageService, private http: HttpClient) { }
+  constructor(private messageService: MessageService, private http: HttpClient) { 
+    this.user
+  }
 
   private usersURL = 'http://localhost:8080/users';  // URL to web api
   private users: BehaviorSubject<any> = new BehaviorSubject(null);
   private _user = new BehaviorSubject<string>("");
+  private user = "";
   readonly currentUser$ = this._user.asObservable();
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
@@ -54,7 +57,8 @@ export class UserService {
   }
 
   setCurrentUser(user: string) {
-    this._user.next(user);
+    this.user = user
+    this._user.next(this.user);
   }
 
 

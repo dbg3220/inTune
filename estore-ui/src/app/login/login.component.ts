@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   exists: boolean = false;
   message: string = "";
   user: string = "";
+  created: boolean = false;
 
 
   onLogin() {
@@ -46,7 +47,8 @@ export class LoginComponent implements OnInit {
     this.userService.setCurrentUser(username);
     console.log(this.login.value + "added");
     this.exists = true;
-    this.message = "It seems you aren't registered. We have added you as a user. Welcome " + username;
+    this.created = true;
+    this.message = "It seems you weren't registered. We have added you as a user. Welcome " + username;
   }
 
   onLogout() {
@@ -91,15 +93,13 @@ export class LoginComponent implements OnInit {
     this.login = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
     });
-    this.userService.getCurrentUser().pipe(filter(user => !!user), takeUntil(this.componentDestroyed$))
+    this.userService.getCurrentUser().pipe(filter(user => !!user))
       .subscribe(user =>{
         this.user = user;
       });
       if (this.user) {
         this.exists = true;
-      }
-    console.log(this.user);
-    
+      }``
   }
 
 
