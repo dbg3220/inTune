@@ -3,11 +3,6 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
-> _The following template provides the headings for your Design
-> Documentation.  As you edit each section make sure you remove these
-> commentary 'blockquotes'; the lines that start with a > character
-> and appear in the generated PDF in italics._
-
 ## Team Information
 * Team name: In-Tune
 * Team members
@@ -19,19 +14,18 @@ geometry: margin=1in
 
 ## Executive Summary
 
-This is a summary of the project.
+To create a web store that allows users to rent and purchase instruments, as well as partake in lessons. Users will be able to log into the website with an email and password, and then have payment and shipping information saved.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+To allow customers to interact with the full inventory and capability of the music store from
+a personal computer.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
 
 | Term | Definition |
 |------|------------|
-| SPA | Single Page |
-
+| SPA  | Single Page|
 
 ## Requirements
 
@@ -41,14 +35,40 @@ This section describes the features of the application.
 > story.  Focus on top-level features from the Vision document and
 > maybe Epics and critical Stories._
 
+Any user who is not the admin will be able to log in using their username and be presented with a home page where they
+can browse products in multiple ways(search bar, top products, by category). They will be able to add any product in
+the store to their cart with a requested quantity that is equal to or less than the amount the store has in inventory.
+If a user logs out than the products in their cart will be retained. The admin will have the ability to login with the
+username 'admin' and be presented with a home page similar to that of a regular user but will include the ability to edit
+the inventory of the store.
+
+
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+The MVP will consist of a fully functional estore with a working backend representation of relevant data types.
+Any user will be able to login with a username and password or create an accoutn if they have no login. Products
+checked out in their cart will be remembered between sessions and any user should be able to see all products through
+a search bar.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+1. Create Account
+2. Edit Products
+3. Get products by category
+4. Browse my cart
+5. Save my cart
+6. Save payment and Address Info
+7. Learn about an Instrument
+8. Browse Instrument Categories
+9. Log in
+
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+1. Renting instruments
+2. Participate in the Community Blog
+3. Seeing the Community Board
+3. Add friends
+4. See Bands that are looking for musicians
+4. Get product by Subcategory
+
 
 
 ## Application Domain
@@ -64,7 +84,11 @@ This section describes the application domain.
 
 ## Architecture and Design
 
-This section describes the application architecture.
+The application architecture will be separated into 2 distinct components, an angular frontend implementation
+and a Spring API backend implementation. 
+Frontend:
+Backend: The Spring API will implement a Model, View, View_Model structure that will use a local database
+in the form of json files, 1 json file for each type of object being handled by the backend.
 
 ### Summary
 
@@ -74,20 +98,17 @@ The following Tiers/Layers model shows a high-level view of the webapp's archite
 
 The e-store web application, is built using the Model–View–ViewModel (MVVM) architecture pattern. 
 
-The Model stores the application data objects including any functionality to provide persistance. 
+The Model stores the application data objects including any functionality to provide persistence. 
 
-The View is the client-side SPA built with Angular utilizing HTML, CSS and TypeScript. The ViewModel provides RESTful APIs to the client (View) as well as any logic required to manipulate the data objects from the Model.
+The View is the client-side SPA built with Angular utilizing HTML, CSS and TypeScript. 
+The ViewModel provides RESTful APIs to the client (View) as well as any logic required to 
+manipulate the data objects from the Model.
 
 Both the ViewModel and Model are built using Java and Spring Framework. Details of the components within these tiers are supplied below.
 
 
 ### Overview of User Interface
-
-This section describes the web interface flow; this is how the user views and interacts
-with the e-store application.
-
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+On landing, the user will be displayed with a selection of the most popular products by name. This will herein be referred to as the dashboard. From here, they will also be able to see, at the header, there will be four options. These include the Dashboard, Products, Login, and Cart. Products will present the user with a list of all current products available along with their photo, name, and price. There is a search bar on this page that allows users to look up products by first name. From here, a user can click on any product to be taken to that products detail page. Here, the user will be able to add the product to their unique cart (if logged in). If they do not have an account/are not logged in, they will be informed that they need to log in. Otherwise, the product can be added to their cart. The login page is a simple page prompting for users to enter their username. A success page will be followed once the user is signed in. Finally, there is a cart page, it is here that users can see what products they have in their cart and how many of each.
 
 
 ### View Tier
@@ -99,42 +120,26 @@ with the e-store application.
 > _You must also provide sequence diagrams as is relevant to a particular aspects 
 > of the design that you are describing.  For example, in e-store you might create a 
 > sequence diagram of a customer searching for an item and adding to their cart. 
-> Be sure to include an relevant HTTP reuqests from the client-side to the server-side 
+> Be sure to include an relevant HTTP requests from the client-side to the server-side 
 > to help illustrate the end-to-end flow._
 
 
 ### ViewModel Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
-
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+The ViewModel Tier is the Rest-API of our program and it consists only of controllers
+for data types used in the View tier. It acts as the point of contact between our front end
+and back end. It interacts with HTTP requests and responds with certain bodies and certain error
+codes as responses(i.e. OK, CREATED, INTERNAL_SERVER_ERROR, CONFLICT)
 
 
 ### Model Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
-
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+The Model Tier has Product, User, Cart classes which represent the data being stored in the
+local database. They represent little functionality of the application besides what is needed
+to maintain their internal state.
 
 ### Static Code Analysis/Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements._
-
-> _With the results from the Static Code Analysis exercise, 
-> discuss the resulting issues/metrics measurements along with your analysis
-> and recommendations for further improvements. Where relevant, include 
-> screenshots from the tool and/or corresponding source code that was flagged._
 
 ## Testing
-> _This section will provide information about the testing performed
-> and the results of the testing._
+Currently only 98% of backend tests pass.
 
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their

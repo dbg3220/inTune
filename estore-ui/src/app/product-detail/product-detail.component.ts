@@ -72,4 +72,8 @@ export class ProductDetailComponent implements OnInit {
     this.msg.sendMsg(this.product)
     this.added = true;
   }
+
+  handleAddReview(){
+    
+  }
 }

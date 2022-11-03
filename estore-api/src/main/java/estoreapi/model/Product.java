@@ -40,6 +40,8 @@ public class Product {
     private String description; // The description of the product, for the product page
     @JsonProperty("image")
     private String image; // The size of the intrument (Ex. 1/2)
+    @JsonProperty("reviews")
+    private Review[] reviews;
 
     /**
      * Create a product with the given id, name, and price.
@@ -51,6 +53,7 @@ public class Product {
      * @param quantity    The quantity of the product
      * @param description The description of the product
      * @param image       The image to be displayed with the product
+     * @param reviews     The reviews of the product left by users
      *                    *
      *{@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields. If a field
@@ -64,7 +67,8 @@ public class Product {
                     @JsonProperty("category") Category category,
                     @JsonProperty("quantity") int quantity, 
                     @JsonProperty("description") String description,
-                    @JsonProperty("image") String image) {
+                    @JsonProperty("image") String image,
+                    @JsonProperty("reviews") Review[] reviews) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -72,6 +76,7 @@ public class Product {
         this.quantity = quantity;
         this.description = description;
         this.image = image;
+        this.reviews = reviews;
     }
 
     /**
@@ -187,6 +192,14 @@ public class Product {
     public String getImage() {
         return image;
     }
+
+    /**
+     * Retrieves the array of all reviews of this product
+     * @return An array of reviews
+     */
+    public Review[] getReviews(){
+        return reviews;
+}
 
     /**
      * {@inheritDoc}

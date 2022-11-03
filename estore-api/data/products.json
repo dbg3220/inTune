@@ -1,1 +1,54 @@
-[{"id":1,"name":"Box Guitar","price":149.99,"category":"STRINGS","quantity":100,"description":"Similar in playstyle to that of a classical guitar, but uses a box to resonate the sound through the instrument. Also stands at a smaller stature to that of a classical guitar","image":"https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg"},{"id":2,"name":"Grand Piano","price":2199.99,"category":"KEYBOARDS","quantity":5,"description":"A beautiful Steinway & Sons is sure to wow the eyes as well as the ears","image":"https://www.steinway.com/.imaging/default/dam/Special-Pianos/pops/pops_builder/pops_rendering/191223-POPS.1756.png/jcr:content.jpg"},{"id":3,"name":"Alto Saxophone","price":549.99,"category":"BRASS","quantity":37,"description":"This Alto Saxophone is perfect for players of all ages and skill levels","image":"https://i.ebayimg.com/images/g/BKEAAOSwAmNfGYQK/s-l640.jpg"}]
+
+[
+    {
+        "id":1,
+        "name":"Box Guitar",
+        "price":149.99,
+        "category": "STRINGS",
+        "quantity":100,
+        "description" : "Similar in playstyle to that of a classical guitar, but uses a box to resonate the sound through the instrument. Also stands at a smaller stature to that of a classical guitar", 
+        "image": "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg",
+        "reviews":[
+            {
+                "userID": 1,
+                "rating": 5,
+                "description": "Greatest intrument to touch this earth"
+                
+            }
+        ]
+    },
+    {
+        "id":2,
+        "name":"Grand Piano",
+        "price":2199.99,
+        "category":"KEYBOARDS",
+        "quantity":5,
+        "description" : "A beautiful Steinway & Sons is sure to wow the eyes as well as the ears", 
+        "image": "https://www.steinway.com/.imaging/default/dam/Special-Pianos/pops/pops_builder/pops_rendering/191223-POPS.1756.png/jcr:content.jpg",
+        "reviews":[
+            {
+                "userID": 3,
+                "rating": 1,
+                "description": "Terrible quality"
+                
+            }
+        ]
+    },
+    {
+        "id":3,
+        "name":"Alto Saxophone",
+        "price":549.99,
+        "category":"BRASS",
+        "quantity":37,
+        "description" : "This Alto Saxophone is perfect for players of all ages and skill levels", 
+        "image": "https://i.ebayimg.com/images/g/BKEAAOSwAmNfGYQK/s-l640.jpg",
+        "reviews":[
+            {
+                "userID": 2,
+                "rating": 3,
+                "description": "Decent instrument but overpriced"
+                
+            }
+        ]
+    }
+]

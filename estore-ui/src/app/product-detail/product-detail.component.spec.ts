@@ -20,4 +20,6 @@ describe('ProductDetailComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
 });
