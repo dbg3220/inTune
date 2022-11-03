@@ -76,7 +76,7 @@ export class ProductsComponent implements OnInit {
       if (this.user == "admin"){
         this.isAdmin = true;
       }
-
+      
 }
 
 

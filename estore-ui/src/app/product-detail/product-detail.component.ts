@@ -8,6 +8,8 @@ import { Product } from '../product';
 import { MessengerService } from '../messenger.service';
 import { UserService } from '../user.service';
 import { filter, takeUntil } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Review } from '../review';
 
 
 
@@ -23,14 +25,15 @@ export class ProductDetailComponent implements OnInit {
   user: string = "";
   isAdmin: boolean = false;
   deleted: boolean = false;
-
+  form!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
     private location: Location,
     private msg: MessengerService,
-    private userService: UserService
+    private userService: UserService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +45,11 @@ export class ProductDetailComponent implements OnInit {
     if (this.user == 'admin'){
       this.isAdmin = true;
     }
+    this.form = this.fb.group({
+      userID: ['', Validators.required],
+      rating: ['', Validators.required],
+      description: ['', Validators.required]
+    });
   }
 
   getProduct(): void {
@@ -53,6 +61,11 @@ export class ProductDetailComponent implements OnInit {
   goBack(): void {
     console.log("works")
     this.location.back();
+  }
+
+
+  toNumber(price: string): number {
+    return Number(price);
   }
 
   save(): void{
@@ -73,7 +86,8 @@ export class ProductDetailComponent implements OnInit {
     this.added = true;
   }
 
-  handleAddReview(){
-    
+  handleAddReview(userID: Number, rating: Number, description: String){
+    this.product.reviews.push({userID, rating, description} as Review)
+    this.productService.updateProduct(this.product);
   }
 }
