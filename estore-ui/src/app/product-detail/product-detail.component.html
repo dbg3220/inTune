@@ -3,10 +3,22 @@
     <h2 class="mx-auto my-10 text-5xl">{{product.name | uppercase}}</h2>
   </div>
   <!-- <div><span>id: </span>{{product.id}}</div> -->
-  <!-- <div>
-    <label for="product-name">Hero name: </label>
-    <input id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
-  </div> -->
+  <div class="flex" *ngIf="isAdmin">
+    <div class="mx-auto grid grid-cols-2 gap-5">
+      <label for="product-name">Product name: </label>
+      <input class="border border-black"id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
+      <label for="product-price">Product price: </label>
+      <input class="border border-black"id="product-price" [(ngModel)]="product.price" placeholder="Product name"/>
+      <!-- <label for="product-category">Product category: </label>
+      <input id="product-category" [(ngModel)]="product.category" placeholder="Product name"/> -->
+      <label for="product-quantity">Product quantity: </label>
+      <input class="border border-black"id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product name"/>
+      <label for="product-description">Product description: </label>
+      <input class="border border-black"id="product-description" [(ngModel)]="product.description" placeholder="Product name"/>
+      <label for="product-image">Product image URL: </label>
+      <input class="border border-black"id="product-image" [(ngModel)]="product.image" placeholder="Product name"/>
+    </div>
+  </div>
 
   <!-- <button type="button" (click)="goBack()">go back</button> -->
   <div>
@@ -15,23 +27,22 @@
         <div><img class="w-96 h-96 object-contain" src="{{product.image}}" alt="product image"></div>
       </div>
     </div>
-    <div class="flex w-1/3 mx-auto justify-items-center text-center">
-      <div class="mx-auto">
-        <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
-        <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
-        <div>
-          <button type="button" (click)="handleAddToCart()"
-                  class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3"
-                  type="button">Add to Cart
-          </button>
-        </div>
-        <div class="text-green-600 text-2xl pt-5" *ngIf="added">{{product.name}} added to cart</div>
-      </div>
-      <div class="backButton">
+  <div class="flex w-1/3 mx-auto justify-items-center text-center">
+    <div class="mx-auto">
+      <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
+      <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
+      <h1 class="text-2xl mb-5">{{product.quantity}} left in stock</h1>
+      <div *ngIf="!isAdmin" ><button type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white my-5 px-7 py-3" type="button">Add to Cart</button></div>
+      <div *ngIf="deleted" ><h1>product</h1></div>
+      <div *ngIf="isAdmin" ><button type="button"(click)="handleDelete()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white my-5 px-7 py-3" type="button">Delete</button></div>
+      <div *ngIf="!isAdmin">
+        <div class="text-green-600 text-2xl my-5" *ngIf="added">{{product.name}} added to cart</div>
+        <div class="backButton">
         <button type="button" (click)="goBack()"
                 class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 fa fa-arrow-left fa-2x"
                 type="button">&nbsp;&nbsp;Back
         </button>
+
       </div>
     </div>
   </div>

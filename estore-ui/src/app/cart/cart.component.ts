@@ -5,6 +5,9 @@ import {filter, Subject, takeUntil} from "rxjs";
 import {ProductService} from "../product.service";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
+import { User } from '../user';
+import { UserService } from '../user.service';
+
 
 @Component({
   selector: 'app-cart',
@@ -17,6 +20,7 @@ export class CartComponent implements OnInit {
   cartItems: Product[] = [];
   componentDestroyed$ = new Subject();
   subTotals: number = 0;
+
   subQuantity: number = 0;
 
   constructor(
@@ -24,7 +28,11 @@ export class CartComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private location: Location
+    private userService: UserService
   ) {}
+  user: string = "";
+  isAdmin: boolean = false;
+
 
   removeProductCart(product: Product) {
     this.productService.removeToCart(product);
@@ -44,12 +52,20 @@ export class CartComponent implements OnInit {
     }
   }
 
+
   ngOnInit(): void {
     this.productService.getCart().pipe(filter(cart => !!cart), takeUntil(this.componentDestroyed$))
       .subscribe(cartItems => {
         this.cartItems = cartItems
         this.subTotal();
       });
+      this.userService.getCurrentUser().pipe(filter(user => !!user), takeUntil(this.componentDestroyed$))
+      .subscribe(user =>{
+        this.user = user;
+      });
+      if (this.user == "admin"){
+        this.isAdmin = true;
+      }
 
     this.msg.getMsg().subscribe(product => {
       console.log(product)
