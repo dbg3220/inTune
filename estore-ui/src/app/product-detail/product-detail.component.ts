@@ -10,6 +10,7 @@ import { UserService } from '../user.service';
 import { filter, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Review } from '../review';
+import { User } from '../user';
 
 
 
@@ -26,6 +27,7 @@ export class ProductDetailComponent implements OnInit {
   isAdmin: boolean = false;
   deleted: boolean = false;
   form!: FormGroup;
+  isLoggedIn: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +35,7 @@ export class ProductDetailComponent implements OnInit {
     private location: Location,
     private msg: MessengerService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -46,10 +48,11 @@ export class ProductDetailComponent implements OnInit {
       this.isAdmin = true;
     }
     this.form = this.fb.group({
-      userID: ['', Validators.required],
+      reviewUsername: ['', Validators.required],
       rating: ['', Validators.required],
       description: ['', Validators.required]
     });
+    
   }
 
   getProduct(): void {
@@ -86,9 +89,18 @@ export class ProductDetailComponent implements OnInit {
     this.added = true;
   }
 
-  handleAddReview(userID: Number, rating: Number, description: String){
-    this.product.reviews.push({userID, rating, description} as Review)
+  handleAddReview(reviewUsername: String, rating: Number, description: String){
+    this.product.reviews.push({reviewUsername, rating, description} as Review)
     this.productService.updateProduct(this.product);
     this.save();
+  }
+
+  getUsername(){
+    if(this.user){
+      return this.user;
+    }
+    else{
+      return "Anonymous"
+    }
   }
 }

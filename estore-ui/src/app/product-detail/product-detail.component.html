@@ -40,7 +40,7 @@
   </form>
     <label for="new-product">Add a written review: </label>
     <input class="border border-black"id="new-review" #reviewDescription />
-      <div><button type="button"(click)="handleAddReview(0,toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
+      <div><button type="button"(click)="handleAddReview(getUsername(),toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
       <div class="text-green-600 text-2xl pt-5" *ngIf="added">{{product.name}} added to cart</div>
               <div class="backButton">
         <button type="button" (click)="goBack()"
@@ -49,7 +49,8 @@
               </button>
       </div>
       <li *ngFor="let review of product.reviews">
-        <h3 >Rating: {{review.rating}}</h3>
+        <h3 >User: {{review.reviewUsername}}</h3>
+        <p >Rating: {{review.rating}}</p>
         <p >{{review.description}}</p>
       </li>
     </div>
