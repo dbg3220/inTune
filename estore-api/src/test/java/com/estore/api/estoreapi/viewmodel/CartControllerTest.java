@@ -22,6 +22,7 @@ import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.CartFileDAO;
 import estoreapi.persistence.ProductDAO;
 import estoreapi.viewmodel.CartController;
+import estoreapi.model.Review;
 
 /**
  * Test the CartController class
@@ -95,8 +96,9 @@ public class CartControllerTest {
     public void testUpdateCart() throws IOException { // updateCart may throw IOException
         // Setup
         Cart cart = new Cart(99);
-        Product product = new Product(1, "Clarinet", 100, Category.WOODWINDS, 100,
-                                        "a good instrument", "squidward.png");
+        Review[] reviewList = new Review[3];
+        Product product = new Product(1, "Clarinet", 100, "WOODWINDS", 100,
+                                        "a good instrument", "squidward.png", reviewList);
         // when updateCart is called, return true simulating successful
         // update and save
         when(mockCartDAO.updateCart(cart)).thenReturn(cart);
@@ -117,9 +119,10 @@ public class CartControllerTest {
     @Test
     public void testUpdateCartFailed() throws IOException { // updateCart may throw IOException
         // Setup
+        Review[] reviewList = new Review[3];
         Cart cart = new Cart(99);
-        Product product = new Product(1, "Clarinet", 100, Category.WOODWINDS, 100,
-                                        "a good instrument", "squidward.png");
+        Product product = new Product(1, "Clarinet", 100, "BRASS", 100,
+                                        "a good instrument", "squidward.png", reviewList);
         // when updateCart is called, return true simulating successful
         // update and save
         when(mockCartDAO.updateCart(cart)).thenReturn(cart);
