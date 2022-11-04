@@ -95,12 +95,10 @@ export class ProductDetailComponent implements OnInit {
     this.save();
   }
 
-  getUsername(){
+  loggedIn(){
     if(this.user){
-      return this.user;
+      return true;
     }
-    else{
-      return "Anonymous"
-    }
+    return false;
   }
 }

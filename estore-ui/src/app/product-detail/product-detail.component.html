@@ -29,6 +29,10 @@
       <div><button type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Add to Cart</button></div>
       <h1 class="text-3xl mb-5">Number of reviews: {{product.reviews.length}}</h1>
       <form action="#">
+  </form>
+      <div *ngIf="loggedIn()">
+        <label for="new-product">Add a written review: </label>
+        <div><button type="button"(click)="handleAddReview(user,toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
         <label for="ratings">Rating 1-5: </label>
         <select id="new-review" #reviewRating>
           <option value=1>1</option>
@@ -37,10 +41,8 @@
           <option value=4>4</option>
           <option value=5>5</option>
         </select>
-  </form>
-    <label for="new-product">Add a written review: </label>
-    <input class="border border-black"id="new-review" #reviewDescription />
-      <div><button type="button"(click)="handleAddReview(getUsername(),toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
+        <input class="border border-black"id="new-review" #reviewDescription />
+      </div>
       <div class="text-green-600 text-2xl pt-5" *ngIf="added">{{product.name}} added to cart</div>
               <div class="backButton">
         <button type="button" (click)="goBack()"
