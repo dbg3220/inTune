@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getProducts();
+    this.cloneProducts();
   }
 
   getProducts(): void {
