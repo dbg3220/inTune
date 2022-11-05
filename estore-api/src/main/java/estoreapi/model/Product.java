@@ -42,6 +42,8 @@ public class Product {
     private String image; // The size of the intrument (Ex. 1/2)
     @JsonProperty("reviews")
     private Review[] reviews;
+    @JsonProperty("quantitySold")
+    private int quantitySold;
 
     /**
      * Create a product with the given id, name, and price.
@@ -68,7 +70,8 @@ public class Product {
                     @JsonProperty("quantity") int quantity, 
                     @JsonProperty("description") String description,
                     @JsonProperty("image") String image,
-                    @JsonProperty("reviews") Review[] reviews) {
+                    @JsonProperty("reviews") Review[] reviews,
+                    @JsonProperty("quantitySold") int quantitySold) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -77,6 +80,7 @@ public class Product {
         this.description = description;
         this.image = image;
         this.reviews = reviews;
+        this.quantitySold = quantitySold;
     }
 
     /**
@@ -201,6 +205,14 @@ public class Product {
         return reviews;
 }
 
+    public int getQuantitySold(){
+        return quantitySold;
+    }
+
+    public void adjustQuantitySold(int numSold){
+        this.quantitySold += numSold;
+    }
+    
     /**
      * {@inheritDoc}
      */

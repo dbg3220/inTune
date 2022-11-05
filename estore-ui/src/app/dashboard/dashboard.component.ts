@@ -10,6 +10,7 @@ import {filter, Subject, takeUntil} from "rxjs";
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
+  topProducts: Product[] = [];
   componentDestroyed$ = new Subject(); // tracks components lifecycle for subscription of the observable, component will automatically repaint if data changes
 
   constructor(private productService: ProductService, private cdRef : ChangeDetectorRef) { }
@@ -28,5 +29,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.productService.getClonedProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
       .subscribe(products => this.products = products.slice(1, 5));
       this.cdRef.detectChanges();
+    }
+
+    cloneProducts(){
+      this.productService.fetchProducts().subscribe(topProducts =>
+        {
+          this.topProducts = topProducts.slice(0,3);
+          this.productService.setProductsView(this.topProducts);
+          this.productService.setProductsClone(this.topProducts);
+        });
+    }
+
+    sortList(products : Product[]){
+      if (products.length == 0 ){
+        return [];
+      }
+      products.sort(function(a,b){return b.quantitySold - a.quantitySold});
+      return products;
     }
 }
