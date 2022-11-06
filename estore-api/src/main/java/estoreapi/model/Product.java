@@ -13,14 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Product {
 
-    public enum Category {
-        STRINGS,
-        WOODWINDS,
-        PERCUSSION,
-        BRASS,
-        KEYBOARDS
-    }
-
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
@@ -204,7 +196,12 @@ public class Product {
     public Review[] getReviews(){
         return reviews;
 }
-
+    
+    /**
+     * Retrieves the amount of times the lesson has been sold
+     * 
+     * @return the amount of times the lesson has been sold
+     */
     public int getQuantitySold(){
         return quantitySold;
     }
@@ -218,7 +215,7 @@ public class Product {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image);
+        return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image, reviews, quantitySold);
     }
 
     /**
@@ -234,7 +231,8 @@ public class Product {
                    this.category.equals(otherProduct.category) &&
                    this.quantity == otherProduct.quantity &&
                    this.description.equals(otherProduct.description) &&
-                   this.image.equals(otherProduct.image);
+                   this.image.equals(otherProduct.image) &&
+                   this.quantitySold == otherProduct.quantitySold;
         }
         return false;
     }

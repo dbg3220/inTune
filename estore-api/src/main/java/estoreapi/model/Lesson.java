@@ -1,5 +1,10 @@
 package estoreapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Represents a lesson
+ * 
+ * @author Donovan Cataldo
+ */
 public class Lesson {
 
     static final String STRING_FORMAT = "lesson [id%=d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
@@ -23,6 +28,16 @@ public class Lesson {
     @JsonProperty("name")
     private String name; // The name of the lesson
 
+    /**
+     * Create a lesson
+     * 
+     * @param id The id of the lesson
+     * @param price The price of the lesson
+     * @param weekday The day the lesson will take place
+     * @param startTime The time the lesson will start
+     * @param name The name of the lesson
+     * 
+     */
     public Lesson(
         @JsonProperty("id") int id,
         @JsonProperty("price") double price,
@@ -42,6 +57,12 @@ public class Lesson {
 
     }
 
+    /**
+     *  Used when a lesson is "booked". Sets the category, intructor, and ID of the user who booked the lesson
+     * @param category The intrument category of the lesson
+     * @param instructor The instructor teaching the lesson
+     * @param userID The ID of the user taking the lesson
+     */
     public void setLesson(String category, String instructor, int userID){
         this.isFull = true;
         this.category = category;
@@ -49,70 +70,98 @@ public class Lesson {
         this.userID = userID;
     }
 
-    public void clearLesson(){
-        this.isFull = false;
-        this.category = null;
-        this.instructor = null;
-        this.userID = -1;
-    }
-
+    /**
+     * Gets if the lesson is full or not
+     * 
+     * @return the boolean of whether the lesson is full or not
+     */
     public boolean getIsFull(){
         return this.isFull;
     }
 
+    /**
+     * Retrieves the category of the lesson
+     * 
+     * @return The category of the lesson
+     */
     public String getCategory(){
         return this.category;
     }
 
+    /**
+     * Retrieves the instrucotr teaching the lesson
+     * 
+     * @return The instructor teaching the lesson
+     */
     public String getIntructor(){
         return this.instructor;
     }
 
+    /**
+     * Retrieves the ID of the user who booked the lesson
+     * 
+     * @return the ID of the user who booked the lesson
+     */
     public int getUserID(){
         return this.userID;
     }
 
-    public void setWeekDay(String weekday){
-        this.weekday = weekday;
-    }
-
+    /**
+     * Retrieves the week day the lesson takes place
+     * 
+     * @return the week day the lesson takes place
+     */
     public String getWeekDay(){
         return this.weekday;
     }
 
-    public void setStartTime(int startTime){
-        this.startTime = startTime;
-    }
-
+    /**
+     * Retrieves the start time of the less
+     * 
+     * @return
+     */
     public int getStartTime(){
         return this.startTime;
     }
 
-    public void setPrice(double price){
-        this.price = price;
-    }
-
+    /**
+     * Retrieves the price of the lesson
+     * 
+     * @return the price of the lesson
+     */
     public double getPrice(){
         return this.price;
     }
 
+    /**
+     * Retrieves the unique id of the lesson
+     * 
+     * @return the unique id of the lesson
+     */
     public int getID(){
         return this.id;
     }
 
+    /**
+     * Retrieves the name of the lesson
+     * 
+     * @return the name of the lesson
+     */
     public String getName(){
         return this.name;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
-
+    /**
+     * {@inheritDoc}}
+     */
     @Override
     public String toString(){
         return String.format(STRING_FORMAT, id, isFull, category, instructor, weekday, startTime, userID, price, name);
     }
 
+    /**
+     * {@inheritDoc}}
+     */
     @Override
     public boolean equals(Object other){
         if( other instanceof Lesson){
