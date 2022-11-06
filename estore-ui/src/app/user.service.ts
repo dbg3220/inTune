@@ -61,12 +61,6 @@ export class UserService {
     this._user.next(this.user);
   }
 
-
-
-
-
-  
-
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     

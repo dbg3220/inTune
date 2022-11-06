@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents a review of a product
  */
 public class Review {
-    /** The id of the user who left the review */
-    @JsonProperty("userID")
-    private int userID;
+    /** The username of the user who left the review */
+    @JsonProperty("reviewUsername")
+    private String username;
     /** The rating of the product, 1-5 */
     @JsonProperty("rating")
     private int rating;
@@ -19,23 +19,23 @@ public class Review {
     /**
      * Creates a Review
      * 
-     * @param userID
+     * @param reviewUsername
      * @param rating
      * @param description
      */
-    public Review(@JsonProperty("userID") int userID, @JsonProperty("rating") int rating,
+    public Review(@JsonProperty("reviewUsername") String username, @JsonProperty("rating") int rating,
                         @JsonProperty("description") String description){
-        this.userID = userID;
+        this.username = username;
         this.rating = rating;
         this.description = description;
     }
 
     /**
      * Retrieves the id of the user who left the review
-     * @return The user id
+     * @return The username
      */
-    public int getUserID(){
-        return userID;
+    public String getUsername(){
+        return this.username;
     }
 
     /**
