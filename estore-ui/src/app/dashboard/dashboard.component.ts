@@ -12,7 +12,8 @@ export class DashboardComponent implements OnInit {
   products: Product[] = [];
   componentDestroyed$ = new Subject(); // tracks components lifecycle for subscription of the observable, component will automatically repaint if data changes
   topProducts: Product[] = [];
-  test: boolean = false;;
+  test: boolean = false;
+  filteredProducts: Product[] = [];
 
   //Merriweather Font
   
@@ -45,4 +46,19 @@ export class DashboardComponent implements OnInit {
       return products;
     }
 
+    filterByCategory(category: string){
+      this.filteredProducts = [];
+      this.productService.getClonedProductsAsObservable().subscribe(cloned => {
+        this.productService.setProductsView(cloned);
+      });
+      if(category === ""){
+        return this.productService.setProductsView(this.products);
+      }
+      for (let i = 0; i < this.products.length; ++i) {
+        if(this.products[i].category === category){
+          this.filteredProducts.push(this.products[i]);
+        }
+      }
+      this.productService.setProductsView(this.filteredProducts);
+    }
 }

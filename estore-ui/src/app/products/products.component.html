@@ -21,7 +21,8 @@
 </div>
 <button class="category" name="test" (click)="filterByCategory(categoryDropdown.value)">Test</button>
 <label for="category">Filter:</label>
-<select  id="category" #categoryDropdown onchange="filterByCategory(this)">
+<form>
+<select onchange="filterByCategory(this)" id="category" #categoryDropdown >
   <option value="">None</option>
   <option value="STRINGS">Strings</option>
   <option value="WOODWINDS">Woodwinds</option>
@@ -29,7 +30,7 @@
   <option value="BRASS">Brass</option>
   <option value="KEYBOARDS">Keyboards</option>
 </select>
-
+</form>
 <ul class="grid grid-cols-3 lg:grid-cols-4 ">
   <li *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}">
