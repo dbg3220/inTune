@@ -19,10 +19,9 @@
     </button>
   </div>
 </div>
-<button class="category" name="test" (click)="filterByCategory(categoryDropdown.value)">Test</button>
-<label for="category">Filter:</label>
+<button class="category" name="test" (click)="filterByCategory(categoryDropdown.value)">Filter</button>
 <form>
-<select onchange="filterByCategory(this)" id="category" #categoryDropdown >
+<select id="category" #categoryDropdown >
   <option value="">None</option>
   <option value="STRINGS">Strings</option>
   <option value="WOODWINDS">Woodwinds</option>
