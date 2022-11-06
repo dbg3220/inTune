@@ -1,5 +1,13 @@
 [
     {
-        
+        "id": 1,
+        "isFull": false,
+        "category": "STRINGS",
+        "instructor": "Jerry Garcia",
+        "weekday": "MONDAY",
+        "startTime": 12,
+        "userID": -1,
+        "price": 100.0,
+        "name": "Guitar Lesson"
     }
 ]
