@@ -23,7 +23,7 @@ import { User } from '../user';
 export class ProductDetailComponent implements OnInit {
   product!: Product;
   added: boolean = false;
-  user: string = "";
+  user: string = "user";
   isAdmin: boolean = false;
   deleted: boolean = false;
   form!: FormGroup;
@@ -89,7 +89,7 @@ export class ProductDetailComponent implements OnInit {
     this.added = true;
   }
 
-  handleAddReview(reviewUsername: String, rating: Number, description: String){
+  handleAddReview(reviewUsername: String, rating: number, description: String){
     this.product.reviews.push({reviewUsername, rating, description} as Review)
     this.productService.updateProduct(this.product);
     this.save();
@@ -100,5 +100,16 @@ export class ProductDetailComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  averageRating(){
+    let total = 0;
+    let count = 0;
+    for (let review of this.product.reviews){
+      total += review.rating;
+      count++;
+    }
+    var multiplier = Math.pow(10, 2);
+    return Math.round(total/count * multiplier) / multiplier;
   }
 }
