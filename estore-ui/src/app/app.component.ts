@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   componentDestroyed$ = new Subject();
   private userSource = new BehaviorSubject('test');
   currentUser = this.userSource.asObservable();
-  user: string = "";
+  user!: User;
   isAdmin = false;
 
   constructor(private productService: ProductService, private userService: UserService) {}
@@ -27,10 +27,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getProducts();
     this.userService.getCurrentUser().pipe(filter(user => !!user))
-      .subscribe((user: string) =>{
+      .subscribe((user: User) =>{
         this.user = user;
       });
-      if (this.user == "admin"){
+      if (this.user?.username == "admin"){
         this.isAdmin = true;
       }
   }
