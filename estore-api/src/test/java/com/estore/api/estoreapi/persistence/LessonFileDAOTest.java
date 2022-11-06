@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import estoreapi.model.Lesson;
+import estoreapi.model.Product.Category;
 import estoreapi.persistence.LessonFileDAO;
 
 /**
@@ -35,9 +36,9 @@ public class LessonFileDAOTest {
         public void setupLessonFileDAO() throws IOException{
             mockObjectMapper = mock(ObjectMapper.class);
             testLessons = new Lesson[3];
-            testLessons[0] = new Lesson(1, false, "", "", "MONDAY", 0, 0, 0.0,"");
-            testLessons[1] = new Lesson(2, false, "", "", "TUESDAY", 0, 0, 0.0, "");
-            testLessons[2] = new Lesson(3, false, "", "", "THURSDAY", 0, 0, 0.0, "");
+            testLessons[0] = new Lesson(1, false, Category.STRINGS, "", "MONDAY", 0, 0, 0.0,"");
+            testLessons[1] = new Lesson(2, false, Category.STRINGS, "", "TUESDAY", 0, 0, 0.0, "");
+            testLessons[2] = new Lesson(3, false, Category.STRINGS, "", "THURSDAY", 0, 0, 0.0, "");
             when(mockObjectMapper.readValue(new File(""), Lesson[].class)).thenReturn(testLessons);
             lessonFileDAO = new LessonFileDAO("", mockObjectMapper);
         }
@@ -65,7 +66,7 @@ public class LessonFileDAOTest {
 
     @Test
     public void testUpdateLesson() throws IOException {
-        Lesson lesson = new Lesson(1, false, "", "", "", 0, 0, 0.0, "");
+        Lesson lesson = new Lesson(1, false, Category.STRINGS, "", "", 0, 0, 0.0, "");
 
         Lesson result = lessonFileDAO.updateLesson(lesson);
 
@@ -80,7 +81,7 @@ public class LessonFileDAOTest {
                 .when(mockObjectMapper)
                 .writeValue(any(File.class), any(Lesson[].class));
 
-        Lesson lesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
+        Lesson lesson = new Lesson(0, false, Category.STRINGS, "", "", 0, 0, 0.0, "");
 
         assertThrows(IOException.class,
                 () -> lessonFileDAO.createLesson(lesson),
@@ -99,7 +100,7 @@ public class LessonFileDAOTest {
     @Test
     public void testUpdateProductNotFound() {
         // Setup
-        Lesson lesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
+        Lesson lesson = new Lesson(0, false, Category.STRINGS, "", "", 0, 0, 0.0, "");
 
         // Invoke
         Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),

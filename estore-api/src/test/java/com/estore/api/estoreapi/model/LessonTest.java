@@ -2,6 +2,8 @@ package com.estore.api.estoreapi.model;
 
 import org.junit.jupiter.api.Tag;
 import estoreapi.model.Lesson;
+import estoreapi.model.Product.Category;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 /**
@@ -21,7 +23,7 @@ public class LessonTest {
         int testing_id = 12;
 
         // Invoke
-        testLesson = new Lesson(testing_id, false, "", "", "", 0, 0, 0.0, "");
+        testLesson = new Lesson(testing_id, false, Category.STRINGS, "", "", 0, 0, 0.0, "");
 
         // Analyze
         assertEquals(testing_id, testLesson.getID());
@@ -33,7 +35,7 @@ public class LessonTest {
         String expected_name = "Cello";
 
         // Invoke
-        testLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, expected_name);
+        testLesson = new Lesson(0, false, Category.STRINGS, "", "", 0, 0, 0.0, expected_name);
 
         // Analyze
         assertEquals(expected_name,testLesson.getName());
@@ -46,7 +48,7 @@ public class LessonTest {
         double expectedProductPrice = 16.99;
 
         // Invoke
-        testLesson = new Lesson(0, false, "", "", "", 0, 0, expectedProductPrice, "");
+        testLesson = new Lesson(0, false, Category.STRINGS, "", "", 0, 0, expectedProductPrice, "");
 
         // Analyze
         assertEquals(expectedProductPrice,testLesson.getPrice());
@@ -58,7 +60,7 @@ public class LessonTest {
         String expectedWeekday = "Monday";
 
         // Invoke
-        testLesson = new Lesson(0, false, "", "", expectedWeekday, 0, 0, 0.0, "");
+        testLesson = new Lesson(0, false, Category.STRINGS, "", expectedWeekday, 0, 0, 0.0, "");
 
         // Analyze
         assertEquals(expectedWeekday, testLesson.getWeekDay());
