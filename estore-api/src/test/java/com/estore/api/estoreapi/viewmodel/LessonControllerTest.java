@@ -125,7 +125,7 @@ public class LessonControllerTest {
     }
 
     @Test
-    public void testUpdateLesson() throws IOException{
+    public void testUpdateLesson() throws Exception{
         // Setup
         Lesson updatedLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "stuff");
         when(mockDAO.updateLesson(updatedLesson)).thenReturn(updatedLesson);
@@ -138,7 +138,7 @@ public class LessonControllerTest {
     }
 
     @Test
-    public void testUpdateLessonFailed() throws IOException{
+    public void testUpdateLessonFailed() throws Exception{
         // Setup
         Lesson testLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         when(mockDAO.updateLesson(testLesson)).thenReturn(null);
@@ -151,7 +151,7 @@ public class LessonControllerTest {
     }
 
     @Test
-    public void testUpdateLessonHandleException() throws IOException{
+    public void testUpdateLessonHandleException() throws Exception{
         // Setup
         Lesson testLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         doThrow(new IOException()).when(mockDAO).updateLesson(testLesson);

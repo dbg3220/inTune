@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Lesson {
 
-    static final String STRING_FORMAT = "lesson [id%=d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%.2f, name=%s]";
+    static final String STRING_FORMAT = "lesson [id=%d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%.2f, name=%s]";
 
     @JsonProperty("id")
     private int id; // The Lesson ID
@@ -125,10 +125,10 @@ public class Lesson {
         return this.name;
     }
 
-    // @Override
-    // public String toString(){
-    //     return String.format(STRING_FORMAT, id, isFull, category, instructor, weekday, startTime, userID, price, name);
-    // }
+    @Override
+    public String toString(){
+        return String.format(STRING_FORMAT, id, isFull, category, instructor, weekday, startTime, userID, price, name);
+    }
 
     @Override
     public boolean equals(Object other){
