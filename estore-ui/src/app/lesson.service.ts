@@ -13,8 +13,14 @@ export class LessonService {
 
   private lessonsURL = 'http://localhost:8080/lessons';  // URL to web api
 
-  fetchLessons(): Observable<Lesson[]> {
+  getLessons(): Observable<Lesson[]> {
     this.messageService.add('LessonService: fetched lessons')
     return this.http.get<Lesson[]>(this.lessonsURL);
+  }
+
+  getLesson(id: Number): Observable<Lesson>{
+    this.messageService.add('LessonService: fetched lesson with id=' + id);
+    const url = `${this.lessonsURL}/${id}`;
+    return this.http.get<Lesson>(url);
   }
 }

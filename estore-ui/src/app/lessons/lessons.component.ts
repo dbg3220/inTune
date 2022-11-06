@@ -21,7 +21,7 @@ export class LessonsComponent implements OnInit {
   }
 
   getLessons() {
-    this.lessonService.fetchLessons().subscribe(lessons => this.lessons = lessons);
+    this.lessonService.getLessons().subscribe(lessons => this.lessons = lessons);
   }
 
   onSelect(lesson: Lesson) {
