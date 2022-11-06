@@ -23,7 +23,7 @@ import { User } from '../user';
 export class ProductDetailComponent implements OnInit {
   product!: Product;
   added: boolean = false;
-  user: string = "user";
+  user: string = "";
   isAdmin: boolean = false;
   deleted: boolean = false;
   form!: FormGroup;
