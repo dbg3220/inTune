@@ -35,9 +35,9 @@ public class LessonFileDAOTest {
         public void setupLessonFileDAO() throws IOException{
             mockObjectMapper = mock(ObjectMapper.class);
             testLessons = new Lesson[3];
-            testLessons[0] = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-            testLessons[1] = new Lesson(2, 70.22, "Friday", 2, "2pm Friday lesson");
-            testLessons[2] = new Lesson(3, 122.99, "Thursday", 9,"9am Thursday Lesson");
+            testLessons[0] = new Lesson(1, false, "", "", "MONDAY", 0, 0, 0.0,"");
+            testLessons[1] = new Lesson(2, false, "", "", "TUESDAY", 0, 0, 0.0, "");
+            testLessons[2] = new Lesson(3, false, "", "", "THURSDAY", 0, 0, 0.0, "");
             when(mockObjectMapper.readValue(new File(""), Lesson[].class)).thenReturn(testLessons);
             lessonFileDAO = new LessonFileDAO("", mockObjectMapper);
         }
@@ -65,10 +65,9 @@ public class LessonFileDAOTest {
 
     @Test
     public void testUpdateLesson() throws IOException {
-        Lesson lesson =  new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(1, false, "", "", "", 0, 0, 0.0, "");
 
-        Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),
-                "Unexpected exception thrown");
+        Lesson result = lessonFileDAO.updateLesson(lesson);
 
         assertNotNull(result);
         Lesson actual = lessonFileDAO.getLesson(lesson.getID());
@@ -81,7 +80,7 @@ public class LessonFileDAOTest {
                 .when(mockObjectMapper)
                 .writeValue(any(File.class), any(Lesson[].class));
 
-        Lesson lesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
 
         assertThrows(IOException.class,
                 () -> lessonFileDAO.createLesson(lesson),
@@ -100,7 +99,7 @@ public class LessonFileDAOTest {
     @Test
     public void testUpdateProductNotFound() {
         // Setup
-        Lesson lesson = new Lesson(99, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
 
         // Invoke
         Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),

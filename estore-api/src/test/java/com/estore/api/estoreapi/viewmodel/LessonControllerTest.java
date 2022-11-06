@@ -35,7 +35,7 @@ public class LessonControllerTest {
     @Test
     public void testGetLesson() throws Exception{
         // Setup
-        Lesson lesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         when(mockDAO.getLesson(lesson.getID())).thenReturn(lesson);
         
         // Invoke
@@ -76,9 +76,9 @@ public class LessonControllerTest {
     public void testGetLessons() throws Exception{
         // Setup
         Lesson[] testLessons = new Lesson[3];
-        testLessons[0] = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        testLessons[1] = new Lesson(2, 70.22, "Friday", 2, "2pm Friday lesson");
-        testLessons[2] = new Lesson(3, 122.99, "Thursday", 9,"9am Thursday Lesson");
+        testLessons[0] = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
+        testLessons[1] = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
+        testLessons[2] = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         when(mockDAO.getLessons()).thenReturn(testLessons);
 
         // Invoke
@@ -101,7 +101,7 @@ public class LessonControllerTest {
     @Test
     public void testCreateLesson() throws Exception{
         // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson testLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         when(mockDAO.createLesson(testLesson)).thenReturn(testLesson);
         // Invoke
         ResponseEntity<Lesson> response = lessonController.createLesson(testLesson);
@@ -114,7 +114,7 @@ public class LessonControllerTest {
     @Test
     public void testCreateLessonHandleException() throws Exception{
         // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson testLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         doThrow(new IOException()).when(mockDAO).createLesson(testLesson);
 
         // Invoke
@@ -127,24 +127,20 @@ public class LessonControllerTest {
     @Test
     public void testUpdateLesson() throws IOException{
         // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        when(mockDAO.updateLesson(testLesson)).thenReturn(testLesson);
+        Lesson updatedLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "stuff");
+        when(mockDAO.updateLesson(updatedLesson)).thenReturn(updatedLesson);
 
-        ResponseEntity<Lesson> response = lessonController.updateLesson(testLesson);
-        testLesson.setName("TestChange");
-
-        // Invoke
-        response = lessonController.updateLesson(testLesson);
+        ResponseEntity<Lesson> response = lessonController.updateLesson(updatedLesson);
 
         // Analyze
         assertEquals(HttpStatus.OK,response.getStatusCode());
-        assertEquals(testLesson,response.getBody());
+        assertEquals(updatedLesson,response.getBody());
     }
 
     @Test
     public void testUpdateLessonFailed() throws IOException{
         // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson testLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         when(mockDAO.updateLesson(testLesson)).thenReturn(null);
 
         // Invoke
@@ -157,7 +153,7 @@ public class LessonControllerTest {
     @Test
     public void testUpdateLessonHandleException() throws IOException{
         // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson testLesson = new Lesson(0, false, "", "", "", 0, 0, 0.0, "");
         doThrow(new IOException()).when(mockDAO).updateLesson(testLesson);
 
         // Invoke
