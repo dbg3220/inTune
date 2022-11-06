@@ -20,11 +20,13 @@ import {
 export class ProductsComponent implements OnInit {
 
   products: Product[] = [];
+  filteredProducts: Product[] = [];
   componentDestroyed$ = new Subject();
   selectedProduct?: Product;
   user: string = "";
   isAdmin: boolean = false;
   form!: FormGroup;
+  test: string = "BRASS";
 
   onSelect(product: Product): void {
     this.selectedProduct = product;
@@ -76,9 +78,21 @@ export class ProductsComponent implements OnInit {
       if (this.user == "admin"){
         this.isAdmin = true;
       }
-      
+    }
+
+filterByCategory(category: string){
+  this.filteredProducts = [];
+  this.productService.getClonedProductsAsObservable().subscribe(cloned => {
+    this.productService.setProductsView(cloned);
+  });
+  if(category === ""){
+    return this.productService.setProductsView(this.products);
+  }
+  for (let i = 0; i < this.products.length; ++i) {
+    if(this.products[i].category === category){
+      this.filteredProducts.push(this.products[i]);
+    }
+  }
+  this.productService.setProductsView(this.filteredProducts);
 }
-
-
-
 }

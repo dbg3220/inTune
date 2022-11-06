@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 import {filter, Subject, takeUntil} from "rxjs";
@@ -8,28 +8,24 @@ import {filter, Subject, takeUntil} from "rxjs";
   templateUrl: './dashboard.component.html',
   styleUrls: [ './dashboard.component.css' ]
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
   products: Product[] = [];
-  topProducts: Product[] = [];
   componentDestroyed$ = new Subject(); // tracks components lifecycle for subscription of the observable, component will automatically repaint if data changes
+  topProducts: Product[] = [];
+  test: boolean = false;;
 
-  constructor(private productService: ProductService, private cdRef : ChangeDetectorRef) { }
+  //Merriweather Font
+  
+  constructor(private productService: ProductService) { }
 
-  ngOnInit(): void {
-    this.getProducts();
-    this.cloneProducts();
-  }
+    ngOnInit(): void {
+      this.getProducts();
+      this.cloneProducts();
+    }
 
-  getProducts(): void {
-    this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
-      .subscribe(products => this.products = products.slice(1, 5));
-  }
-
-  ngAfterViewInit(): void {
-    // console.log('after view init');
-    this.productService.getClonedProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
-      .subscribe(products => this.products = products.slice(1, 5));
-      this.cdRef.detectChanges();
+    getProducts(): void {
+      this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
+        .subscribe(products => this.products = products.slice(1, 5));
     }
 
     cloneProducts(){
@@ -48,4 +44,5 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       products.sort(function(a,b){return b.quantitySold - a.quantitySold});
       return products;
     }
+
 }
