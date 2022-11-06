@@ -22,10 +22,20 @@ public class LessonController {
     private static final Logger LOG = Logger.getLogger(LessonController.class.getName());
     private LessonDAO lessonDao;
 
+    /**
+     * Public constructor for REST to instantiate this object at initialization
+     * @param lessonDao A data access object to be injected into this controller
+     */
     public LessonController(LessonDAO lessonDao){
         this.lessonDao = lessonDao;
     }
 
+    /**
+     * Handles the REST GET request for a single lesson
+     * @param id The id of the lesson to get
+     * @return A response entity with the lesson if found and a status of OK. If no lesson
+     * with the matching id is found than a response entity with the status NOT_FOUND is sent.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Lesson> getLesson(@PathVariable int id) {
         LOG.info("GET /Lessons/" + id);   
@@ -41,6 +51,10 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the REST GET request for all lessons
+     * @return A response entity containing an array of lessons which may be empty
+     */
     @GetMapping("")
     public ResponseEntity<Lesson[]> getLessons() {
         LOG.info("GET /lessons");
@@ -53,6 +67,11 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the REST POST request for the lesson resource
+     * @param lesson The lesson to be created
+     * @return A response entity with the newly created lesson
+     */
     @PostMapping("")
     public ResponseEntity<Lesson> createLesson(@RequestBody Lesson lesson) {
         LOG.info("POST /lessons " + lesson);
@@ -69,6 +88,12 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the REST PUT request for the lesson resource
+     * @param lesson The lesson to be updated
+     * @return A response entity with the newly updated lesson. If no lesson
+     * with the matching id is found than a status of NOT_FOUND is sent.
+     */
     @PutMapping("")
     public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson) {
         LOG.info("PUT /lessons " + lesson);
@@ -87,6 +112,12 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the REST DELETE request for the lesson resource
+     * @param id The id of the lesson to be deleted
+     * @return A status of OK if the lesson was successfully deleted. If the
+     * lesson could not be found than a status of NOT_FOUND is sent.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Lesson> deleteLesson(@PathVariable int id) {
         LOG.info("DELETE /lessons/" + id);
