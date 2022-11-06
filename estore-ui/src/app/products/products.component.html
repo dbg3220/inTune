@@ -12,13 +12,13 @@
     <input class="border border-black"id="new-product" #productDescription />
     <label for="new-product">Product image URL: </label>
     <input class="border border-black"id="new-product" #productImage />
-  
     <button type="button" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" (click)="add(productName.value, toNumber(productPrice.value),
     toNumber(productQuantity.value) , productDescription.value, productImage.value)">
       Add product
     </button>
   </div>
 </div>
+
 <button class="category" name="test" (click)="filterByCategory(categoryDropdown.value)">Filter</button>
 <form>
 <select id="category" #categoryDropdown >
@@ -30,6 +30,12 @@
   <option value="KEYBOARDS">Keyboards</option>
 </select>
 </form>
+
+<div class="search-box">
+  <input id="search_box" type="search" placeholder="Search Products" [ngModel]="this.searchText" (ngModelChange)="this.changeSearch($event)">
+  <button class="clr-btn" name="Reset Searched Products" (click)="this.reset()">clear</button>
+</div>
+
 <ul class="grid grid-cols-3 lg:grid-cols-4 ">
   <li *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}">

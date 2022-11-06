@@ -36,10 +36,20 @@ export class ProductsComponent implements OnInit {
     private messageService: MessageService,
     private userService: UserService,
     private fb: FormBuilder) { }
+    searchText: any;
+    filteredItems: Product[] = [];
 
-  getProducts(): void {
-    // this.productService.getProducts().subscribe(products => this.products = products);
-  }
+    getProducts(): void {
+      this.productService.fetchProducts().subscribe(products =>
+      {
+        this.products = products;
+        this.productService.setProductsView(this.products);
+        this.filteredItems = JSON.parse(JSON.stringify(this.products)); // clone
+        this.productService.setProductsClone(this.products);
+      });
+      this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
+      .subscribe(products => this.products = products);
+    }
 
   add(name: string, price: number, quantity: number, description: string, image: string): void {
     name = name.trim();
@@ -69,10 +79,9 @@ export class ProductsComponent implements OnInit {
       description: ['', Validators.required],
       image: ['', Validators.required],
     });
-    this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
-      .subscribe(products => this.products = products);
-      this.userService.getCurrentUser().pipe(filter(user => !!user))
-      .subscribe(user =>{
+    this.getProducts();
+    this.userService.getCurrentUser().pipe(filter(user => !!user))
+      .subscribe((user: string) =>{
         this.user = user;
       });
       if (this.user == "admin"){
@@ -95,4 +104,19 @@ filterByCategory(category: string){
   }
   this.productService.setProductsView(this.filteredProducts);
 }
+
+reset() {
+  this.searchText = '';
+  this.productService.getClonedProductsAsObservable().subscribe(cloned => {
+    // console.log('Cloned: ', cloned);
+    this.productService.setProductsView(cloned);
+  });
+}
+
+changeSearch($event: any) {
+  this.searchText = $event;
+  // console.log('Searching ...', $event);
+  this.productService.setProductsView(this.filteredItems.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
+}
+
 }
