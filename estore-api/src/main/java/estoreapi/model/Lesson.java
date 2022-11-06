@@ -1,6 +1,10 @@
 package estoreapi.model;
 
+import org.apache.catalina.startup.Catalina;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import estoreapi.model.Product.Category;
 
 /**
  * @author Damon Gonzalez
@@ -17,7 +21,7 @@ public class Lesson {
     @JsonProperty("isFull")
     private boolean isFull; // Used to detect if the lesson is booked or not
     @JsonProperty("category")
-    private String category; // The category of the lesson
+    private Category category; // The category of the lesson
     @JsonProperty("instructor")
     private String instructor; // The instructor for the lesson
     @JsonProperty("weekday")
@@ -46,7 +50,7 @@ public class Lesson {
     public Lesson(
         @JsonProperty("id") int id,
         @JsonProperty("isFull") boolean isFull,
-        @JsonProperty("category") String category,
+        @JsonProperty("category") Category category,
         @JsonProperty("instructor") String instructor,
         @JsonProperty("weekday") String weekday,
         @JsonProperty("startTime") int startTime,
@@ -79,7 +83,7 @@ public class Lesson {
      */
     public Lesson(
         @JsonProperty("id") int id,
-        @JsonProperty("category") String category,
+        @JsonProperty("category") Category category,
         @JsonProperty("instructor") String instructor,
         @JsonProperty("weekday") String weekday,
         @JsonProperty("startTime") int startTime,
@@ -89,38 +93,74 @@ public class Lesson {
         this(id, false, category, instructor, weekday, startTime, -1, price, name);
     }
 
-    public boolean isFull(){
-        return this.isFull;
-    }
-
-    public String getCategory(){
-        return this.category;
-    }
-
-    public String getIntructor(){
-        return this.instructor;
-    }
-
-    public int getUserID(){
-        return this.userID;
-    }
-
-    public String getWeekDay(){
-        return this.weekday;
-    }
-
-    public int getStartTime(){
-        return this.startTime;
-    }
-
-    public double getPrice(){
-        return this.price;
-    }
-
+    /**
+     * Getter for the id
+     * @return The id of this lesson
+     */
     public int getID(){
         return this.id;
     }
 
+    /**
+     * Getter for the isFull parameter
+     * @return true if isFull is true, false otherwise
+     */
+    public boolean isFull(){
+        return this.isFull;
+    }
+
+    /**
+     * Getter for the category
+     * @return An all caps string representation of the category of the lesson
+     */
+    public Category getCategory(){
+        return this.category;
+    }
+
+    /**
+     * Getter for the instructor
+     * @return The name of the instructor
+     */
+    public String getIntructor(){
+        return this.instructor;
+    }
+
+    /**
+     * Getter for the userID
+     * @return The id of the user who has scheduled this lesson, -1 for no user
+     */
+    public int getUserID(){
+        return this.userID;
+    }
+
+    /**
+     * Getter for the weekDay
+     * @return The day of the week this lesson is on
+     */
+    public String getWeekDay(){
+        return this.weekday;
+    }
+
+    /**
+     * Getter for the startTime
+     * @return The time during the day this lesson starts, in hours
+     */
+    public int getStartTime(){
+        return this.startTime;
+    }
+
+    /**
+     * Getter for the price
+     * @return The weekly price of this lesson
+     */
+    public double getPrice(){
+        return this.price;
+    }
+
+    /**
+     * Getter for the name
+     * @return The name of this lesson
+     */
     public String getName(){
         return this.name;
     }
@@ -145,5 +185,18 @@ public class Lesson {
                    this.name.equals(otherLesson.name);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return Integer.hashCode(id) + 
+               Boolean.hashCode(isFull) + 
+               category.hashCode() + 
+               instructor.hashCode() + 
+               weekday.hashCode() + 
+               Integer.hashCode(startTime) +
+               Integer.hashCode(userID) + 
+               Double.hashCode(price) + 
+               name.hashCode();
     }
 }
