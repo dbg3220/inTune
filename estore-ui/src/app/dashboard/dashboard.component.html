@@ -1,14 +1,21 @@
 <div class="flex flex-row align-middle items-stretch">
     <div class="flex px-64 py-48 text-5xl">
-      Welcome
+      <h2 id = 'Welcome' class="mx-auto">Welcome</h2>
     </div>
     <div class="flex px-16 py-48 text-5xl">
-      <h2 class="mx-auto">To</h2>
+      <h2 id = 'To' class="mx-auto">To</h2>
     </div>
     <div class="flex px-72 py-40 text-5xl">
-      <img class ="object-contain" src="intune3.png" alt="product image">
+      <img id = 'logo' class ="object-contain" src="intune3.png" alt="product image">
     </div>
   </div>
+
+  <script>
+    addEventListener('onLoad', function(){
+        document.getElementById('Welcome').classList.remove('scale-0');
+        document.getElementById('Welcome').classList.add('scale-100');
+    });
+</script>
   <div id="rectangle" style="width:1920px; height:48px; background-color:black"></div>
 
 <div class="flex py-16 text-5xl">
