@@ -1,12 +1,14 @@
 <ul class="grid grid-cols-3 lg:grid-cols-4 ">
-    <li *ngFor="let lesson of lessons">
+    <li *ngFor="let lesson of availableLessons()">
         <div class="flex flex-col items-center justify-center my-10">
           <div class="mt-5">
             <h3 class="text-2xl text-center">{{lesson.name}}</h3>
             <p class="text-xl text-center">${{lesson.price}}</p>
             <p class="text-xl text-center">{{lesson.weekday}}, {{lesson.startTime}} o'clock</p>
-            <button (click)="onSelect(this.lesson)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3">Add This Lesson</button>
+            <button (click)="onSelect(lesson)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3">Schedule This Lesson</button>
+            <button *ngIf="true" (click)="delete(lesson)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3">Delete Lesson</button>
           </div>
         </div>
     </li>
-  </ul>
+</ul>
+<h3 *ngIf="promptLogin" class="text-2xl text-center" id="prompt">You must Login as a user before scheduling a lesson</h3>
