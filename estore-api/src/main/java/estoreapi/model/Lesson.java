@@ -82,13 +82,13 @@ public class Lesson {
      * @param name The name of the lesson, (i.e. 'Guitar Lesson')
      */
     public Lesson(
-        @JsonProperty("id") int id,
-        @JsonProperty("category") Category category,
-        @JsonProperty("instructor") String instructor,
-        @JsonProperty("weekday") String weekday,
-        @JsonProperty("startTime") int startTime,
-        @JsonProperty("price") double price,
-        @JsonProperty("name") String name
+        int id,
+        Category category,
+        String instructor,
+        String weekday,
+        int startTime,
+        double price,
+        String name
     ){
         this(id, false, category, instructor, weekday, startTime, -1, price, name);
     }
