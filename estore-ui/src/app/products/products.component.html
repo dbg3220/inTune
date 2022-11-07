@@ -1,3 +1,24 @@
+<div class="flex my-10">
+  <div *ngIf="isAdmin" class=" mx-auto grid grid-cols-2 text-2xl gap-5">
+    <label for="new-product">Product name: </label>
+    <input class="border border-black"id="new-product" #productName />
+    <label for="new-product">Product price: </label>
+    <input type="number" class="border border-black"id="new-product" #productPrice />
+    <!-- <label for="new-product">Product category: </label>
+    <input class="border border-black"id="new-product" #productCategory /> -->
+    <label for="new-product">Product quantity: </label>
+    <input type="number" class="border border-black"id="new-product" #productQuantity />
+    <label for="new-product">Product description: </label>
+    <input class="border border-black"id="new-product" #productDescription />
+    <label for="new-product">Product image URL: </label>
+    <input class="border border-black"id="new-product" #productImage />
+  
+    <button type="button" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" (click)="add(productName.value, toNumber(productPrice.value),
+    toNumber(productQuantity.value) , productDescription.value, productImage.value)">
+      Add product
+    </button>
+  </div>
+</div>
 <ul class="grid grid-cols-3 lg:grid-cols-4 ">
   <li *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}">
@@ -14,12 +35,3 @@
   (click)="delete(product)">x</button> -->
   </li>
 </ul>
-
-<!-- <div>
-  <label for="new-product">Product name: </label>
-  <input id="new-product" #productName />
-
-  <button type="button" class="add-button" (click)="add(productName.value); productName.value=''">
-    Add product
-  </button>
-</div> -->

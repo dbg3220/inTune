@@ -180,7 +180,8 @@ public class ProductFileDAO implements ProductDAO {
             // We create a new Product object because the id field is immutable
             // and we need to assign the next unique id
             Product newProduct = new Product(nextId(), product.getName(), product.getPrice(), product.getCategory(),
-                                             product.getQuantity(), product.getDescription(), product.getImage());
+                                             product.getQuantity(), product.getDescription(), product.getImage(),
+                                             product.getReviews());
             products.put(newProduct.getId(),newProduct);
             save(); // may throw an IOException
             return newProduct;

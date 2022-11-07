@@ -55,6 +55,7 @@ public class LessonTest {
     }
 
     @Test
+
     public void testWeekday(){
         // Setup
         String expectedWeekday = "Monday";

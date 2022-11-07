@@ -22,3 +22,12 @@ label {
     color: #ccc;
     cursor: auto;
   } */
+
+
+.backButton{
+  position: absolute;
+  top: 18%;
+  right: 42%;
+  width: 100%;
+  transform: translateY(-100%);
+}

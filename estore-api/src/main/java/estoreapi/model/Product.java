@@ -29,13 +29,15 @@ public class Product {
     @JsonProperty("price")
     private double price; // The price of the given product
     @JsonProperty("category")
-    private Category category; // The category of the product, for front-end classification
+    private String category; // The category of the product, for front-end classification
     @JsonProperty("quantity")
     private int quantity; // The amount of the product in stock
     @JsonProperty("description")
     private String description; // The description of the product, for the product page
     @JsonProperty("image")
     private String image; // The size of the intrument (Ex. 1/2)
+    @JsonProperty("reviews")
+    private Review[] reviews;
 
     /**
      * Create a product with the given id, name, and price.
@@ -43,10 +45,11 @@ public class Product {
      * @param id          The id of the product
      * @param name        The name of the product
      * @param price       The price of the product
-     * @param category    The category of the product
+     * @param string    The category of the product
      * @param quantity    The quantity of the product
      * @param description The description of the product
      * @param image       The image to be displayed with the product
+     * @param reviews     The reviews of the product left by users
      *                    *
      *{@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields. If a field
@@ -57,10 +60,11 @@ public class Product {
     public Product( @JsonProperty("id") int id, 
                     @JsonProperty("name") String name, 
                     @JsonProperty("price") double price,
-                    @JsonProperty("category") Category category,
+                    @JsonProperty("category") String category,
                     @JsonProperty("quantity") int quantity, 
                     @JsonProperty("description") String description,
-                    @JsonProperty("image") String image) {
+                    @JsonProperty("image") String image,
+                    @JsonProperty("reviews") Review[] reviews) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -68,6 +72,7 @@ public class Product {
         this.quantity = quantity;
         this.description = description;
         this.image = image;
+        this.reviews = reviews;
     }
 
     /**
@@ -123,7 +128,7 @@ public class Product {
      * 
      * @param category The category of the product
      */
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -131,7 +136,7 @@ public class Product {
      * Retrieves the category of the product
      * @return The category of the product
      */
-    public Category getCategory() {return category;}
+    public String getCategory() {return category;}
 
     /**
      * Sets the quantity of the product - necessary for JSON object to Java object
@@ -183,6 +188,14 @@ public class Product {
     public String getImage() {
         return image;
     }
+
+    /**
+     * Retrieves the array of all reviews of this product
+     * @return An array of reviews
+     */
+    public Review[] getReviews(){
+        return reviews;
+}
 
     /**
      * {@inheritDoc}

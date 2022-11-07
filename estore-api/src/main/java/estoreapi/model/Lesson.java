@@ -121,6 +121,7 @@ public class Lesson {
      * Getter for the instructor
      * @return The name of the instructor
      */
+
     public String getIntructor(){
         return this.instructor;
     }

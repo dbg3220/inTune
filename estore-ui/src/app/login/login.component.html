@@ -1,44 +1,29 @@
-<div class="flex flex-col h-96">
-    <div class="mx-auto my-auto text-center">
-        <h1 class="text-6xl mb-5">Welcome to inTune!</h1>
-        <h2 class="text-3xl mb-5">Please Login Below</h2>
-        <div><input class="text-center" type="text" placeholder="Username" class="w-96 h-12 mt-5 mb-3 rounded-lg border-2 border-black"></div>
-        <div><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Login</button></div>
-    </div>
-</div>
-<!-- <div class="columns">
-    <div class="column is-one-third">
-      <form [formGroup]="login" novalidate>
-        <div class="field">
-          <label class="label" for="name">Name</label>
-          <div class="control">
-            <input
-              class="input is-primary"
-              type="text"
-              id="name"
-              formControlName="name"
-            />
-            <div *ngIf="username.invalid && (username.dirty || username.touched)">
-              <p class="help is-danger" *ngIf="username.errors.required">
-                username is required.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <button
-              class="button is-primary"
-              type="submit"
-              [disabled]="login.pristine || login.invalid"
-            >
-              Save
-            </button>
-          </div>
-        </div>
+<div class="flex flex-col h-screen">
+  <div class="mx-auto my-auto text-center">
+      <h1 class="text-6xl mb-5" *ngIf="!exists">Welcome to inTune!</h1>
+      <h1 class="text-6xl mb-5" *ngIf="exists">Welcome to inTune {{user}}</h1>
+      <h2 class="text-3xl mb-5" *ngIf="!exists">Please Login or Sign Up Below</h2>
+      <div class="w-2/3 mx-auto">
+        <h3 class="mb-5" *ngIf="!exists"> By logging in/signing up, we are able to save the products that you
+            add to your cart for future use. If you do not currently have an account 
+            you will be prompted to make one.
+        </h3>
+      </div>
+      <form *ngIf="!exists"[formGroup]="login" (ngSubmit)="onLogin()">
+        <div><input class="text-center" id="username" formControlName="username" type="text" value="username" placeholder="Username" class="w-96 h-12 mt-5 mb-3 rounded-lg border-2 border-black"></div>
+        <div><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="submit">Login</button></div>
       </form>
-    </div>
-    <div class="column">
-      <pre class="user-pre">{{ userForm.value | json }}</pre>
-    </div>
-  </div> -->
+      <button *ngIf = "exists" (click) = "onLogout()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3"> Logout</button>
+      <h1 *ngIf="created" class="my-5 text-green-500">{{message}}</h1>
+      <!-- <form [formGroup]="login" *ngIf="!exists"(ngSubmit)="onSignup()">
+        <div><input class="text-center" id="username" formControlName="username" type="text" value="username" placeholder="Username" class="w-96 h-12 mt-5 mb-3 rounded-lg border-2 border-black"></div>
+        <div *ngIf="exists"><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="submit">Login</button></div>
+        <div *ngIf="!exists">
+          <button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="submit">Sign Up</button>
+          <h2 class="text-red-500 my-5">It seems you do not have an account yet.<br> Please press "sign up" to make an account</h2>
+        </div>
+        <h2 class="text-3xl mb-5 text-green-500" *ngIf="submitted"> You are logged in as {{username}}</h2>
+      </form> -->
+      <div class="w-2/3 mx-auto">
+  </div>
+</div>
