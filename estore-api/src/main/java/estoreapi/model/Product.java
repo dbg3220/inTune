@@ -1,7 +1,5 @@
 package estoreapi.model;
 
-import java.util.logging.Logger;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -20,8 +18,6 @@ public class Product {
         BRASS,
         KEYBOARDS
     }
-
-    private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
     static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";

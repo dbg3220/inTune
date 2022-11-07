@@ -12,7 +12,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
-import { CheckoutComponent } from './checkout/checkout.component';
+import { LessonsComponent } from './lessons/lessons.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     DashboardComponent,
     LoginComponent,
     CartComponent,
-    CheckoutComponent
+    LessonsComponent
   ],
   imports: [
     BrowserModule,

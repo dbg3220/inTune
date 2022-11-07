@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import estoreapi.model.Lesson;
+import estoreapi.model.Product.Category;
 import estoreapi.persistence.LessonFileDAO;
 
 /**
@@ -35,12 +36,9 @@ public class LessonFileDAOTest {
         public void setupLessonFileDAO() throws IOException{
             mockObjectMapper = mock(ObjectMapper.class);
             testLessons = new Lesson[3];
-            testLessons[0] = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-            testLessons[0].setLesson("String", "Clayton", 4);
-            testLessons[1] = new Lesson(2, 70.22, "Friday", 2, "2pm Friday lesson");
-            testLessons[1].setLesson("String", "Clayton", 4);
-            testLessons[2] = new Lesson(3, 122.99, "Thursday", 9,"9am Thursday Lesson");
-            testLessons[2].setLesson("String", "Clayton", 4);
+            testLessons[0] = new Lesson(1, false, Category.STRINGS, "", "MONDAY", 0, 0, 0.0,"");
+            testLessons[1] = new Lesson(2, false, Category.STRINGS, "", "TUESDAY", 0, 0, 0.0, "");
+            testLessons[2] = new Lesson(3, false, Category.STRINGS, "", "THURSDAY", 0, 0, 0.0, "");
             when(mockObjectMapper.readValue(new File(""), Lesson[].class)).thenReturn(testLessons);
             lessonFileDAO = new LessonFileDAO("", mockObjectMapper);
         }
@@ -49,6 +47,7 @@ public class LessonFileDAOTest {
         public void testGetLessons() throws IOException{
             // Invoke
             Lesson[] lessons = lessonFileDAO.getLessons();
+            
             // Analyze
             assertEquals(lessons.length, testLessons.length);
             for(int i = 0; i < testLessons.length; i++){
@@ -60,17 +59,16 @@ public class LessonFileDAOTest {
         public void testGetLesson() throws IOException {
         // Invoke
         Lesson lesson = lessonFileDAO.getLesson(1); 
-        lesson.setLesson("String", "Clayton", 4);
+
         // Analyze
         assertEquals(lesson, testLessons[0]);
     }
 
     @Test
     public void testUpdateLesson() throws IOException {
-        Lesson lesson =  new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        lesson.setLesson("String", "Clayton", 4);
-        Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),
-                "Unexpected exception thrown");
+        Lesson lesson = new Lesson(1, false, Category.STRINGS, "", "", 0, 0, 0.0, "");
+
+        Lesson result = lessonFileDAO.updateLesson(lesson);
 
         assertNotNull(result);
         Lesson actual = lessonFileDAO.getLesson(lesson.getID());
@@ -83,7 +81,7 @@ public class LessonFileDAOTest {
                 .when(mockObjectMapper)
                 .writeValue(any(File.class), any(Lesson[].class));
 
-        Lesson lesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(0, false, Category.STRINGS, "", "", 0, 0, 0.0, "");
 
         assertThrows(IOException.class,
                 () -> lessonFileDAO.createLesson(lesson),
@@ -102,7 +100,7 @@ public class LessonFileDAOTest {
     @Test
     public void testUpdateProductNotFound() {
         // Setup
-        Lesson lesson = new Lesson(99, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(0, false, Category.STRINGS, "", "", 0, 0, 0.0, "");
 
         // Invoke
         Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),

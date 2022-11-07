@@ -89,7 +89,6 @@ public class ProductController {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
     }
     /**
      * Handles the HTTP GET request for the product resource
