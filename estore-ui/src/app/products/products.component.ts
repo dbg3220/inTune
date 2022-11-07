@@ -11,6 +11,7 @@ import {
   FormBuilder,
   Validators,
 } from "@angular/forms";
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-products',
@@ -89,15 +90,16 @@ export class ProductsComponent implements OnInit {
     }
 
 filterByCategory(category: string){
-  this.filteredProducts = [];
   if(category === ""){
-    return this.productService.setProductsView(this.products);
+    this.filteredProducts = this.products;
   }
+  else{
   for (let i = 0; i < this.products.length; ++i) {
     if(this.products[i].category === category){
       this.filteredProducts.push(this.products[i]);
     }
   }
+}
   this.productService.setProductsView(this.filteredProducts);
 }
 
@@ -109,9 +111,27 @@ reset() {
   });
 }
 
-changeSearch($event: any, category : string) {
+changeSearch($event: any, category: string) {
+  this.filteredProducts = [];
   this.searchText = $event;
+  this.productService.getClonedProductsAsObservable().subscribe(cloned => {
+    // console.log('Cloned: ', cloned);
+    this.productService.setProductsView(cloned);
+  });
   // console.log('Searching ...', $event);
+  this.filterByCategory(category);
   this.productService.setProductsView(this.filteredProducts.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
 }
+
+changeFilter(category: string){
+  this.filteredProducts = [];
+  this.productService.getClonedProductsAsObservable().subscribe(cloned => {
+    // console.log('Cloned: ', cloned);
+    this.productService.setProductsView(cloned);
+  });
+  // console.log('Searching ...', $event);
+  this.filterByCategory(category);
+  this.productService.setProductsView(this.filteredProducts.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
+}
+
 }
