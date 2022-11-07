@@ -96,6 +96,7 @@ export class ProductService {
     }
     this._productCart.next(Object.assign([], this.productCart));
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
+
   }
 
   removeToCart(product: Product) {

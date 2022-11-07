@@ -5,3 +5,8 @@
   width: 100%;
   transform: translateY(-100%);
 }
+
+.red {
+  color: red;
+  font-weight: bold;
+}
