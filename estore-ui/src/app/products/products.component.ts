@@ -77,6 +77,9 @@ export class ProductsComponent implements OnInit {
       if (this.user?.username == "admin"){
         this.isAdmin = true;
       }
+
+      console.log(this.user)
+
       
 }
 

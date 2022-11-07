@@ -28,6 +28,7 @@ export class ProductDetailComponent implements OnInit {
   deleted: boolean = false;
   form!: FormGroup;
   isLoggedIn: boolean = false;
+  updated: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,8 +53,12 @@ export class ProductDetailComponent implements OnInit {
       rating: ['', Validators.required],
       description: ['', Validators.required]
     });    
+    console.log(this.user)
   }
 
+  updateProduct(){
+    this.productService.updateProduct(this.product);
+  }
 
   getProduct(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -75,6 +80,7 @@ export class ProductDetailComponent implements OnInit {
     if (this.product){
       this.productService.updateProduct(this.product).subscribe(() => this.goBack)
     }
+    this.updated = true;
   }
 
   handleDelete(){

@@ -30,9 +30,6 @@ export class AppComponent implements OnInit {
       .subscribe((user: User) =>{
         this.user = user;
       });
-      if (this.user?.username == "admin"){
-        this.isAdmin = true;
-      }
   }
 
   changeUser(user: string) {
