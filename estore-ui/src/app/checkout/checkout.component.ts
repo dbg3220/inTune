@@ -4,6 +4,7 @@ import {ProductService} from "../product.service";
 import {Location} from "@angular/common";
 import {Product} from "../product";
 import {filter, Subject, takeUntil} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-checkout',
@@ -18,7 +19,9 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private location: Location
+    private location: Location,
+    private router: Router
+
   ) { }
 
   subTotal() {
@@ -42,6 +45,9 @@ export class CheckoutComponent implements OnInit {
   goBack(): void {
     console.log("works")
     this.location.back();
+  }
+  routeToCheckoutComponent() {
+    this.router.navigate(['/checkout']);
   }
 
 }
