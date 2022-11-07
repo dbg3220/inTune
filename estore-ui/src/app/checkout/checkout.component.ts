@@ -3,7 +3,6 @@ import {CartComponent} from "../cart/cart.component";
 import {ProductService} from "../product.service";
 import {Location} from "@angular/common";
 import {Product} from "../product";
-import {Router} from "@angular/router";
 import {filter, Subject, takeUntil} from "rxjs";
 
 @Component({
@@ -19,8 +18,7 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private location: Location,
-    private router: Router
+    private location: Location
   ) { }
 
   subTotal() {
@@ -38,16 +36,12 @@ export class CheckoutComponent implements OnInit {
         this.subTotal();
       });
 
+
   }
 
   goBack(): void {
     console.log("works")
     this.location.back();
   }
-
-  routeToConfirmationComponent() {
-    this.router.navigate(['/confirmation']);
-  }
-
 
 }
