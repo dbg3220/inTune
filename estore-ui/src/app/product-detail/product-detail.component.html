@@ -64,7 +64,7 @@
       </div>
       <ul class="grid lg:grid-cols-1 gap-3">
         <li *ngFor="let review of product.reviews">
-          <div class="border-2 border-black rounded-lg flex flex-col h-auto">
+          <div class="border-2 border-black rounded-lg flex flex-col h-auto transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300  ">
             <div class="flex flex-row">
                 <h1 class="text-2xl ml-2">{{review.reviewUsername}}</h1>
                 <p class="text-2xl mb-5 text-red-500 ml-auto mr-3" *ngIf="review.rating <= 2">{{review.rating}}/5</p>
