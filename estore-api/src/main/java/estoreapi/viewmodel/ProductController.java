@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import estoreapi.model.Cart;
 import estoreapi.model.Product;
-import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.ProductDAO;
+import estoreapi.persistence.UserDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
     private ProductDAO productDao;
-    private CartDAO cartDao;
+    private UserDAO userDao;
 
     /**
      * Creates a REST API controller to respond to requests
@@ -46,14 +46,14 @@ public class ProductController {
      * @param productDao The {@link ProductDAO Product Data Access Object} to
      *                   perform CRUD operations
      *                   <br>
-     * @param cartDao    The {@link CartDAO Cart Data Access Object} to perform
+     * @param userDao    The {@link UserDAO User Data Access Object} to perform
      *                   perform CRUD operations
      *                   
      * These dependencies are injected by the spring framework
      */
-    public ProductController(ProductDAO productDao, CartDAO cartDao) {
+    public ProductController(ProductDAO productDao, UserDAO userDao) {
         this.productDao = productDao;
-        this.cartDao = cartDao;
+        this.userDao = userDao;
     }
 
    /**
@@ -148,7 +148,7 @@ public class ProductController {
             Product newProduct = productDao.updateProduct(product);
             if (newProduct != null){
                 int productID = newProduct.getId();
-                Cart[] carts = cartDao.getCarts();
+                Cart[] carts = userDao.getCarts();
                 for(Cart cart : carts){
                     boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
                     ArrayList<Integer> productIDS = cart.getProductIDS();
@@ -159,10 +159,10 @@ public class ProductController {
                             quantities.set(i, newProduct.getQuantity());
                         }
                     }
-                    if(adjustCart){
-                        Cart newCart = new Cart(cart.getId(), productIDS, quantities);
-                        cartDao.updateCart(newCart);
-                    }
+                    // if(adjustCart){
+                    //     Cart newCart = new Cart(cart.getId(), productIDS, quantities);
+                    //     userDao.updateCart(newCart);
+                    // }
                 }
                 return new ResponseEntity<Product>(newProduct,HttpStatus.OK);
             }
@@ -187,7 +187,7 @@ public class ProductController {
         try {
             boolean result = productDao.deleteProduct(id);
             if (result){
-                Cart[] carts = cartDao.getCarts();
+                Cart[] carts = userDao.getCarts();
                 for(Cart cart : carts){
                     boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
                     ArrayList<Integer> productIDS = cart.getProductIDS();
@@ -199,10 +199,10 @@ public class ProductController {
                             quantities.remove(i);
                         }
                     }
-                    if(adjustCart){
-                        Cart newCart = new Cart(cart.getId(), productIDS, quantities);
-                        cartDao.updateCart(newCart);
-                    }
+                    // if(adjustCart){
+                    //     Cart newCart = new Cart(cart.getId(), productIDS, quantities);
+                    //     userDao.updateCart(newCart);
+                    // }
                 }
                 return new ResponseEntity<>(HttpStatus.OK);
             }

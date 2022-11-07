@@ -68,7 +68,7 @@ export class UserService {
     this.user = user
     this._user.next(this.user);
     console.log("User set to: " + this.user?.username);
-    this.cart = this.getCart(this.user)
+    // this.cart = this.getCart(this.user)
   }
 
   httpOptions = {
