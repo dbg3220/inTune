@@ -47,7 +47,7 @@ export class CheckoutComponent implements OnInit {
     this.location.back();
   }
   routeToCheckoutComponent() {
-    this.router.navigate(['/checkout']);
+    this.router.navigate(['/confirm']);
   }
 
 }
