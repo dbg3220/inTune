@@ -37,14 +37,13 @@ export class ProductsComponent implements OnInit {
     private userService: UserService,
     private fb: FormBuilder) { }
     searchText: any;
-    filteredItems: Product[] = [];
 
     getProducts(): void {
       this.productService.fetchProducts().subscribe(products =>
       {
         this.products = products;
         this.productService.setProductsView(this.products);
-        this.filteredItems = JSON.parse(JSON.stringify(this.products)); // clone
+        this.filteredProducts = JSON.parse(JSON.stringify(this.products)); // clone
         this.productService.setProductsClone(this.products);
       });
       this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
@@ -91,9 +90,6 @@ export class ProductsComponent implements OnInit {
 
 filterByCategory(category: string){
   this.filteredProducts = [];
-  this.productService.getClonedProductsAsObservable().subscribe(cloned => {
-    this.productService.setProductsView(cloned);
-  });
   if(category === ""){
     return this.productService.setProductsView(this.products);
   }
@@ -113,10 +109,9 @@ reset() {
   });
 }
 
-changeSearch($event: any) {
+changeSearch($event: any, category : string) {
   this.searchText = $event;
   // console.log('Searching ...', $event);
-  this.productService.setProductsView(this.filteredItems.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
+  this.productService.setProductsView(this.filteredProducts.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
 }
-
 }
