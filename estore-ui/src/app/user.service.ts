@@ -18,9 +18,10 @@ export class UserService {
 
   private usersURL = 'http://localhost:8080/users';  // URL to web api
   private users: BehaviorSubject<any> = new BehaviorSubject(null);
-  private _user:  BehaviorSubject<any> = new BehaviorSubject(null);
+  private _user: BehaviorSubject<any> = new BehaviorSubject(null);
   private user: User | undefined;
   readonly currentUser$ = this._user.asObservable();
+
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
   //   return this.http.get<Product[]>(this.productsURL)
@@ -32,6 +33,7 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersURL)
   }
+
 
   getUsersAsObservable() {
     return this.users.asObservable();
@@ -59,6 +61,7 @@ export class UserService {
   setCurrentUser(user: User | undefined) {
     this.user = user
     this._user.next(this.user);
+    console.log("User set to: " + this.user?.username);
   }
 
   httpOptions = {

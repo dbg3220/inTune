@@ -85,9 +85,11 @@ export class ProductsComponent implements OnInit {
       .subscribe((user: User) =>{
         this.user = user;
       });
-      if (this.user!.username == "admin"){
+      if (this.user?.username == "admin"){
         this.isAdmin = true;
       }
+      console.log(this.user);
+      console.log(this.isAdmin);
     }
 
 filterByCategory(category: string){
