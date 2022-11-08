@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
     const username = this.login.get('username')?.value;
     for (let user of this.users) {
       if (user.username === username) {
+        this.created = false
         this.exists = true;
         console.log("exists");
         this.user = this.users.find(user => user.username === username);
@@ -46,11 +47,10 @@ export class LoginComponent implements OnInit {
     .subscribe(user => {
       this.users.push(user);
     });
+    console.log(this.login.value + "added");  
     this.user = this.users.find(user => user.username === username);
-    console.log(this.login.value + "added");
-    this.exists = true;
     this.created = true;
-    this.message = "It seems you weren't registered. We have added you as a user. Welcome " + this.user?.username;
+    this.message = "It seems you weren't registered. We have added you as a user. To confirm, please log in again.";
     console.log("sign up")
     console.log(this.user)
   }
