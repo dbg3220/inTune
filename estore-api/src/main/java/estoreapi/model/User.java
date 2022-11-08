@@ -20,7 +20,6 @@ public class User {
 
     @JsonProperty("id") private int id;
     @JsonProperty("username") private String username;
-    @JsonProperty("cart") private Cart cart;
 
     /**
      * Create a user with the given id and username
@@ -32,10 +31,9 @@ public class User {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public User(@JsonProperty("id") int id , @JsonProperty("username") String username, @JsonProperty("cart") Cart cart) {
+    public User(@JsonProperty("id") int id , @JsonProperty("username") String username){
         this.id = id;
         this.username = username;
-        this.cart = cart;
     }
 
     /**
@@ -55,22 +53,10 @@ public class User {
     }
 
     /**
-     * Retrieves the cart of the user
-     * @return The cart of the user
-     */
-    public Cart getCart() {
-        return cart;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,username,cart);
+        return String.format(STRING_FORMAT,id,username);
     }
-
-	public void setCart(Cart cart) {
-        this.cart = cart;
-	}
 }

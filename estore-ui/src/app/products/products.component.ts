@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
   filteredProducts: Product[] = [];
   componentDestroyed$ = new Subject();
   selectedProduct?: Product;
-  user: User | undefined;
+  user: string = "";
   isAdmin: boolean = false;
   form!: FormGroup;
   test: string = "BRASS";
@@ -85,7 +85,7 @@ export class ProductsComponent implements OnInit {
       .subscribe((user: User) =>{
         this.user = user;
       });
-      if (this.user?.username == "admin"){
+      if (this.user == "admin"){
         this.isAdmin = true;
       }
     }
