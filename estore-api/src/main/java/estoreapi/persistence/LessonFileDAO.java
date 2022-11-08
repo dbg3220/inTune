@@ -154,6 +154,7 @@ public class LessonFileDAO implements LessonDAO{
             }
         }
     }
+
     /**
     ** {@inheritDoc}
      */
@@ -169,5 +170,4 @@ public class LessonFileDAO implements LessonDAO{
             }
         }
     }
-    
 }

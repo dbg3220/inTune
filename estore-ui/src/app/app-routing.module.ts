@@ -7,6 +7,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { LoginComponent } from './login/login.component';
 import { CartComponent } from './cart/cart.component';
 import {CheckoutComponent} from "./checkout/checkout.component";
+import {ConfirmComponent} from "./confirm/confirm.component";
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LessonsComponent } from './lessons/lessons.component';
 
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'cart', component: CartComponent},
   { path: 'checkout', component: CheckoutComponent },
+  { path: 'confirm', component: ConfirmComponent},
   { path: '**', pathMatch: 'full', 
         component: PagenotfoundComponent },
   { path: 'lessons', component: LessonsComponent}

@@ -12,6 +12,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ThisReceiver } from '@angular/compiler';
+import { User } from '../user';
 
 @Component({
   selector: 'app-products',
@@ -81,7 +82,7 @@ export class ProductsComponent implements OnInit {
     });
     this.getProducts();
     this.userService.getCurrentUser().pipe(filter(user => !!user))
-      .subscribe((user: string) =>{
+      .subscribe((user: User) =>{
         this.user = user;
       });
       if (this.user == "admin"){
