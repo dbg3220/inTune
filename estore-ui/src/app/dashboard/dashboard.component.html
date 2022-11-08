@@ -1,17 +1,25 @@
+
 <div class="flex flex-row my-20 text-6xl gap-10"> 
-  <h1 class="mx-auto my-auto">
-    Welcome
-  </h1>
-  <h1 class="mx-auto my-auto">
-    To
-  </h1>
-  <div class="mx-auto"><img src="../../assets/intune3.png" alt="logo image" class="w-64 h-32 object-cover"></div>
+  <div class="mx-auto my-auto font-bold">
+  <div class="Welcome">
+     <p>Welcome</p>
+  </div>
+</div>
+<h1 class="mx-auto my-auto font-bold">
+  <div class="To">
+      <p>To</p>
+  </div>
+</h1>
+<div class="mx-auto">
+  <div class="Logo">
+    <img src="../../assets/intune3.png" alt="logo image" class="w-64 h-32 object-cover"></div>
+  </div>
 </div>
 
 <!-- <div id="rectangle" class="w-screen h-2 bg-black "></div>  -->
 
-<div class="flex py-16 text-5xl">
-  <h2 class="mx-auto">Top Products</h2>
+<div class="flex py-16 text-6xl">
+  <h2 class="mx-auto font-bold underline">Top Products</h2>
 </div>
 <ul class="grid grid-cols-3">
     <li *ngFor=" let product of sortList(topProducts)">
@@ -37,7 +45,9 @@
 </div>
 
 <div class="flex flex-box my-20 text-4xl text-center"> 
-  <h1 class="mx-auto my-auto ">
-    We at inTune strive to provide high quality service to 
-  </h1>
+  <div class="flex w-2/3 mx-auto leading-loose">
+    <h1 class="mx-auto my-auto ">
+      We at inTune strive to provide high quality service to musicians. Providing products and online lessons to equip and educate musicians of any age.
+    </h1>
+  </div>
 </div>
