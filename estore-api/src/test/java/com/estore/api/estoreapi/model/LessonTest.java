@@ -72,25 +72,6 @@ public class LessonTest {
     }
 
     @Test
-    public void testClearLesson(){
-        // Setup
-        boolean expectedIsFull = false;
-        String expectedCategory = null;
-        String expectedInstructor = null;
-        int expectedUserID = -1;
-
-        // Invoke
-        testLesson = new Lesson(0, 0, null, 0, null);
-        testLesson.clearLesson();
-
-        // Analyze
-        assertEquals(expectedCategory, testLesson.getCategory());
-        assertEquals(expectedIsFull, testLesson.getIsFull());
-        assertEquals(expectedInstructor, testLesson.getIntructor());
-        assertEquals(expectedUserID, testLesson.getUserID());
-    }
-
-    @Test
     public void testWeekday(){
         // Setup
         String expectedWeekday = "Monday";
