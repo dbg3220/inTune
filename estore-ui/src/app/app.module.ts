@@ -14,6 +14,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { LessonsComponent } from './lessons/lessons.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ConfirmComponent } from './confirm/confirm.component';
     LoginComponent,
     CartComponent,
     CheckoutComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    LessonsComponent
   ],
   imports: [
     BrowserModule,
