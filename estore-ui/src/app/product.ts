@@ -9,4 +9,5 @@ export interface Product {
     description: string;
     image: string;
     reviews: Review[];
+    quantitySold: number;
 }

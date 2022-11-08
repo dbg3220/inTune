@@ -63,7 +63,7 @@ export class CartComponent implements OnInit {
       .subscribe(user =>{
         this.user = user;
       });
-      if (this.user?.username == "admin"){
+      if (this.user!.username == "admin"){
         this.isAdmin = true;
       }
 

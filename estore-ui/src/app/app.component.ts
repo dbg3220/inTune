@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   componentDestroyed$ = new Subject();
   private userSource = new BehaviorSubject('test');
   currentUser = this.userSource.asObservable();
-  user!: User;
+  user: User | undefined;
   isAdmin = false;
 
   constructor(private productService: ProductService, private userService: UserService) {}
@@ -30,6 +30,9 @@ export class AppComponent implements OnInit {
       .subscribe((user: User) =>{
         this.user = user;
       });
+      if (this.user!.username == "admin"){
+        this.isAdmin = true;
+      }
   }
 
   changeUser(user: string) {
@@ -47,19 +50,5 @@ export class AppComponent implements OnInit {
 
     this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
       .subscribe(products => this.products = products);
-  }
-
-  changeSearch($event: any) {
-    this.searchText = $event;
-    // console.log('Searching ...', $event);
-    this.productService.setProductsView(this.filteredItems.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
-  }
-
-  reset() {
-    this.searchText = '';
-    this.productService.getClonedProductsAsObservable().subscribe(cloned => {
-      // console.log('Cloned: ', cloned);
-      this.productService.setProductsView(cloned);
-    });
   }
 }

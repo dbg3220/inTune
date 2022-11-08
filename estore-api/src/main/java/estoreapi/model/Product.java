@@ -1,7 +1,5 @@
 package estoreapi.model;
 
-import java.util.logging.Logger;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -20,8 +18,6 @@ public class Product {
         BRASS,
         KEYBOARDS
     }
-
-    private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
     static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";
@@ -42,6 +38,8 @@ public class Product {
     private String image; // The size of the intrument (Ex. 1/2)
     @JsonProperty("reviews")
     private Review[] reviews;
+    @JsonProperty("quantitySold")
+    private int quantitySold;
 
     /**
      * Create a product with the given id, name, and price.
@@ -68,7 +66,8 @@ public class Product {
                     @JsonProperty("quantity") int quantity, 
                     @JsonProperty("description") String description,
                     @JsonProperty("image") String image,
-                    @JsonProperty("reviews") Review[] reviews) {
+                    @JsonProperty("reviews") Review[] reviews,
+                    @JsonProperty("quantitySold") int quantitySold) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -77,6 +76,7 @@ public class Product {
         this.description = description;
         this.image = image;
         this.reviews = reviews;
+        this.quantitySold = quantitySold;
     }
 
     /**
@@ -200,13 +200,26 @@ public class Product {
     public Review[] getReviews(){
         return reviews;
 }
+    
+    /**
+     * Retrieves the amount of times the lesson has been sold
+     * 
+     * @return the amount of times the lesson has been sold
+     */
+    public int getQuantitySold(){
+        return quantitySold;
+    }
 
+    public void adjustQuantitySold(int numSold){
+        this.quantitySold += numSold;
+    }
+    
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image);
+        return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image, reviews, quantitySold);
     }
 
     /**
@@ -222,7 +235,8 @@ public class Product {
                    this.category.equals(otherProduct.category) &&
                    this.quantity == otherProduct.quantity &&
                    this.description.equals(otherProduct.description) &&
-                   this.image.equals(otherProduct.image);
+                   this.image.equals(otherProduct.image) &&
+                   this.quantitySold == otherProduct.quantitySold;
         }
         return false;
     }
