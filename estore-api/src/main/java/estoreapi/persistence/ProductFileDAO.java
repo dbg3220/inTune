@@ -181,7 +181,7 @@ public class ProductFileDAO implements ProductDAO {
             // and we need to assign the next unique id
             Product newProduct = new Product(nextId(), product.getName(), product.getPrice(), product.getCategory(),
                                              product.getQuantity(), product.getDescription(), product.getImage(),
-                                             product.getReviews(), product.getQuantitySold());
+                                             product.getReviews());
             products.put(newProduct.getId(),newProduct);
             save(); // may throw an IOException
             return newProduct;

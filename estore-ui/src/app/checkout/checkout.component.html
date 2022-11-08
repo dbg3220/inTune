@@ -1,1 +1,154 @@
-<p>checkout works!</p>
+<div class="flex flex-col h-screen">
+  <div class="mx-auto my-auto text-center">
+    <h1 class="text-6xl mb-5">Checkout</h1>
+    <h2 *ngIf="checkoutItems.length === 0 " class="text-3xl mb-5 text-gray-700">Your checkout is empty </h2>
+    <div *ngIf="checkoutItems.length > 0" class="flex flex-col">
+      <div *ngFor="let item of checkoutItems" class="flex flex-row justify-between">
+        <div class="flex flex-row gap-36">
+          <div class="mx-auto text my-6">
+            <div><img class="w-96 h-96 object-contain" src="{{item.image}}" alt="product image"></div>
+          </div>
+            <div class="mx-auto my-auto my-6">
+              <h1 class="text-3xl mb-5">{{item.name}}</h1>
+              <h2 class="text-3xl mb-5">Price: ${{item.price}}</h2>
+              <h2 class="text-3xl mb-5">Quantity: {{item.quantity}}</h2>
+            </div>
+          </div>
+          <div class="mx-auto my-6">
+          </div>
+        </div>
+        <h3 class="my-20 text-4xl ">Subtotal({{this.subQuantity}}): ${{this.subTotals}}</h3>
+      <form *ngIf="this.myForm" [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)" class="flex flex-col">
+        <div class="grid grid-cols-2 gap-10">
+          <div class="flex flex-col text-left gap-3">
+            <div class="flex">
+              <label>
+                First Name:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="fName" placeholder="Your first name">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('fName')?.invalid && (myForm.get('fName')?.dirty || myForm.get('fName')?.touched)">
+              Please provide a first name.
+            </div>
+            <div class="flex">
+                <label>
+                Last Name:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="lName" placeholder="Your last name">
+            </div>
+            <div class="red ml-auto" *ngIf="myForm.get('lName')?.invalid && (myForm.get('lName')?.dirty || myForm.get('lName')?.touched)">
+              Please provide a last name.
+            </div>
+            <div class="flex">
+              <label>
+                Email:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="email" placeholder="Your email">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('email')?.invalid && (myForm.get('email')?.dirty || myForm.get('email')?.touched)">
+              Please provide a valid email address.
+            </div>
+            <div class="flex">
+              <label>
+                Credit Card:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="CC" placeholder="Credit Card">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('CC')?.invalid && (myForm.get('CC')?.dirty || myForm.get('CC')?.touched)">
+              Please provide a 9 digit credit card number.
+            </div>
+            <div class="flex">
+              <label>
+                Exp. Month:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="expMonth" placeholder="Exp. Month">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('expMonth')?.invalid && (myForm.get('expMonth')?.dirty || myForm.get('expMonth')?.touched)">
+              Please provide expiration month.
+            </div>
+            <div class="flex">
+              <label>
+                Exp. Year:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="expYear" placeholder="Exp. Year">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('expYear')?.invalid && (myForm.get('expYear')?.dirty || myForm.get('expYear')?.touched)">
+              Please provide a expiration year.
+            </div>
+          </div>
+          <div class="flex flex-col text-left gap-3">
+            <div class="flex">
+              <label>
+                Security Code:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="securityCode" placeholder="CVV/CVC">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('securityCode')?.invalid && (myForm.get('securityCode')?.dirty || myForm.get('securityCode')?.touched)">
+              Please provide 3 digit CVV/CVC.
+            </div>
+            <div class="flex">
+              <label>
+                Address:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="address" placeholder="Street address or P.O. Box">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('address')?.invalid && (myForm.get('address')?.dirty || myForm.get('address')?.touched)">
+              Please provide your address.
+            </div>
+            <div class="flex">
+              <label>
+                Zipcode:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="zip" placeholder="Zipcode">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('zip')?.invalid && (myForm.get('zip')?.dirty || myForm.get('zip')?.touched)">
+              Please provide a 5 digit Zipcode
+            </div>
+            <div class="flex">
+              <label>
+                City:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="city" placeholder="Your first name">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('city')?.invalid && (myForm.get('city')?.dirty || myForm.get('city')?.touched)">
+              Please provide your city.
+            </div>
+            <div class="flex">
+              <label>
+                State:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="state" placeholder="State">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('state')?.invalid && (myForm.get('state')?.dirty || myForm.get('state')?.touched)">
+              Please provide a state.
+            </div>
+            <div class="flex">
+              <label>
+                Country:
+              </label>
+              <input class=" border border-black ml-auto" formControlName="country" placeholder="Country">
+            </div>
+            <div class="red ml-auto"*ngIf="myForm.get('country')?.invalid && (myForm.get('country')?.dirty || myForm.get('country')?.touched)">
+              Please provide a country.
+            </div>
+          </div>
+          </div>
+          <!--        <button type="submit" [disabled]="myForm.invalid">Send</button>-->
+          <button
+            class=" mx-auto my-10 text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3"
+            type="submit" *ngIf="!myForm.invalid" (click)="this.routeToCheckoutComponent()">Checkout
+          </button>
+          <label class = "red my-10 mx-auto"
+            *ngIf="myForm.invalid">
+                  All fields are required to proceed with checkout
+          </label>
+      </form>
+      <div class="backButton">
+        <button type="button" (click)="goBack()"
+                class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 fa fa-arrow-left fa-2x"
+                type="button">&nbsp;&nbsp;Back
+        </button>
+        </div>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,7 @@
       <input class="border border-black"id="product-description" [(ngModel)]="product.description" placeholder="Product name"/>
       <label for="product-image">Product image URL: </label>
       <input class="border border-black"id="product-image" [(ngModel)]="product.image" placeholder="Product name"/>
+      <button (click)="save()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10"> Update Product</button>
     </div>
   </div>
   <div>
@@ -26,11 +27,13 @@
     <div class="mx-auto">
       <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
       <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
-      <div><button type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Add to Cart</button></div>
+      <h1 class="text-3xl mb-5">{{product.quantity}} in stock</h1>
+      <div><button *ngIf="!isAdmin && user!=undefined" type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Add to Cart</button></div>
+      <div><button *ngIf="isAdmin" type="button"(click)="handleDelete()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Delete Product</button></div>
       <div class="text-green-600 text-2xl py-5" *ngIf="added">{{product.name}} added to cart</div>
       <form action="#">
   </form>
-      <div *ngIf="loggedIn()" class=" flex flex-col gap-5 my-14">
+      <div *ngIf="loggedIn() && !isAdmin" class=" flex flex-col gap-5 my-14">
         <label for="new-product" class="text-3xl">What were your thoughts? </label>
         <div class="flex flex-row mx-auto gap-4">
           <label class="text-2xl" for="ratings">Rating 1-5: </label>

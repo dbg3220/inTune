@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import estoreapi.model.Cart;
 import estoreapi.model.User;
-import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.UserDAO;
 
 /**
@@ -35,7 +34,6 @@ public class UserController {
     private static final Logger LOG = Logger.getLogger(UserController.class.getName());
 
     private UserDAO userDAO;
-    private CartDAO cartDAO;
 
     /**
      * Creates a REST API controller to respond to requests
@@ -45,10 +43,9 @@ public class UserController {
      * @param cartDAO The {@link CartDAO Cart Data Access Object} to
      *                perform CRUD operations
      */
-    public UserController(UserDAO userDAO, CartDAO cartDAO) {
+    public UserController(UserDAO userDAO) {
         this.userDAO = userDAO;
-        this.cartDAO = cartDAO;
-    }
+        }
 
     /**
      * Handles the HTTP GET request for the user resource
@@ -133,11 +130,6 @@ public class UserController {
             if(newUser == null){
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-            Cart newCart = cartDAO.createCart(newUser.getId());
-            if(newCart == null){
-                userDAO.deleteUser(newUser.getId());//delete the newly created user to compensate
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
             return new ResponseEntity<User>(newUser, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
@@ -164,10 +156,6 @@ public class UserController {
             }
             boolean userResult = userDAO.deleteUser(id);
             if(!userResult){
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-            boolean cartResult = cartDAO.deleteCart(id);
-            if(!cartResult){
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
             return new ResponseEntity<>(HttpStatus.OK);

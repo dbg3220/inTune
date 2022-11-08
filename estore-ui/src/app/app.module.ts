@@ -15,6 +15,7 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LessonsComponent } from './lessons/lessons.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,8 @@ import { LessonsComponent } from './lessons/lessons.component';
     CartComponent,
     CheckoutComponent,
     PagenotfoundComponent,
-    LessonsComponent
+    LessonsComponent,
+    ConfirmComponent
     ],
   imports: [
     BrowserModule,
