@@ -23,11 +23,12 @@ import { User } from '../user';
 export class ProductDetailComponent implements OnInit {
   product!: Product;
   added: boolean = false;
-  user: string = "";
+  user: User | undefined;
   isAdmin: boolean = false;
   deleted: boolean = false;
   form!: FormGroup;
   isLoggedIn: boolean = false;
+  updated: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,15 +45,19 @@ export class ProductDetailComponent implements OnInit {
     .subscribe(user =>{
       this.user = user;
     });
-    if (this.user == 'admin'){
+    if (this.user?.username == "admin"){
       this.isAdmin = true;
     }
     this.form = this.fb.group({
       reviewUsername: ['', Validators.required],
       rating: ['', Validators.required],
       description: ['', Validators.required]
-    });
-    
+    });    
+    console.log(this.user)
+  }
+
+  updateProduct(){
+    this.productService.updateProduct(this.product);
   }
 
   getProduct(): void {
@@ -75,6 +80,7 @@ export class ProductDetailComponent implements OnInit {
     if (this.product){
       this.productService.updateProduct(this.product).subscribe(() => this.goBack)
     }
+    this.updated = true;
   }
 
   handleDelete(){
