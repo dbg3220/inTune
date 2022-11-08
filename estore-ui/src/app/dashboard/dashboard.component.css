@@ -48,3 +48,91 @@ h2 {
   a:hover {
     background-color: #000;
   } */
+
+  @keyframes mymoveleft {
+    from {left: 0px;}
+    to {left: 200px;}
+  }
+  .Welcome {
+    /* animation: mymoveleft;
+    -webkit-animation: mymoveleft;
+  -moz-animation: mymoveleft;
+  -o-animation: mymoveleft;
+  -ms-animation: mymoveleft; */
+    animation-name: fadeIn;
+    -webkit-animation-name: fadeIn ;
+  -moz-animation-name: fadeIn ;
+  -o-animation-name: fadeIn ;
+  -ms-animation-name: fadeIn ;
+  animation-delay: 0s;
+  animation-duration: 1.5s;
+  }
+  .To {
+    /* animation: mymovetop 5s;
+    -webkit-animation: mymovetop 5s;
+  -moz-animation: mymovetop 5s;
+  -o-animation: mymovetop 5s;
+  -ms-animation: mymovetop 5s; */ 
+    opacity: 0;
+    animation-name: fadeIn ;
+    -webkit-animation-name: fadeIn ;
+    
+  -moz-animation-name: fadeIn ;
+  -o-animation-name: fadeIn ;
+  -ms-animation-name: fadeIn ;
+  animation-delay: 1.5s;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  }
+  .Logo {
+    /* animation: mymoveleft;
+    -webkit-animation: mymoveleft;
+  -moz-animation: mymoveleft;
+  -o-animation: mymoveleft;
+  -ms-animation: mymoveleft; */
+  opacity: 0;
+  animation-name: fadeIn ;
+  -webkit-animation-name: fadeIn ;
+  -moz-animation-name: fadeIn ;
+  -o-animation-name: fadeIn ;
+  -ms-animation-name: fadeIn ;
+  animation-delay: 3s;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  }
+  @keyframes mymoveleft {
+    from {left: -200px;}
+    to {left: 0px;}
+  }
+  @keyframes mymovetop {
+    from {top: -200px;}
+    to {top: 0px;}
+  }
+  @keyframes mymoveright {
+    from {right: 0px;}
+    to {right: -200px;}
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-moz-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-o-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @-ms-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }

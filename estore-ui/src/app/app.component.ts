@@ -48,18 +48,4 @@ export class AppComponent implements OnInit {
     this.productService.getProductsAsObservable().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
       .subscribe(products => this.products = products);
   }
-
-  changeSearch($event: any) {
-    this.searchText = $event;
-    // console.log('Searching ...', $event);
-    this.productService.setProductsView(this.filteredItems.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
-  }
-
-  reset() {
-    this.searchText = '';
-    this.productService.getClonedProductsAsObservable().subscribe(cloned => {
-      // console.log('Cloned: ', cloned);
-      this.productService.setProductsView(cloned);
-    });
-  }
 }
