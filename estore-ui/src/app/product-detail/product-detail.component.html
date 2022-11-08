@@ -27,7 +27,6 @@
     <div class="mx-auto">
       <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
       <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
-      <h1 class="text-3xl mb-5">{{product.quantity}} in stock</h1>
       <div><button *ngIf="!isAdmin && user!=undefined" type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Add to Cart</button></div>
       <div><button *ngIf="isAdmin" type="button"(click)="handleDelete()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Delete Product</button></div>
       <div class="text-green-600 text-2xl py-5" *ngIf="added">{{product.name}} added to cart</div>
