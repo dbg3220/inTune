@@ -142,6 +142,19 @@ public class LessonFileDAO implements LessonDAO{
         }
     }
 
+    @Override
+    public Lesson updateLesson(Lesson lesson) throws IOException {
+        synchronized(lessons){
+            if(lessons.containsKey(lesson.getID())){
+                lessons.put(lesson.getID(), lesson);
+                save();
+                return lesson;
+            } else {
+                return null;
+            }
+        }
+    }
+
     /**
     ** {@inheritDoc}
      */
@@ -157,5 +170,4 @@ public class LessonFileDAO implements LessonDAO{
             }
         }
     }
-    
 }

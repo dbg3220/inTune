@@ -11,11 +11,8 @@ import {
   FormBuilder,
   Validators,
 } from "@angular/forms";
-<<<<<<< HEAD
-import { User } from '../user';
-=======
 import { ThisReceiver } from '@angular/compiler';
->>>>>>> 0d042acfd1ac884288c4e8af4a66151472e848dc
+import { User } from '../user';
 
 @Component({
   selector: 'app-products',
@@ -85,18 +82,12 @@ export class ProductsComponent implements OnInit {
     });
     this.getProducts();
     this.userService.getCurrentUser().pipe(filter(user => !!user))
-      .subscribe((user: string) =>{
+      .subscribe((user: User) =>{
         this.user = user;
       });
       if (this.user?.username == "admin"){
         this.isAdmin = true;
       }
-<<<<<<< HEAD
-
-      console.log(this.user)
-
-      
-=======
     }
 
 filterByCategory(category: string){
@@ -111,7 +102,6 @@ filterByCategory(category: string){
   }
 }
   this.productService.setProductsView(this.filteredProducts);
->>>>>>> 0d042acfd1ac884288c4e8af4a66151472e848dc
 }
 
 reset() {
