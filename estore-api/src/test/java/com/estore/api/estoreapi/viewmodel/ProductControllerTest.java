@@ -23,7 +23,7 @@ import estoreapi.model.Review;
 
 /**
  * The unit test for the product controller
- * 
+ *
  * @author Donovan Cataldo
  * @author Clayton Acheson
  */
@@ -46,7 +46,7 @@ public class ProductControllerTest {
         Review[] reviewList = new Review[3];
         Product product = new Product(1, "Violin Bow", 100, "WOODWINDS", 5, "Good beginner Bow","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList );
         when(mockDAO.getProduct(product.getId())).thenReturn(product);
-        
+
         // Invoke
         ResponseEntity<Product> response = productController.getProduct(product.getId());
 
@@ -97,7 +97,7 @@ public class ProductControllerTest {
         // Analyze
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(products,response.getBody());
-    } 
+    }
 
     @Test
     public void testGetProductsHandleException() throws Exception{
@@ -107,7 +107,7 @@ public class ProductControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
-    
+
     @Test
     public void testFindProducts() throws Exception{
         // Setup
@@ -255,3 +255,4 @@ public class ProductControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }
+
