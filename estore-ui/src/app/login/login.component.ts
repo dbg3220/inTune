@@ -22,20 +22,19 @@ export class LoginComponent implements OnInit {
   componentDestroyed$ = new Subject(); // tracks components lifecycle for subscription of the observable, component will automatically repaint if data changes
   exists: boolean = false;
   message: string = "";
-  user: User | undefined;
+  user: string = "";
   created: boolean = false;
 
 
   onLogin() {
     const username = this.login.get('username')?.value;
+    this.user = username;
+    console.log(this.login.value);
     for (let user of this.users) {
       if (user.username === username) {
         this.exists = true;
         console.log("exists");
-        this.user = this.users.find(user => user.username === username);
-        this.userService.setCurrentUser(this.user);
-        console.log(this.user);
-        console.log("login");
+        this.userService.setCurrentUser(username);
         return
       }
     }
@@ -45,18 +44,16 @@ export class LoginComponent implements OnInit {
     .subscribe(user => {
       this.users.push(user);
     });
-    this.user = this.users.find(user => user.username === username);
+    this.userService.setCurrentUser(username);
     console.log(this.login.value + "added");
     this.exists = true;
     this.created = true;
-    this.message = "It seems you weren't registered. We have added you as a user. Welcome " + this.user?.username;
-    console.log("sign up")
-    console.log(this.user)
+    this.message = "It seems you weren't registered. We have added you as a user. Welcome " + username;
   }
 
   onLogout() {
-    this.userService.setCurrentUser(undefined);
-    this.user = undefined;
+    this.userService.setCurrentUser("");
+    this.user = "";
     this.exists = false;
   }
 

@@ -6,7 +6,6 @@ import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { Cart } from './cart';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +18,9 @@ export class UserService {
 
   private usersURL = 'http://localhost:8080/users';  // URL to web api
   private users: BehaviorSubject<any> = new BehaviorSubject(null);
-  private _user: BehaviorSubject<any> = new BehaviorSubject(null);
-  private user: User | undefined;
+  private _user = new BehaviorSubject<string>("");
+  private user = "";
   readonly currentUser$ = this._user.asObservable();
-  private cartsURL = 'http://localhost:8080/carts';  // URL to web api
-  private cart: Cart | undefined;
-
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
   //   return this.http.get<Product[]>(this.productsURL)
@@ -35,10 +31,6 @@ export class UserService {
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersURL)
-  }
-
-  getCart(user: User | undefined): Observable<Cart> {
-    return this.http.get<Cart>(this.cartsURL + "/" + this.user?.id);
   }
 
   getUsersAsObservable() {
@@ -59,16 +51,14 @@ export class UserService {
     return this.http.post<User>(this.usersURL, user);
   }
 
-  getCurrentUser(): Observable<User>
+  getCurrentUser(): Observable<string>
   {
     return this.currentUser$;
   }
 
-  setCurrentUser(user: User | undefined) {
+  setCurrentUser(user: string) {
     this.user = user
     this._user.next(this.user);
-    console.log("User set to: " + this.user?.username);
-    // this.cart = this.getCart(this.user)
   }
 
   httpOptions = {

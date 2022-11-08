@@ -2,7 +2,6 @@ package estoreapi.persistence;
 
 import java.io.IOException;
 
-import estoreapi.model.Cart;
 import estoreapi.model.User;
 
 /**
@@ -84,25 +83,5 @@ public interface UserDAO {
      * @throws IOException if underlying storage cannot be accessed
      */
     boolean deleteUser(int id) throws IOException;
-
-      /**
-     * Retrieves a {@linkplain Cart} with the given id
-     * @param id The id of the {@link Cart} to get
-     * @return a {@link Cart} object with the matching id
-     * null if no {@link Cart} with a matching id is found
-     * @throws IOException if an issue with underlying storage
-     */
-    Cart getCart(int id) throws IOException;
-
-    /**
-     * Updates a {@linkplain Cart}
-     * @param cart The cart with the updated values
-     * @return The new updated {@linkplain Cart}, null if no {@link Cart}
-     *  with a matching id is found
-     * @throws IOException
-     */
-    Cart updateCart(User user, Cart cart) throws IOException;
-
-    Cart[] getCarts() throws IOException;
 
 }
