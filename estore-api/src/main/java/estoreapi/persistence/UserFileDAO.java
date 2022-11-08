@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import estoreapi.model.Cart;
 import estoreapi.model.User;
 
 /**
@@ -25,9 +24,6 @@ import estoreapi.model.User;
 public class UserFileDAO implements UserDAO{
     private static final Logger LOG = Logger.getLogger(UserFileDAO.class.getName());
     Map<Integer,User> users;   // Provides a local cache of the user objects
-                                           // so that we don't need to read from the file
-                                           // each time
-    Map<Integer,Cart> carts;   // Provides a local cache of the Cart objects
                                            // so that we don't need to read from the file
                                            // each time
     private ObjectMapper objectMapper;  // Provides conversion between user
@@ -81,7 +77,6 @@ public class UserFileDAO implements UserDAO{
      */
     private User[] getUsersArray(String containsText) { // if containsText == null, no filter
         ArrayList<User> userArrayList = new ArrayList<>();
-        
 
         for (User user : users.values()) {
             if (containsText == null || user.getUsername().contains(containsText)) {
@@ -143,6 +138,7 @@ public class UserFileDAO implements UserDAO{
     private boolean load() throws IOException {
         users = new TreeMap<>();
         nextId = 0;
+
         // Deserializes the JSON objects from the file into an array of users
         // readValue will throw an IOException if there's an issue with the file
         // or reading from the file
@@ -157,7 +153,6 @@ public class UserFileDAO implements UserDAO{
         // Make the next id one greater than the maximum from the file
         ++nextId;
         return true;
-        
     }
 
     /**
@@ -229,7 +224,7 @@ public class UserFileDAO implements UserDAO{
             if(isUsernameTaken(user.getUsername())){
                 return null;
             }
-            User newUser = new User(nextId(), user.getUsername(), user.getCart());
+            User newUser = new User(nextId(), user.getUsername());
             users.put(newUser.getId(), newUser);
             save();
             return newUser;
@@ -253,38 +248,4 @@ public class UserFileDAO implements UserDAO{
         }
     }
 
-    @Override
-    public Cart getCart(int id) throws IOException {
-        synchronized(users){
-            if(users.containsKey(id)){
-                return users.get(id).getCart();
-            } else {
-                return null;
-            }
-        }
-    }
-
-
-    @Override
-    public Cart updateCart(User user, Cart cart) throws IOException {
-        synchronized(users){
-            if(users.containsKey(user.getId())){
-                users.get(cart.getId()).setCart(cart);
-                save();
-                return cart;
-            } else {
-                return null;
-            }
-        }
-    }
-
-    public Cart[] getCarts() throws IOException {
-        synchronized(users){
-            ArrayList<Cart> carts = new ArrayList<>();
-            for(User user : users.values()){
-                carts.add(user.getCart());
-            }
-            return (Cart[]) carts.toArray();
-        }
-    }
 }

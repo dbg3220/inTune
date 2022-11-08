@@ -13,11 +13,7 @@ import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-<<<<<<< HEAD
-import { ConfirmComponent } from './confirm/confirm.component';
-=======
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
->>>>>>> 0d042acfd1ac884288c4e8af4a66151472e848dc
 import { LessonsComponent } from './lessons/lessons.component';
 
 @NgModule({
@@ -30,11 +26,7 @@ import { LessonsComponent } from './lessons/lessons.component';
     LoginComponent,
     CartComponent,
     CheckoutComponent,
-<<<<<<< HEAD
-    ConfirmComponent,
-=======
     PagenotfoundComponent,
->>>>>>> 0d042acfd1ac884288c4e8af4a66151472e848dc
     LessonsComponent
   ],
   imports: [
