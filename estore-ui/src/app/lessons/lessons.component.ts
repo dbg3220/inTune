@@ -50,6 +50,11 @@ export class LessonsComponent implements OnInit {
     return this.lessons.filter(lesson => lesson.isFull == false);
   }
 
+  scheduledLessons() {
+    //TODO implement this so that the current user's lessons show
+    return this.availableLessons();//CHANGE THIS
+  }
+
   schedule(lesson: Lesson) {
     this.messageService.add(`LessonsComponent: Selected lesson id=${lesson.id}`)
     console.log("Selected lesson has id=" + lesson.id);

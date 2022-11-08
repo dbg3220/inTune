@@ -33,4 +33,9 @@
         </div>
     </li>
 </ul>
+<div *ngIf="!isAdmin">
+  <div *ngFor="let lesson of scheduledLessons()">
+    <p class="text-l text-center">{{lesson.weekday}}, {{lesson.startTime}} o'clock, {{lesson.instructor}}</p>
+  </div>
+</div>
 <h3 *ngIf="promptLogin" class="text-2xl text-center" id="prompt">You must Login as a user before scheduling a lesson</h3>
