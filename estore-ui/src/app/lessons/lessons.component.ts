@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Lesson } from '../lesson';
 import { LessonService } from '../lesson.service';
 import { MessageService } from '../message.service';
@@ -14,9 +14,8 @@ import { UserService } from '../user.service';
 export class LessonsComponent implements OnInit {
 
   lessons: Lesson[] = [];
-  currentUser?: String;
+  currentUser?: User;
   isAdmin: boolean = false;
-  selectedLesson?: Lesson;
   promptLogin: boolean = false;
 
   constructor(private lessonService: LessonService,
@@ -26,6 +25,10 @@ export class LessonsComponent implements OnInit {
         (event) => {
           if(event instanceof NavigationEnd){
             this.promptLogin = false;
+          }
+          if(event instanceof NavigationStart){
+            this.getCurrentUser();
+            this.getLessons();
           }
         }
       )
@@ -38,28 +41,34 @@ export class LessonsComponent implements OnInit {
   }
 
   getCurrentUser() {
-    this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
-    if(this.currentUser == 'admin'){
-      this.isAdmin = true;
-    } else {
-      this.isAdmin = false;
-    }
+    this.userService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      this.isAdmin = (this.currentUser!.username == 'admin');
+    });
   }
 
   availableLessons() {
     return this.lessons.filter(lesson => lesson.isFull == false);
   }
 
-  scheduledLessons() {
-    //TODO implement this so that the current user's lessons show
-    return this.availableLessons();//CHANGE THIS
+  getScheduledLessons() {
+    if(this.currentUser != undefined){
+      return this.lessons.filter(lesson => lesson.userID == this.currentUser!.id);
+    }else{
+      return [];
+    }
   }
 
-  schedule(lesson: Lesson) {
+  scheduleLesson(lesson: Lesson) {
     this.messageService.add(`LessonsComponent: Selected lesson id=${lesson.id}`)
-    console.log("Selected lesson has id=" + lesson.id);
-    this.selectedLesson = lesson;
-
+    if(this.currentUser){
+      lesson.isFull = true;
+      lesson.userID = this.currentUser!.id;
+      this.lessonService.updateLesson(lesson);
+    } else {
+      this.messageService.add(`LessonComponent: Selected lesson with no user logged in`);
+      this.promptLogin = true;
+    }
   }
 
   toNumber(param: String): number {

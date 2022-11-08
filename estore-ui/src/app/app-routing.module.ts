@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'cart', component: CartComponent},
   { path: 'checkout', component: CheckoutComponent },
-  { path: 'confirm', component: ConfirmComponent}
+  { path: 'confirm', component: ConfirmComponent},
   { path: 'lessons', component: LessonsComponent}
 ];
 
