@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 
 import estoreapi.model.Cart;
 import estoreapi.model.Product;
-import estoreapi.model.Product.Category;
 import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.CartFileDAO;
 import estoreapi.persistence.ProductDAO;
@@ -98,7 +97,7 @@ public class CartControllerTest {
         Cart cart = new Cart(99);
         Review[] reviewList = new Review[3];
         Product product = new Product(1, "Clarinet", 100, "WOODWINDS", 100,
-                                        "a good instrument", "squidward.png", reviewList);
+                                        "a good instrument", "squidward.png", reviewList,0);
         // when updateCart is called, return true simulating successful
         // update and save
         when(mockCartDAO.updateCart(cart)).thenReturn(cart);
@@ -122,7 +121,7 @@ public class CartControllerTest {
         Review[] reviewList = new Review[3];
         Cart cart = new Cart(99);
         Product product = new Product(1, "Clarinet", 100, "BRASS", 100,
-                                        "a good instrument", "squidward.png", reviewList);
+                                        "a good instrument", "squidward.png", reviewList,0);
         // when updateCart is called, return true simulating successful
         // update and save
         when(mockCartDAO.updateCart(cart)).thenReturn(cart);

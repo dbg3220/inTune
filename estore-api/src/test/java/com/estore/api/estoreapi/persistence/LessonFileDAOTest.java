@@ -66,18 +66,6 @@ public class LessonFileDAOTest {
     }
 
     @Test
-    public void testUpdateLesson() throws IOException {
-        Lesson lesson =  new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        lesson.setLesson("String", "Clayton", 4);
-        Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),
-                "Unexpected exception thrown");
-
-        assertNotNull(result);
-        Lesson actual = lessonFileDAO.getLesson(lesson.getID());
-        assertEquals(actual, lesson);
-    }
-
-    @Test
     public void testSaveException() throws IOException {
         doThrow(new IOException())
                 .when(mockObjectMapper)
@@ -98,19 +86,7 @@ public class LessonFileDAOTest {
         // Analyze
         assertEquals(lesson, null);
     }
-
-    @Test
-    public void testUpdateProductNotFound() {
-        // Setup
-        Lesson lesson = new Lesson(99, 12.99, "Monday", 12, "12pm Monday lesson");
-
-        // Invoke
-        Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),
-                "Unexpected exception thrown");
-
-        // Analyze
-        assertNull(result);
-    }
+    
     @Test
     public void testConstructorException() throws IOException {
         // Setup

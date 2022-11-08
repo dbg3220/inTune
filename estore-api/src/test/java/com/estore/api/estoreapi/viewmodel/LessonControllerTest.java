@@ -36,6 +36,7 @@ public class LessonControllerTest {
     public void testGetLesson() throws Exception{
         // Setup
         Lesson lesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        lesson.setLesson("", "", 0);
         when(mockDAO.getLesson(lesson.getID())).thenReturn(lesson);
         
         // Invoke
@@ -102,6 +103,7 @@ public class LessonControllerTest {
     public void testCreateLesson() throws Exception{
         // Setup
         Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        testLesson.setLesson("BRASS", "Clayton", 0);
         when(mockDAO.createLesson(testLesson)).thenReturn(testLesson);
         // Invoke
         ResponseEntity<Lesson> response = lessonController.createLesson(testLesson);
@@ -124,48 +126,6 @@ public class LessonControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
     }
 
-    @Test
-    public void testUpdateLesson() throws IOException{
-        // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        when(mockDAO.updateLesson(testLesson)).thenReturn(testLesson);
-
-        ResponseEntity<Lesson> response = lessonController.updateLesson(testLesson);
-        testLesson.setName("TestChange");
-
-        // Invoke
-        response = lessonController.updateLesson(testLesson);
-
-        // Analyze
-        assertEquals(HttpStatus.OK,response.getStatusCode());
-        assertEquals(testLesson,response.getBody());
-    }
-
-    @Test
-    public void testUpdateLessonFailed() throws IOException{
-        // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        when(mockDAO.updateLesson(testLesson)).thenReturn(null);
-
-        // Invoke
-        ResponseEntity<Lesson> response = lessonController.updateLesson(testLesson);
-
-        // Analyze
-        assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
-    }
-
-    @Test
-    public void testUpdateLessonHandleException() throws IOException{
-        // Setup
-        Lesson testLesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        doThrow(new IOException()).when(mockDAO).updateLesson(testLesson);
-
-        // Invoke
-        ResponseEntity<Lesson> response = lessonController.updateLesson(testLesson);
-
-        // Analyze
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
-    }
 
     @Test
     public void testDeleteProduct() throws IOException{
