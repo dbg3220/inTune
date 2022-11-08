@@ -1,5 +1,5 @@
 
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, Output } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
 import { UsernameValidator } from '../custom-username.validator';

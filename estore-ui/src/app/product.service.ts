@@ -74,6 +74,8 @@ export class ProductService {
   }
 
   addProduct(product: Product): Observable<Product> {
+    product.reviews = [];
+    product.quantitySold = 0;
     return this.http.post<Product>(this.productsURL, product, this.httpOptions);
   }
 

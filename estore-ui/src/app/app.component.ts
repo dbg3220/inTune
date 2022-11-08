@@ -35,6 +35,18 @@ export class AppComponent implements OnInit {
       }
   }
 
+  ngOnChanges() {
+    this.userService.getCurrentUser().pipe(filter(user => !!user))
+      .subscribe((user: User) =>{
+        this.user = user;
+      });
+      if (this.user!.username == "admin"){
+        this.isAdmin = true;
+      }
+      console.log("change")
+  }
+
+
   changeUser(user: string) {
     this.userSource.next(user);
   }

@@ -28,6 +28,7 @@ export class ProductDetailComponent implements OnInit {
   deleted: boolean = false;
   form!: FormGroup;
   isLoggedIn: boolean = false;
+  updated: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +41,7 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProduct();
+    console.log(this.product)
     this.userService.getCurrentUser().pipe(filter(user => !!user))
     .subscribe(user =>{
       this.user = user;
@@ -74,6 +76,7 @@ export class ProductDetailComponent implements OnInit {
   save(): void{
     if (this.product){
       this.productService.updateProduct(this.product).subscribe(() => this.goBack)
+      this.updated = true;
     }
   }
 

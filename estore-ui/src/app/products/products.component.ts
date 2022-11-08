@@ -13,6 +13,7 @@ import {
 } from "@angular/forms";
 import { ThisReceiver } from '@angular/compiler';
 import { User } from '../user';
+import { Review } from '../review';
 
 @Component({
   selector: 'app-products',
@@ -29,6 +30,9 @@ export class ProductsComponent implements OnInit {
   isAdmin: boolean = false;
   form!: FormGroup;
   test: string = "BRASS";
+  alreadyExists: boolean = false;
+  invalid: boolean = false;
+
 
   onSelect(product: Product): void {
     this.selectedProduct = product;
@@ -52,13 +56,46 @@ export class ProductsComponent implements OnInit {
       .subscribe(products => this.products = products);
     }
 
-  add(name: string, price: number, quantity: number, description: string, image: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.productService.addProduct({ name, price, quantity, description, image } as Product)
+  add(name: string, price: number, category: string, quantity: number, description: string, image: string): void {
+    name = name.trim().toLowerCase();
+    category = category.trim().toLowerCase();
+    if (!name) { 
+      this.invalid = true;
+      return; 
+    }
+    if (!price) { 
+      this.invalid = true;
+      return; 
+    }
+    if (!category || category != "strings" && category != "brass" && category != "woodwinds" && category != "percussion" && category != "keyboards") { 
+      this.invalid = true;
+      return; 
+    }
+    if (!quantity) { 
+      this.invalid = true;
+      return; 
+    }
+    if (!description) { 
+      this.invalid = true;
+      return; 
+    }
+    if (!image) { 
+      this.invalid = true;
+      return; 
+    }
+    this.invalid = false;
+    for (let product of this.products) {
+      if (product.name.toLowerCase() === name) {
+        this.alreadyExists = true;
+        return;
+      }
+    }
+    category = category.toUpperCase();
+    this.productService.addProduct({ name, price, category, quantity, description, image } as Product)
       .subscribe(product => {
         this.products.push(product);
       });
+      this.alreadyExists = false;
   }
 
   delete(product: Product): void {
