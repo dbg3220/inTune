@@ -1,5 +1,6 @@
 package estoreapi.model;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,6 +22,7 @@ public class User {
     @JsonProperty("id") private int id;
     @JsonProperty("username") private String username;
     @JsonProperty("cart") private Cart cart;
+    @JsonProperty("productsPurchased") private int[] productsPurchased;
 
     /**
      * Create a user with the given id and username
@@ -32,10 +34,11 @@ public class User {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public User(@JsonProperty("id") int id , @JsonProperty("username") String username, @JsonProperty("cart") Cart cart) {
+    public User(@JsonProperty("id") int id , @JsonProperty("username") String username, @JsonProperty("cart") Cart cart, @JsonProperty("productsPurchased") int[] productsPurchased) {
         this.id = id;
         this.username = username;
         this.cart = cart;
+        this.productsPurchased = productsPurchased;
     }
 
     /**
@@ -60,6 +63,14 @@ public class User {
      */
     public Cart getCart() {
         return cart;
+    }
+
+    /**
+     * Retrieves a list of the product ID's the user has purchased
+     * @return a list of the product ID's the user has purchased
+     */
+    public int[] getProductsPurchased() {
+        return productsPurchased;
     }
 
     /**

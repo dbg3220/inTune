@@ -98,8 +98,8 @@ export class ProductDetailComponent implements OnInit {
     this.save();
   }
 
-  loggedIn(){
-    if(this.user){
+  purchasedProduct(){
+    if(this.user?.productsPurchased.includes(this.product.id)){
       return true;
     }
     return false;
