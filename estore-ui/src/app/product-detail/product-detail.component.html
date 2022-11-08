@@ -26,22 +26,24 @@
     <div class="mx-auto">
       <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
       <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
-      <div><button type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" type="button">Add to Cart</button></div>
-      <h1 class="text-3xl mb-5">Number of reviews: {{product.reviews.length}}</h1>
+      <div><button type="button"(click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Add to Cart</button></div>
       <form action="#">
   </form>
-      <div *ngIf="loggedIn()">
-        <label for="new-product">Add a written review: </label>
-        <div><button type="button"(click)="handleAddReview(user,toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
-        <label for="ratings">Rating 1-5: </label>
-        <select id="new-review" #reviewRating>
-          <option value=1>1</option>
-          <option value=2>2</option>
-          <option value=3>3</option>
-          <option value=4>4</option>
-          <option value=5>5</option>
-        </select>
+      <div *ngIf="loggedIn()" class=" flex flex-col gap-5 my-14">
+        <label for="new-product" class="text-3xl">What were your thoughts? </label>
+        <div class="flex flex-row mx-auto gap-4">
+          <label class="text-2xl" for="ratings">Rating 1-5: </label>
+          <select id="new-review" #reviewRating>
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+          </select>
+        </div>
+        <label class="text-2xl"> What did you think?</label>
         <input class="border border-black"id="new-review" #reviewDescription />
+        <div><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10"type="button"(click)="handleAddReview(user,toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
       </div>
       <div class="text-green-600 text-2xl pt-5" *ngIf="added">{{product.name}} added to cart</div>
               <div class="backButton">
@@ -50,11 +52,26 @@
                 type="button">&nbsp;&nbsp;Back
               </button>
       </div>
-      <li *ngFor="let review of product.reviews">
-        <h3 >User: {{review.reviewUsername}}</h3>
-        <p >Rating: {{review.rating}}</p>
-        <p >{{review.description}}</p>
-      </li>
+      <h1 class="text-4xl mb-10 underline">Reviews</h1>
+      <div class="flex flex-row">
+        <h1 class="text-2xl mb-5 text-red-500" *ngIf="averageRating()<=2">Average Rating: {{averageRating()}}/5</h1>
+        <h1 class="text-2xl mb-5 text-yellow-500" *ngIf="averageRating()>2 && averageRating()<4">Average Rating: {{averageRating()}}/5</h1>
+        <h1 class="text-2xl mb-5 text-green-500" *ngIf="averageRating()>=4">Average Rating: {{averageRating()}}/5</h1>
+        <h1 class="text-2xl mb-5 ml-auto">{{product.reviews.length}} reviews</h1>
+      </div>
+      <ul class="grid lg:grid-cols-1 gap-3">
+        <li *ngFor="let review of product.reviews">
+          <div class="border-2 border-black rounded-lg flex flex-col h-auto">
+            <div class="flex flex-row">
+                <h1 class="text-2xl ml-2">{{review.reviewUsername}}</h1>
+                <p class="text-2xl mb-5 text-red-500 ml-auto mr-3" *ngIf="review.rating <= 2">{{review.rating}}/5</p>
+                <p class="text-2xl mb-5 justify-end text-yellow-500 ml-auto mr-3" *ngIf="review.rating >2 && review.rating<4">{{review.rating}}/5</p>
+                <p class="text-2xl mb-5 text-green-500 ml-auto mr-3" *ngIf="review.rating >=4">{{review.rating}}/5</p>
+            </div>
+            <p class="mb-10 px-14">{{review.description}}</p>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

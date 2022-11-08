@@ -13,6 +13,8 @@ import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { LessonsComponent } from './lessons/lessons.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { CheckoutComponent } from './checkout/checkout.component';
     DashboardComponent,
     LoginComponent,
     CartComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    PagenotfoundComponent,
+    LessonsComponent
   ],
   imports: [
     BrowserModule,

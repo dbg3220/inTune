@@ -134,7 +134,8 @@ public class LessonFileDAO implements LessonDAO{
     @Override
     public Lesson createLesson(Lesson lesson) throws IOException {
         synchronized(lessons){
-            Lesson newLesson = new Lesson(nextId(),lesson.getPrice(), lesson.getWeekDay(), lesson.getStartTime(), lesson.getName());
+            Lesson newLesson = new Lesson(nextId(),lesson.getCategory(),lesson.getIntructor(),lesson.getWeekDay(),
+                lesson.getStartTime(),lesson.getPrice(),lesson.getName());
             lessons.put(lesson.getID(), newLesson);
             save();
             return newLesson;

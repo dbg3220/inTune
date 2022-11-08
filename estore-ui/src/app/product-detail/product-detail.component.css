@@ -26,8 +26,8 @@ label {
 
 .backButton{
   position: absolute;
-  top: 15%;
-  right: 47%;
+  top: 18%;
+  right: 42%;
   width: 100%;
   transform: translateY(-100%);
 }
