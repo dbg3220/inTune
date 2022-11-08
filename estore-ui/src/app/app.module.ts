@@ -25,6 +25,7 @@ import { LessonsComponent } from './lessons/lessons.component';
     LoginComponent,
     CartComponent,
     CheckoutComponent,
+    PagenotfoundComponent,
     LessonsComponent
   ],
   imports: [
