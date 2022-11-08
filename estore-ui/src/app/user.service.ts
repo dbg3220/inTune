@@ -18,8 +18,8 @@ export class UserService {
 
   private usersURL = 'http://localhost:8080/users';  // URL to web api
   private users: BehaviorSubject<any> = new BehaviorSubject(null);
-  private _user = new BehaviorSubject<string>("");
-  private user = "";
+  private _user:  BehaviorSubject<any> = new BehaviorSubject(null);
+  private user: User | undefined;
   readonly currentUser$ = this._user.asObservable();
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
@@ -51,12 +51,12 @@ export class UserService {
     return this.http.post<User>(this.usersURL, user);
   }
 
-  getCurrentUser(): Observable<string>
+  getCurrentUser(): Observable<User>
   {
     return this.currentUser$;
   }
 
-  setCurrentUser(user: string) {
+  setCurrentUser(user: User | undefined) {
     this.user = user
     this._user.next(this.user);
   }

@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   componentDestroyed$ = new Subject(); // tracks components lifecycle for subscription of the observable, component will automatically repaint if data changes
   exists: boolean = false;
   message: string = "";
-  user: string = "";
+  user: User| undefined;
   created: boolean = false;
 
 
@@ -52,8 +52,8 @@ export class LoginComponent implements OnInit {
   }
 
   onLogout() {
-    this.userService.setCurrentUser("");
-    this.user = "";
+    this.userService.setCurrentUser(undefined);
+    this.user = undefined;
     this.exists = false;
   }
 
