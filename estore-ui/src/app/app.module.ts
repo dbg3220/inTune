@@ -25,10 +25,8 @@ import { LessonsComponent } from './lessons/lessons.component';
     DashboardComponent,
     LoginComponent,
     CartComponent,
-    404_page,
     CheckoutComponent,
     PagenotfoundComponent
-    LessonsComponent
   ],
   imports: [
     BrowserModule,
