@@ -67,13 +67,13 @@ export class LessonsComponent implements OnInit {
   }
 
   getLessons() {
-    this.messageService.add('LessonComponent: subscribed to lesson service')
+    this.messageService.add('LessonComponent: subscribed to lesson service');
     this.lessonService.getLessons().subscribe(lessons => this.lessons = lessons);
   }
 
   addLesson(category: String, instructor: String, weekday: String,
             startTime: Number, price: Number, name: String) {
-    this.messageService.add(`LessonComponent: Added new lesson name=${name}`)
+    this.messageService.add(`LessonComponent: Added new lesson name=${name}`);
     name = name.trim();
     this.lessonService.addLesson({ category, instructor, weekday, startTime, price, name } as Lesson)
               .subscribe(lesson => {
@@ -82,7 +82,7 @@ export class LessonsComponent implements OnInit {
   }
 
   deleteLesson(lesson: Lesson){
-    this.messageService.add(`LessonComponent: Deleted lesson id=${lesson.id}`)
+    this.messageService.add(`LessonComponent: Deleted lesson id=${lesson.id}`);
     this.lessons = this.lessons.filter(l => l!== lesson);
     this.lessonService.deleteLesson(lesson.id).subscribe();
   }
