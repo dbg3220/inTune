@@ -28,6 +28,10 @@ export class LessonService {
     return this.http.get<Lesson>(url, this.httpOptions);
   }
 
+  addLesson(lesson: Lesson): Observable<Lesson>{
+    return this.http.post<Lesson>(this.lessonsURL, lesson, this.httpOptions);
+  }
+
   deleteLesson(id: Number) {
     const url = `${this.lessonsURL}/${id}`;
     return this.http.delete<Lesson>(url, this.httpOptions);

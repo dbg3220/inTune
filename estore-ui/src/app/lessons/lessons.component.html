@@ -1,3 +1,25 @@
+<div class="flex my-10">
+  <div *ngIf="isAdmin" class=" mx-auto grid grid-cols-2 text-2xl gap-5">
+    <label for="new-lesson">Lesson category: </label>
+    <input class="border border-black"id="new-lesson" #lessonCategory />
+    <label for="new-lesson">Lesson instructor: </label>
+    <input class="border border-black"id="new-lesson" #lessonInstructor />
+    <label for="new-lesson">Lesson weekday: </label>
+    <input class="border border-black"id="new-lesson" #lessonWeekDay />
+    <label for="new-lesson">Lesson startTime: </label>
+    <input class="border border-black"id="new-lesson" #lessonStartTime />
+    <label for="new-lesson">Lesson price: </label>
+    <input class="border border-black"id="new-lesson" #lessonPrice />
+    <label for="new-lesson">Lesson name: </label>
+    <input class="border border-black"id="new-lesson" #lessonName />
+  
+    <button type="button" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3"
+            (click)="addLesson(lessonCategory.value, lessonInstructor.value, lessonWeekDay.value, 
+            toNumber(lessonStartTime.value), toNumber(lessonPrice.value), lessonName.value)">
+      Add a lesson
+    </button>
+  </div>
+</div>
 <ul class="grid grid-cols-3 lg:grid-cols-4 ">
     <li *ngFor="let lesson of availableLessons()">
         <div class="flex flex-col items-center justify-center my-10">
@@ -5,8 +27,8 @@
             <h3 class="text-2xl text-center">{{lesson.name}}</h3>
             <p class="text-xl text-center">${{lesson.price}}</p>
             <p class="text-xl text-center">{{lesson.weekday}}, {{lesson.startTime}} o'clock</p>
-            <button (click)="onSelect(lesson)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3">Schedule This Lesson</button>
-            <button *ngIf="true" (click)="delete(lesson)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3">Delete Lesson</button>
+            <button *ngIf="!isAdmin" (click)="schedule(lesson)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3">Schedule This Lesson</button>
+            <button *ngIf="isAdmin" (click)="deleteLesson(lesson)" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-4 py-3">Delete This Lesson</button>
           </div>
         </div>
     </li>
