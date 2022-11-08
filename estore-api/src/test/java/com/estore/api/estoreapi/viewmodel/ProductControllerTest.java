@@ -18,7 +18,6 @@ import estoreapi.model.Cart;
 import estoreapi.model.Product;
 import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.ProductDAO;
-import estoreapi.model.Product.Category;
 import estoreapi.model.Review;
 
 /**
@@ -44,7 +43,7 @@ public class ProductControllerTest {
     public void testGetProduct() throws Exception{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(1, "Violin Bow", 100, "WOODWINDS", 5, "Good beginner Bow","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList );
+        Product product = new Product(1, "Violin Bow", 100, "WOODWINDS", 5, "Good beginner Bow","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList,0 );
         when(mockDAO.getProduct(product.getId())).thenReturn(product);
         
         // Invoke
@@ -86,9 +85,9 @@ public class ProductControllerTest {
         // Setup
         Product[] products = new Product[3];
         Review[] reviewList = new Review[3];
-        products[0] = new Product(1, "Violin Bow", 100.99, null, 5,"Very good for begineer Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
-        products[1] = new Product(2, "Violin", 500.99, null, 2,"Hand crafted violin sings beautifully in the high range of the String family", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
-        products[2] = new Product(3, "Rosin", 1000.99, null, 6, "Have to keep the bow fresh with the ability to grip the Strings","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        products[0] = new Product(1, "Violin Bow", 100.99, null, 5,"Very good for begineer Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList,0);
+        products[1] = new Product(2, "Violin", 500.99, null, 2,"Hand crafted violin sings beautifully in the high range of the String family", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList,0);
+        products[2] = new Product(3, "Rosin", 1000.99, null, 6, "Have to keep the bow fresh with the ability to grip the Strings","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList,0);
         when(mockDAO.getProducts()).thenReturn(products);
 
         // Invoke
@@ -114,8 +113,8 @@ public class ProductControllerTest {
         String testString = "Violin";
         Product[] products = new Product[3];
         Review[] reviewList = new Review[3];
-        products[0] = new Product(1, "Violin Bow", 100, null, 5, "Good bow for beginner Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
-        products[1] = new Product(2, "Violin", 500, null, 2,"Hand crafted violin sings beautifully in the high range of the String family","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        products[0] = new Product(1, "Violin Bow", 100, null, 5, "Good bow for beginner Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList,0);
+        products[1] = new Product(2, "Violin", 500, null, 2,"Hand crafted violin sings beautifully in the high range of the String family","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList,0);
         when(mockDAO.findProducts(testString)).thenReturn(products);
 
         // Invoke
@@ -143,7 +142,7 @@ public class ProductControllerTest {
     public void testCreateProduct() throws Exception{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(52, "testing", 5, null, 0, "testing the testing testing", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        Product product = new Product(52, "testing", 5, "BRASS", 0, "testing the testing testing", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList,0);
         when(mockDAO.createProduct(product)).thenReturn(product);
         // Invoke
         ResponseEntity<Product> response = productController.createProduct(product);
@@ -157,7 +156,7 @@ public class ProductControllerTest {
     public void testCreateProductHandleException() throws Exception{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(0, "", 0, null, 0, "", "", reviewList);
+        Product product = new Product(0, "", 0, null, 0, "", "", reviewList,0);
         doThrow(new IOException()).when(mockDAO).createProduct(product);
 
         // Invoke
@@ -171,7 +170,7 @@ public class ProductControllerTest {
     public void testUpdateProduct() throws IOException{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(0, "Test", 0, null, 0, "Something","test.jpg", reviewList);
+        Product product = new Product(0, "Test", 0, "WOODWIND", 0, "Something","test.jpg", reviewList,0);
         when(mockDAO.updateProduct(product)).thenReturn(product);
         when(mockCartDAO.getCarts()).thenReturn(new Cart[0]);
 
@@ -190,7 +189,7 @@ public class ProductControllerTest {
     public void testUpdateProductFailed() throws IOException{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(1, null, 10, "", 0, null,null, reviewList);
+        Product product = new Product(1, null, 10, "", 0, null,null, reviewList,0);
         when(mockDAO.updateProduct(product)).thenReturn(null);
 
         // Invoke
@@ -204,7 +203,7 @@ public class ProductControllerTest {
     public void testUpdateProductHandleException() throws IOException{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(1, null, 0, "", 0, null,null, reviewList);
+        Product product = new Product(1, null, 0, "", 0, null,null, reviewList,0);
         doThrow(new IOException()).when(mockDAO).updateProduct(product);
 
         // Invoke

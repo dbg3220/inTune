@@ -2,7 +2,11 @@ package estoreapi.persistence;
 
 import java.io.IOException;
 import estoreapi.model.Lesson;
-
+/**
+ * Defines the interface for lesson object persistance
+ * 
+ * @author Donovan Cataldo
+ */
 public interface LessonDAO {
     /**
      * Retrieves all lessons

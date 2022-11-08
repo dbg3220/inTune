@@ -171,6 +171,9 @@ public class Lesson {
         return String.format(STRING_FORMAT, id, isFull, category, instructor, weekday, startTime, userID, price, name);
     }
 
+    /**
+     * {@inheritDoc}}
+     */
     @Override
     public boolean equals(Object other){
         if( other instanceof Lesson){
