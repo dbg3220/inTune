@@ -30,7 +30,7 @@ export class CartComponent implements OnInit {
     private location: Location,
     private userService: UserService
   ) {}
-  user: string = "";
+  user: User | undefined;
   isAdmin: boolean = false;
 
 
@@ -63,7 +63,7 @@ export class CartComponent implements OnInit {
       .subscribe(user =>{
         this.user = user;
       });
-      if (this.user == "admin"){
+      if (this.user?.username == "admin"){
         this.isAdmin = true;
       }
 

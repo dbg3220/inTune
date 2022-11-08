@@ -12,6 +12,8 @@ import { DashboardComponent } from './dashboard/dashboard.component'
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 import { LessonsComponent } from './lessons/lessons.component';
 
 @NgModule({
@@ -23,6 +25,8 @@ import { LessonsComponent } from './lessons/lessons.component';
     DashboardComponent,
     LoginComponent,
     CartComponent,
+    CheckoutComponent,
+    ConfirmComponent,
     LessonsComponent
   ],
   imports: [

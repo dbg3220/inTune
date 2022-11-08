@@ -11,6 +11,7 @@ import {
   FormBuilder,
   Validators,
 } from "@angular/forms";
+import { User } from '../user';
 
 @Component({
   selector: 'app-products',
@@ -22,7 +23,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   componentDestroyed$ = new Subject();
   selectedProduct?: Product;
-  user: string = "";
+  user: User | undefined;
   isAdmin: boolean = false;
   form!: FormGroup;
 
@@ -73,9 +74,12 @@ export class ProductsComponent implements OnInit {
       .subscribe(user =>{
         this.user = user;
       });
-      if (this.user == "admin"){
+      if (this.user?.username == "admin"){
         this.isAdmin = true;
       }
+
+      console.log(this.user)
+
       
 }
 
