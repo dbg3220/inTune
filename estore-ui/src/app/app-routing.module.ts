@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductsComponent } from './products/products.component';
@@ -5,6 +6,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { LoginComponent } from './login/login.component';
 import { CartComponent } from './cart/cart.component';
+import {CheckoutComponent} from "./checkout/checkout.component";
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LessonsComponent } from './lessons/lessons.component';
 
 const routes: Routes = [
@@ -14,6 +17,9 @@ const routes: Routes = [
   { path: 'detail/:id', component: ProductDetailComponent},
   { path: 'login', component: LoginComponent},
   { path: 'cart', component: CartComponent},
+  { path: 'checkout', component: CheckoutComponent },
+  { path: '**', pathMatch: 'full', 
+        component: PagenotfoundComponent },
   { path: 'lessons', component: LessonsComponent}
 ];
 
