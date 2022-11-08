@@ -43,7 +43,9 @@ export class LessonsComponent implements OnInit {
   getCurrentUser() {
     this.userService.getCurrentUser().subscribe(user => {
       this.currentUser = user;
-      this.isAdmin = (this.currentUser!.username == 'admin');
+      if(this.currentUser){
+        this.isAdmin = (this.currentUser.username == 'admin');
+      }
     });
   }
 
@@ -84,7 +86,9 @@ export class LessonsComponent implements OnInit {
             startTime: Number, price: Number, name: String) {
     this.messageService.add(`LessonComponent: Added new lesson name=${name}`);
     name = name.trim();
-    this.lessonService.addLesson({ category, instructor, weekday, startTime, price, name } as Lesson)
+    var lesson = { category, instructor, weekday, startTime, price, name } as Lesson;
+    this.lessons.push(lesson);
+    this.lessonService.addLesson( lesson )
               .subscribe(lesson => {
                 this.lessons.push(lesson)
               });

@@ -2,7 +2,7 @@ package estoreapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 public class Lesson {
 
-    static final String STRING_FORMAT = "lesson [id%=d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
+    static final String STRING_FORMAT = "lesson [id=%d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
 
     @JsonProperty("id")
     private int id; // The Lesson ID
