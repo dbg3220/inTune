@@ -18,7 +18,7 @@ public class UserTest {
         int expectedID = 99;
         String expectedUsername = "user123";
 
-        User user = new User(expectedID, expectedUsername);
+        User user = new User(expectedID, expectedUsername, null, null);
 
         assertEquals(expectedID, user.getId());
         assertEquals(expectedUsername, user.getUsername());
@@ -31,7 +31,7 @@ public class UserTest {
 
         String expectedToString = "User [id=99, username=user123]";
 
-        User user = new User(expectedID, expectedUsername);
+        User user = new User(expectedID, expectedUsername, null, null);
 
         assertEquals(expectedToString, user.toString());
     }

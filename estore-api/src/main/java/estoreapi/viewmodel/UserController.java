@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -161,6 +162,29 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+     /**
+     * Handles the HTTP PUT request to update an existing product
+     * @param product The product to update
+     * @return The HTTP response
+     */
+    @PutMapping("")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        LOG.info("PUT /users " + user);
+        try {
+            User newUser = userDAO.updateUser(user);
+            if (newUser != null){
+                return new ResponseEntity<User>(newUser,HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

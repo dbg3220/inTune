@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 
 import estoreapi.model.Cart;
 import estoreapi.model.User;
-import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.UserDAO;
 import estoreapi.viewmodel.UserController;
 
@@ -23,19 +22,17 @@ import estoreapi.viewmodel.UserController;
 public class UserControllerTest {
     
     UserDAO mockDao;
-    CartDAO cartMockDao;
     UserController userController;
 
     @BeforeEach
     public void setupUserController(){
         mockDao = mock(UserDAO.class);
-        cartMockDao = mock(CartDAO.class);
-        userController = new UserController(mockDao, cartMockDao);
+        userController = new UserController(mockDao);
     }
 
     @Test
     public void testGetUser() throws Exception{
-        User user = new User(1, "Damon");
+        User user = new User(1, "Damon", null, null);
         when(mockDao.getUser(1)).thenReturn(user);
 
         ResponseEntity<User> response = userController.getUser(1);
@@ -65,9 +62,9 @@ public class UserControllerTest {
     @Test
     public void testGetUsers() throws Exception{
         User[] testUsers = new User[3];
-        testUsers[0] = new User(1, "Damon");
-        testUsers[1] = new User(2, "Tristen");
-        testUsers[2] = new User(3, "Matthew");
+        testUsers[0] = new User(1, "Damon", null, null);
+        testUsers[1] = new User(2, "Tristen", null, null);
+        testUsers[2] = new User(3, "Matthew", null, null);
         when(mockDao.getUsers()).thenReturn(testUsers);
 
         ResponseEntity<User[]> response = userController.getUsers();
@@ -87,11 +84,8 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUser() throws Exception{
-        User testUser = new User(1, "Douglas Smith");
-        Cart testCart = new Cart(1);
+        User testUser = new User(1, "Douglas Smith", null, null);
         when(mockDao.createUser(testUser)).thenReturn(testUser);
-        when(cartMockDao.createCart(testUser.getId())).thenReturn(testCart);
-
         ResponseEntity<User> response = userController.createUser(testUser);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -100,7 +94,7 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUserFailed() throws Exception{
-        User admin = new User(0, "admin");//creating an admin is illegal
+        User admin = new User(0, "admin", null, null);//creating an admin is illegal
 
         ResponseEntity<User> response = userController.createUser(admin);
 
@@ -109,7 +103,7 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUserHandleException() throws Exception{
-        User user = new User(1, "Rafi");
+        User user = new User(1, "Rafi", null, null);
         doThrow(new IOException()).when(mockDao).createUser(user);
 
         ResponseEntity<User> response = userController.createUser(user);
@@ -120,7 +114,6 @@ public class UserControllerTest {
     @Test
     public void testDeleteUser() throws Exception{
         when(mockDao.deleteUser(1)).thenReturn(true);
-        when(cartMockDao.deleteCart(1)).thenReturn(true);
 
         ResponseEntity<User> response = userController.deleteUser(1);
 
@@ -136,7 +129,7 @@ public class UserControllerTest {
 
     @Test
     public void testDeleteUserHandleException() throws Exception{
-        User user = new User(1, "Meg");
+        User user = new User(1, "Meg", null, null);
         doThrow(new IOException()).when(mockDao).deleteUser(user.getId());
 
         ResponseEntity<User> response = userController.deleteUser(1);

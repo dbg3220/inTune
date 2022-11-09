@@ -103,6 +103,8 @@ public interface UserDAO {
      */
     Cart updateCart(User user, Cart cart) throws IOException;
 
+    User updateUser(User user) throws IOException;
+
     Cart[] getCarts() throws IOException;
 
 }

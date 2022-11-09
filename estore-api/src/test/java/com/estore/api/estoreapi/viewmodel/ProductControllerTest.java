@@ -16,8 +16,8 @@ import org.springframework.http.ResponseEntity;
 
 import estoreapi.model.Cart;
 import estoreapi.model.Product;
-import estoreapi.persistence.CartDAO;
 import estoreapi.persistence.ProductDAO;
+import estoreapi.persistence.UserDAO;
 import estoreapi.model.Product.Category;
 import estoreapi.model.Review;
 
@@ -30,14 +30,14 @@ import estoreapi.model.Review;
 @Tag("Controller-tier")
 public class ProductControllerTest {
     ProductDAO mockDAO;
-    CartDAO mockCartDAO;
+    UserDAO mockUserDAO;
     ProductController productController;
 
     @BeforeEach
     public void setUpProductController(){
         mockDAO = mock(ProductDAO.class);
-        mockCartDAO = mock(CartDAO.class);
-        productController = new ProductController(mockDAO, mockCartDAO);
+        mockUserDAO = mock(UserDAO.class);
+        productController = new ProductController(mockDAO, mockUserDAO);
     }
 
     @Test
@@ -171,9 +171,9 @@ public class ProductControllerTest {
     public void testUpdateProduct() throws IOException{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(0, "Test", 0, null, 0, "Something","test.jpg", reviewList);
+        Product product = new Product(0, "Test", 0, "STRINGS", 0, "Something","test.jpg", reviewList);
         when(mockDAO.updateProduct(product)).thenReturn(product);
-        when(mockCartDAO.getCarts()).thenReturn(new Cart[0]);
+        when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
 
         ResponseEntity<Product> response = productController.updateProduct(product);
         product.setName("TestChange");
@@ -219,7 +219,7 @@ public class ProductControllerTest {
         // Setup
         int productID = 99;
         when(mockDAO.deleteProduct(productID)).thenReturn(true);
-        when(mockCartDAO.getCarts()).thenReturn(new Cart[0]);
+        when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
 
         // Invoke
         ResponseEntity<Product> response = productController.deleteProduct(productID);

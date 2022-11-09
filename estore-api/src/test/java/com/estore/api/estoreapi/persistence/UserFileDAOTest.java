@@ -43,9 +43,9 @@ public class UserFileDAOTest {
     public void setupUserFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testUsers = new User[3];
-        testUsers[0] = new User(0, "Damon");
-        testUsers[1] = new User(1, "Tristen");
-        testUsers[2] = new User(2, "Matthew");
+        testUsers[0] = new User(0, "Damon", null, null);
+        testUsers[1] = new User(1, "Tristen", null, null);
+        testUsers[2] = new User(2, "Matthew", null, null);
 
         when(mockObjectMapper
                     .readValue(new File(""), User[].class))
@@ -91,13 +91,13 @@ public class UserFileDAOTest {
         int givenID = 99;
         String givenName = "Douglas Gonzalez";
 
-        User newUser = new User(givenID, givenName);
+        User newUser = new User(givenID, givenName, null, null);
         userDAO.createUser(newUser);
 
         assertNotNull(userDAO.findUser(givenName));
         assertNotEquals(givenID, userDAO.findUser(givenName).getId());
 
-        User result = userDAO.createUser(new User(100, givenName));
+        User result = userDAO.createUser(new User(100, givenName, null, null));
 
         assertNull(result);
     }

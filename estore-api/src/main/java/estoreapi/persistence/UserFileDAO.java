@@ -287,4 +287,17 @@ public class UserFileDAO implements UserDAO{
             return (Cart[]) carts.toArray();
         }
     }
+
+    @Override
+    public User updateUser(User user) throws IOException {
+        synchronized(users){
+            if(users.containsKey(user.getId())){
+                users.put(user.getId(), user);
+                save();
+                return user;
+            } else {
+                return null;
+            }
+        }
+    }
 }
