@@ -1,4 +1,3 @@
-
 import { Component, OnInit, AfterViewChecked, Output } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
@@ -10,6 +9,7 @@ import {
 } from "@angular/forms";
 import { filter, Subject, takeUntil } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {ProductService} from "../product.service";
 // import { CustomUserValidator } from "../shared/custom-email.validator";
 
 @Component({
@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   created: boolean = false;
 
 
+
   onLogin() {
     const username = this.login.get('username')?.value;
     for (let user of this.users) {
@@ -37,17 +38,18 @@ export class LoginComponent implements OnInit {
         this.user = this.users.find(user => user.username === username);
         this.userService.setCurrentUser(this.user);
         console.log(this.user);
+        sessionStorage.setItem('user',JSON.stringify(this.user));
         console.log("login");
         return
       }
     }
-      console.log("does not exist");
-      this.exists = false;
-      this.userService.addUser({ username } as User)
-    .subscribe(user => {
-      this.users.push(user);
-    });
-    console.log(this.login.value + "added");  
+    console.log("does not exist");
+    this.exists = false;
+    this.userService.addUser({ username } as User)
+      .subscribe(user => {
+        this.users.push(user);
+      });
+    console.log(this.login.value + "added");
     this.user = this.users.find(user => user.username === username);
     this.created = true;
     this.message = "It seems you weren't registered. We have added you as a user. To confirm, please log in again.";
@@ -55,11 +57,20 @@ export class LoginComponent implements OnInit {
     console.log(this.user)
   }
 
-  onLogout() {
+  async onLogout() {
+    await this.productService.saveUser().subscribe(response => {
+      console.log('got response',response)
+    });
     this.userService.setCurrentUser(undefined);
     this.user = undefined;
     this.exists = false;
   }
+  // when usr logs in
+  // hit api end point to get user
+  // route /users/?username= <--- query string put in url
+  // get user object get from cart to reset cart in angular
+
+
 
   // onSignup() {
   //   const username = this.login.get('username')?.value;
@@ -87,6 +98,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
+    private productService: ProductService
     // private usernameValidator: UsernameValidator
   ) {
 
@@ -101,10 +113,11 @@ export class LoginComponent implements OnInit {
       .subscribe(user =>{
         this.user = user;
       });
-      if (this.user) {
-        this.exists = true;
-      }``
+    if (this.user) {
+      this.exists = true;
+    }``
   }
 
 
 }
+

@@ -89,7 +89,7 @@ export class ProductService {
     for (let x of this.productCart) {
       if (product.id === x.id) {
         found = true;
-        product.quantity++;
+        x.quantity++;
       }
     }
     if (!found) {
@@ -124,4 +124,17 @@ export class ProductService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
+  saveUser() {
+    let user = JSON.parse(sessionStorage.getItem('users') || '[]')
+    console.log(this.productCart)
+    let data = {
+      id: user.id,
+      cart: {...this.productCart[0]},
+      productsPurchased: user.productsPurchased || [],
+      username: user.username
+    }
+    console.log(data);
+    return this.http.put('http://localhost:8080/users',data,this.httpOptions)
+  }
 }
+
