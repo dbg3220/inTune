@@ -143,7 +143,7 @@ public class ProductControllerTest {
     public void testCreateProduct() throws Exception{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(52, "testing", 5, null, 0, "testing the testing testing", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        Product product = new Product(52, "testing", 5, "STRINGS", 0, "testing the testing testing", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
         when(mockDAO.createProduct(product)).thenReturn(product);
         // Invoke
         ResponseEntity<Product> response = productController.createProduct(product);

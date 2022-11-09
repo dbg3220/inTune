@@ -32,8 +32,8 @@ public class Lesson {
     ){
         this.id = id;
         this.isFull = false;
-        this.category = null;
-        this.instructor = null;
+        this.category = "";
+        this.instructor = "";
         this.weekday = weekday;
         this.startTime = startTime;
         this.userID = -1;

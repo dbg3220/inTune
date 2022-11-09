@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Clayton Acheson
  * @author Damon Gonzalez
  */
-public class Product {
+public class    Product {
 
     public enum Category {
         STRINGS,

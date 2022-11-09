@@ -28,10 +28,8 @@ An online E-store system built in Java 8=>11 and ___ _replace with other platfor
 4.  _add any other steps required or examples of how to use/run_
 
 ## Known bugs and disclaimers
-(It may be the case that your implementation is not perfect.)
 
-Document any known bug or nuisance.
-If any shortcomings, make clear what these are and where they are located.
+Cart persistance between users
 
 ## How to test it
 
