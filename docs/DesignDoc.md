@@ -145,7 +145,7 @@ to maintain their internal state.
 ### Static Code Analysis/Design Improvements
 
 ## Testing
-Currently only 85% of backend tests pass.
+Currently 100% of backend tests pass.
 
 ### Acceptance Testing
 Almost all acceptance tests pass. The only issues that we have run into is that users are unable to
@@ -153,4 +153,7 @@ save their cart between sessions. This is because we are using a local database 
 worked on by the frontend team. Besides that shortcoming, all other acceptance tests pass.
 
 ### Unit Testing and Code Coverage
+Our code coverage was lower then we would have liked, but this is mostly chalked up to the fact that
+the merging process was not smooth. There are other branches with higher coverage, but they were not
+brought over, we plan to have these issues ironed out by early sprint 4.
 
