@@ -45,7 +45,7 @@ the inventory of the store.
 
 ### Definition of MVP
 The MVP will consist of a fully functional estore with a working backend representation of relevant data types.
-Any user will be able to login with a username and password or create an accoutn if they have no login. Products
+Any user will be able to login with a username and password or create an account if they have no login. Products
 checked out in their cart will be remembered between sessions and any user should be able to see all products through
 a search bar.
 
@@ -59,15 +59,21 @@ a search bar.
 7. Learn about an Instrument
 8. Browse Instrument Categories
 9. Log in
+10. Search for an Instrument
+11. Add an Instrument to my cart
+12. Checkout my cart
+13. Add a review
+14. View all reviews
+15. Look at all Lessons
+16. Schedule a Lesson
 
 
 ### Roadmap of Enhancements
-1. Renting instruments
-2. Participate in the Community Blog
-3. Seeing the Community Board
-3. Add friends
-4. See Bands that are looking for musicians
-4. Get product by Subcategory
+1. Add a review
+2. View all reviews
+3. Look at all Lessons
+4. Schedule a Lesson
+5. admin privileges for Lesson
 
 
 
@@ -139,18 +145,15 @@ to maintain their internal state.
 ### Static Code Analysis/Design Improvements
 
 ## Testing
-Currently only 98% of backend tests pass.
+Currently 100% of backend tests pass.
 
 ### Acceptance Testing
-> _Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+Almost all acceptance tests pass. The only issues that we have run into is that users are unable to
+save their cart between sessions. This is because we are using a local database while cart is still being
+worked on by the frontend team. Besides that shortcoming, all other acceptance tests pass.
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those._
+Our code coverage was lower then we would have liked, but this is mostly chalked up to the fact that
+the merging process was not smooth. There are other branches with higher coverage, but they were not
+brought over, we plan to have these issues ironed out by early sprint 4.
+

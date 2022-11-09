@@ -1,3 +1,4 @@
+
 package com.estore.api.estoreapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,4 +45,16 @@ public class CartTest {
 
         assertEquals(expectedStr, cart.toString());
     }
+
+    @Test
+    public void testGetID(){
+        // Setup
+        int testing_ID = 12;
+        // Invoke
+        Cart testCart = new Cart(testing_ID);
+        
+        // Analyze
+        assertEquals(testing_ID, testCart.getId());
+    }
+
 }
