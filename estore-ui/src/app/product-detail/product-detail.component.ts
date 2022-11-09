@@ -29,6 +29,7 @@ export class ProductDetailComponent implements OnInit {
   form!: FormGroup;
   isLoggedIn: boolean = false;
   updated: boolean = false;
+  products: Product[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -36,11 +37,12 @@ export class ProductDetailComponent implements OnInit {
     private location: Location,
     private msg: MessengerService,
     private userService: UserService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.getProduct();
+    this.productService.getProducts().subscribe(products => this.products = products);
     console.log(this.product)
     this.userService.getCurrentUser().pipe(filter(user => !!user))
     .subscribe(user =>{
@@ -75,6 +77,30 @@ export class ProductDetailComponent implements OnInit {
 
   save(): void{
     if (this.product){
+      this.product.category = this.product.category.trim().toLowerCase();
+      if (!this.product.name) { 
+        return; 
+      }
+      if (!this.product.price) { 
+        return; 
+      }
+      if (!this.product.category || this.product.category != "strings" && this.product.category != "brass" && this.product.category != "woodwinds" && this.product.category != "percussion" && this.product.category != "keyboards") { 
+        return; 
+      }
+      if (!this.product.quantity) { 
+        return; 
+      }
+      if (!this.product.description) { 
+        return; 
+      }
+      if (!this.product.image) { 
+        return; 
+      }
+      for (let product of this.products) {
+        if (this.product.name.toLowerCase() === product.name) {
+          return;
+        }
+      }
       this.productService.updateProduct(this.product).subscribe(() => this.goBack)
       this.updated = true;
     }

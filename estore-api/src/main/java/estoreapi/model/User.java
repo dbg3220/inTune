@@ -78,7 +78,7 @@ public class User {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,username,cart);
+        return String.format(STRING_FORMAT,id,username,cart,productsPurchased);
     }
 
 	public void setCart(Cart cart) {
