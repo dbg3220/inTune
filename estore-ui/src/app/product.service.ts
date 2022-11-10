@@ -125,11 +125,23 @@ export class ProductService {
   };
 
   saveUser() {
-    let user = JSON.parse(sessionStorage.getItem('users') || '[]')
+    let user = JSON.parse(sessionStorage.getItem('users') || '{}')
     console.log(this.productCart)
+    let productList = [];
+    let quantityList = [];
+    for(let x of this.productCart)
+    {
+      productList.push(x.id);
+      quantityList.push(x.quantity);
+    }
+
     let data = {
       id: user.id,
-      cart: {...this.productCart[0]},
+      cart: {
+        products: productList,
+        quantities: [],
+        // id: 0
+      },
       productsPurchased: user.productsPurchased || [],
       username: user.username
     }

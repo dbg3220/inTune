@@ -42,6 +42,12 @@ export class LoginComponent implements OnInit {
         console.log("login");
         return
       }
+      this.userService.getCurrentUser().pipe(filter(user => !!user))
+        .subscribe(user =>{
+          this.user = user;
+          console.log("useritem?",user);
+        });
+
     }
     console.log("does not exist");
     this.exists = false;
@@ -60,10 +66,12 @@ export class LoginComponent implements OnInit {
   async onLogout() {
     await this.productService.saveUser().subscribe(response => {
       console.log('got response',response)
+      sessionStorage.clear();
+      this.userService.setCurrentUser(undefined);
+      this.user = undefined;
+      this.exists = false;
+      window.location.reload();
     });
-    this.userService.setCurrentUser(undefined);
-    this.user = undefined;
-    this.exists = false;
   }
   // when usr logs in
   // hit api end point to get user
