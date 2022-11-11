@@ -86,15 +86,22 @@ export class ProductService {
 
   addToCart(product: Product) {
     let found: boolean = false;
+    let itemClone = JSON.parse(JSON.stringify(product));
     for (let x of this.productCart) {
-      if (product.id === x.id) {
+      if (itemClone.id === x.id) {
         found = true;
-        x.quantity++;
+        if(x.quantity < itemClone.quantity) {
+          x.quantity++;
+        }
+        else
+        {
+          window.alert("Item limit exceeded")
+        }
       }
     }
     if (!found) {
-      this.productCart.push(product);
-      product.quantity = 1;
+      this.productCart.push(itemClone);
+      itemClone.quantity = 1;
     }
     this._productCart.next(Object.assign([], this.productCart));
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
@@ -102,15 +109,17 @@ export class ProductService {
 
   removeToCart(product: Product) {
     let found: boolean = false;
+    let itemClone = JSON.parse(JSON.stringify(product));
     this.productCart.forEach((item, index) => {
-      if (item.id === product.id) {
-        if (product.quantity > 1) {
-          product.quantity--;
+      if (item.id === itemClone.id) {
+        if (itemClone.quantity > 1) {
+          item.quantity--;
         } else {
           this.productCart.splice(index, 1);
         }
       }
     });
+
 
     this._productCart.next(Object.assign([], this.productCart));
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
