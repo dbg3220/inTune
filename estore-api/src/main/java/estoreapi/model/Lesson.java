@@ -1,111 +1,112 @@
 package estoreapi.model;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * Represents a Lesson
+ * 
+ * @author Damon Gonzalez
+ */
 public class Lesson {
 
+    /** Format string for toString() method */
     static final String STRING_FORMAT = "lesson [id=%d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
 
-    @JsonProperty("id")
-    private int id; // The Lesson ID
-    @JsonProperty("isFull")
-    private boolean isFull; // Used to detect if the lesson is booked or not
-    @JsonProperty("category")
-    private String category; // The category of the lesson
-    @JsonProperty("instructor")
-    private String instructor; // The instructor for the lesson
-    @JsonProperty("weekday")
-    private String weekday; // The weekday of the lesson
-    @JsonProperty("startTime")
-    private int startTime; // The time the lesson starts
-    @JsonProperty("userID")
-    private int userID; // The id of the user who books the lesson
-    @JsonProperty("price")
-    private double price; // The price of the lesson
-    @JsonProperty("name")
-    private String name; // The name of the lesson
+    /** The unique identifier for this lesson object */
+    @JsonProperty("id") private int id;
+    /** Boolean to identify whether this lesson is taken by a user */
+    @JsonProperty("isFull") private boolean isFull;
+    /** The category of instrument that this lesson is for */
+    @JsonProperty("category") private String category;
+    /** The name of the instructor for this lesson */
+    @JsonProperty("instructor") private String instructor;
+    /** The day of the week this lesson is held on */
+    @JsonProperty("weekday") private String weekday;
+    /** The starting time (in hours) of this lesson */
+    @JsonProperty("startTime") private int startTime;
+    /** The id of the user who has taken this lesson, if not taken by a user is set to -1 */
+    @JsonProperty("userID") private int userID;
+    /** The weekly price of this lesson */
+    @JsonProperty("price") private double price;
+    /** The name of the lesson (i.e. Piano Lesson, Cello masterclass) */
+    @JsonProperty("name") private String name;
 
-    public Lesson(
-        @JsonProperty("id") int id,
-        @JsonProperty("price") double price,
-        @JsonProperty("weekday") String weekday,
-        @JsonProperty("startTime") int startTime,
-        @JsonProperty("name") String name
-    ){
+    /**
+     * Public constructor to deserialize lesson objects from a json file
+     */
+    public Lesson(@JsonProperty("id") int id,
+                  @JsonProperty("isFull") boolean isFull,
+                  @JsonProperty("category") String category,
+                  @JsonProperty("instructor") String instructor,
+                  @JsonProperty("weekday") String weekday,
+                  @JsonProperty("startTime") int startTime,
+                  @JsonProperty("userID") int userID,
+                  @JsonProperty("price") double price,
+                  @JsonProperty("name") String name){
         this.id = id;
-        this.isFull = false;
-        this.category = "";
-        this.instructor = "";
-        this.weekday = weekday;
-        this.startTime = startTime;
-        this.userID = -1;
-        this.price = price;
-        this.name = name;
-
-    }
-
-    public void setLesson(String category, String instructor, int userID){
-        this.isFull = true;
+        this.isFull = isFull;
         this.category = category;
         this.instructor = instructor;
-        this.userID = userID;
-    }
-
-    public void clearLesson(){
-        this.isFull = false;
-        this.category = null;
-        this.instructor = null;
-        this.userID = -1;
-    }
-
-    public boolean getIsFull(){
-        return this.isFull;
-    }
-
-    public String getCategory(){
-        return this.category;
-    }
-
-    public String getIntructor(){
-        return this.instructor;
-    }
-
-    public int getUserID(){
-        return this.userID;
-    }
-
-    public void setWeekDay(String weekday){
         this.weekday = weekday;
-    }
-
-    public String getWeekDay(){
-        return this.weekday;
-    }
-
-    public void setStartTime(int startTime){
         this.startTime = startTime;
-    }
-
-    public int getStartTime(){
-        return this.startTime;
-    }
-
-    public void setPrice(double price){
+        this.userID = userID;
         this.price = price;
-    }
-
-    public double getPrice(){
-        return this.price;
-    }
-
-    public int getID(){
-        return this.id;
-    }
-
-    public String getName(){
-        return this.name;
-    }
-
-    public void setName(String name){
         this.name = name;
+    }
+
+    /**
+     * Public constructor to create new objects during runtime
+     * 
+     * Sets isFull=false, userID=-1 because when a lesson is created no user has taken it
+     */
+    public Lesson(int id, String category, String instructor, String weekday, int startTime, 
+                    double price, String name){
+        this(id, false, category, instructor, weekday, startTime, -1, price, name);
+    }
+
+    /** Getter for id */
+    public int getID(){
+        return id;
+    }
+
+    /** Getter for isFull */
+    public boolean isFull(){
+        return isFull;
+    }
+    
+    /** Getter for the category */
+    public String getCategory(){
+        return category;
+    }
+
+    /** Getter for the instructor */
+    public String getInstructor(){
+        return instructor;
+    }
+
+    /** Getter for the weekday */
+    public String getWeekDay(){
+        return weekday;
+    }
+
+    /** Getter for the startTime */
+    public int getStartTime(){
+        return startTime;
+    }
+
+    /** Getter for the userID */
+    public int getUserID(){
+        return userID;
+    }
+
+    /** Getter for the price */
+    public double getPrice(){
+        return price;
+    }
+
+    /** Getter for the name */
+    public String getName(){
+        return name;
     }
 
     @Override
@@ -128,5 +129,18 @@ public class Lesson {
                    this.name.equals(otherLesson.name);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return Integer.hashCode(id) +
+               Boolean.hashCode(isFull) +
+               category.hashCode() +
+               instructor.hashCode() +
+               weekday.hashCode() +
+               Integer.hashCode(startTime) +
+               Integer.hashCode(userID) +
+               Double.hashCode(price) +
+               name.hashCode();
     }
 }
