@@ -40,7 +40,7 @@ export class CheckoutComponent implements OnInit {
       fName: ['', Validators.required],
       lName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      CC: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      CC: ['', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
       expMonth: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
       expYear: ['', [Validators.required, Validators.minLength(2),Validators.maxLength(2)]],
       securityCode: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(3)]],
