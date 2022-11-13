@@ -81,7 +81,8 @@ export class LoginComponent implements OnInit {
   }
 
   async onLogout() {
-    await this.productService.saveUser().subscribe((response:any) => {
+    if (this.user?.username != "admin")
+      await this.productService.saveUser().subscribe((response:any) => {
       console.log('got response',response)
       sessionStorage.clear();
       // sessionStorage.setItem('user',JSON.stringify(response));
@@ -90,10 +91,13 @@ export class LoginComponent implements OnInit {
       this.exists = false;
       window.location.reload();
     });
-    // this.userService.setCurrentUser(undefined);
-    // this.user = undefined;
-    // this.exists = false;
-    // window.location.reload();
+    else {
+      sessionStorage.clear();
+      this.userService.setCurrentUser(undefined);
+      this.user = undefined;
+      this.exists = false;
+      window.location.reload();
+    }
   }
   // when usr logs in
   // hit api end point to get user
