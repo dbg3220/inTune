@@ -10,6 +10,7 @@ import {
 import { filter, Subject, takeUntil } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import {ProductService} from "../product.service";
+import {Product} from "../product";
 // import { CustomUserValidator } from "../shared/custom-email.validator";
 
 @Component({
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  onLogin() {
+  async onLogin() {
     const username = this.login.get('username')?.value;
     for (let user of this.users) {
       if (user.username === username) {
@@ -40,6 +41,22 @@ export class LoginComponent implements OnInit {
         console.log(this.user);
         sessionStorage.setItem('user',JSON.stringify(this.user));
         console.log("login");
+        this.productService.fetchProducts().subscribe(products => {
+          let temp:Product[] = [];
+          products.filter((product: any) => {
+            for (let x in user.cart.products) {
+              let y = user.cart.products[x];
+              if (product.id === y) {
+                let copy = JSON.parse(JSON.stringify(product));
+                copy.quantity = user.cart.quantities[x];
+                console.log("copy", copy);
+               temp.push(copy);
+              }
+            }
+          });
+          this.productService.quickAddToCart(temp);
+          console.log("user cart from backend", temp)
+        })
         return
       }
       this.userService.getCurrentUser().pipe(filter(user => !!user))
@@ -64,14 +81,19 @@ export class LoginComponent implements OnInit {
   }
 
   async onLogout() {
-    await this.productService.saveUser().subscribe(response => {
+    await this.productService.saveUser().subscribe((response:any) => {
       console.log('got response',response)
       sessionStorage.clear();
-      this.userService.setCurrentUser(undefined);
-      this.user = undefined;
+      // sessionStorage.setItem('user',JSON.stringify(response));
+      this.userService.setCurrentUser(response);
+      this.user = response;
       this.exists = false;
       window.location.reload();
     });
+    // this.userService.setCurrentUser(undefined);
+    // this.user = undefined;
+    // this.exists = false;
+    // window.location.reload();
   }
   // when usr logs in
   // hit api end point to get user

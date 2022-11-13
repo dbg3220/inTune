@@ -30,6 +30,38 @@ export class ProductService {
   //     // )
   // }
 
+  defaultCart()
+  {
+    let cart = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
+    console.log("setting default cart", cart);
+    if(cart.length > 0 )
+    {
+      if(cart.products && cart.quantities)
+      {
+        let temp:any = [];
+        this.fetchProducts().subscribe(products => {
+          temp = products.filter(product => {
+            let counter = 0;
+            for(let x of cart.products)
+            {
+              if(product.id  === x)
+              {
+                let copy = JSON.parse(JSON.stringify(product));
+                copy.quantity = cart.quantities[counter];
+                counter++;
+
+                return copy;
+              }
+            }
+          })
+        })
+        cart = temp;
+      }
+    }
+    this.productCart = cart;
+    this._productCart.next(cart);
+    return cart;
+  }
   fetchProducts() {
     this.messageService.add('ProductService: fetched products')
     return this.http.get<Product[]>(this.productsURL);
@@ -107,6 +139,13 @@ export class ProductService {
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
   }
 
+  quickAddToCart(cartItems: Product[])
+  {
+    this.productCart = cartItems;
+    this._productCart.next(Object.assign([], this.productCart));
+    sessionStorage.setItem('cart', JSON.stringify(this.productCart));
+  }
+
   removeToCart(product: Product) {
     let found: boolean = false;
     let itemClone = JSON.parse(JSON.stringify(product));
@@ -134,8 +173,10 @@ export class ProductService {
   };
 
   saveUser() {
-    let user = JSON.parse(sessionStorage.getItem('users') || '{}')
-    console.log(this.productCart)
+    console.log('saving user cart with item ',this.productCart)
+    let user = JSON.parse(sessionStorage.getItem('user') || '{}')
+    // let cart = JSON.parse(sessionStorage.getItem('cart') || '[]')
+    // user.cart = cart;
     let productList = [];
     let quantityList = [];
     for(let x of this.productCart)
@@ -148,16 +189,16 @@ export class ProductService {
       id: user.id,
       cart: {
         products: productList,
-        quantities: [],
-        // id: 0
+        quantities: quantityList,
+        id: user.cart.id
       },
       productsPurchased: user.productsPurchased || [],
       username: user.username
     }
-    console.log(data);
-    sessionStorage.clear();
-    return new Observable();
-    //return this.http.put('http://localhost:8080/users',data,this.httpOptions)
+    console.log("sending query to back end",data);
+    // sessionStorage.clear();
+    // return new Observable();
+    return this.http.put('http://localhost:8080/users',data,this.httpOptions)
   }
 }
 

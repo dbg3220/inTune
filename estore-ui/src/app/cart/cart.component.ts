@@ -54,6 +54,7 @@ export class CartComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.productService.getCart().pipe(filter(cart => !!cart), takeUntil(this.componentDestroyed$))
       .subscribe(cartItems => {
         this.cartItems = cartItems
