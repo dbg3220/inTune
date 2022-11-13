@@ -229,7 +229,10 @@ public class UserFileDAO implements UserDAO{
             if(isUsernameTaken(user.getUsername())){
                 return null;
             }
-            User newUser = new User(nextId(), user.getUsername(), user.getCart(), user.getProductsPurchased());
+            user.setCart(new Cart(user.getId()));
+            int array[] = new int[0];
+            user.setProductsPurchased(array);;
+            User newUser = new User(nextId(), user.getUsername(), new Cart(user.getId()), array);
             users.put(newUser.getId(), newUser);
             save();
             return newUser;
