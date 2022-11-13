@@ -154,6 +154,19 @@ public class ProductControllerTest {
     }
 
     @Test
+    public void testCreateNullProduct() throws Exception{
+        // Setup
+        Review[] reviewList = new Review[3];
+        Product product = new Product(52, "testing", 5, "STRINGS", 0, "testing the testing testing", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        when(mockDAO.createProduct(product)).thenReturn(product);
+        // Invoke
+        ResponseEntity<Product> response = productController.createProduct(null);
+
+        // Analyze
+        assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+    }
+
+    @Test
     public void testCreateProductHandleException() throws Exception{
         // Setup
         Review[] reviewList = new Review[3];
@@ -212,6 +225,62 @@ public class ProductControllerTest {
 
         // Analyze
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateProductBadPrice() throws IOException{
+        // Setup
+        Review[] reviewList = new Review[3];
+        Product product = new Product(0, "Test", 0, "STRINGS", 0, "Something","test.jpg", reviewList);
+        when(mockDAO.updateProduct(product)).thenReturn(product);
+        when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
+
+        ResponseEntity<Product> response = productController.updateProduct(product);
+        product.setPrice(-5);
+
+        // Invoke
+        response = productController.updateProduct(product);
+
+        // Analyze
+        assertEquals(HttpStatus.BAD_REQUEST,response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateProductBadQuantity() throws IOException{
+        // Setup
+        Review[] reviewList = new Review[3];
+        Product product = new Product(0, "Test", 0, "STRINGS", 0, "Something","test.jpg", reviewList);
+        when(mockDAO.updateProduct(product)).thenReturn(product);
+        when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
+
+        ResponseEntity<Product> response = productController.updateProduct(product);
+        product.setQuantity(-5);
+
+        // Invoke
+        response = productController.updateProduct(product);
+
+        // Analyze
+        assertEquals(HttpStatus.BAD_REQUEST,response.getStatusCode());
+
+    }
+
+    @Test
+    public void testUpdateProductCart() throws IOException{
+        // Setup
+        Review[] reviewList = new Review[3];
+        Product product = new Product(0, "Test", 0, "STRINGS", 0, "Something","test.jpg", reviewList);
+        when(mockDAO.updateProduct(product)).thenReturn(product);
+        when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
+
+        ResponseEntity<Product> response = productController.updateProduct(product);
+        product.setQuantity(-5);
+
+        // Invoke
+        response = productController.updateProduct(product);
+
+        // Analyze
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+
     }
 
     @Test
