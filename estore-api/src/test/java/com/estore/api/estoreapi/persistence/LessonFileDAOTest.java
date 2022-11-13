@@ -1,9 +1,11 @@
 package com.estore.api.estoreapi.persistence;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -17,6 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
+
 import estoreapi.model.Lesson;
 import estoreapi.persistence.LessonFileDAO;
 
@@ -66,6 +70,15 @@ public class LessonFileDAOTest {
     }
 
     @Test
+    public void testCreateLesson() throws IOException {
+        Lesson lesson =  new Lesson(3, false, "BRASS", "Wynton Marsalis", "FRIDAY", 12, -1, 100.0, "Trumpet Masterclass");
+
+        Lesson result = lessonFileDAO.createLesson(lesson);
+
+        assertEquals(lesson, result);
+    }
+
+    @Test
     public void testUpdateLesson() throws IOException {
         Lesson lesson =  new Lesson(0, true, "STRINGS", "Paul Mccartney", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
         Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),
@@ -88,7 +101,7 @@ public class LessonFileDAOTest {
     }
 
     @Test
-    public void testUpdateProductNotFound() throws IOException {
+    public void testUpdateLessonNotFound() throws IOException {
         // Setup
         Lesson lesson = new Lesson(5, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
 
@@ -97,5 +110,18 @@ public class LessonFileDAOTest {
 
         // Analyze
         assertNull(result);
+    }
+
+    @Test
+    public void testDeleteLesson() throws IOException {
+        //Test Success
+        boolean result = lessonFileDAO.deleteLesson(0);
+
+        assertTrue(result);
+
+        //Test Failure
+        result = lessonFileDAO.deleteLesson(0);
+
+        assertFalse(result);
     }
 }

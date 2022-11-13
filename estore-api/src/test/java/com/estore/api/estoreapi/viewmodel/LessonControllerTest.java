@@ -116,6 +116,17 @@ public class LessonControllerTest {
     }
 
     @Test
+    public void testCreateLessonFailure() throws IOException {
+        Lesson testLesson = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
+        when(mockDAO.createLesson(testLesson)).thenReturn(null);
+        // Invoke
+        ResponseEntity<Lesson> response = lessonController.createLesson(testLesson);
+
+        // Analyze
+        assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+    }
+
+    @Test
     public void testCreateLessonHandleException() throws Exception{
         // Setup
         Lesson testLesson = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");

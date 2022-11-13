@@ -54,15 +54,18 @@ public class LessonTest {
 
     @Test
     public void testEquals(){
+        //Test Success
         Lesson test1 = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
         Lesson test2 = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
 
         assertEquals(test1, test2);
 
-        // test equals() fails
+        //Test Failure
         Lesson test3 = new Lesson(0, true, "STRINGS", "Amdeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
         
         assertNotEquals(test1, test3);
+
+        assertNotEquals(test1, new Object());
     }
 
     @Test
