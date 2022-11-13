@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
 
 import estoreapi.model.Lesson;
 import estoreapi.persistence.LessonFileDAO;

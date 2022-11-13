@@ -1,7 +1,5 @@
 package com.estore.api.estoreapi.viewmodel;
 import estoreapi.viewmodel.LessonController;
-import estoreapi.viewmodel.ProductController;
-import net.bytebuddy.agent.VirtualMachine.ForHotSpot.Connection.Response;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
