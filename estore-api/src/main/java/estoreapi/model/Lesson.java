@@ -20,7 +20,7 @@ public class Lesson {
     @JsonProperty("category") private String category;
     /** The name of the instructor for this lesson */
     @JsonProperty("instructor") private String instructor;
-    /** The day of the week this lesson is held on */
+    /** The day of the week this lesson is held on(MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY) */
     @JsonProperty("weekday") private String weekday;
     /** The starting time (in hours) of this lesson */
     @JsonProperty("startTime") private int startTime;
