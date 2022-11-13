@@ -270,10 +270,12 @@ public class ProductControllerTest {
         Review[] reviewList = new Review[3];
         Product product = new Product(0, "Test", 0, "STRINGS", 0, "Something","test.jpg", reviewList);
         when(mockDAO.updateProduct(product)).thenReturn(product);
-        when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
-
+        Cart[] carts = new Cart[3];
+        carts[0] = new Cart(1);
+        carts[1] = new Cart(2);
+        carts[2] = new Cart(3);
+        when(mockUserDAO.getCarts()).thenReturn(carts);
         ResponseEntity<Product> response = productController.updateProduct(product);
-        product.setQuantity(-5);
 
         // Invoke
         response = productController.updateProduct(product);
@@ -289,6 +291,24 @@ public class ProductControllerTest {
         int productID = 99;
         when(mockDAO.deleteProduct(productID)).thenReturn(true);
         when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
+
+        // Invoke
+        ResponseEntity<Product> response = productController.deleteProduct(productID);
+
+        // Analyze
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteProductCart() throws IOException{
+        // Setup
+        int productID = 99;
+        when(mockDAO.deleteProduct(productID)).thenReturn(true);
+        Cart[] carts = new Cart[3];
+        carts[0] = new Cart(1);
+        carts[1] = new Cart(2);
+        carts[2] = new Cart(3);
+        when(mockUserDAO.getCarts()).thenReturn(carts);
 
         // Invoke
         ResponseEntity<Product> response = productController.deleteProduct(productID);
