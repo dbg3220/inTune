@@ -155,7 +155,9 @@ export class ProductService {
       username: user.username
     }
     console.log(data);
-    return this.http.put('http://localhost:8080/users',data,this.httpOptions)
+    sessionStorage.clear();
+    return new Observable();
+    //return this.http.put('http://localhost:8080/users',data,this.httpOptions)
   }
 }
 
