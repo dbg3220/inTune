@@ -27,48 +27,47 @@ import estoreapi.persistence.LessonFileDAO;
  */
 @Tag("Persistence-tier")
 public class LessonFileDAOTest {
-        LessonFileDAO lessonFileDAO;
-        Lesson[] testLessons;
-        ObjectMapper mockObjectMapper;
+    LessonFileDAO lessonFileDAO;
+    Lesson[] testLessons;
+    ObjectMapper mockObjectMapper;
 
-        @BeforeEach
-        public void setupLessonFileDAO() throws IOException{
-            mockObjectMapper = mock(ObjectMapper.class);
-            testLessons = new Lesson[3];
-            testLessons[0] = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-            testLessons[0].setLesson("String", "Clayton", 4);
-            testLessons[1] = new Lesson(2, 70.22, "Friday", 2, "2pm Friday lesson");
-            testLessons[1].setLesson("String", "Clayton", 4);
-            testLessons[2] = new Lesson(3, 122.99, "Thursday", 9,"9am Thursday Lesson");
-            testLessons[2].setLesson("String", "Clayton", 4);
-            when(mockObjectMapper.readValue(new File(""), Lesson[].class)).thenReturn(testLessons);
-            lessonFileDAO = new LessonFileDAO("", mockObjectMapper);
-        }
+    @BeforeEach
+    public void setupLessonFileDAO() throws IOException{
+        mockObjectMapper = mock(ObjectMapper.class);
+        testLessons = new Lesson[3];
+        testLessons[0] = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 150.0, "Violin Masterclass");
+        testLessons[1] = new Lesson(1, true, "STRINGS", "Amadeus", "TuESDAY", 12, 2, 100.0, "Clarinet Lesson");
+        testLessons[2] = new Lesson(2, true, "STRINGS", "Jerry Garcia", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
+        when(mockObjectMapper.readValue(new File(""), Lesson[].class)).thenReturn(testLessons);
+        lessonFileDAO = new LessonFileDAO("", mockObjectMapper);
+    }
 
-        @Test
-        public void testGetLessons() throws IOException{
-            // Invoke
-            Lesson[] lessons = lessonFileDAO.getLessons();
-            // Analyze
-            assertEquals(lessons.length, testLessons.length);
-            for(int i = 0; i < testLessons.length; i++){
-                assertEquals(lessons[i], testLessons[i]);
-            }
-        }
-
-        @Test
-        public void testGetLesson() throws IOException {
+    @Test
+    public void testGetLessons() throws IOException{
         // Invoke
-        Lesson lesson = lessonFileDAO.getLesson(1); 
-        lesson.setLesson("String", "Clayton", 4);
+        Lesson[] lessons = lessonFileDAO.getLessons();
+        // Analyze
+        assertEquals(lessons.length, testLessons.length);
+        for(int i = 0; i < testLessons.length; i++){
+            assertEquals(lessons[i], testLessons[i]);
+        }
+    }
+
+    @Test
+    public void testGetLesson() throws IOException {
+        // Invoke
+        Lesson lesson = lessonFileDAO.getLesson(0); 
         // Analyze
         assertEquals(lesson, testLessons[0]);
+
+        lesson = lessonFileDAO.getLesson(50);
+
+        assertNull(lesson);
     }
 
     @Test
     public void testUpdateLesson() throws IOException {
-        Lesson lesson =  new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
-        lesson.setLesson("String", "Clayton", 4);
+        Lesson lesson =  new Lesson(0, true, "STRINGS", "Paul Mccartney", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
         Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),
                 "Unexpected exception thrown");
 
@@ -78,50 +77,25 @@ public class LessonFileDAOTest {
     }
 
     @Test
-    public void testSaveException() throws IOException {
-        doThrow(new IOException())
-                .when(mockObjectMapper)
+    public void testUpdateException() throws IOException {
+        doThrow(new IOException()).when(mockObjectMapper)
                 .writeValue(any(File.class), any(Lesson[].class));
 
-        Lesson lesson = new Lesson(1, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
 
         assertThrows(IOException.class,
-                () -> lessonFileDAO.createLesson(lesson),
-                "IOException not thrown");
+                () -> lessonFileDAO.createLesson(lesson));
     }
 
     @Test
-    public void testGetProductNotFound() throws IOException {
-        // Invoke
-        Lesson lesson = lessonFileDAO.getLesson(99);
-
-        // Analyze
-        assertEquals(lesson, null);
-    }
-
-    @Test
-    public void testUpdateProductNotFound() {
+    public void testUpdateProductNotFound() throws IOException {
         // Setup
-        Lesson lesson = new Lesson(99, 12.99, "Monday", 12, "12pm Monday lesson");
+        Lesson lesson = new Lesson(5, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
 
         // Invoke
-        Lesson result = assertDoesNotThrow(() -> lessonFileDAO.updateLesson(lesson),
-                "Unexpected exception thrown");
+        Lesson result = lessonFileDAO.updateLesson(lesson);
 
         // Analyze
         assertNull(result);
     }
-    @Test
-    public void testConstructorException() throws IOException {
-        // Setup
-        ObjectMapper mockObjectMapper = mock(ObjectMapper.class);
-
-        doThrow(new IOException())
-                .when(mockObjectMapper)
-                .readValue(new File("doesnt_matter.txt"), Lesson[].class);
-
-        assertThrows(IOException.class, () -> new LessonFileDAO("doesnt_matter.txt", mockObjectMapper),
-                "IOException not thrown");
-    }
-
 }
