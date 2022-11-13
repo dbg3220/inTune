@@ -125,7 +125,7 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         LOG.info("POST /users " + user);
         try {
-            if(user.getUsername().equals("admin")){
+            if("admin".equals(user.getUsername())) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             User newUser = userDAO.createUser(user); 

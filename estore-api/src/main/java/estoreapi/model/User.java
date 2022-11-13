@@ -73,6 +73,10 @@ public class User {
         return productsPurchased;
     }
 
+    public void setProductsPurchased(int[] productsPurchased) {
+        this.productsPurchased = productsPurchased;
+    }
+
     /**
      * {@inheritDoc}
      */
