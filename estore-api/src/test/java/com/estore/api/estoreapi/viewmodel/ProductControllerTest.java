@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -268,18 +269,28 @@ public class ProductControllerTest {
     public void testUpdateProductCart() throws IOException{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(0, "Test", 0, "STRINGS", 10, "Something","test.jpg", reviewList);
-        when(mockDAO.updateProduct(product)).thenReturn(product);
+        Product[] products = new Product[3];
+        products[0] = new Product(0, "Test", 0, "STRINGS", 10, "Something","test.jpg", reviewList);
+        products[1] = new Product(1, "Violin Bow", 100, null, 0, "Good bow for beginner Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        products[2] = new Product(2, "Violin", 500, null, 0,"Hand crafted violin sings beautifully in the high range of the String family","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        ArrayList<Integer> prodictIDs = new ArrayList<>();
+        prodictIDs.add(0);
+        prodictIDs.add(1);
+        prodictIDs.add(2);
+        ArrayList<Integer> quantites = new ArrayList<>();
+        quantites.add(10);
+        quantites.add(10);
+        quantites.add(10);
         Cart[] carts = new Cart[3];
-        carts[0] = new Cart(1);
-        carts[1] = new Cart(2);
-        carts[2] = new Cart(3);
+        carts[0] = new Cart(1,prodictIDs, quantites);
+        carts[1] = new Cart(2, prodictIDs, quantites);
+        carts[2] = new Cart(3, prodictIDs, quantites);
+        when(mockDAO.updateProduct(products[0])).thenReturn(products[0]);
         when(mockUserDAO.getCarts()).thenReturn(carts);
-        product.setQuantity(5);
-        ResponseEntity<Product> response = productController.updateProduct(product);
-
+        ResponseEntity<Product> response = productController.updateProduct(products[0]);
+        products[0].setQuantity(0);
         // Invoke
-        response = productController.updateProduct(product);
+        response = productController.updateProduct(products[0]);
 
         // Analyze
         assertEquals(HttpStatus.OK,response.getStatusCode());
@@ -292,7 +303,7 @@ public class ProductControllerTest {
         int productID = 99;
         when(mockDAO.deleteProduct(productID)).thenReturn(true);
         when(mockUserDAO.getCarts()).thenReturn(new Cart[0]);
-
+        
         // Invoke
         ResponseEntity<Product> response = productController.deleteProduct(productID);
 
@@ -303,12 +314,26 @@ public class ProductControllerTest {
     @Test
     public void testDeleteProductCart() throws IOException{
         // Setup
-        int productID = 99;
-        when(mockDAO.deleteProduct(productID)).thenReturn(true);
+        int productID = 0;
+        Review[] reviewList = new Review[3];
+        Product[] products = new Product[3];
+        products[0] = new Product(0, "Test", 0, "STRINGS", 10, "Something","test.jpg", reviewList);
+        products[1] = new Product(1, "Violin Bow", 100, null, 0, "Good bow for beginner Violinists", "https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        products[2] = new Product(2, "Violin", 500, null, 0,"Hand crafted violin sings beautifully in the high range of the String family","https://m.media-amazon.com/images/I/71nJxZ9AUrL.jpg", reviewList);
+        ArrayList<Integer> prodictIDs = new ArrayList<>();
+        prodictIDs.add(0);
+        prodictIDs.add(1);
+        prodictIDs.add(2);
+        ArrayList<Integer> quantites = new ArrayList<>();
+        quantites.add(10);
+        quantites.add(10);
+        quantites.add(10);
         Cart[] carts = new Cart[3];
-        carts[0] = new Cart(1);
-        carts[1] = new Cart(2);
-        carts[2] = new Cart(3);
+        carts[0] = new Cart(1,prodictIDs, quantites);
+        carts[1] = new Cart(2, prodictIDs, quantites);
+        carts[2] = new Cart(3, prodictIDs, quantites);
+        when(mockDAO.deleteProduct(productID)).thenReturn(true);
+        
         when(mockUserDAO.getCarts()).thenReturn(carts);
 
         // Invoke
