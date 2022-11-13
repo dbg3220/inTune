@@ -268,13 +268,14 @@ public class ProductControllerTest {
     public void testUpdateProductCart() throws IOException{
         // Setup
         Review[] reviewList = new Review[3];
-        Product product = new Product(0, "Test", 0, "STRINGS", 0, "Something","test.jpg", reviewList);
+        Product product = new Product(0, "Test", 0, "STRINGS", 10, "Something","test.jpg", reviewList);
         when(mockDAO.updateProduct(product)).thenReturn(product);
         Cart[] carts = new Cart[3];
         carts[0] = new Cart(1);
         carts[1] = new Cart(2);
         carts[2] = new Cart(3);
         when(mockUserDAO.getCarts()).thenReturn(carts);
+        product.setQuantity(5);
         ResponseEntity<Product> response = productController.updateProduct(product);
 
         // Invoke
