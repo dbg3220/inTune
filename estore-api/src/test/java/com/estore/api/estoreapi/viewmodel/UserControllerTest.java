@@ -25,9 +25,17 @@ public class UserControllerTest {
     UserController userController;
 
     @BeforeEach
-    public void setupUserController(){
+    public void setupUserController() throws IOException{
         mockDao = mock(UserDAO.class);
         userController = new UserController(mockDao);
+        User User1 = new User(1, "Damon", null, null);
+        User User2 = new User(2, "Tristen", null, null);
+        User User3 = new User(3, "Matthew", null, null);
+        User[] testUsers = {User1, User2, User3};
+        for (User user : testUsers) {
+            mockDao.createUser(user);
+        }
+
     }
 
     @Test
@@ -135,5 +143,39 @@ public class UserControllerTest {
         ResponseEntity<User> response = userController.deleteUser(1);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateUserPassed() throws Exception{
+        User user = new User(1, "Damon", null, null);
+        when(mockDao.updateUser(user)).thenReturn(user);
+
+        ResponseEntity<User> response = userController.updateUser(user);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(user, response.getBody());
+    }
+
+    @Test
+    public void testUpdateUserFailed() throws Exception{
+        User user = new User(5, "Damon", null, null);
+        when(mockDao.updateUser(user)).thenReturn(user);
+
+        ResponseEntity<User> response = userController.updateUser(user);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals(user, response.getBody());
+    }
+
+
+    @Test
+    public void testSearchForUser() throws Exception{
+        User user = new User(1, "Damon", null, null);
+        when(mockDao.findUser("Damon")).thenReturn(user);
+
+        ResponseEntity<User> response = userController.searchForUser("Damon");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(user, response.getBody());
     }
 }

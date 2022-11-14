@@ -9,8 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.beans.Transient;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import estoreapi.model.Cart;
 import estoreapi.model.User;
 import estoreapi.persistence.UserDAO;
 import estoreapi.persistence.UserFileDAO;
@@ -43,9 +46,14 @@ public class UserFileDAOTest {
     public void setupUserFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testUsers = new User[3];
-        testUsers[0] = new User(0, "Damon", null, null);
-        testUsers[1] = new User(1, "Tristen", null, null);
-        testUsers[2] = new User(2, "Matthew", null, null);
+        ArrayList products = new ArrayList<>();
+        ArrayList quantities = new ArrayList<>();
+        Cart cart1 = new Cart( 0, products, quantities);
+        Cart cart2 = new Cart( 1, products, quantities);
+        Cart cart3 = new Cart( 2, products, quantities);
+        testUsers[0] = new User(0, "Damon", cart1, null);
+        testUsers[1] = new User(1, "Tristen", cart2, null);
+        testUsers[2] = new User(2, "Matthew", cart3, null);
 
         when(mockObjectMapper
                     .readValue(new File(""), User[].class))
@@ -110,4 +118,30 @@ public class UserFileDAOTest {
         assertTrue(result1);
         assertFalse(result2);
     }
+
+    @Test
+    public void testGetCarts() throws Exception{
+        Cart[] carts = userDAO.getCarts();
+
+        assertEquals(3, carts.length);
+    }
+
+    @Test
+    public void testGetCart() throws Exception{
+        Cart cart = userDAO.getCart(0);
+
+        assertEquals(testUsers[0].getCart(), cart);
+    }
+
+    // @Test
+    // public void testUpdateCart() throws Exception{
+    //     Cart cart = userDAO.getCart(0);
+    //     ArrayList<Integer> arrayList = new ArrayList<> ();            
+    //     Cart testCart = new Cart(5, arrayList, arrayList);
+    //     cart.setCartId(100);
+
+    //     userDAO.updateCart(cart);
+
+    //     assertEquals(100, userDAO.getCart(0).getCartId());
+    // }
 }
