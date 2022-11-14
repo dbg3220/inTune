@@ -51,13 +51,11 @@ export class LessonsComponent implements OnInit {
 
   /** Retrieves the current user of the page, using the user service */
   getCurrentUser() {
-    this.refreshDone = false;
     this.userService.getCurrentUser().subscribe(user => {
       this.currentUser = user;
       if(this.currentUser){
         this.isAdmin = (this.currentUser.username == 'admin');
       }
-      this.refreshDone = true;
     });
   }
 
@@ -116,7 +114,7 @@ export class LessonsComponent implements OnInit {
                 userID: Number, price: Number, name: String) {
     var newLesson = { id, isFull, category, instructor, weekday, startTime, userID, price, name } as Lesson;
     this.lessonService.addLesson(newLesson).subscribe(() => {
-
+      this.getLessons();
     });
   }
 
