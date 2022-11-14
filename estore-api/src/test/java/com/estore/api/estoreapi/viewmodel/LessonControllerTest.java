@@ -103,7 +103,7 @@ public class LessonControllerTest {
     @Test
     public void testCreateLesson() throws Exception{
         // Setup
-        Lesson testLesson = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
+        Lesson testLesson = new Lesson(-1, false, "STRINGS", "Amadeus", "MONDAY", 12, -1, 100.0, "Violin Masterclass");
         when(mockDAO.createLesson(testLesson)).thenReturn(testLesson);
         // Invoke
         ResponseEntity<Lesson> response = lessonController.createLesson(testLesson);
