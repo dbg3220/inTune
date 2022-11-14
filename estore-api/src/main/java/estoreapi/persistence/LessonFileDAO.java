@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -88,9 +87,9 @@ public class LessonFileDAO implements LessonDAO{
     @Override
     public Lesson createLesson(Lesson lesson) throws IOException {
         synchronized(lessons){
-            Lesson newLesson = new Lesson(nextId(), lesson.getCategory(), lesson.getInstructor(),
-                                            lesson.getWeekDay(), lesson.getStartTime(), lesson.getPrice(),
-                                            lesson.getName());
+            Lesson newLesson = new Lesson(nextId(), lesson.isFull(), lesson.getCategory(), lesson.getInstructor(), 
+                                            lesson.getWeekDay(), lesson.getStartTime(), lesson.getUserID(), 
+                                            lesson.getPrice(), lesson.getName());
             lessons.put(lesson.getID(), newLesson);
             save();
             return newLesson;

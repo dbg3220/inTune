@@ -54,16 +54,6 @@ public class Lesson {
         this.name = name;
     }
 
-    /**
-     * Public constructor to create new objects during runtime
-     * 
-     * Sets isFull=false, userID=-1 because when a lesson is created no user has taken it
-     */
-    public Lesson(int id, String category, String instructor, String weekday, int startTime, 
-                    double price, String name){
-        this(id, false, category, instructor, weekday, startTime, -1, price, name);
-    }
-
     /** Getter for id */
     public int getID(){
         return id;
