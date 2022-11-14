@@ -55,7 +55,7 @@
               <input class=" border border-black ml-auto" formControlName="CC" placeholder="Credit Card">
             </div>
             <div class="red ml-auto"*ngIf="myForm.get('CC')?.invalid && (myForm.get('CC')?.dirty || myForm.get('CC')?.touched)">
-              Please provide a 9 digit credit card number.
+              Please provide a 16 digit credit card number.
             </div>
             <div class="flex">
               <label>
