@@ -231,6 +231,7 @@ public class UserFileDAO implements UserDAO{
             }
             user.setCart(new Cart(user.getId()));
             int array[] = new int[0];
+            // ArrayList<Integer> arrayList = new ArrayList<> ();            
             user.setProductsPurchased(array);;
             User newUser = new User(nextId(), user.getUsername(), new Cart(user.getId()), array);
             users.put(newUser.getId(), newUser);
