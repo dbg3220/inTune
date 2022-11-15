@@ -200,5 +200,11 @@ export class ProductService {
     // return new Observable();
     return this.http.put('http://localhost:8080/users',data,this.httpOptions)
   }
+
+  saveStock(product: Product)
+  {
+
+    return this.http.put('http://localhost:8080/products',product,this.httpOptions)
+  }
 }
 

@@ -18,6 +18,7 @@ export class CheckoutComponent implements OnInit {
   subTotals: number = 0;
   subQuantity: number = 0;
   myForm!: FormGroup;
+  product: Product[] = []
 
   constructor(
     private productService: ProductService,
@@ -56,18 +57,54 @@ export class CheckoutComponent implements OnInit {
         this.checkoutItems = cartItems
         this.subTotal();
       });
+    this.productService.getProducts().pipe(filter(products => !!products), takeUntil(this.componentDestroyed$))
+      .subscribe(allProducts => {
+        this.product = allProducts;
+      });
 
 
 
   }
   onSubmit(form: FormGroup) {
-    let obj = {'fName':form.value.fName,'lName':form.value.lName,'Email':form.value.email,
-      'CC':form.value.CC, 'expMonth':form.value.expMonth, 'expYear':form.value.expYear,
-      'securityCode':form.value.securityCode, 'address':form.value.address, 'zip':form.value.zip,
-      'city':form.value.city,'state':form.value.state,'country':form.value.country }
+    let obj = {
+      'fName': form.value.fName, 'lName': form.value.lName, 'Email': form.value.email,
+      'CC': form.value.CC, 'expMonth': form.value.expMonth, 'expYear': form.value.expYear,
+      'securityCode': form.value.securityCode, 'address': form.value.address, 'zip': form.value.zip,
+      'city': form.value.city, 'state': form.value.state, 'country': form.value.country
+    }
 
     console.log('Valid?', form.valid); // true or false
     console.log('Name', obj);
+    this.productService.getCart().subscribe(async cartItems => {
+      console.log('cartitems', cartItems, '\n products', this.product);
+      let stockProduct = this.getNewStockProducts(cartItems, this.product);
+      console.log('stockProduct', stockProduct);
+      for (let item of stockProduct) {
+        await this.productService.saveStock(item).subscribe(response => {
+          console.log('response', response);
+        });
+      }
+    });
+
+  }
+
+  getNewStockProducts(cart: any[], products: any[])
+  {
+    let temp: Product[] = [];
+    cart = JSON.parse(JSON.stringify(cart));
+    products = JSON.parse(JSON.stringify(products));
+    for(let item of cart)
+    {
+      for(let product of products)
+      {
+        if(item.id === product.id)
+        {
+          product.quantity = product.quantity - item.quantity;
+          temp.push(product);
+        }
+      }
+    }
+    return temp;
 
   }
 

@@ -18,7 +18,7 @@
           </div>
         </div>
         <h3 class="my-20 text-4xl ">Subtotal({{this.subQuantity}}): ${{this.subTotals}}</h3>
-      <form *ngIf="this.myForm" [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)" class="flex flex-col">
+      <form *ngIf="this.myForm" [formGroup]="myForm" class="flex flex-col">
         <div class="grid grid-cols-2 gap-10">
           <div class="flex flex-col text-left gap-3">
             <div class="flex">
@@ -136,7 +136,7 @@
           <!--        <button type="submit" [disabled]="myForm.invalid">Send</button>-->
           <button
             class=" mx-auto my-10 text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3"
-            type="submit" *ngIf="!myForm.invalid" (click)="this.routeToCheckoutComponent()">Checkout
+            type="submit" *ngIf="!myForm.invalid" (click)="onSubmit(myForm)">Checkout
           </button>
           <label class = "red my-10 mx-auto"
             *ngIf="myForm.invalid">
