@@ -72,11 +72,9 @@ public class LessonController {
     public ResponseEntity<Lesson> createLesson(@RequestBody Lesson lesson) {
         LOG.info("POST /lessons " + lesson);
         try {
-            Lesson newLesson = new Lesson(lesson.getID(), lesson.isFull(), lesson.getCategory(), lesson.getInstructor(), lesson.getWeekDay(),
-                                            lesson.getStartTime(), lesson.getUserID(), lesson.getPrice(), lesson.getName());
             Lesson result = lessonDao.createLesson(lesson);
             if (result != null)
-                return new ResponseEntity<Lesson>(newLesson,HttpStatus.CREATED);
+                return new ResponseEntity<Lesson>(result,HttpStatus.CREATED);
             else
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
         }

@@ -61,15 +61,44 @@ public class LessonFileDAO implements LessonDAO{
         return true;
     }
 
+    
+    /**
+     * Generates an array of {@linkplain Lesson lessons} from the tree map
+     * 
+     * @return  The array of {@link Lesson lessons}, may be empty
+     */
+    private Lesson[] getLessonsArray() {
+        return getLessonsArray(null);
+    }
+
+    /**
+     * Generates an array of {@linkplain Lesson lessons} from the tree map for any
+     * {@linkplain Lesson lessons} that contains the text specified by containsText
+     * <br>
+     * If containsText is null, the array contains all of the {@linkplain Lessons lessons}
+     * in the tree map
+     * 
+     * @return  The array of {@link Lesson lessons}, may be empty
+     */
+    private Lesson[] getLessonsArray(String containsText) { // if containsText == null, no filter
+        ArrayList<Lesson> lessonArrayList = new ArrayList<>();
+
+        for (Lesson lesson : lessons.values()) {
+            if (containsText == null || lesson.getName().contains(containsText)) {
+                lessonArrayList.add(lesson);
+            }
+        }
+
+        Lesson[] lessonArray = new Lesson[lessonArrayList.size()];
+        lessonArrayList.toArray(lessonArray);
+        return lessonArray;
+    }
+
     @Override
     public Lesson[] getLessons() throws IOException {
-        ArrayList<Lesson> lessonArrayList = new ArrayList<>();
-        for(Lesson lesson : lessons.values()){
-            lessonArrayList.add(lesson);
+        synchronized(lessons){
+            return getLessonsArray();
         }
-        Lesson[] lessonList = new Lesson[lessonArrayList.size()];
-        lessonArrayList.toArray(lessonList);
-        return lessonList;
     }
 
     @Override
@@ -90,7 +119,7 @@ public class LessonFileDAO implements LessonDAO{
             Lesson newLesson = new Lesson(nextId(), false, lesson.getCategory(), lesson.getInstructor(), 
                                             lesson.getWeekDay(), lesson.getStartTime(), -1, 
                                             lesson.getPrice(), lesson.getName());
-            lessons.put(lesson.getID(), newLesson);
+            lessons.put(newLesson.getID(), newLesson);
             save();
             return newLesson;
         }
