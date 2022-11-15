@@ -60,31 +60,48 @@ export class LessonsComponent implements OnInit {
   }
 
   /** Organizes a sub-array of lessons that are not booked, shows all lessons to the admin */
-  availableLessons() {
+  availableLessons(): Lesson[] {
     if(!this.isAdmin) {
-      return this.lessons.filter(lesson => !this.isFull(lesson));
+      return this.sort(this.lessons.filter(lesson => !this.isFull(lesson)));
     } else {
-      return this.lessons;
+      return this.sort(this.lessons);
     }
   }
 
-  /** Organizes a sub-array lessons that are schedule by the current user*/
-  getScheduledLessons() {
-    if(this.currentUser != undefined){
-      const result = this.lessons.filter(lesson => lesson.userID == this.currentUser!.id);
-      return result;
+  /** Organizes a sub-array lessons that are scheduled by the current user*/
+  scheduledLessons(): Lesson[] {
+    if(this.currentUser){
+      var result: Lesson[] = this.lessons.filter(lesson => lesson.userID == this.currentUser!.id);
+      return this.sort(result);
     }else{
       return [];
     }
   }
 
+  /** Sorts and returns a given array of lessons by day of the week and time of day(MOND->FRI,9->5)  */
+  sort(lessons: Lesson[]): Lesson[] {
+     var result: Lesson[] = lessons.sort((lesson1, lesson2) => {
+      var day1 = this.dayToValue(lesson1.weekday);//The integer value of lesson1's weekday
+      var day2 = this.dayToValue(lesson2.weekday);//The integer value of lesson2's weekday
+      if(day1 > day2){
+        return 1;
+      } else if(day1 < day1){
+        return -1;
+      } 
+      return 0;
+    });
+    console.log(result);
+    return result;
+  }
+
   /** Schedules a lesson for the current user */
   scheduleLesson(lesson: Lesson) {
-    this.lessonService.getLessons();
     if(this.currentUser && !this.isAdmin){
       lesson.isFull = true;
       lesson.userID = this.currentUser!.id;
-      this.lessonService.updateLesson(lesson).subscribe(lesson => {console.log(lesson)});
+      this.lessonService.updateLesson(lesson).subscribe(() => {
+        this.getLessons();
+      });
     } else {
       this.promptLogin = true;
     }
@@ -135,5 +152,15 @@ export class LessonsComponent implements OnInit {
   /** Tells if a lesson is free, not scheduled by a user */
   private isFull(lesson: Lesson): boolean {
     return lesson.isFull;
+  }
+
+  /** Assigns a weekday value to an integer so it can be used to sort lessons, if no day found returns -1 */
+  private dayToValue(day: String): Number {
+    for(let i = 0; i < this.potentialDays.length; i++) {
+      if(day == this.potentialDays[i]){
+        return i + 1;
+      }
+    }
+    return -1;
   }
 }

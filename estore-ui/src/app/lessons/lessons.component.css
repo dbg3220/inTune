@@ -2,6 +2,15 @@
     padding-top: 10%;
 }
 
+#lessons {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.lesson {
+    padding: 4%;
+}
+
 button {
     justify-content: center;
 }
