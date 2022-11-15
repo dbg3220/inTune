@@ -40,14 +40,15 @@ can browse products in multiple ways(search bar, top products, by category). The
 the store to their cart with a requested quantity that is equal to or less than the amount the store has in inventory.
 If a user logs out than the products in their cart will be retained. The admin will have the ability to login with the
 username 'admin' and be presented with a home page similar to that of a regular user but will include the ability to edit
-the inventory of the store.
+the inventory of the store. Users who have purchased products will also be able to leave reviews, which they can rate on a 1-5 scale and write a short description of their experience with the product. These reviews can be seen by all users. Users can also schedule lessons, from which admins can delete and add to.
 
 
 ### Definition of MVP
 The MVP will consist of a fully functional estore with a working backend representation of relevant data types.
 Any user will be able to login with a username and password or create an account if they have no login. Products
 checked out in their cart will be remembered between sessions and any user should be able to see all products through
-a search bar.
+a search bar. The admin will be able to login with the username 'admin' and be able to edit the inventory of the store.
+Users who have purchased products will also be able to leave reviews, which they can rate on a 1-5 scale and write a short description of their experience with the product. These reviews can be seen by all users. Users can also schedule lessons, from which admins can delete and add to.
 
 ### MVP Features
 1. Create Account
@@ -118,16 +119,16 @@ On landing, the user will be displayed with a selection of the most popular prod
 
 
 ### View Tier
-> _Provide a summary of the View Tier UI of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
-
-> _You must also provide sequence diagrams as is relevant to a particular aspects 
-> of the design that you are describing.  For example, in e-store you might create a 
-> sequence diagram of a customer searching for an item and adding to their cart. 
-> Be sure to include an relevant HTTP requests from the client-side to the server-side 
-> to help illustrate the end-to-end flow._
+The view tier consists of a parent level app component, as well as numerous child components. These are as follows:
+1. Dashboard/Home - The dashboard/home page is the first page that a user will see when they visit the site. It will display the most popular products in the store, as well as an introductory animation with the estore logo. Alongside these, there is a mission statement.
+2. Products - The products page will display all products in the store. It will display the name, price, and photo of each product. There will be a search bar that allows users to search for products by name. There will also be a button that allows users to filter products by instrument family.
+3. Login - The login page will prompt users to enter their username. If the username is not found, the user will be prompted that an account has been made. which then they must login to confirm. If the username is found, the user will be logged in.
+4. Cart - The cart page will display all products in the user's cart. It will display the name, price, and photo of each product. There will be a button that allows users to remove products from their cart. There will also be a button that allows users to checkout their cart.
+5. Product Detail - The product detail page will display the name, price, and photo of the product. It will also display a description of the product. There will be a button that allows users to add the product to their cart. There will also be a button that allows users to view all reviews for the product. If the User is an Admin, they will be allowed to delete and edit the values of the product
+6. Lessons - The lessons page will display all lessons in the store. It will display the name, price, and time of each lesson. There will also be a button that allows users to schedule a lesson. If the user is an admin, they will be allowed to delete and edit the values of the lesson.
+7. Checkout - After hitting the checkout button, a component prompting for shipping and billing information will be displayed. After the user enters this information, they will be prompted to confirm their order. If they confirm, the order will be placed and the user will be taken to the confirmation. If they cancel, they will be taken back to the cart page.
+8. 404 page - If a user tries to access a page that does not exist, they will be taken to a 404 page. This page will display a message informing the user that the page they are looking for does not exist. It will also display a button that allows the user to return to the home page.
+9. Confirmation - After the user confirms their order, they will be taken to a confirmation page. This page will display a message informing the user that their order has been placed. It will also display a button that allows the user to return to the home page.
 
 
 ### ViewModel Tier
