@@ -2,7 +2,7 @@
   <div *ngIf="isAdmin" class=" mx-auto grid grid-cols-2 text-2xl gap-5">
     <label for="new-lesson">Lesson category: </label>
     <select class="border border-black" #lessonCategory >
-      <option value="none" selected disabled hidden>Select an Option</option>
+      <option value="none" selected disabled hidden>Select a category</option>
       <option value="STRINGS">STRINGS</option>
       <option value="WOODWINDS">WOODWINDS</option>
       <option value="BRASS">BRASS</option>
@@ -13,7 +13,7 @@
     <input class="border border-black" #lessonInstructor >
     <label for="new-lesson">Lesson weekday: </label>
     <select class="border border-black" #lessonWeekDay >
-      <option value="none" selected disabled hidden>Select an Option</option>
+      <option value="none" selected disabled hidden>Select a lesson day</option>
       <option value="MONDAY">MONDAY</option>
       <option value="TUESDAY">TUESDAY</option>
       <option value="WEDNESDAY">WEDNESDAY</option>
@@ -21,7 +21,18 @@
       <option value="FRIDAY">FRIDAY</option>
     </select>
     <label for="new-lesson">Lesson startTime: </label>
-    <input class="border border-black" #lessonStartTime />
+    <select class="border border-black" #lessonStartTime >
+      <option value="none" selected disabled hidden>Select a start time</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
     <label for="new-lesson">Lesson price: </label>
     <input class="border border-black" #lessonPrice />
     <label for="new-lesson">Lesson name: </label>
@@ -50,9 +61,11 @@
     </li>
 </ul>
 
-<div *ngIf="!isAdmin">
-  <div *ngFor="let lesson of scheduledLessons()">
-    <p class="text-l text-center">{{lesson.weekday}}, {{lesson.startTime}} o'clock, {{lesson.instructor}}</p>
+<div *ngIf="this.currentUser != undefined && !isAdmin">
+  <div> Scheduled Lessons for {{this.currentUser.username}}</div>
+  <div *ngFor="let lesson of scheduledLessons()" class="scheduled">
+    <p class="text-l text-left">{{lesson.name}} @ {{lesson.weekday}}, {{lesson.startTime}} o'clock</p>
+    <p class="text-l text-left">Instructor: {{lesson.instructor}}</p>
   </div>
 </div>
 

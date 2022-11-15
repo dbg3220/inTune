@@ -68,7 +68,7 @@ export class LessonsComponent implements OnInit {
     }
   }
 
-  /** Organizes a sub-array lessons that are scheduled by the current user*/
+  /** Organizes a sub-array of lessons that are scheduled by the current user*/
   scheduledLessons(): Lesson[] {
     if(this.currentUser){
       var result: Lesson[] = this.lessons.filter(lesson => lesson.userID == this.currentUser!.id);
@@ -78,14 +78,8 @@ export class LessonsComponent implements OnInit {
     }
   }
 
-  /** Sorts and returns a given array of lessons by day of the week and time of day(MOND->FRI,9->5)  */
-  sort(lessons: Lesson[]): Lesson[] {
-     var result: Lesson[] = lessons.sort((lesson1, lesson2) => {
-      return this.compareDay(lesson1.weekday, lesson2.weekday);
-    });
-    return result;
-  }
-
+  // LESSON SERVICE METHODS
+  
   /** Schedules a lesson for the current user */
   scheduleLesson(lesson: Lesson) {
     if(this.currentUser && !this.isAdmin){
@@ -98,8 +92,6 @@ export class LessonsComponent implements OnInit {
       this.promptLogin = true;
     }
   }
-
-  // LESSON SERVICE METHODS
 
   /** Refreshes the page with the current lessons available */
   getLessons() {
@@ -146,12 +138,27 @@ export class LessonsComponent implements OnInit {
     return lesson.isFull;
   }
 
-  /** Compares a day of the week to the other, returning -1, 0, 1 based on how a lesson should be sorted */
-  private compareDay(day1: String, day2: String): number{
-    var index1 = this.potentialDays.indexOf(day1);
-    var index2 = this.potentialDays.indexOf(day2);
+  
+  /** Sorts and returns a given array of lessons by day of the week and time of day(MOND->FRI,9->5)  */
+  private sort(lessons: Lesson[]): Lesson[] {
+    var result: Lesson[] = lessons.sort((lesson1, lesson2) => {
+     return this.compareLesson(lesson1, lesson2);
+   });
+   return result;
+  }
+
+  /** Compares a one lesson to another by overall date, returning 0 if they are effectively equal */
+  private compareLesson(lesson1: Lesson, lesson2: Lesson): number{
+    var index1 = this.potentialDays.indexOf(lesson1.weekday);
+    var index2 = this.potentialDays.indexOf(lesson2.weekday);
     if(index1 == index2){
-      return 0;
+      if(lesson1.startTime > lesson2.startTime){
+        return 1;
+      } else if(lesson1.startTime < lesson2.startTime){
+        return -1;
+      } else {
+        return 0;
+      }
     } else if(index1 > index2){
       return 1;
     } else {

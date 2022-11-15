@@ -1,3 +1,7 @@
+button {
+    justify-content: center;
+}
+
 #prompt {
     padding-top: 10%;
 }
@@ -11,6 +15,6 @@
     padding: 4%;
 }
 
-button {
-    justify-content: center;
+.scheduled {
+    padding-left: 10%;
 }
