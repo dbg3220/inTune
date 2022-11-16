@@ -13,14 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class    Product {
 
-    public enum Category {
-        STRINGS,
-        WOODWINDS,
-        PERCUSSION,
-        BRASS,
-        KEYBOARDS
-    }
-
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests

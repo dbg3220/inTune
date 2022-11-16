@@ -145,27 +145,27 @@ public class UserControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
-    @Test
-    public void testUpdateUserPassed() throws Exception{
-        User user = new User(1, "Damon", null, null);
-        when(mockDao.updateUser(user)).thenReturn(user);
+    // @Test
+    // public void testUpdateUserPassed() throws Exception{
+    //     User user = new User(1, "Damon", null, null);
+    //     when(mockDao.updateUser(user)).thenReturn(user);
 
-        ResponseEntity<User> response = userController.updateUser(user);
+    //     ResponseEntity<User> response = userController.updateUser(user);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(user, response.getBody());
-    }
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    //     assertEquals(user, response.getBody());
+    // }
 
-    @Test
-    public void testUpdateUserFailed() throws Exception{
-        User user = new User(5, "Damon", null, null);
-        when(mockDao.updateUser(user)).thenReturn(user);
+    // @Test
+    // public void testUpdateUserFailed() throws Exception{
+    //     User user = new User(5, "Damon", null, null);
+    //     when(mockDao.updateUser(user)).thenReturn(user);
 
-        ResponseEntity<User> response = userController.updateUser(user);
+    //     ResponseEntity<User> response = userController.updateUser(user);
 
-        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-        assertEquals(user, response.getBody());
-    }
+    //     assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    //     assertEquals(user, response.getBody());
+    // }
 
 
     @Test

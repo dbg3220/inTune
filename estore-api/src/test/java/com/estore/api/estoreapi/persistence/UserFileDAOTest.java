@@ -119,12 +119,12 @@ public class UserFileDAOTest {
         assertFalse(result2);
     }
 
-    @Test
-    public void testGetCarts() throws Exception{
-        Cart[] carts = userDAO.getCarts();
+    // @Test
+    // public void testGetCarts() throws Exception{
+    //     Cart[] carts = userDAO.getCarts();
 
-        assertEquals(3, carts.length);
-    }
+    //     assertEquals(3, carts.length);
+    // }
 
     @Test
     public void testGetCart() throws Exception{
