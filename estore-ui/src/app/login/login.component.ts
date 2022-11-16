@@ -1,4 +1,3 @@
-
 import { Component, OnInit, AfterViewChecked, Output } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
@@ -10,6 +9,8 @@ import {
 } from "@angular/forms";
 import { filter, Subject, takeUntil } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {ProductService} from "../product.service";
+import {Product} from "../product";
 // import { CustomUserValidator } from "../shared/custom-email.validator";
 
 @Component({
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
   created: boolean = false;
 
 
-  onLogin() {
+
+  async onLogin() {
     const username = this.login.get('username')?.value;
     for (let user of this.users) {
       if (user.username === username) {
@@ -37,17 +39,40 @@ export class LoginComponent implements OnInit {
         this.user = this.users.find(user => user.username === username);
         this.userService.setCurrentUser(this.user);
         console.log(this.user);
+        sessionStorage.setItem('user',JSON.stringify(this.user));
         console.log("login");
+        this.productService.fetchProducts().subscribe(products => {
+          let temp:Product[] = [];
+          products.filter((product: any) => {
+            for (let x in user.cart.products) {
+              let y = user.cart.products[x];
+              if (product.id === y) {
+                let copy = JSON.parse(JSON.stringify(product));
+                copy.quantity = user.cart.quantities[x];
+                console.log("copy", copy);
+               temp.push(copy);
+              }
+            }
+          });
+          this.productService.quickAddToCart(temp);
+          console.log("user cart from backend", temp)
+        })
         return
       }
+      this.userService.getCurrentUser().pipe(filter(user => !!user))
+        .subscribe(user =>{
+          this.user = user;
+          console.log("useritem?",user);
+        });
+
     }
-      console.log("does not exist");
-      this.exists = false;
-      this.userService.addUser({ username } as User)
-    .subscribe(user => {
-      this.users.push(user);
-    });
-    console.log(this.login.value + "added");  
+    console.log("does not exist");
+    this.exists = false;
+    this.userService.addUser({ username } as User)
+      .subscribe(user => {
+        this.users.push(user);
+      });
+    console.log(this.login.value + "added");
     this.user = this.users.find(user => user.username === username);
     this.created = true;
     this.message = "It seems you weren't registered. We have added you as a user. To confirm, please log in again.";
@@ -55,11 +80,31 @@ export class LoginComponent implements OnInit {
     console.log(this.user)
   }
 
-  onLogout() {
-    this.userService.setCurrentUser(undefined);
-    this.user = undefined;
-    this.exists = false;
+  async onLogout() {
+    if (this.user?.username != "admin")
+      await this.productService.saveUser().subscribe((response:any) => {
+      console.log('got response',response)
+      sessionStorage.clear();
+      // sessionStorage.setItem('user',JSON.stringify(response));
+      this.userService.setCurrentUser(response);
+      this.user = response;
+      this.exists = false;
+      window.location.reload();
+    });
+    else {
+      sessionStorage.clear();
+      this.userService.setCurrentUser(undefined);
+      this.user = undefined;
+      this.exists = false;
+      window.location.reload();
+    }
   }
+  // when usr logs in
+  // hit api end point to get user
+  // route /users/?username= <--- query string put in url
+  // get user object get from cart to reset cart in angular
+
+
 
   // onSignup() {
   //   const username = this.login.get('username')?.value;
@@ -87,6 +132,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
+    private productService: ProductService
     // private usernameValidator: UsernameValidator
   ) {
 
@@ -101,10 +147,11 @@ export class LoginComponent implements OnInit {
       .subscribe(user =>{
         this.user = user;
       });
-      if (this.user) {
-        this.exists = true;
-      }``
+    if (this.user) {
+      this.exists = true;
+    }``
   }
 
 
 }
+

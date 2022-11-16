@@ -30,9 +30,9 @@ export class AppComponent implements OnInit {
       .subscribe((user: User) =>{
         this.user = user;
       });
-      if (this.user!.username == "admin"){
-        this.isAdmin = true;
-      }
+    if (this.user!?.username == "admin"){
+      this.isAdmin = true;
+    }
   }
 
   ngOnChanges() {
@@ -40,10 +40,10 @@ export class AppComponent implements OnInit {
       .subscribe((user: User) =>{
         this.user = user;
       });
-      if (this.user!.username == "admin"){
-        this.isAdmin = true;
-      }
-      console.log("change")
+    if (this.user!.username == "admin"){
+      this.isAdmin = true;
+    }
+    console.log("change")
   }
 
 
@@ -64,3 +64,4 @@ export class AppComponent implements OnInit {
       .subscribe(products => this.products = products);
   }
 }
+

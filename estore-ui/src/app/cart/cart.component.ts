@@ -54,18 +54,19 @@ export class CartComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.productService.getCart().pipe(filter(cart => !!cart), takeUntil(this.componentDestroyed$))
       .subscribe(cartItems => {
         this.cartItems = cartItems
         this.subTotal();
       });
-      this.userService.getCurrentUser().pipe(filter(user => !!user), takeUntil(this.componentDestroyed$))
+    this.userService.getCurrentUser().pipe(filter(user => !!user), takeUntil(this.componentDestroyed$))
       .subscribe(user =>{
         this.user = user;
       });
-      if (this.user!.username == "admin"){
-        this.isAdmin = true;
-      }
+    if (this.user!?.username == "admin"){
+      this.isAdmin = true;
+    }
 
     this.msg.getMsg().subscribe(product => {
       console.log(product)

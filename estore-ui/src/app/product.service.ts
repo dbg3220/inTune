@@ -30,6 +30,38 @@ export class ProductService {
   //     // )
   // }
 
+  defaultCart()
+  {
+    let cart = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
+    console.log("setting default cart", cart);
+    if(cart.length > 0 )
+    {
+      if(cart.products && cart.quantities)
+      {
+        let temp:any = [];
+        this.fetchProducts().subscribe(products => {
+          temp = products.filter(product => {
+            let counter = 0;
+            for(let x of cart.products)
+            {
+              if(product.id  === x)
+              {
+                let copy = JSON.parse(JSON.stringify(product));
+                copy.quantity = cart.quantities[counter];
+                counter++;
+
+                return copy;
+              }
+            }
+          })
+        })
+        cart = temp;
+      }
+    }
+    this.productCart = cart;
+    this._productCart.next(cart);
+    return cart;
+  }
   fetchProducts() {
     this.messageService.add('ProductService: fetched products')
     return this.http.get<Product[]>(this.productsURL);
@@ -86,31 +118,47 @@ export class ProductService {
 
   addToCart(product: Product) {
     let found: boolean = false;
+    let itemClone = JSON.parse(JSON.stringify(product));
     for (let x of this.productCart) {
-      if (product.id === x.id) {
+      if (itemClone.id === x.id) {
         found = true;
-        product.quantity++;
+        if(x.quantity < itemClone.quantity) {
+          x.quantity++;
+        }
+        else
+        {
+          window.alert("Item limit exceeded")
+        }
       }
     }
     if (!found) {
-      this.productCart.push(product);
-      product.quantity = 1;
+      this.productCart.push(itemClone);
+      itemClone.quantity = 1;
     }
+    this._productCart.next(Object.assign([], this.productCart));
+    sessionStorage.setItem('cart', JSON.stringify(this.productCart));
+  }
+
+  quickAddToCart(cartItems: Product[])
+  {
+    this.productCart = cartItems;
     this._productCart.next(Object.assign([], this.productCart));
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
   }
 
   removeToCart(product: Product) {
     let found: boolean = false;
+    let itemClone = JSON.parse(JSON.stringify(product));
     this.productCart.forEach((item, index) => {
-      if (item.id === product.id) {
-        if (product.quantity > 1) {
-          product.quantity--;
+      if (item.id === itemClone.id) {
+        if (itemClone.quantity > 1) {
+          item.quantity--;
         } else {
           this.productCart.splice(index, 1);
         }
       }
     });
+
 
     this._productCart.next(Object.assign([], this.productCart));
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
@@ -124,4 +172,39 @@ export class ProductService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
+  saveUser() {
+    console.log('saving user cart with item ',this.productCart)
+    let user = JSON.parse(sessionStorage.getItem('user') || '{}')
+    // let cart = JSON.parse(sessionStorage.getItem('cart') || '[]')
+    // user.cart = cart;
+    let productList = [];
+    let quantityList = [];
+    for(let x of this.productCart)
+    {
+      productList.push(x.id);
+      quantityList.push(x.quantity);
+    }
+
+    let data = {
+      id: user.id,
+      cart: {
+        products: productList,
+        quantities: quantityList,
+        id: user.cart.id
+      },
+      productsPurchased: user.productsPurchased || [],
+      username: user.username
+    }
+    console.log("sending query to back end",data);
+    // sessionStorage.clear();
+    // return new Observable();
+    return this.http.put('http://localhost:8080/users',data,this.httpOptions)
+  }
+
+  saveStock(product: Product)
+  {
+
+    return this.http.put('http://localhost:8080/products',product,this.httpOptions)
+  }
 }
+

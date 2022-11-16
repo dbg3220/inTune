@@ -95,7 +95,7 @@ public class UserFileDAO implements UserDAO{
     }
 
     /**
-     * Attempts to find a {@linkplain user} from the tree map that has the
+     * Attempts to find a {@linkplain User user} from the tree map that has the
      * username specified
      * 
      * If username is null, null is returned
@@ -106,8 +106,10 @@ public class UserFileDAO implements UserDAO{
         if(username == null){
             return null;
         }
+        System.out.println("received name" + username + "\n uservalues: " + users.values());
         for (User user: users.values()){
-            if (user.getUsername().equals(username)){
+            System.out.println(user.getUsername());
+            if ((user.getUsername()).equals(username)){
                 return user;
             }
         }
@@ -229,7 +231,11 @@ public class UserFileDAO implements UserDAO{
             if(isUsernameTaken(user.getUsername())){
                 return null;
             }
-            User newUser = new User(nextId(), user.getUsername(), user.getCart(), user.getProductsPurchased());
+            user.setCart(new Cart(user.getId()));
+            int array[] = new int[0];
+            // ArrayList<Integer> arrayList = new ArrayList<> ();            
+            user.setProductsPurchased(array);;
+            User newUser = new User(nextId(), user.getUsername(), new Cart(user.getId()), array);
             users.put(newUser.getId(), newUser);
             save();
             return newUser;
