@@ -117,6 +117,7 @@ export class LessonsComponent implements OnInit {
     });
   }
 
+  /** Updates a lesson from the inventory */
   updateLesson(lesson: Lesson): void {
     this.lessonService.updateLesson(lesson).subscribe(() => {
       this.getLessons();
@@ -142,7 +143,6 @@ export class LessonsComponent implements OnInit {
     return lesson.isFull;
   }
 
-  
   /** Sorts and returns a given array of lessons by day of the week and time of day(MOND->FRI,9->5)  */
   private sort(lessons: Lesson[]): Lesson[] {
     var result: Lesson[] = lessons.sort((lesson1, lesson2) => {
