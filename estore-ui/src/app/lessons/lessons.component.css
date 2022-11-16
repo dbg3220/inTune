@@ -4,6 +4,8 @@ button {
 
 #prompt {
     padding-top: 10%;
+    min-height: 30px;
+    max-height: 30px;
 }
 
 #lessons {

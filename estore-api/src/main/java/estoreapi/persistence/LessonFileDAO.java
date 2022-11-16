@@ -34,7 +34,7 @@ public class LessonFileDAO implements LessonDAO{
     }
 
     private boolean save() throws IOException {
-        Lesson[] lessonArray = getLessons();
+        Lesson[] lessonArray = getLessonsArray();
 
         // Serializes the Java Objects to JSON objects into the file
         // writeValue will thrown an IOException if there is an issue
