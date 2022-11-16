@@ -43,6 +43,9 @@
     <button class="category text-center rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-3 py-1" name="test" (click)="changeFilter(categoryDropdown.value)">Filter</button>
   </div>
 </div>
+<div *ngIf="products.length == 0" class="flex h-96">
+  <h1 class="text-4xl my-auto mx-auto text-center">No products found</h1>
+</div>
 <ul class="grid grid-cols-3 lg:grid-cols-4 ">
   <li *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}">

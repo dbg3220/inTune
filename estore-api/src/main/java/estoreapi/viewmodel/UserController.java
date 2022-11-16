@@ -79,6 +79,7 @@ public class UserController {
         LOG.info("GET /users");
         try {
             User[] users = userDAO.getUsers();
+            System.out.println("fetching user data " + users.toString());
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
@@ -124,7 +125,7 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         LOG.info("POST /users " + user);
         try {
-            if(user.getUsername().equals("admin")){
+            if("admin".equals(user.getUsername())) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             User newUser = userDAO.createUser(user); 
@@ -177,6 +178,7 @@ public class UserController {
         try {
             User newUser = userDAO.updateUser(user);
             if (newUser != null){
+                newUser.setCart(user.getCart());
                 return new ResponseEntity<User>(newUser,HttpStatus.OK);
             }
             else{

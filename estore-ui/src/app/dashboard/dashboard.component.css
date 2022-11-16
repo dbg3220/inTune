@@ -65,7 +65,7 @@ h2 {
   -o-animation-name: fadeIn ;
   -ms-animation-name: fadeIn ;
   animation-delay: 0s;
-  animation-duration: 1.5s;
+  animation-duration: .5s;
   }
   .To {
     /* animation: mymovetop 5s;
@@ -80,8 +80,8 @@ h2 {
   -moz-animation-name: fadeIn ;
   -o-animation-name: fadeIn ;
   -ms-animation-name: fadeIn ;
-  animation-delay: 1.5s;
-  animation-duration: 1.5s;
+  animation-delay: .5s;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
   }
   .Logo {
@@ -96,8 +96,8 @@ h2 {
   -moz-animation-name: fadeIn ;
   -o-animation-name: fadeIn ;
   -ms-animation-name: fadeIn ;
-  animation-delay: 3s;
-  animation-duration: 1.5s;
+  animation-delay: 1s;
+  animation-duration: .75s;
   animation-fill-mode: forwards;
   }
   @keyframes mymoveleft {

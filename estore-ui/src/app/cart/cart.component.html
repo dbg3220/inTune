@@ -1,8 +1,8 @@
-<div class="flex flex-col h-screen">
-  <div class="mx-auto my-auto text-center" *ngIf="this.user!.username == 'admin'">
+<<div class="flex flex-col h-screen">
+  <div class="mx-auto my-auto text-center" *ngIf="this.user!?.username == 'admin'">
     <h2 class="text-3xl mb-5">You are logged in as admin</h2>
   </div>
-  <div class="mx-auto my-auto text-center" *ngIf="this.user!.username != 'admin'">
+  <div class="mx-auto my-auto text-center" *ngIf="this.user!?.username != 'admin'">
     <h1 class="text-6xl mb-5">Cart</h1>
     <h2 *ngIf="cartItems.length === 0 " class="text-3xl mb-5 text-gray-700">Your cart is empty!</h2>
     <div *ngIf="cartItems.length > 0" class="flex flex-col">

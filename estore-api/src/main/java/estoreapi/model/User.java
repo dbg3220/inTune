@@ -73,6 +73,10 @@ public class User {
         return productsPurchased;
     }
 
+    public void setProductsPurchased(int[] productsPurchased) {
+        this.productsPurchased = productsPurchased;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -84,4 +88,5 @@ public class User {
 	public void setCart(Cart cart) {
         this.cart = cart;
 	}
+
 }
