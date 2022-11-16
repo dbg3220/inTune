@@ -3,102 +3,79 @@ package com.estore.api.estoreapi.model;
 import org.junit.jupiter.api.Tag;
 import estoreapi.model.Lesson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 /**
  * The JUnit test for the functionality of the Lesson class
  * 
  * @author Donovan Cataldo
+ * @author Damon Gonzalez
  */
 
 @Tag("Model-tier")
 public class LessonTest {
-    private Lesson testLesson;
 
     @Test
-    public void testID(){
-        // Setup
-        int testing_id = 12;
+    public void testGetters(){
+        Lesson test = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
 
-        // Invoke
-        testLesson = new Lesson(testing_id, 0, null,0, null);
+        int id = test.getID();
+        boolean isFull = test.isFull();
+        String category = test.getCategory();
+        String instructor = test.getInstructor();
+        String weekday = test.getWeekDay();
+        int startTime = test.getStartTime();
+        int userID = test.getUserID();
+        double price = test.getPrice();
+        String name = test.getName();
 
-        // Analyze
-        assertEquals(testing_id, testLesson.getID());
+        assertEquals(id, 0);
+        assertTrue(isFull);
+        assertEquals(category, "STRINGS");
+        assertEquals(instructor, "Amadeus");
+        assertEquals(weekday, "MONDAY");
+        assertEquals(startTime, 12);
+        assertEquals(userID, 2);
+        assertEquals(price, 100.0);
+        assertEquals(name, "Violin Masterclass");
     }
 
     @Test
-    public void testName(){
-        // Setup
-        String expected_name = "Cello";
-
-        // Invoke
-        testLesson = new Lesson(0, 0, null, 0, expected_name);
-
-        // Analyze
-        assertEquals(expected_name,testLesson.getName());
-
-    }
-
-    @Test
-    public void testPrice(){
-        // Setup
-        double expectedProductPrice = 16.99;
-
-        // Invoke
-        testLesson = new Lesson(0, expectedProductPrice, null, 0, null);
-
-        // Analyze
-        assertEquals(expectedProductPrice,testLesson.getPrice());
-    }
-
-    @Test
-    public void testSetLessons(){
-        // Setup
-        boolean expectedIsFull = true;
-        String expectedCategory = "STRINGS";
-        String expectedInstructor = "Bay toe van";
-        int expectedUserID = 89;
-
-        // Invoke
-        testLesson = new Lesson(0, 0, null, 0, null);
-        testLesson.setLesson(expectedCategory, expectedInstructor, expectedUserID);
-
-        // Analyze
-        assertEquals(expectedCategory, testLesson.getCategory());
-        assertEquals(expectedIsFull, testLesson.getIsFull());
-        assertEquals(expectedInstructor, testLesson.getIntructor());
-        assertEquals(expectedUserID, testLesson.getUserID());
+    public void testToString(){
+        Lesson test = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
+        String expected = "lesson [id=0, isFull=true, category=STRINGS, instructor=Amadeus, weekday=MONDAY, startTime=12, userID=2, price=100.0, name=Violin Masterclass]";
     
+        String output = test.toString();
+        
+        assertEquals(expected, output);
     }
 
     @Test
-    public void testClearLesson(){
-        // Setup
-        boolean expectedIsFull = false;
-        String expectedCategory = null;
-        String expectedInstructor = null;
-        int expectedUserID = -1;
+    public void testEquals(){
+        //Test Success
+        Lesson test1 = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
+        Lesson test2 = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
 
-        // Invoke
-        testLesson = new Lesson(0, 0, null, 0, null);
-        testLesson.clearLesson();
+        assertEquals(test1, test2);
 
-        // Analyze
-        assertEquals(expectedCategory, testLesson.getCategory());
-        assertEquals(expectedIsFull, testLesson.getIsFull());
-        assertEquals(expectedInstructor, testLesson.getIntructor());
-        assertEquals(expectedUserID, testLesson.getUserID());
+        //Test Failure
+        Lesson test3 = new Lesson(0, true, "STRINGS", "Amdeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
+        
+        assertNotEquals(test1, test3);
+
+        assertNotEquals(test1, new Object());
     }
 
     @Test
-    public void testWeekday(){
-        // Setup
-        String expectedWeekday = "Monday";
+    public void testHashCode(){
+        Lesson test1 = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
+        Lesson test2 = new Lesson(0, true, "STRINGS", "Amadeus", "MONDAY", 12, 2, 100.0, "Violin Masterclass");
 
-        // Invoke
-        testLesson = new Lesson(0, 0, expectedWeekday, 0, null);
+        int code1 = test1.hashCode();
+        int code2 = test2.hashCode();
 
-        // Analyze
-        assertEquals(expectedWeekday, testLesson.getWeekDay());
+        assertEquals(code1, code2);
     }
 }

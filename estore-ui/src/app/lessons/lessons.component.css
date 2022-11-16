@@ -1,7 +1,20 @@
+button {
+    justify-content: center;
+}
+
 #prompt {
     padding-top: 10%;
 }
 
-button {
-    justify-content: center;
+#lessons {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.lesson {
+    padding: 4%;
+}
+
+.scheduled {
+    padding-left: 10%;
 }

@@ -1,11 +1,11 @@
 export interface Lesson{
-    id: Number;
+    id: number;
     isFull: boolean;
     category: String;
     instructor: String;
     weekday: String;
-    startTime: Number;
-    userID: Number;
-    price: Number;
+    startTime: number;
+    userID: number;
+    price: number;
     name: String;
 }
