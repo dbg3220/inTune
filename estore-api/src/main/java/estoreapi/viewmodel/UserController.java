@@ -79,7 +79,7 @@ public class UserController {
         LOG.info("GET /users");
         try {
             User[] users = userDAO.getUsers();
-            System.out.println("fetching user data " + users.toString());
+            System.out.println("fetching user data " + users);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());

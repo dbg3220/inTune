@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
         this.exists = true;
         console.log("exists");
         this.user = this.users.find(user => user.username === username);
+        console.log(this.user?.cart);
         this.userService.setCurrentUser(this.user);
         console.log(this.user);
         sessionStorage.setItem('user',JSON.stringify(this.user));
@@ -149,7 +150,7 @@ export class LoginComponent implements OnInit {
       });
     if (this.user) {
       this.exists = true;
-    }``
+    }
   }
 
 
