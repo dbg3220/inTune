@@ -77,21 +77,19 @@ export class LessonsComponent implements OnInit {
       return [];
     }
   }
-
-  // LESSON SERVICE METHODS
-  
+    
   /** Schedules a lesson for the current user */
   scheduleLesson(lesson: Lesson) {
     if(this.currentUser && !this.isAdmin){
       lesson.isFull = true;
       lesson.userID = this.currentUser!.id;
-      this.lessonService.updateLesson(lesson).subscribe(() => {
-        this.getLessons();
-      });
+      this.updateLesson(lesson);
     } else {
       this.promptLogin = true;
     }
   }
+
+  // LESSON SERVICE METHODS
 
   /** Refreshes the page with the current lessons available */
   getLessons() {
@@ -119,8 +117,14 @@ export class LessonsComponent implements OnInit {
     });
   }
 
+  updateLesson(lesson: Lesson): void {
+    this.lessonService.updateLesson(lesson).subscribe(() => {
+      this.getLessons();
+    });
+  }
+
   /** Deletes a lesson using the LessonService */
-  deleteLesson(lesson: Lesson){
+  deleteLesson(lesson: Lesson): void {
     this.lessonService.deleteLesson(lesson.id).subscribe(() => {
       this.lessons = this.lessons.filter(l => l !== lesson);
     });

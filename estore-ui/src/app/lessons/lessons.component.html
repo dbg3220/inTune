@@ -62,7 +62,7 @@
 </ul>
 
 <div *ngIf="this.currentUser != undefined && !isAdmin">
-  <div> Scheduled Lessons for {{this.currentUser.username}}</div>
+  <div class="scheduled"> Scheduled Lessons for <u>{{this.currentUser.username}}</u></div>
   <div *ngFor="let lesson of scheduledLessons()" class="scheduled">
     <p class="text-l text-left">{{lesson.name}} @ {{lesson.weekday}}, {{lesson.startTime}} o'clock</p>
     <p class="text-l text-left">Instructor: {{lesson.instructor}}</p>
