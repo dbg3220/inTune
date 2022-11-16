@@ -85,8 +85,32 @@ export class CheckoutComponent implements OnInit {
         });
       }
     });
-    this.router.navigate(['/confirm']);
 
+    this.router.navigate(['/confirm']);
+    this.productService.getCart().subscribe(async cartItems => {
+      let currentCart = this.getCurrentCart(cartItems);
+      for (let currentItems of currentCart)
+      {
+        this.productService.removeToCart(currentItems);
+      }
+
+    });
+
+
+
+
+  }
+
+  getCurrentCart(cart: any[])
+  {
+    let currentCart: Product[] = [];
+    cart = JSON.parse(JSON.stringify(cart))
+    for(let item of cart)
+    {
+      currentCart.push(item);
+    }
+
+    return currentCart;
   }
 
   getNewStockProducts(cart: any[], products: any[])
@@ -109,12 +133,10 @@ export class CheckoutComponent implements OnInit {
 
   }
 
+
   goBack(): void {
     console.log("works")
     this.location.back();
-  }
-  routeToCheckoutComponent() {
-    this.router.navigate(['/confirm']);
   }
 
 }
