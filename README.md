@@ -1,7 +1,6 @@
 # E-Store: InTune: A instrument E-Commerce Store
-# Modify this document to expand any and all sections that are applicable for a better understanding from your users/testers/collaborators (remove this comment and other instructions areas for your FINAL release)
 
-An online E-store system built in Java 8=>11 and ___ _replace with other platform requirements_ ___
+An online E-store system built in Java 8=>11 and the Angular CLI
   
 ## Team
 
@@ -17,19 +16,18 @@ An online E-store system built in Java 8=>11 and ___ _replace with other platfor
 - Java 8=>11 (Make sure to have correct JAVA_HOME setup in your environment)
 - Maven
 - Angular
--  _add any other tech stack requirements_
+- Tailwind CSS
 
 
 ## How to run it
 
-1. Clone the repository and go to the root directory.
-2. Execute `mvn compile exec:java`
-3. Open in your browser `http://localhost:8080/`
-4.  _add any other steps required or examples of how to use/run_
+1. Clone the repository
+2. go to /estore-api and execute `mvn compile exec:java`
+4. go to /estore-ui and execute `ng serve --open`
 
 ## Known bugs and disclaimers
 
-Cart persistance between users
+Cart persistence between users
 
 ## How to test it
 
@@ -73,6 +71,9 @@ To run tests on all the tiers in isolation do this:
 
 *(Consider using `mvn clean verify` to attest you have reached the target threshold for coverage)
   
+To view code coverage of Junit testing
+
+1. Open /estore-api/target/site/jacoco/index.html
   
 ## How to generate the Design documentation PDF
 
@@ -83,10 +84,8 @@ To run tests on all the tiers in isolation do this:
 
 ## How to setup/run/test program 
 1. Tester, first obtain the Acceptance Test plan
-2. IP address of target machine running the app
-3. Execute ________
-4. ...
-5. ...
+2. See `How to run it`
+3. Test functionality and mark off where implementation fails
 
 ## License
 
