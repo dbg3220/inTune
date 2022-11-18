@@ -1,6 +1,7 @@
 package com.estore.api.estoreapi.viewmodel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -101,6 +102,16 @@ public class UserControllerTest {
     }
 
     @Test
+    public void testCreateUserNull() throws Exception{
+        User testUser = new User(1, "Douglas Smith", null, null);
+        when(mockDao.createUser(testUser)).thenReturn(null);
+        
+        ResponseEntity<User> response = userController.createUser(testUser);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
+
+    @Test
     public void testCreateUserFailed() throws Exception{
         User admin = new User(0, "admin", null, null);//creating an admin is illegal
 
@@ -136,6 +147,13 @@ public class UserControllerTest {
     }
 
     @Test
+    public void testDeleteUserNull() throws Exception{
+        ResponseEntity<User> response = userController.deleteUser(99);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
+
+    @Test
     public void testDeleteUserHandleException() throws Exception{
         User user = new User(1, "Meg", null, null);
         doThrow(new IOException()).when(mockDao).deleteUser(user.getId());
@@ -144,29 +162,6 @@ public class UserControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
-
-    // @Test
-    // public void testUpdateUserPassed() throws Exception{
-    //     User user = new User(1, "Damon", null, null);
-    //     when(mockDao.updateUser(user)).thenReturn(user);
-
-    //     ResponseEntity<User> response = userController.updateUser(user);
-
-    //     assertEquals(HttpStatus.OK, response.getStatusCode());
-    //     assertEquals(user, response.getBody());
-    // }
-
-    // @Test
-    // public void testUpdateUserFailed() throws Exception{
-    //     User user = new User(5, "Damon", null, null);
-    //     when(mockDao.updateUser(user)).thenReturn(user);
-
-    //     ResponseEntity<User> response = userController.updateUser(user);
-
-    //     assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-    //     assertEquals(user, response.getBody());
-    // }
-
 
     @Test
     public void testSearchForUser() throws Exception{
@@ -177,5 +172,58 @@ public class UserControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(user, response.getBody());
+    }
+
+    @Test
+    public void testSearchForUserNotFound() throws Exception{  
+
+        ResponseEntity<User> response = userController.searchForUser(null);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        
+    }
+
+    @Test
+    public void testSearchForUserError() throws Exception{  
+        User user = new User(1, "Damon", null, null);
+        doThrow(new IOException()).when(mockDao).findUser(user.getUsername());
+        ResponseEntity<User> response = userController.searchForUser(user.getUsername());
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception{  
+        User user = new User(1, "updated", null, null);
+        when(mockDao.updateUser(user)).thenReturn(user);
+        ResponseEntity<User> response = userController.updateUser(user);
+
+        assertEquals(user, response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        
+    }
+
+    @Test
+    public void testUpdateUserNotFound() throws Exception{  
+        User user = new User(1, "updated", null, null);
+        when(mockDao.updateUser(user)).thenReturn(null);
+
+        ResponseEntity<User> response = userController.updateUser(user);
+
+        assertNull(response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        
+    }
+
+    @Test
+    public void testUpdateUserError() throws Exception{  
+        User user = new User(1, "updated", null, null);
+        doThrow(new IOException()).when(mockDao).updateUser(user);
+
+        ResponseEntity<User> response = userController.updateUser(user);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        
     }
 }
