@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.beans.Transient;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,6 +34,7 @@ import estoreapi.persistence.UserFileDAO;
 public class UserFileDAOTest {
     UserDAO userDAO;
     User[] testUsers;
+    Cart[] testCarts;
     ObjectMapper mockObjectMapper;
 
     /**
@@ -48,12 +49,13 @@ public class UserFileDAOTest {
         testUsers = new User[3];
         ArrayList products = new ArrayList<>();
         ArrayList quantities = new ArrayList<>();
-        Cart cart1 = new Cart( 0, products, quantities);
-        Cart cart2 = new Cart( 1, products, quantities);
-        Cart cart3 = new Cart( 2, products, quantities);
-        testUsers[0] = new User(0, "Damon", cart1, null);
-        testUsers[1] = new User(1, "Tristen", cart2, null);
-        testUsers[2] = new User(2, "Matthew", cart3, null);
+        testCarts = new Cart[3];
+        testCarts[0] = new Cart( 0, products, quantities);
+        testCarts[1] = new Cart( 1, products, quantities);
+        testCarts[2] = new Cart( 2, products, quantities);
+        testUsers[0] = new User(0, "Damon", testCarts[0], null);
+        testUsers[1] = new User(1, "Tristen", testCarts[1], null);
+        testUsers[2] = new User(2, "Matthew", testCarts[2], null);
 
         when(mockObjectMapper
                     .readValue(new File(""), User[].class))
@@ -73,10 +75,42 @@ public class UserFileDAOTest {
     }
 
     @Test
+    public void testGetCarts() throws Exception{
+        Cart[] carts = userDAO.getCarts();
+
+        assertEquals(testCarts.length, carts.length);
+        for(int i = 0; i < carts.length; i++){
+            assertEquals(testCarts[i], carts[i]);
+        }
+    }
+
+
+    @Test
     public void testGetUser() throws Exception{
         User user = userDAO.getUser(0);
 
         assertEquals(testUsers[0], user);
+    }
+
+    @Test
+    public void testGetUserNotFound() throws Exception{
+        User user = userDAO.getUser(101);
+
+        assertEquals(null, user);
+    }
+
+    @Test
+    public void testFindUserNull() throws Exception{
+        User user = userDAO.findUser(null);
+
+        assertEquals(null, user);
+    }
+
+    @Test
+    public void testFindUserNotFound() throws Exception{
+        User user = userDAO.findUser("Usernamedoesn'texist");
+
+        assertEquals(null, user);
     }
 
     @Test
@@ -119,13 +153,6 @@ public class UserFileDAOTest {
         assertFalse(result2);
     }
 
-    // @Test
-    // public void testGetCarts() throws Exception{
-    //     Cart[] carts = userDAO.getCarts();
-
-    //     assertEquals(3, carts.length);
-    // }
-
     @Test
     public void testGetCart() throws Exception{
         Cart cart = userDAO.getCart(0);
@@ -133,15 +160,61 @@ public class UserFileDAOTest {
         assertEquals(testUsers[0].getCart(), cart);
     }
 
-    // @Test
-    // public void testUpdateCart() throws Exception{
-    //     Cart cart = userDAO.getCart(0);
-    //     ArrayList<Integer> arrayList = new ArrayList<> ();            
-    //     Cart testCart = new Cart(5, arrayList, arrayList);
-    //     cart.setCartId(100);
+    @Test
+    public void testGetCartNotFound() throws Exception{
+        Cart cart = userDAO.getCart(101);
 
-    //     userDAO.updateCart(cart);
+        assertEquals(null, cart);
+    }
 
-    //     assertEquals(100, userDAO.getCart(0).getCartId());
-    // }
+    @Test
+    public void testUpdateCart() throws Exception{
+        ArrayList products = new ArrayList<>();
+        products.add(1);
+        products.add(2);
+        products.add(3);
+        ArrayList quantities = new ArrayList<>();
+        Cart cart = new Cart(0,products, quantities);
+       
+        
+        userDAO.updateCart(userDAO.getUser(0), cart);
+
+        assertEquals(products, userDAO.getCart(0).getProductIDS());
+    }
+
+    @Test
+    public void testUpdateCartNotFound() throws Exception{
+        ArrayList products = new ArrayList<>();
+        products.add(1);
+        products.add(2);
+        products.add(3);
+        ArrayList quantities = new ArrayList<>();
+        Cart cart = new Cart(0,products, quantities);
+        User newUser = new User(101, null, cart, null);
+        Cart result = userDAO.updateCart( newUser, cart);
+
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception{
+        
+        User user = new User(0, "Updated",null , null);
+        userDAO.updateUser(user);
+
+        assertEquals(user, userDAO.getUser(0));
+    }
+
+    @Test
+    public void testUpdateUserNotFound() throws Exception{
+        
+        User user = new User(101, "Updated",null , null);
+        User response = userDAO.updateUser(user);
+
+        assertEquals(null, response);
+    }
+
+
+
+
 }
