@@ -18,9 +18,9 @@ export class ProductService {
   private productsURL = 'http://localhost:8080/products';  // URL to web api
   private products: BehaviorSubject<any> = new BehaviorSubject(null);
   private searchFilterProductsClone: BehaviorSubject<any> = new BehaviorSubject(null);
-  private _productCart = new BehaviorSubject<Product[]>(JSON.parse(sessionStorage.getItem('cart') || "[]") || []);
+  public _productCart = new BehaviorSubject<Product[]>(JSON.parse(sessionStorage.getItem('cart') || "[]") || []);
   readonly productCart$ = this._productCart.asObservable();
-  private productCart: Product[] = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
+  public productCart: Product[] = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
 
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
@@ -205,6 +205,25 @@ export class ProductService {
   {
 
     return this.http.put('http://localhost:8080/products',product,this.httpOptions)
+  }
+
+  saveUserCheckout() {
+    let user = JSON.parse(sessionStorage.getItem('user') || '{}')
+    let data = {
+      id: user.id,
+      cart: {
+        products: [],
+        quantities: [],
+        id: user.cart.id
+      },
+      productsPurchased: [],
+      username: user.username
+    }
+    console.log("checkout purchase item",data);
+    // sessionStorage.clear();
+    // return new Observable();
+    return this.http.put('http://localhost:8080/users',data,this.httpOptions)
+
   }
 }
 
