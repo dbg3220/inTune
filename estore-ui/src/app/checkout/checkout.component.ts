@@ -21,6 +21,7 @@ export class CheckoutComponent implements OnInit {
   subQuantity: number = 0;
   myForm!: FormGroup;
   product: Product[] = []
+  user!: User
 
   constructor(
     private productService: ProductService,
@@ -64,6 +65,10 @@ export class CheckoutComponent implements OnInit {
       .subscribe(allProducts => {
         this.product = allProducts;
       });
+      this.userService.getCurrentUser().pipe(filter(user => !!user), takeUntil(this.componentDestroyed$))
+      .subscribe(user =>{
+        this.user = user;
+      });
 
 
 
@@ -80,6 +85,15 @@ export class CheckoutComponent implements OnInit {
     console.log('Name', obj);
     await this.productService.getCart().subscribe(async cartItems => {
       console.log('cartitems', cartItems, '\n products', this.product);
+      for (let item of cartItems){
+        if (this.user.productsPurchased.includes(item.id)){
+          console.log('product already purchased');
+        }
+        else{
+          this.user.productsPurchased.push(item.id);
+          console.log('product purchased');
+        } 
+      }
       let stockProduct = this.getNewStockProducts(cartItems, this.product);
       console.log('stockProduct', stockProduct);
       for (let item of stockProduct) {

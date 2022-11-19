@@ -54,6 +54,7 @@ export class ProductDetailComponent implements OnInit {
       rating: ['', Validators.required],
       description: ['', Validators.required]
     });
+    console.log(this.user)
 
   }
 
