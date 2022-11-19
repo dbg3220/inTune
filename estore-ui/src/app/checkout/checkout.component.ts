@@ -80,7 +80,7 @@ export class CheckoutComponent implements OnInit {
       let stockProduct = this.getNewStockProducts(cartItems, this.product);
       console.log('stockProduct', stockProduct);
       for (let item of stockProduct) {
-        await this.productService.saveStock(item).subscribe(response => {
+        this.productService.saveStock(item).subscribe(response => {
           console.log('response', response);
         });
       }
