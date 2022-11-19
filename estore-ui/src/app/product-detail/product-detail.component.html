@@ -39,7 +39,8 @@
       <div class="text-green-500 text-2xl py-5" *ngIf="added">{{product.name}} added to cart</div>
       <form action="#">
   </form>
-      <div *ngIf="purchasedProduct() && !isAdmin" class=" flex flex-col gap-5 my-14">
+  <label *ngIf= "writtenReview()" text-2xl> You have already written a review for this product. Thanks for helping improve inTune!</label>
+      <div *ngIf="purchasedProduct() && !isAdmin && !writtenReview()" class=" flex flex-col gap-5 my-14">
         <label for="new-product" class="text-3xl">What were your thoughts? </label>
         <div class="flex flex-row mx-auto gap-4">
           <label class="text-2xl" for="ratings">Rating 1-5: </label>

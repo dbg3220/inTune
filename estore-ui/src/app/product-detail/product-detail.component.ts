@@ -115,5 +115,13 @@ export class ProductDetailComponent implements OnInit {
     var multiplier = Math.pow(10, 2);
     return Math.round(total/count * multiplier) / multiplier;
   }
+
+  writtenReview(){
+    for(let review of this.product.reviews){
+      if(review.reviewUsername === this.user?.username)
+      return true;
+    }
+    return false;
+  }
 }
 
