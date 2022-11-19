@@ -88,8 +88,9 @@ export class ProductDetailComponent implements OnInit {
 
   handleAddToCart(){
     console.log("works")
-    this.productService.addToCart(this.product);
-    this.msg.sendMsg(this.product)
+    let product = JSON.parse(JSON.stringify(this.product));
+    this.productService.addToCart(product);
+    // this.msg.sendMsg(this.product)
     this.added = true;
   }
 

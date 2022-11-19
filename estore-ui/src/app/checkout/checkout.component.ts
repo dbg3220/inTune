@@ -133,7 +133,6 @@ export class CheckoutComponent implements OnInit {
 
   }
 
-
   goBack(): void {
     console.log("works")
     this.location.back();

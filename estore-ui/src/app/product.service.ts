@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Product} from './product';
 // import { PRODUCTS } from './mock-products';
-import {Observable, of} from 'rxjs';
+import {observable, Observable, of} from 'rxjs';
 import {MessageService} from './message.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class ProductService {
   private products: BehaviorSubject<any> = new BehaviorSubject(null);
   private searchFilterProductsClone: BehaviorSubject<any> = new BehaviorSubject(null);
   public _productCart = new BehaviorSubject<Product[]>(JSON.parse(sessionStorage.getItem('cart') || "[]") || []);
-  readonly productCart$ = this._productCart.asObservable();
+  productCart$ = this._productCart.asObservable();
   public productCart: Product[] = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
   public checkout: boolean = false;
   // getProducts(): Observable<Product[]> {
@@ -29,6 +29,13 @@ export class ProductService {
   //     //   catchError(this.handleError<Product[]>('getProducts', []))
   //     // )
   // }
+
+  cleanup()
+  {
+    this.productCart = [];
+    this.productCart$ = new Observable<Product[]>();
+    this._productCart.next([]);
+  }
 
   defaultCart()
   {
@@ -117,6 +124,7 @@ export class ProductService {
   }
 
   addToCart(product: Product) {
+    console.log( 'adding product',product)
     let found: boolean = false;
     let itemClone = JSON.parse(JSON.stringify(product));
     for (let x of this.productCart) {
@@ -179,7 +187,8 @@ export class ProductService {
     // user.cart = cart;
     let productList = [];
     let quantityList = [];
-    for(let x of this.productCart)
+    let productCart = JSON.parse(JSON.stringify(this.productCart))
+    for(let x of productCart)
     {
       productList.push(x.id);
       quantityList.push(x.quantity);
@@ -208,6 +217,12 @@ export class ProductService {
   }
 
   saveUserCheckout() {
+    let productCartClone = JSON.parse(JSON.stringify(this.productCart))
+    let list = [];
+    for(let x of productCartClone)
+    {
+      list.push(x.id);
+    }
     let user = JSON.parse(sessionStorage.getItem('user') || '{}')
     let data = {
       id: user.id,
@@ -216,9 +231,10 @@ export class ProductService {
         quantities: [],
         id: user.cart.id
       },
-      productsPurchased: user.productsPurchased || [],
+      productsPurchased: list || [],
       username: user.username
     }
+    console.log("user checkout object", user);
     console.log("checkout purchase item",data);
     // sessionStorage.clear();
     // return new Observable();

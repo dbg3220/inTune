@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
 
 
   async onLogin() {
+    // this.productService.cleanup();
     const username = this.login.get('username')?.value;
     for (let user of this.users) {
       if (user.username === username) {
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit {
               }
             }
           });
-          this.productService.quickAddToCart(temp);
+          // this.productService.quickAddToCart(temp);
           console.log("user cart from backend", temp)
         })
         return
@@ -88,6 +89,7 @@ export class LoginComponent implements OnInit {
       this.userService.setCurrentUser(response);
       this.user = response;
       this.exists = false;
+      this.productService.cleanup();
       window.location.reload();
     });
     else {
@@ -96,6 +98,7 @@ export class LoginComponent implements OnInit {
       this.userService.setCurrentUser(undefined);
       this.user = undefined;
       this.exists = false;
+      this.productService.cleanup();
       window.location.reload();
     }
   }
