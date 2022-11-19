@@ -21,7 +21,7 @@ export class ProductService {
   public _productCart = new BehaviorSubject<Product[]>(JSON.parse(sessionStorage.getItem('cart') || "[]") || []);
   readonly productCart$ = this._productCart.asObservable();
   public productCart: Product[] = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
-
+  public checkout: boolean = false;
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
   //   return this.http.get<Product[]>(this.productsURL)
@@ -216,7 +216,7 @@ export class ProductService {
         quantities: [],
         id: user.cart.id
       },
-      productsPurchased: [],
+      productsPurchased: user.productsPurchased || [],
       username: user.username
     }
     console.log("checkout purchase item",data);

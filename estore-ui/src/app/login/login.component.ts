@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
   }
 
   async onLogout() {
-    if (this.user?.username != "admin")
+    if (this.user?.username != "admin" && !this.productService.checkout)
       await this.productService.saveUser().subscribe((response:any) => {
       console.log('got response',response)
       sessionStorage.clear();
@@ -91,6 +91,7 @@ export class LoginComponent implements OnInit {
       window.location.reload();
     });
     else {
+      this.productService.checkout = false;
       sessionStorage.clear();
       this.userService.setCurrentUser(undefined);
       this.user = undefined;

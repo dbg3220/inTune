@@ -92,7 +92,7 @@ export class CheckoutComponent implements OnInit {
         else{
           this.user.productsPurchased.push(item.id);
           console.log('product purchased');
-        } 
+        }
       }
       let stockProduct = this.getNewStockProducts(cartItems, this.product);
       console.log('stockProduct', stockProduct);
@@ -109,6 +109,7 @@ export class CheckoutComponent implements OnInit {
       this.productService.productCart = [];
       this.productService._productCart.next([]);
       this.router.navigate(['/confirm']);
+      this.productService.checkout = true;
     })
   }
 
