@@ -42,15 +42,14 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('user',JSON.stringify(this.user));
         console.log("login");
         this.productService.fetchProducts().subscribe(products => {
-          let temp:Product[] = [];
-          products.filter((product: any) => {
+          let temp:Product[] = products.filter((product: any) => {
             for (let x in user.cart.products) {
               let y = user.cart.products[x];
               if (product.id === y) {
                 let copy = JSON.parse(JSON.stringify(product));
                 copy.quantity = user.cart.quantities[x];
                 console.log("copy", copy);
-               temp.push(copy);
+               return(copy);
               }
             }
           });
