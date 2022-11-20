@@ -63,11 +63,6 @@ Users who have purchased products will also be able to leave reviews, which they
 10. Search for an Instrument
 11. Add an Instrument to my cart
 12. Checkout my cart
-13. Add a review
-14. View all reviews
-15. Look at all Lessons
-16. Schedule a Lesson
-
 
 ### Roadmap of Enhancements
 1. Add a review
@@ -75,7 +70,6 @@ Users who have purchased products will also be able to leave reviews, which they
 3. Look at all Lessons
 4. Schedule a Lesson
 5. admin privileges for Lesson
-
 
 
 ## Application Domain
