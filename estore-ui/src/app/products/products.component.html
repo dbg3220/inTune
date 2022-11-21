@@ -1,4 +1,4 @@
-<div class="min-h-screen">
+<div class="|">
   <div class="flex my-10 mb-20">
     <div *ngIf="isAdmin" class=" mx-auto grid grid-cols-2 text-2xl gap-5">
       <label for="new-product">Product name: </label>
@@ -6,7 +6,14 @@
       <label for="new-product">Product price: </label>
       <input type="number" class="border border-black"id="new-product" #productPrice />
       <label for="new-product">Product category: </label>
-      <input class="border border-black"id="new-product" #productCategory />
+      <select class="border border-black" #productCategory >
+        <option value="none" selected disabled hidden>Select a category</option>
+        <option value="STRINGS">STRINGS</option>
+        <option value="WOODWINDS">WOODWINDS</option>
+        <option value="BRASS">BRASS</option>
+        <option value="PERCUSSION">PERCUSSION</option>
+        <option value="KEYBOARDS">KEYBOARDS</option>
+      </select>
       <label for="new-product">Product quantity: </label>
       <input type="number" class="border border-black"id="new-product" #productQuantity />
       <label for="new-product">Product description: </label>
@@ -47,7 +54,7 @@
   <div *ngIf="products.length == 0" class="flex h-96">
     <h1 class="text-4xl my-auto mx-auto text-center">No products found</h1>
   </div>
-  <ul class="grid grid-cols-3 lg:grid-cols-4 ">
+  <ul class="grid grid-cols-3 lg:grid-cols-4 mb-48">
     <li *ngFor="let product of products">
       <a *ngIf="product.quantity > 0" routerLink="/detail/{{product.id}}">
         <div class="flex flex-col items-center justify-center my-10 transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300">

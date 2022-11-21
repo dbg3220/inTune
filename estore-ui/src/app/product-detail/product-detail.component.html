@@ -10,7 +10,15 @@
         <label for="product-price">Product price: </label>
         <input class="border border-black"id="product-price" [(ngModel)]="product.price" placeholder="Product name"/>
         <label for="product-price">Product category: </label>
-        <input class="border border-black"id="product-category" [(ngModel)]="product.category" placeholder="Product name"/>
+        <!-- <input class="border border-black"id="product-category" [(ngModel)]="product.category" placeholder="Product name"/> -->
+        <select class="border border-black" id="product-category" [(ngModel)]="product.category" placeholder="Product name">
+        <option value="none" selected disabled hidden>Select a category</option>
+          <option value="STRINGS">STRINGS</option>
+          <option value="WOODWINDS">WOODWINDS</option>
+          <option value="BRASS">BRASS</option>
+          <option value="PERCUSSION">PERCUSSION</option>
+          <option value="KEYBOARDS">KEYBOARDS</option>
+        </select>
         <label for="product-quantity">Product quantity: </label>
         <input class="border border-black"id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product name"/>
         <label for="product-description">Product description: </label>
@@ -71,7 +79,7 @@
           <h1 class="text-2xl mb-5 text-green-500" *ngIf="averageRating()>=4">Average Rating: {{averageRating()}}/5</h1>
           <h1 class="text-2xl mb-5 ml-auto">{{product.reviews.length}} reviews</h1>
         </div>
-        <ul class="grid lg:grid-cols-1 gap-3">
+        <ul class="grid lg:grid-cols-1 gap-3 mb-20">
           <li *ngFor="let review of product.reviews">
             <div class="border-2 border-black rounded-lg flex flex-col h-auto transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300">
               <div class="flex flex-row">
