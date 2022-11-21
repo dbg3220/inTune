@@ -40,7 +40,7 @@ export class ProductService {
   defaultCart()
   {
     let cart = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
-    console.log("setting default cart", cart);
+    // console.log("setting default cart", cart);
     if(cart.length > 0 )
     {
       if(cart.products && cart.quantities)
@@ -124,7 +124,7 @@ export class ProductService {
   }
 
   addToCart(product: Product) {
-    console.log( 'adding product',product)
+    // console.log( 'adding product',product)
     let found: boolean = false;
     let itemClone = JSON.parse(JSON.stringify(product));
     for (let x of this.productCart) {
@@ -149,6 +149,7 @@ export class ProductService {
 
   quickAddToCart(cartItems: Product[])
   {
+    // console.log("quickAdd2Cart: ", cartItems)
     this.productCart = cartItems;
     this._productCart.next(Object.assign([], this.productCart));
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
@@ -181,7 +182,7 @@ export class ProductService {
   };
 
   saveUser() {
-    console.log('saving user cart with item ',this.productCart)
+    // console.log('saving user cart with item ',this.productCart)
     let user = JSON.parse(sessionStorage.getItem('user') || '{}')
     // let cart = JSON.parse(sessionStorage.getItem('cart') || '[]')
     // user.cart = cart;
@@ -204,7 +205,7 @@ export class ProductService {
       productsPurchased: user.productsPurchased || [],
       username: user.username
     }
-    console.log("sending query to back end",data);
+    // console.log("sending query to back end",data);
     // sessionStorage.clear();
     // return new Observable();
     return this.http.put('http://localhost:8080/users',data,this.httpOptions)
@@ -234,9 +235,8 @@ export class ProductService {
       productsPurchased: list || [],
       username: user.username
     }
-    console.log("user checkout object", user);
-    console.log("checkout purchase item",data);
-    // sessionStorage.clear();
+    // console.log("user checkout object", user);
+    // console.log("checkout purchase item",data);
     // return new Observable();
     return this.http.put('http://localhost:8080/users',data,this.httpOptions)
 

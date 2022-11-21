@@ -41,7 +41,7 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProduct();
-    console.log(this.product)
+    // console.log(this.product)
     this.userService.getCurrentUser().pipe(filter(user => !!user))
       .subscribe(user =>{
         this.user = user;
@@ -54,7 +54,7 @@ export class ProductDetailComponent implements OnInit {
       rating: ['', Validators.required],
       description: ['', Validators.required]
     });
-    console.log(this.user)
+    // console.log(this.user)
 
   }
 
@@ -65,7 +65,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    console.log("works")
+    // console.log("works")
     this.location.back();
   }
 
@@ -87,7 +87,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   handleAddToCart(){
-    console.log("works")
+    // console.log("works")
     let product = JSON.parse(JSON.stringify(this.product));
     this.productService.addToCart(product);
     // this.msg.sendMsg(this.product)
