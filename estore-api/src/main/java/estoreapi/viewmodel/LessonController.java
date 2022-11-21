@@ -26,6 +26,12 @@ public class LessonController {
         this.lessonDao = lessonDao;
     }
 
+    /**
+     * Handles the GET request for a single lesson
+     * @param id The id of the lesson to search for
+     * @return A response entity with the body of the lesson and a status code of OK if found,
+     * sends an error code otherwise
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Lesson> getLesson(@PathVariable int id) {
         LOG.info("GET /Lessons/" + id);   
@@ -41,6 +47,10 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the GET request for the entire lesson resource
+     * @return A response entity with all of the lessons in the inventory
+     */
     @GetMapping("")
     public ResponseEntity<Lesson[]> getLessons() {
         LOG.info("GET /lessons");
@@ -53,13 +63,18 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the POST request for the lesson resource
+     * @param lesson The lesson to create, ignoring the fields id, isFull, userID
+     * @return A response entity with a status of CREATED, sends an error code otherwise
+     */
     @PostMapping("")
     public ResponseEntity<Lesson> createLesson(@RequestBody Lesson lesson) {
         LOG.info("POST /lessons " + lesson);
         try {
-            Lesson newLesson = lessonDao.createLesson(lesson);
-            if (newLesson != null)
-                return new ResponseEntity<Lesson>(newLesson,HttpStatus.CREATED);
+            Lesson result = lessonDao.createLesson(lesson);
+            if (result != null)
+                return new ResponseEntity<Lesson>(result,HttpStatus.CREATED);
             else
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -69,6 +84,12 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the PUT request for the lesson resource
+     * @param lesson The lesson to be updated
+     * @return A response entity with the updated lesson and a status of OK if successful,
+     * otherwise sends an error code;
+     */
     @PutMapping("")
     public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson) {
         LOG.info("PUT /lessons " + lesson);
@@ -87,6 +108,12 @@ public class LessonController {
         }
     }
 
+    /**
+     * Handles the DELETE request for the lesson resource
+     * @param id The id of the lesson to delete
+     * @return A response entity with status code OK if successfully deleted,
+     * sends an error code otherwise
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Lesson> deleteLesson(@PathVariable int id) {
         LOG.info("DELETE /lessons/" + id);

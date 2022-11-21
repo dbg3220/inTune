@@ -290,7 +290,7 @@ public class UserFileDAO implements UserDAO{
             for(User user : users.values()){
                 carts.add(user.getCart());
             }
-            return (Cart[]) carts.toArray();
+            return carts.toArray(new Cart[0]);
         }
     }
 

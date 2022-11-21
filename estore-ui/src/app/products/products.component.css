@@ -19,7 +19,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
    background: #ffffff;
   height: 40px;
   /* s */
-  padding: 10px;
   display: flex;
   justify-content: space-between;
 }

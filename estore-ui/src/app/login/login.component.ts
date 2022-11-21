@@ -39,6 +39,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
         // console.log("exists");
         this.user = this.users.find(user => user.username === username);
         let loggedInUser = JSON.parse(JSON.stringify(user));
+        console.log(this.user?.cart);
+
         this.userService.setCurrentUser(this.user);
         sessionStorage.setItem('user',JSON.stringify(this.user));
 
@@ -191,7 +193,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       });
     if (this.user) {
       this.exists = true;
-    }``
+    }
   }
 
   ngAfterViewInit(): void {

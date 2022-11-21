@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,7 @@ public class LessonFileDAO implements LessonDAO{
     }
 
     private boolean save() throws IOException {
-        Lesson[] lessonArray = getLessons();
+        Lesson[] lessonArray = getLessonsArray();
 
         // Serializes the Java Objects to JSON objects into the file
         // writeValue will thrown an IOException if there is an issue
@@ -62,15 +61,44 @@ public class LessonFileDAO implements LessonDAO{
         return true;
     }
 
+    
+    /**
+     * Generates an array of {@linkplain Lesson lessons} from the tree map
+     * 
+     * @return  The array of {@link Lesson lessons}, may be empty
+     */
+    private Lesson[] getLessonsArray() {
+        return getLessonsArray(null);
+    }
+
+    /**
+     * Generates an array of {@linkplain Lesson lessons} from the tree map for any
+     * {@linkplain Lesson lessons} that contains the text specified by containsText
+     * <br>
+     * If containsText is null, the array contains all of the {@linkplain Lessons lessons}
+     * in the tree map
+     * 
+     * @return  The array of {@link Lesson lessons}, may be empty
+     */
+    private Lesson[] getLessonsArray(String containsText) { // if containsText == null, no filter
+        ArrayList<Lesson> lessonArrayList = new ArrayList<>();
+
+        for (Lesson lesson : lessons.values()) {
+            if (containsText == null || lesson.getName().contains(containsText)) {
+                lessonArrayList.add(lesson);
+            }
+        }
+
+        Lesson[] lessonArray = new Lesson[lessonArrayList.size()];
+        lessonArrayList.toArray(lessonArray);
+        return lessonArray;
+    }
+
     @Override
     public Lesson[] getLessons() throws IOException {
-        ArrayList<Lesson> lessonArrayList = new ArrayList<>();
-        for(Lesson lesson : lessons.values()){
-            lessonArrayList.add(lesson);
+        synchronized(lessons){
+            return getLessonsArray();
         }
-        Lesson[] lessonList = new Lesson[lessonArrayList.size()];
-        lessonArrayList.toArray(lessonList);
-        return lessonList;
     }
 
     @Override
@@ -88,8 +116,10 @@ public class LessonFileDAO implements LessonDAO{
     @Override
     public Lesson createLesson(Lesson lesson) throws IOException {
         synchronized(lessons){
-            Lesson newLesson = new Lesson(nextId(),lesson.getPrice(), lesson.getWeekDay(), lesson.getStartTime(), lesson.getName());
-            lessons.put(lesson.getID(), newLesson);
+            Lesson newLesson = new Lesson(nextId(), false, lesson.getCategory(), lesson.getInstructor(), 
+                                            lesson.getWeekDay(), lesson.getStartTime(), -1, 
+                                            lesson.getPrice(), lesson.getName());
+            lessons.put(newLesson.getID(), newLesson);
             save();
             return newLesson;
         }

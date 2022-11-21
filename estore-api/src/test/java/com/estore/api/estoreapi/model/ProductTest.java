@@ -2,7 +2,6 @@ package com.estore.api.estoreapi.model;
 
 import estoreapi.model.Product;
 import estoreapi.model.Review;
-import estoreapi.model.Product.Category;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Tag;

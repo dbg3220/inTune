@@ -33,10 +33,11 @@ export class LessonService {
   }
 
   updateLesson(lesson: Lesson): Observable<Lesson> {
+    console.log("I am here");
     return this.http.put<Lesson>(this.lessonsURL, lesson, this.httpOptions);
   }
 
-  deleteLesson(id: Number) {
+  deleteLesson(id: Number): Observable<Lesson> {
     const url = `${this.lessonsURL}/${id}`;
     return this.http.delete<Lesson>(url, this.httpOptions);
   }

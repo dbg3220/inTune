@@ -1,18 +1,44 @@
+<p *ngIf="promptLogin" class="text-2xl text-center" id="prompt">You must Login as a user before scheduling a lesson</p>
+
 <div class="flex my-10">
   <div *ngIf="isAdmin" class=" mx-auto grid grid-cols-2 text-2xl gap-5">
     <label for="new-lesson">Lesson category: </label>
-    <input class="border border-black"id="new-lesson" #lessonCategory />
+    <select class="border border-black" #lessonCategory >
+      <option value="none" selected disabled hidden>Select a category</option>
+      <option value="STRINGS">STRINGS</option>
+      <option value="WOODWINDS">WOODWINDS</option>
+      <option value="BRASS">BRASS</option>
+      <option value="PERCUSSION">PERCUSSION</option>
+      <option value="KEYBOARDS">KEYBOARDS</option>
+    </select>
     <label for="new-lesson">Lesson instructor: </label>
-    <input class="border border-black"id="new-lesson" #lessonInstructor />
+    <input class="border border-black" #lessonInstructor >
     <label for="new-lesson">Lesson weekday: </label>
-    <input class="border border-black"id="new-lesson" #lessonWeekDay />
+    <select class="border border-black" #lessonWeekDay >
+      <option value="none" selected disabled hidden>Select a lesson day</option>
+      <option value="MONDAY">MONDAY</option>
+      <option value="TUESDAY">TUESDAY</option>
+      <option value="WEDNESDAY">WEDNESDAY</option>
+      <option value="THURSDAY">THURSDAY</option>
+      <option value="FRIDAY">FRIDAY</option>
+    </select>
     <label for="new-lesson">Lesson startTime: </label>
-    <input class="border border-black"id="new-lesson" #lessonStartTime />
+    <select class="border border-black" #lessonStartTime >
+      <option value="none" selected disabled hidden>Select a start time</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
     <label for="new-lesson">Lesson price: </label>
-    <input class="border border-black"id="new-lesson" #lessonPrice />
+    <input class="border border-black" #lessonPrice />
     <label for="new-lesson">Lesson name: </label>
-    <input class="border border-black"id="new-lesson" #lessonName />
-  
+    <input class="border border-black" #lessonName />
     <button type="button" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3"
             (click)="addLesson(lessonCategory.value, lessonInstructor.value, lessonWeekDay.value, 
             toNumber(lessonStartTime.value), toNumber(lessonPrice.value), lessonName.value)">
@@ -20,8 +46,9 @@
     </button>
   </div>
 </div>
-<ul class="grid grid-cols-3 lg:grid-cols-4 ">
-    <li *ngFor="let lesson of availableLessons()">
+
+<ul id="lessons" class="grid grid-cols-3 lg:grid-cols-4 ">
+    <li class="lesson" *ngFor="let lesson of availableLessons()">
         <div class="flex flex-col items-center justify-center my-10">
           <div class="mt-5">
             <div class="flex flex-col gap-2">
@@ -35,9 +62,11 @@
         </div>
     </li>
 </ul>
-<div *ngIf="!isAdmin">
-  <div *ngFor="let lesson of getScheduledLessons()">
-    <p class="text-l text-center">{{lesson.weekday}}, {{lesson.startTime}} o'clock, {{lesson.instructor}}</p>
+
+<div *ngIf="this.currentUser != undefined && !isAdmin">
+  <div class="scheduled"> Scheduled Lessons for <u>{{this.currentUser.username}}</u></div>
+  <div *ngFor="let lesson of scheduledLessons()" class="scheduled">
+    <p class="text-l text-left">{{lesson.name}} @ {{lesson.weekday}}, {{lesson.startTime}} o'clock</p>
+    <p class="text-l text-left">Instructor: {{lesson.instructor}}</p>
   </div>
 </div>
-<h3 *ngIf="promptLogin" class="text-2xl text-center" id="prompt">You must Login as a user before scheduling a lesson</h3>

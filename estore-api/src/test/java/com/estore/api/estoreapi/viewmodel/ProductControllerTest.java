@@ -19,7 +19,6 @@ import estoreapi.model.Cart;
 import estoreapi.model.Product;
 import estoreapi.persistence.ProductDAO;
 import estoreapi.persistence.UserDAO;
-import estoreapi.model.Product.Category;
 import estoreapi.model.Review;
 
 /**

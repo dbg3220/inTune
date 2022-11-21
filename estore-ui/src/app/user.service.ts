@@ -12,9 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 
-  constructor(private messageService: MessageService, private http: HttpClient) { 
-    this.user
-  }
+  constructor(private messageService: MessageService, private http: HttpClient) {}
 
   private usersURL = 'http://localhost:8080/users';  // URL to web api
   private users: BehaviorSubject<any> = new BehaviorSubject(null);
