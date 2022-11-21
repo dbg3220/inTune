@@ -54,7 +54,7 @@ export class CartComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    // console.log('initalizing cart component', this.productService.productCart)
     this.productService.getCart().pipe(filter(cart => !!cart), takeUntil(this.componentDestroyed$))
       .subscribe(cartItems => {
         this.cartItems = cartItems
@@ -77,7 +77,7 @@ export class CartComponent implements OnInit {
     this.router.navigate(['/checkout']);
   }
   goBack(): void {
-    console.log("works")
+    // console.log("works")
     this.location.back();
   }
 

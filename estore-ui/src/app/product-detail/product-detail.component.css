@@ -31,3 +31,9 @@ label {
   width: 100%;
   transform: translateY(-100%);
 }
+.outOfStock
+{
+  color:red;
+  font-size: large;
+  font-weight: bold;
+}

@@ -174,6 +174,7 @@ public class UserControllerTest {
         assertEquals(user, response.getBody());
     }
 
+
     @Test
     public void testSearchForUserNotFound() throws Exception{  
 

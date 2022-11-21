@@ -6,6 +6,8 @@ import {Product} from "../product";
 import {filter, Subject, takeUntil} from "rxjs";
 import {Router} from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {User} from "../user";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-checkout',
@@ -19,9 +21,11 @@ export class CheckoutComponent implements OnInit {
   subQuantity: number = 0;
   myForm!: FormGroup;
   product: Product[] = []
+  user!: User
 
   constructor(
     private productService: ProductService,
+    private userService: UserService,
     private location: Location,
     private router: Router,
     private fb: FormBuilder
@@ -61,11 +65,15 @@ export class CheckoutComponent implements OnInit {
       .subscribe(allProducts => {
         this.product = allProducts;
       });
+      this.userService.getCurrentUser().pipe(filter(user => !!user), takeUntil(this.componentDestroyed$))
+      .subscribe(user =>{
+        this.user = user;
+      });
 
 
 
   }
-  onSubmit(form: FormGroup) {
+  async onSubmit(form: FormGroup) {
     let obj = {
       'fName': form.value.fName, 'lName': form.value.lName, 'Email': form.value.email,
       'CC': form.value.CC, 'expMonth': form.value.expMonth, 'expYear': form.value.expYear,
@@ -73,44 +81,36 @@ export class CheckoutComponent implements OnInit {
       'city': form.value.city, 'state': form.value.state, 'country': form.value.country
     }
 
-    console.log('Valid?', form.valid); // true or false
-    console.log('Name', obj);
-    this.productService.getCart().subscribe(async cartItems => {
+    // console.log('Valid?', form.valid); // true or false
+    // console.log('Name', obj);
+    await this.productService.getCart().subscribe(async cartItems => {
       console.log('cartitems', cartItems, '\n products', this.product);
+      for (let item of cartItems){
+        if (this.user.productsPurchased.includes(item.id)){
+          console.log('product already purchased');
+        }
+        else{
+          this.user.productsPurchased.push(item.id);
+          console.log('product purchased');
+        }
+      }
       let stockProduct = this.getNewStockProducts(cartItems, this.product);
       console.log('stockProduct', stockProduct);
       for (let item of stockProduct) {
-        await this.productService.saveStock(item).subscribe(response => {
+        this.productService.saveStock(item).subscribe(response => {
           console.log('response', response);
         });
       }
     });
-
-    this.router.navigate(['/confirm']);
-    this.productService.getCart().subscribe(async cartItems => {
-      let currentCart = this.getCurrentCart(cartItems);
-      for (let currentItems of currentCart)
-      {
-        this.productService.removeToCart(currentItems);
-      }
-
-    });
-
-
-
-
-  }
-
-  getCurrentCart(cart: any[])
-  {
-    let currentCart: Product[] = [];
-    cart = JSON.parse(JSON.stringify(cart))
-    for(let item of cart)
+    await this.productService.saveUserCheckout().subscribe((purchased:any) =>
     {
-      currentCart.push(item);
-    }
-
-    return currentCart;
+      // console.log("purchased items", purchased)
+      sessionStorage.clear();
+      this.productService.productCart = [];
+      this.productService._productCart.next([]);
+      this.router.navigate(['/confirm']);
+      this.productService.checkout = true;
+    })
   }
 
   getNewStockProducts(cart: any[], products: any[])
@@ -132,7 +132,6 @@ export class CheckoutComponent implements OnInit {
     return temp;
 
   }
-
 
   goBack(): void {
     console.log("works")

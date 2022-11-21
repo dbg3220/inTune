@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Product} from './product';
 // import { PRODUCTS } from './mock-products';
-import {Observable, of} from 'rxjs';
+import {observable, Observable, of} from 'rxjs';
 import {MessageService} from './message.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -18,10 +18,10 @@ export class ProductService {
   private productsURL = 'http://localhost:8080/products';  // URL to web api
   private products: BehaviorSubject<any> = new BehaviorSubject(null);
   private searchFilterProductsClone: BehaviorSubject<any> = new BehaviorSubject(null);
-  private _productCart = new BehaviorSubject<Product[]>(JSON.parse(sessionStorage.getItem('cart') || "[]") || []);
-  readonly productCart$ = this._productCart.asObservable();
-  private productCart: Product[] = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
-
+  public _productCart = new BehaviorSubject<Product[]>(JSON.parse(sessionStorage.getItem('cart') || "[]") || []);
+  productCart$ = this._productCart.asObservable();
+  public productCart: Product[] = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
+  public checkout: boolean = false;
   // getProducts(): Observable<Product[]> {
   //   this.messageService.add('ProductService: fetched products')
   //   return this.http.get<Product[]>(this.productsURL)
@@ -30,10 +30,17 @@ export class ProductService {
   //     // )
   // }
 
+  cleanup()
+  {
+    this.productCart = [];
+    this.productCart$ = new Observable<Product[]>();
+    this._productCart.next([]);
+  }
+
   defaultCart()
   {
     let cart = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
-    console.log("setting default cart", cart);
+    // console.log("setting default cart", cart);
     if(cart.length > 0 )
     {
       if(cart.products && cart.quantities)
@@ -117,6 +124,7 @@ export class ProductService {
   }
 
   addToCart(product: Product) {
+    // console.log( 'adding product',product)
     let found: boolean = false;
     let itemClone = JSON.parse(JSON.stringify(product));
     for (let x of this.productCart) {
@@ -141,6 +149,7 @@ export class ProductService {
 
   quickAddToCart(cartItems: Product[])
   {
+    // console.log("quickAdd2Cart: ", cartItems)
     this.productCart = cartItems;
     this._productCart.next(Object.assign([], this.productCart));
     sessionStorage.setItem('cart', JSON.stringify(this.productCart));
@@ -173,13 +182,14 @@ export class ProductService {
   };
 
   saveUser() {
-    console.log('saving user cart with item ',this.productCart)
+    // console.log('saving user cart with item ',this.productCart)
     let user = JSON.parse(sessionStorage.getItem('user') || '{}')
     // let cart = JSON.parse(sessionStorage.getItem('cart') || '[]')
     // user.cart = cart;
     let productList = [];
     let quantityList = [];
-    for(let x of this.productCart)
+    let productCart = JSON.parse(JSON.stringify(this.productCart))
+    for(let x of productCart)
     {
       productList.push(x.id);
       quantityList.push(x.quantity);
@@ -195,7 +205,7 @@ export class ProductService {
       productsPurchased: user.productsPurchased || [],
       username: user.username
     }
-    console.log("sending query to back end",data);
+    // console.log("sending query to back end",data);
     // sessionStorage.clear();
     // return new Observable();
     return this.http.put('http://localhost:8080/users',data,this.httpOptions)
@@ -205,6 +215,31 @@ export class ProductService {
   {
 
     return this.http.put('http://localhost:8080/products',product,this.httpOptions)
+  }
+
+  saveUserCheckout() {
+    let productCartClone = JSON.parse(JSON.stringify(this.productCart))
+    let list = [];
+    for(let x of productCartClone)
+    {
+      list.push(x.id);
+    }
+    let user = JSON.parse(sessionStorage.getItem('user') || '{}')
+    let data = {
+      id: user.id,
+      cart: {
+        products: [],
+        quantities: [],
+        id: user.cart.id
+      },
+      productsPurchased: list || [],
+      username: user.username
+    }
+    // console.log("user checkout object", user);
+    // console.log("checkout purchase item",data);
+    // return new Observable();
+    return this.http.put('http://localhost:8080/users',data,this.httpOptions)
+
   }
 }
 

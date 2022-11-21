@@ -4,8 +4,9 @@
   </div>
   <div class="mx-auto my-auto text-center" *ngIf="this.user!?.username != 'admin'">
     <h1 class="text-6xl mb-5">Cart</h1>
-    <h2 *ngIf="cartItems.length === 0 " class="text-3xl mb-5 text-gray-700">Your cart is empty!</h2>
-    <div *ngIf="cartItems.length > 0" class="flex flex-col">
+    <h2 *ngIf="cartItems.length === 0 && this.user!?.username" class="text-3xl mb-5 text-gray-700">Your cart is empty!</h2>
+    <h2 style="color:red" *ngIf="!this.user!?.username" class="text-3xl mb-5 text-gray-700">Please Log In!</h2>
+    <div *ngIf="cartItems.length > 0  && this.user!?.username" class="flex flex-col">
       <div *ngFor="let item of cartItems" class="flex flex-row justify-between">
         <div class="flex flex-row gap-36">
           <div class="mx-auto my-6">

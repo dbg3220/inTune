@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     if (this.user!.username == "admin"){
       this.isAdmin = true;
     }
-    console.log("change")
+    console.log("user changes ... ", this.user)
   }
 
 
