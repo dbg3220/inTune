@@ -1,89 +1,91 @@
-<div *ngIf="product">
-  <div class="flex">
-    <h2 class="mx-auto my-10 text-5xl">{{product.name | uppercase}}</h2>
-  </div>
-  <div class="flex" *ngIf="isAdmin">
-    <div class="mx-auto grid grid-cols-2 gap-5">
-      <label for="product-name">Product name: </label>
-      <input class="border border-black"id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
-      <label for="product-price">Product price: </label>
-      <input class="border border-black"id="product-price" [(ngModel)]="product.price" placeholder="Product name"/>
-      <label for="product-price">Product category: </label>
-      <input class="border border-black"id="product-category" [(ngModel)]="product.category" placeholder="Product name"/>
-      <label for="product-quantity">Product quantity: </label>
-      <input class="border border-black"id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product name"/>
-      <label for="product-description">Product description: </label>
-      <input class="border border-black"id="product-description" [(ngModel)]="product.description" placeholder="Product name"/>
-      <label for="product-image">Product image URL: </label>
-      <input class="border border-black"id="product-image" [(ngModel)]="product.image" placeholder="Product name"/>
-      <button (click)="save()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10"> Update Product</button>
-      <div class="text-green-500 text-2xl my-auto" *ngIf="updated">{{product.name}} was updated</div>
-    </div>
-  </div>
-  <div>
+<div class="min-h-screen">
+  <div *ngIf="product">
     <div class="flex">
-      <div class="mx-auto my-12">
-        <div><img class="w-96 h-96 object-contain" src="{{product.image}}" alt="product image"></div>
+      <h2 class="mx-auto my-10 text-5xl">{{product.name | uppercase}}</h2>
+    </div>
+    <div class="flex" *ngIf="isAdmin">
+      <div class="mx-auto grid grid-cols-2 gap-5">
+        <label for="product-name">Product name: </label>
+        <input class="border border-black"id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
+        <label for="product-price">Product price: </label>
+        <input class="border border-black"id="product-price" [(ngModel)]="product.price" placeholder="Product name"/>
+        <label for="product-price">Product category: </label>
+        <input class="border border-black"id="product-category" [(ngModel)]="product.category" placeholder="Product name"/>
+        <label for="product-quantity">Product quantity: </label>
+        <input class="border border-black"id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product name"/>
+        <label for="product-description">Product description: </label>
+        <input class="border border-black"id="product-description" [(ngModel)]="product.description" placeholder="Product name"/>
+        <label for="product-image">Product image URL: </label>
+        <input class="border border-black"id="product-image" [(ngModel)]="product.image" placeholder="Product name"/>
+        <button (click)="save()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10"> Update Product</button>
+        <div class="text-green-500 text-2xl my-auto" *ngIf="updated">{{product.name}} was updated</div>
       </div>
     </div>
-  <div class="flex w-1/3 mx-auto justify-items-center text-center mb-6">
-    <div class="mx-auto">
-      <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
-      <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
-      <h1 class="text-2xl mb-5">{{product.quantity}} left in stock</h1>
-      <div class="w-1/2 mx-auto"><p *ngIf="user==undefined" class="text-center leading-relaxed text-3xl text-green-500 my-10 font-bold">Please sign in to add this item to your cart</p></div>
-      <div class = "outOfStock" *ngIf = "product.quantity == 0"> Out of Stock</div>
-      <div><button *ngIf= "!isAdmin && user!=undefined && product.quantity > 0" type="button" (click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Add to Cart</button></div>
-      <div><button *ngIf="isAdmin" type="button"(click)="handleDelete()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Delete Product</button></div>
-<!--      {{product.quantity}}-->
-      <div class="text-red-500 text-2xl py-5" *ngIf="deleted">Product was deleted</div>
-      <div class="text-green-500 text-2xl py-5" *ngIf="added">{{product.name}} added to cart</div>
-      <form action="#">
-  </form>
-  <label *ngIf= "writtenReview()" text-2xl> You have already written a review for this product. Thanks for helping improve inTune!</label>
-      <div *ngIf="purchasedProduct() && !isAdmin && !writtenReview()" class=" flex flex-col gap-5 my-14">
-        <label for="new-product" class="text-3xl">What were your thoughts? </label>
-        <div class="flex flex-row mx-auto gap-4">
-          <label class="text-2xl" for="ratings">Rating 1-5: </label>
-          <select id="new-review" #reviewRating>
-            <option value=1>1</option>
-            <option value=2>2</option>
-            <option value=3>3</option>
-            <option value=4>4</option>
-            <option value=5>5</option>
-          </select>
+    <div>
+      <div class="flex">
+        <div class="mx-auto my-12">
+          <div><img class="w-96 h-96 object-contain" src="{{product.image}}" alt="product image"></div>
         </div>
-        <label class="text-2xl"> What did you think?</label>
-        <input class="border border-black"id="new-review" #reviewDescription />
-        <div><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10"type="button"(click)="handleAddReview(user!.username,toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
       </div>
-              <div class="backButton">
-        <button type="button" (click)="goBack()"
-                class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 fa fa-arrow-left fa-2x"
-                type="button">&nbsp;&nbsp;Back
-              </button>
-      </div>
-      <h1 class="text-4xl mb-10 underline">Reviews</h1>
-      <div class="flex flex-row">
-        <h1 class="text-2xl mb-5 text-red-500" *ngIf="averageRating()<=2">Average Rating: {{averageRating()}}/5</h1>
-        <h1 class="text-2xl mb-5 text-yellow-500" *ngIf="averageRating()>2 && averageRating()<4">Average Rating: {{averageRating()}}/5</h1>
-        <h1 class="text-2xl mb-5 text-green-500" *ngIf="averageRating()>=4">Average Rating: {{averageRating()}}/5</h1>
-        <h1 class="text-2xl mb-5 ml-auto">{{product.reviews.length}} reviews</h1>
-      </div>
-      <ul class="grid lg:grid-cols-1 gap-3">
-        <li *ngFor="let review of product.reviews">
-          <div class="border-2 border-black rounded-lg flex flex-col h-auto transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300">
-            <div class="flex flex-row">
-                <h1 class="text-2xl ml-2">{{review.reviewUsername}}</h1>
-                <p class="text-2xl mb-5 text-red-500 ml-auto mr-3" *ngIf="review.rating <= 2">{{review.rating}}/5</p>
-                <p class="text-2xl mb-5 justify-end text-yellow-500 ml-auto mr-3" *ngIf="review.rating >2 && review.rating<4">{{review.rating}}/5</p>
-                <p class="text-2xl mb-5 text-green-500 ml-auto mr-3" *ngIf="review.rating >=4">{{review.rating}}/5</p>
-            </div>
-            <p class="mb-10 px-14">{{review.description}}</p>
+    <div class="flex w-1/3 mx-auto justify-items-center text-center mb-6">
+      <div class="mx-auto">
+        <h2 class="mb-14 text-2xl"> {{product.description}}</h2>
+        <h1 class="text-3xl mb-5">Price: ${{product.price}}</h1>
+        <h1 class="text-2xl mb-5">{{product.quantity}} left in stock</h1>
+        <div class="w-1/2 mx-auto"><p *ngIf="user==undefined" class="text-center leading-relaxed text-3xl text-green-500 my-10 font-bold">Please sign in to add this item to your cart</p></div>
+        <div class = "outOfStock" *ngIf = "product.quantity == 0"> Out of Stock</div>
+        <div><button *ngIf= "!isAdmin && user!=undefined && product.quantity > 0" type="button" (click)="handleAddToCart()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Add to Cart</button></div>
+        <div><button *ngIf="isAdmin" type="button"(click)="handleDelete()" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10" type="button">Delete Product</button></div>
+  <!--      {{product.quantity}}-->
+        <div class="text-red-500 text-2xl py-5" *ngIf="deleted">Product was deleted</div>
+        <div class="text-green-500 text-2xl py-5" *ngIf="added">{{product.name}} added to cart</div>
+        <form action="#">
+    </form>
+    <label *ngIf= "writtenReview()" text-2xl> You have already written a review for this product. Thanks for helping improve inTune!</label>
+        <div *ngIf="purchasedProduct() && !isAdmin && !writtenReview()" class=" flex flex-col gap-5 my-14">
+          <label for="new-product" class="text-3xl">What were your thoughts? </label>
+          <div class="flex flex-row mx-auto gap-4">
+            <label class="text-2xl" for="ratings">Rating 1-5: </label>
+            <select id="new-review" #reviewRating>
+              <option value=1>1</option>
+              <option value=2>2</option>
+              <option value=3>3</option>
+              <option value=4>4</option>
+              <option value=5>5</option>
+            </select>
           </div>
-        </li>
-      </ul>
+          <label class="text-2xl"> What did you think?</label>
+          <input class="border border-black"id="new-review" #reviewDescription />
+          <div><button class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 mb-10"type="button"(click)="handleAddReview(user!.username,toNumber(reviewRating.value), reviewDescription.value)" type="button">Add review</button></div>
+        </div>
+                <div class="backButton">
+          <button type="button" (click)="goBack()"
+                  class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3 fa fa-arrow-left fa-2x"
+                  type="button">&nbsp;&nbsp;Back
+                </button>
+        </div>
+        <h1 class="text-4xl mb-10 underline">Reviews</h1>
+        <div class="flex flex-row">
+          <h1 class="text-2xl mb-5 text-red-500" *ngIf="averageRating()<=2">Average Rating: {{averageRating()}}/5</h1>
+          <h1 class="text-2xl mb-5 text-yellow-500" *ngIf="averageRating()>2 && averageRating()<4">Average Rating: {{averageRating()}}/5</h1>
+          <h1 class="text-2xl mb-5 text-green-500" *ngIf="averageRating()>=4">Average Rating: {{averageRating()}}/5</h1>
+          <h1 class="text-2xl mb-5 ml-auto">{{product.reviews.length}} reviews</h1>
+        </div>
+        <ul class="grid lg:grid-cols-1 gap-3">
+          <li *ngFor="let review of product.reviews">
+            <div class="border-2 border-black rounded-lg flex flex-col h-auto transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300">
+              <div class="flex flex-row">
+                  <h1 class="text-2xl ml-2">{{review.reviewUsername}}</h1>
+                  <p class="text-2xl mb-5 text-red-500 ml-auto mr-3" *ngIf="review.rating <= 2">{{review.rating}}/5</p>
+                  <p class="text-2xl mb-5 justify-end text-yellow-500 ml-auto mr-3" *ngIf="review.rating >2 && review.rating<4">{{review.rating}}/5</p>
+                  <p class="text-2xl mb-5 text-green-500 ml-auto mr-3" *ngIf="review.rating >=4">{{review.rating}}/5</p>
+              </div>
+              <p class="mb-10 px-14">{{review.description}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
+  
 </div>
-
