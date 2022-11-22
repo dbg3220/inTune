@@ -124,14 +124,14 @@ The view tier consists of a parent level app component, as well as numerous chil
 6. Lessons - The lessons page will display all lessons in the store. It will display the name, price, and time of each lesson. There will also be a button that allows users to schedule a lesson. If the user is an admin, they will be allowed to delete and edit the values of the lesson.
 7. Checkout - After hitting the checkout button, a component prompting for shipping and billing information will be displayed. After the user enters this information, they will be prompted to confirm their order. If they confirm, the order will be placed and the user will be taken to the confirmation. If they cancel, they will be taken back to the cart page.
 8. 404 page - If a user tries to access a page that does not exist, they will be taken to a 404 page. This page will display a message informing the user that the page they are looking for does not exist. It will also display a button that allows the user to return to the home page.
-9. Confirmation - After the user confirms their order, they will be taken to a confirmation page. This page will display a message informing the user that their order has been placed. It will also display a button that allows the user to return to the home page.
+9. Confirmation - After the user confirms their order, they will be taken to a confirmation page. This page will display a message informing the user that their order has been placed. It will also display a button that allows the user to return to the home page. 
 
 
 ### ViewModel Tier
 The ViewModel Tier is the Rest-API of our program and it consists only of controllers
 for data types used in the View tier. It acts as the point of contact between our front end
 and back end. It interacts with HTTP requests and responds with certain bodies and certain error
-codes as responses(i.e. OK, CREATED, INTERNAL_SERVER_ERROR, CONFLICT). Our controllers in this tier are responsible for handling the requests and responses. The controllers are responsible for data for users, products, and lessons.
+codes as responses(i.e. OK, CREATED, INTERNAL_SERVER_ERROR, CONFLICT). Our controllers in this tier are responsible for handling the requests and responses. The controllers are responsible for data for users, products, and lessons. 
 
 
 ### Model Tier
