@@ -74,13 +74,13 @@ export class CheckoutComponent implements OnInit {
 
   }
   async onSubmit(form: FormGroup) {
-    await this.productService.getCart().subscribe(async cartItems => {
+    this.productService.getCart().subscribe(async (cartItems) => {
       console.log('cartitems', cartItems, '\n products', this.product);
-      for (let item of cartItems){
-        if (this.user.productsPurchased.includes(item.id)){
+      for (let item of cartItems) {
+        if (this.user.productsPurchased.includes(item.id)) {
           console.log('product already purchased');
         }
-        else{
+        else {
           this.user.productsPurchased.push(item.id);
           console.log('product purchased');
         }
@@ -93,8 +93,7 @@ export class CheckoutComponent implements OnInit {
         });
       }
     });
-    await this.productService.saveUserCheckout().subscribe((purchased:any) =>
-    {
+    this.productService.saveUserCheckout().subscribe((purchased: any) => {
       sessionStorage.clear();
       this.productService.productCart = [];
       this.productService._productCart.next([]);

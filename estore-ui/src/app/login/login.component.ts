@@ -93,24 +93,20 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
     // user doesn't exist, create one and update service
     if (!this.exists) {
-      // console.log("does not exist");
       this.exists = false;
       this.userService.addUser({ username } as User)
         .subscribe(user => {
           this.users.push(user);
         });
-      // console.log(this.login.value + "added");
       this.user = this.users.find(user => user.username === username);
       this.created = true;
       this.message = "It seems you weren't registered. We have added you as a user. To confirm, please log in again.";
-      // console.log("sign up")
-      // console.log(this.user)
     }
   }
 
   async onLogout() {
     if (this.user?.username != "admin" && !this.productService.checkout) {
-      await this.productService.saveUser().subscribe((response: any) => {
+      this.productService.saveUser().subscribe((response: any) => {
         sessionStorage.clear();
         this.userService.setCurrentUser(response);
         this.user = response;
