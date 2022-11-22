@@ -74,15 +74,6 @@ export class CheckoutComponent implements OnInit {
 
   }
   async onSubmit(form: FormGroup) {
-    let obj = {
-      'fName': form.value.fName, 'lName': form.value.lName, 'Email': form.value.email,
-      'CC': form.value.CC, 'expMonth': form.value.expMonth, 'expYear': form.value.expYear,
-      'securityCode': form.value.securityCode, 'address': form.value.address, 'zip': form.value.zip,
-      'city': form.value.city, 'state': form.value.state, 'country': form.value.country
-    }
-
-    // console.log('Valid?', form.valid); // true or false
-    // console.log('Name', obj);
     await this.productService.getCart().subscribe(async cartItems => {
       console.log('cartitems', cartItems, '\n products', this.product);
       for (let item of cartItems){
@@ -104,7 +95,6 @@ export class CheckoutComponent implements OnInit {
     });
     await this.productService.saveUserCheckout().subscribe((purchased:any) =>
     {
-      // console.log("purchased items", purchased)
       sessionStorage.clear();
       this.productService.productCart = [];
       this.productService._productCart.next([]);

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Product} from './product';
 // import { PRODUCTS } from './mock-products';
-import {observable, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {MessageService} from './message.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -40,7 +40,6 @@ export class ProductService {
   defaultCart()
   {
     let cart = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
-    // console.log("setting default cart", cart);
     if(cart.length > 0 )
     {
       if(cart.products && cart.quantities)
@@ -205,9 +204,6 @@ export class ProductService {
       productsPurchased: user.productsPurchased || [],
       username: user.username
     }
-    // console.log("sending query to back end",data);
-    // sessionStorage.clear();
-    // return new Observable();
     return this.http.put('http://localhost:8080/users',data,this.httpOptions)
   }
 
@@ -235,9 +231,6 @@ export class ProductService {
       productsPurchased: list || [],
       username: user.username
     }
-    // console.log("user checkout object", user);
-    // console.log("checkout purchase item",data);
-    // return new Observable();
     return this.http.put('http://localhost:8080/users',data,this.httpOptions)
 
   }
