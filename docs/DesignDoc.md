@@ -17,6 +17,7 @@ geometry: margin=1in
 In-Tune goal is to create a one-stop shop for all music lovers to purchase instruments and learn to use those instruments.
 
 ### Purpose
+
 Create an estore to allow users to purchase and learn how to use our instruments. 
 
 ### Glossary and Acronyms
@@ -25,12 +26,11 @@ Create an estore to allow users to purchase and learn how to use our instruments
 |------|------------|
 | SPA  | Single Page|
 | Product  | An instrument|
-| Category  | An instruments musical family (i.e. strings)|
-| Instrument  | A specific instrument (i.e. guitar)|
-| User  | A person who uses the website|
-| Admin  | A person who manages the website|
-| Review  | A review of an instrument|
-| Cart  | A list of instruments a user wants to purchase|
+| Category  | An instruments musical family (i.e. strings, brass, woodwinds, keyboards, percussions)
+| User  | A person who uses the website
+| Admin  | A type of user with special privileges to manage the website
+| Review  | A review of an instrument
+| Cart  | A list of instruments a user wants to purchase along with quantities they want to purchase
 
 
 ## Requirements
@@ -82,8 +82,7 @@ These reviews can be seen by all users. Users can also schedule lessons, from wh
 
 This section describes the application domain.
 
-![Domain Model](unnamed4.jpg)
-
+![Domain Model](DomainModel.jpg)
 
 ## Architecture and Design
 
@@ -109,7 +108,6 @@ manipulate the data objects from the Model.
 
 Both the ViewModel and Model are built using Java and Spring Framework. Details of the components within these tiers are supplied below.
 
-
 ### Overview of User Interface
 On landing, the user will be displayed with a selection of the most popular products by name. This will herein be referred to as the dashboard. From here, they will also be able to see, at the header, there will be four options. These include the Dashboard, Products, Login, and Cart. Products will present the user with a list of all current products available along with their photo, name, and price. There is a search bar on this page that allows users to look up products by first name. From here, a user can click on any product to be taken to that products detail page. Here, the user will be able to add the product to their unique cart (if logged in). If they do not have an account/are not logged in, they will be informed that they need to log in. Otherwise, the product can be added to their cart. The login page is a simple page prompting for users to enter their username. A success page will be followed once the user is signed in. Finally, there is a cart page, it is here that users can see what products they have in their cart and how many of each.
 
@@ -130,7 +128,7 @@ The view tier consists of a parent level app component, as well as numerous chil
 ### ViewModel Tier
 The ViewModel Tier is the Rest-API of our program and it consists only of controllers
 for data types used in the View tier. It acts as the point of contact between our front end
-and back end. It interacts with HTTP requests and responds with certain bodies and certain error
+and back end. It interacts with HTTP requests and responds with bodies of model objects along with certain error
 codes as responses(i.e. OK, CREATED, INTERNAL_SERVER_ERROR, CONFLICT). Our controllers in this tier are responsible for handling the requests and responses. The controllers are responsible for data for users, products, and lessons. 
 
 
@@ -139,28 +137,11 @@ The Model Tier has Product, User, Cart classes which represent the data being st
 local database. They represent little functionality of the application besides what is needed
 to maintain their internal state. The model includes cart, lesson, review, and user. The user, products, and lessons are the only ones that are stored in the database in individual persistance files. The cart is stored in the user object. The lesson and review are stored in the product object. The cart is a list of products that the user has added to their cart. The lesson is a list of lessons that the user can schedule. The review is a list of reviews that users have written for a product. The user is a list of users that have accounts on the site. The user has a cart, while the product have a list of reviews. The lesson is a list of lessons that are available on the site. The DAO classes are only present for products, users, and lessons since these are the only seperated objects that are stored, and many contain object within themselves, but since they are explicitly related to the parent class, they are located within the parents json file, and thus handled by the fileDAO of the parent class.
 
-### Static Code Analysis/Design Improvements
-
-The following are the results of the static code analysis performed on the codebase. The codebase was analyzed using SonarQube. The results of the analysis are as follows:
-
-![report for backend ](unnamed.png)
-
-our backend was particularly strong in terms of its construction, with no major bugs to speak of. There were, however, some code smells with logs in the private field that were unused, and thus taking up space with no actual functionality. Given more time, we would have removed these logs. Although it is not mentioned in the report, it would be nice to change how we handle product classes in the backend, abstracting them would prove to be more efficient in the long run, especially with the additions of lessons into products, as well as equipment and other misc. products sold in relation to instruments.
-
-![report for frontend ](unnamed2.png)
-
-Our frontend was also strong in terms of its construction, with no major bugs to speak of except a the function login() in the login component. The function had a complexity rating of 40, but due to the time it would have taken to refactor, we decided to ignore it in order to get better functionality out of the site. There were also some code smells with unused imports and unused variables. Given more time, we would have removed these unused imports and variables. Nothing however was of a major concern.
-
 ## Testing
 Currently 100% of backend tests pass.
 
 ### Acceptance Testing
 Almost all acceptance tests pass. The only ones that do not pass were in relation to sorting within the lesson component, we decided with the amount of time left for the project with the development with documentation, that we would not be able to fix this issue. The tests that do not pass are as follows:
 
-![failed tests on acceptance test ](Capture.PNG)
-
-
 ### Unit Testing and Code Coverage
 Our code coverage was at 96 percent. The biggest contributor to our coverage not being 100 percent was missed branches on model and persistance. We were unable to get the coverage to 100 percent due to time constraints. Given more time we would have liked to 100 percent coverage, especially since missed branches in the backend are a major concern. The following is a screenshot of our code coverage:
-
-![Code Coverage](unnamed3.png)
