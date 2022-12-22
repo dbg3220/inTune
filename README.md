@@ -8,7 +8,7 @@ An online E-store system built in Java 8=>11 and the Angular CLI
 - Jonathan Zhu
 - Donovan Cataldo 
 - Clayton Acheson
-- Damon Gonzalez
+- Damon Gonzalez(current contributor)
 
 
 ## Prerequisites
