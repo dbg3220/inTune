@@ -4,83 +4,49 @@ import java.io.IOException;
 import estoreapi.model.Product;
 
 /**
- * Defines the interface for product object persistence
+ * Defines the operations for product object persistence
  * 
- * @author Hayden Cieniawski
- * @author Clayton Acheson
- * 
+ * @author Damon Gonzalez
  */
 public interface ProductDAO {
     /**
-     * Retrieves all {@linkplain products}
-     * 
-     * @return An array of {@link product} objects, may be empty
-     * 
+     * Retrieves all products
+     * @return An array of products, may be empty
      * @throws IOException if an issue with underlying storage
      */
     Product[] getProducts() throws IOException;
 
     /**
-     * Finds all {@linkplain products} whose name contains the given text
-     * 
-     * @param containsText The text to match against
-     * 
-     * @return An array of {@link products} whose names contains the given text, may be empty
-     * 
-     * @throws IOException if an issue with underlying storage
-     */
-    Product[] findProducts(String containsText) throws IOException;
-
-    /**
-     * Retrieves a {@linkplain product} with the given id
-     * 
-     * @param id The id of the {@link product} to get
-     * 
-     * @return a {@link product} object with the matching id
-     * 
-     * null if no {@link product} with a matching id is found
-     * 
+     * Retrieves a product with the given id
+     * @param id The id of the product to get
+     * @return The product with the matching id, null if no product found
      * @throws IOException if an issue with underlying storage
      */
     Product getProduct(int id) throws IOException;
 
     /**
-     * Creates and saves a {@linkplain Product product}
-     * 
-     * @param Product {@linkplain Product product} object to be created and saved
-     * <br>
-     * The id of the Product object is ignored and a new uniqe id is assigned
-     *
-     * @return new {@link Product product} if successful, false otherwise 
-     * 
+     * Creates and saves a product
+     * @param product The product to create
+     * @return The newly created product if successful, null otherwise 
      * @throws IOException if an issue with underlying storage
      */
-    Product createProduct(Product Prod) throws IOException;
+    Product createProduct(Product product) throws IOException;
 
     /**
-     * Updates and saves a {@linkplain product}
-     * 
-     * @param {@link product} object to be updated and saved
-     * 
-     * @return updated {@link product} if successful, null if
-     * {@link product} could not be found
-     * 
+     * Updates and saves a product
+     * @param product The product to be updated and saved
+     * @return The updated product if successful, null if
+     * product could not be found
      * @throws IOException if underlying storage cannot be accessed
      */
     Product updateProduct(Product product) throws IOException;
 
     /**
-     * Deletes a {@linkplain product} with the given id
-     * 
-     * @param id The id of the {@link product}
-     * 
-     * @return true if the {@link product} was deleted
-     *
+     * Deletes a product with the given id
+     * @param id The id of the product
+     * @return true if the product was deleted
      * false if product with the given id does not exist
-     * 
      * @throws IOException if underlying storage cannot be accessed
      */
     boolean deleteProduct(int id) throws IOException;
-
-
 }
