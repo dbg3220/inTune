@@ -93,27 +93,6 @@ public class UserFileDAO implements UserDAO{
     }
 
     /**
-     * Attempts to find a {@linkplain User user} from the tree map that has the
-     * username specified
-     * 
-     * If username is null, null is returned
-     * @param username The username string to match against
-     * @return The user with the matching username if found, null otherwise
-     */
-    private User getUserByUsername(String username) {
-        if(username == null){
-            return null;
-        }
-        for (User user: users.values()){
-            System.out.println(user.getUsername());
-            if ((user.getUsername()).equals(username)){
-                return user;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Saves the {@linkplain User users} from the map into the file as an array of JSON objects
      * 
      * @return true if the {@link User users} were written successfully
