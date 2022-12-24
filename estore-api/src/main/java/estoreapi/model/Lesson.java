@@ -10,12 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Lesson {
 
     /** Format string for toString() method */
-    static final String STRING_FORMAT = "lesson [id=%d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
+    static final String STRING_FORMAT = "lesson [id=%d, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
 
     /** The unique identifier for this lesson object */
     @JsonProperty("id") private int id;
-    /** Boolean to identify whether this lesson is taken by a user */
-    @JsonProperty("isFull") private boolean isFull;
     /** The category of instrument that this lesson is for */
     @JsonProperty("category") private String category;
     /** The name of the instructor for this lesson */
@@ -35,7 +33,6 @@ public class Lesson {
      * Public constructor to deserialize lesson objects from a json file
      */
     public Lesson(@JsonProperty("id") int id,
-                  @JsonProperty("isFull") boolean isFull,
                   @JsonProperty("category") String category,
                   @JsonProperty("instructor") String instructor,
                   @JsonProperty("weekday") String weekday,
@@ -44,7 +41,6 @@ public class Lesson {
                   @JsonProperty("price") double price,
                   @JsonProperty("name") String name){
         this.id = id;
-        this.isFull = isFull;
         this.category = category;
         this.instructor = instructor;
         this.weekday = weekday;
@@ -57,11 +53,6 @@ public class Lesson {
     /** Getter for id */
     public int getID(){
         return id;
-    }
-
-    /** Getter for isFull */
-    public boolean isFull(){
-        return isFull;
     }
     
     /** Getter for the category */
@@ -101,7 +92,7 @@ public class Lesson {
 
     @Override
     public String toString(){
-        return String.format(STRING_FORMAT, id, isFull, category, instructor, weekday, startTime, userID, price, name);
+        return String.format(STRING_FORMAT, id, category, instructor, weekday, startTime, userID, price, name);
     }
 
     @Override
@@ -109,7 +100,6 @@ public class Lesson {
         if( other instanceof Lesson){
             Lesson otherLesson = (Lesson) other;
             return this.id == otherLesson.id &&
-                   this.isFull == otherLesson.isFull &&
                    this.category.equals(otherLesson.category) &&
                    this.instructor.equals(otherLesson.instructor) &&
                    this.weekday.equals(otherLesson.weekday) &&
@@ -119,18 +109,5 @@ public class Lesson {
                    this.name.equals(otherLesson.name);
         }
         return false;
-    }
-
-    @Override
-    public int hashCode(){
-        return Integer.hashCode(id) +
-               Boolean.hashCode(isFull) +
-               category.hashCode() +
-               instructor.hashCode() +
-               weekday.hashCode() +
-               Integer.hashCode(startTime) +
-               Integer.hashCode(userID) +
-               Double.hashCode(price) +
-               name.hashCode();
     }
 }

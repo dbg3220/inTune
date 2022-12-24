@@ -176,14 +176,8 @@ public class UserController {
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         LOG.info("PUT /users " + user);
         try {
-            User newUser = userDAO.updateUser(user);
-            if (newUser != null){
-                newUser.setCart(user.getCart());
-                return new ResponseEntity<User>(newUser,HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            //TODO replace this garbage
+            throw new IOException();
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());

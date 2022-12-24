@@ -1,37 +1,30 @@
 package estoreapi.model;
 
-import java.util.logging.Logger;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Represents an product
  * 
- * @author Hayden Cieniawski
- * @author Clayton Acheson
  * @author Damon Gonzalez
  */
-public class    Product {
+public class Product {
 
-    private static final Logger LOG = Logger.getLogger(Product.class.getName());
-
-    // Package private for tests
     static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";
 
     @JsonProperty("id")
-    private int id; // The product ID
+    private int id;
     @JsonProperty("name")
-    private String name; // The name of the product to be displayed
+    private String name;
     @JsonProperty("price")
-    private double price; // The price of the given product
+    private double price;
     @JsonProperty("category")
-    private String category; // The category of the product, for front-end classification
+    private String category;
     @JsonProperty("quantity")
-    private int quantity; // The amount of the product in stock
+    private int quantity;
     @JsonProperty("description")
-    private String description; // The description of the product, for the product page
+    private String description; 
     @JsonProperty("image")
-    private String image; // The size of the intrument (Ex. 1/2)
+    private String image;
     @JsonProperty("reviews")
     private Review[] reviews;
 
@@ -41,17 +34,11 @@ public class    Product {
      * @param id          The id of the product
      * @param name        The name of the product
      * @param price       The price of the product
-     * @param string    The category of the product
+     * @param string      The category of the product
      * @param quantity    The quantity of the product
      * @param description The description of the product
      * @param image       The image to be displayed with the product
      * @param reviews     The reviews of the product left by users
-     *                    *
-     *{@literal @}JsonProperty is used in serialization and deserialization
-     * of the JSON object to the Java object in mapping the fields. If a field
-     * is not provided in the JSON object, the Java field gets
-     *                    the default Java
-     *                    value, i.e. 0 for int
      */
     public Product( @JsonProperty("id") int id, 
                     @JsonProperty("name") String name, 
@@ -81,32 +68,12 @@ public class    Product {
     }
 
     /**
-     * Sets the name of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param name The name of the product
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Retrieves the name of the product
      * 
      * @return The name of the product
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Sets the price of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param price The price of the product
-     */
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     /**
@@ -119,29 +86,11 @@ public class    Product {
     }
 
     /**
-     * Sets the category of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param category The category of the product
-     */
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
      * Retrieves the category of the product
      * @return The category of the product
      */
-    public String getCategory() {return category;}
-
-    /**
-     * Sets the quantity of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param quantity The quantity of the product
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public String getCategory() { 
+        return category; 
     }
 
     /**
@@ -154,13 +103,6 @@ public class    Product {
     }
 
     /**
-     * Sets the Description of the product
-     */
-    public void setDescription(String desc) {
-        this.description = desc;
-    }
-
-    /**
      * Retrieves the Description of the product
      * 
      * @return The Description of the product
@@ -168,14 +110,7 @@ public class    Product {
     public String getDescription() {
         return description;
     }
-
-    /**
-     * Sets the Image of the product
-     */
-    public void setImage(String img) {
-        this.image = img;
-    }
-
+    
     /**
      * Retrieves the Image of the product
      * 

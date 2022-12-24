@@ -139,36 +139,8 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         LOG.info("PUT /products " + product);
         try {
-            if(product.getPrice() < 0){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if(product.getQuantity() < 0){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            Product newProduct = productDao.updateProduct(product);
-            if (newProduct != null){
-                int productID = newProduct.getId();
-                Cart[] carts = userDao.getCarts();
-                for(Cart cart : carts){
-                    boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
-                    ArrayList<Integer> productIDS = cart.getProductIDS();
-                    ArrayList<Integer> quantities = cart.getQuantities();
-                    for(int i = 0; i < productIDS.size(); i++){
-                        if(productIDS.get(i) == productID && quantities.get(i) > newProduct.getQuantity()){
-                            adjustCart = true;
-                            quantities.set(i, newProduct.getQuantity());
-                        }
-                    }
-                    // if(adjustCart){
-                    //     Cart newCart = new Cart(cart.getId(), productIDS, quantities);
-                    //     userDao.updateCart(newCart);
-                    // }
-                }
-                return new ResponseEntity<Product>(newProduct,HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            //TODO redo this garbage
+            throw new IOException();
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
@@ -185,30 +157,8 @@ public class ProductController {
     public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
         LOG.info("DELETE /Products/" + id);
         try {
-            boolean result = productDao.deleteProduct(id);
-            if (result){
-                Cart[] carts = userDao.getCarts();
-                for(Cart cart : carts){
-                    boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
-                    ArrayList<Integer> productIDS = cart.getProductIDS();
-                    ArrayList<Integer> quantities = cart.getQuantities();
-                    for(int i = 0; i < productIDS.size(); i++){
-                        if(productIDS.get(i) == id){
-                            adjustCart = true;
-                            productIDS.remove(i);
-                            quantities.remove(i);
-                        }
-                    }
-                    // if(adjustCart){
-                    //     Cart newCart = new Cart(cart.getId(), productIDS, quantities);
-                    //     userDao.updateCart(newCart);
-                    // }
-                }
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            //TODO replace this garbage
+            throw new IOException();
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());

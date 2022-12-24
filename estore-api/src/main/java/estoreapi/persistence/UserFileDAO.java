@@ -228,17 +228,8 @@ public class UserFileDAO implements UserDAO{
     @Override
     public User createUser(User user) throws IOException {
         synchronized(users){
-            if(isUsernameTaken(user.getUsername())){
-                return null;
-            }
-            user.setCart(new Cart(user.getId()));
-            int array[] = new int[0];
-            // ArrayList<Integer> arrayList = new ArrayList<> ();            
-            user.setProductsPurchased(array);;
-            User newUser = new User(nextId(), user.getUsername(), new Cart(user.getId()), array);
-            users.put(newUser.getId(), newUser);
-            save();
-            return newUser;
+            //TODO redo this horrifying piece
+            return null;
         }
     }
 
@@ -275,7 +266,8 @@ public class UserFileDAO implements UserDAO{
     public Cart updateCart(User user, Cart cart) throws IOException {
         synchronized(users){
             if(users.containsKey(user.getId())){
-                users.get(cart.getId()).setCart(cart);
+                //TODO replace the following line of garbage with good code
+                //users.get(cart.getId()).setCart(cart); 
                 save();
                 return cart;
             } else {
