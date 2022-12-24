@@ -138,9 +138,6 @@ public class ProductFileDAO implements ProductDAO {
         return true;
     }
 
-    /**
-    ** {@inheritDoc}
-     */
     @Override
     public Product[] getProducts() {
         synchronized(products) {
@@ -148,19 +145,6 @@ public class ProductFileDAO implements ProductDAO {
         }
     }
 
-    /**
-    ** {@inheritDoc}
-     */
-    @Override
-    public Product[] findProducts(String containsText) {
-        synchronized(products) {
-            return getProductsArray(containsText);
-        }
-    }
-
-    /**
-    ** {@inheritDoc}
-     */
     @Override
     public Product getProduct(int id) {
         synchronized(products) {
@@ -171,9 +155,6 @@ public class ProductFileDAO implements ProductDAO {
         }
     }
 
-    /**
-    ** {@inheritDoc}
-     */
     @Override
     public Product createProduct(Product product) throws IOException {
         synchronized(products) {
@@ -188,9 +169,6 @@ public class ProductFileDAO implements ProductDAO {
         }
     }
 
-    /**
-    ** {@inheritDoc}
-     */
     @Override
     public Product updateProduct(Product product) throws IOException {
         synchronized(products) {
@@ -203,9 +181,6 @@ public class ProductFileDAO implements ProductDAO {
         }
     }
 
-    /**
-    ** {@inheritDoc}
-     */
     @Override
     public boolean deleteProduct(int id) throws IOException {
         synchronized(products) {

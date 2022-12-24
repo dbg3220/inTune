@@ -162,25 +162,6 @@ public class UserFileDAO implements UserDAO{
         
     }
 
-    /**
-     * Private helper method to check if a username is taken so that
-     * duplicate users with different ids can't be added to the database
-     * @param username The username to check
-     * @return true if there is a user with the same username, false otherwise
-     */
-    private boolean isUsernameTaken(String username){
-        User[] users = getUsersArray();
-        for(User user : users){
-            if(user.getUsername().equals(username)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public User[] getUsers() throws IOException {
         synchronized(users){
@@ -188,9 +169,6 @@ public class UserFileDAO implements UserDAO{
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public User getUser(int id) throws IOException {
         synchronized(users){
@@ -202,87 +180,11 @@ public class UserFileDAO implements UserDAO{
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User findUser(String username) throws IOException {
-        synchronized(users){
-            return getUserByUsername(username);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User[] findUsers(String containsText) throws IOException {
-        synchronized(users){
-            return getUsersArray(containsText);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public User createUser(User user) throws IOException {
         synchronized(users){
             //TODO redo this horrifying piece
             return null;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean deleteUser(int id) throws IOException {
-        synchronized(users) {
-            if (users.containsKey(id)) {
-                users.remove(id);
-                save();
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-    }
-
-    @Override
-    public Cart getCart(int id) throws IOException {
-        synchronized(users){
-            if(users.containsKey(id)){
-                return users.get(id).getCart();
-            } else {
-                return null;
-            }
-        }
-    }
-
-
-    @Override
-    public Cart updateCart(User user, Cart cart) throws IOException {
-        synchronized(users){
-            if(users.containsKey(user.getId())){
-                //TODO replace the following line of garbage with good code
-                //users.get(cart.getId()).setCart(cart); 
-                save();
-                return cart;
-            } else {
-                return null;
-            }
-        }
-    }
-
-    public Cart[] getCarts() throws IOException {
-        synchronized(users){
-            ArrayList<Cart> carts = new ArrayList<>();
-            for(User user : users.values()){
-                carts.add(user.getCart());
-            }
-            return carts.toArray(new Cart[0]);
         }
     }
 
@@ -295,6 +197,20 @@ public class UserFileDAO implements UserDAO{
                 return user;
             } else {
                 return null;
+            }
+        }
+    }
+    
+    @Override
+    public boolean deleteUser(int id) throws IOException {
+        synchronized(users) {
+            if (users.containsKey(id)) {
+                users.remove(id);
+                save();
+                return true;
+            }
+            else {
+                return false;
             }
         }
     }

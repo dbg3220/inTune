@@ -3,45 +3,50 @@ package estoreapi.persistence;
 import java.io.IOException;
 import estoreapi.model.Lesson;
 
+/**
+ * Defines the operations for lesson object persistence
+ * 
+ * @author Damon Gonzalez
+ */
 public interface LessonDAO {
-    
     /**
-     * Retrieves all lessons from storage
-     * @return An array of lesson objects
-     * @throws IOException
+     * Retrieves all lessons
+     * @return An array of lessons, may be empty
+     * @throws IOException if an issue with underlying storage
      */
     Lesson[] getLessons() throws IOException;
 
     /**
-     * Retrieves a specific lesson from storage
-     * @param id The identifier for the method to search against
-     * @return A single lesson object with the matching id, null if not found
-     * @throws IOException
+     * Retrieves a lesson with the given id
+     * @param id The id of the lesson to get
+     * @return The lesson with the matching id, null if no lesson found
+     * @throws IOException if an issue with underlying storage
      */
     Lesson getLesson(int id) throws IOException;
 
     /**
-     * Creates a lesson in storage
-     * @param lesson The lesson to be put into storage
-     * @return The created lesson
-     * @throws IOException
+     * Creates and saves a lesson
+     * @param lesson The lesson to create
+     * @return The newly created lesson if successful, null otherwise 
+     * @throws IOException if an issue with underlying storage
      */
     Lesson createLesson(Lesson lesson) throws IOException;
 
     /**
-     * Updates a lesson already in storage
-     * @param lesson The lesson to be updated
-     * @return The updated lesson, null if lesson not found
-     * @throws IOException
+     * Updates and saves a lesson
+     * @param lesson The lesson to be updated and saved
+     * @return The updated lesson if successful, null if
+     * lesson could not be found
+     * @throws IOException if underlying storage cannot be accessed
      */
     Lesson updateLesson(Lesson lesson) throws IOException;
 
     /**
-     * Deletes a lesson in storage
-     * @param id The id of the lesson to be deleted
-     * @return true if the lesson was successfully deleted from storage, false otherwise
-     * @throws IOException
+     * Deletes a lesson with the given id
+     * @param id The id of the lesson
+     * @return true if the lesson was deleted
+     * false if lesson with the given id does not exist
+     * @throws IOException if underlying storage cannot be accessed
      */
     boolean deleteLesson(int id) throws IOException;
-
 }
