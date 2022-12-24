@@ -3,33 +3,52 @@ package estoreapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents an product
+ * Represents a product
  * 
  * @author Damon Gonzalez
  */
 public class Product {
 
+    /** Possible categories of a Product */
+    public enum Category {
+        STRING,
+        WOODWIND,
+        BRASS,
+        KEYBOARD,
+        PERCUSSION,
+        OTHER;
+    }
+
+    /** Format string for a Product */
     static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";
 
+    /** The id of the product, a unique identifier in storage */
     @JsonProperty("id")
     private int id;
+    /** The name of the product */
     @JsonProperty("name")
     private String name;
+    /** The price of the product */
     @JsonProperty("price")
     private double price;
+    /** The category of the product */
     @JsonProperty("category")
-    private String category;
+    private Category category;
+    /** The quantity of the product in the store's inventory */
     @JsonProperty("quantity")
     private int quantity;
+    /** A description of the product given by the store owner */
     @JsonProperty("description")
-    private String description; 
+    private String description;
+    /** The URL of an image representing this product */
     @JsonProperty("image")
     private String image;
+    /** An array of reviews of this product left by Users, may be empty */
     @JsonProperty("reviews")
     private Review[] reviews;
 
     /**
-     * Create a product with the given id, name, and price.
+     * Public constructor for Product class
      * 
      * @param id          The id of the product
      * @param name        The name of the product
@@ -43,7 +62,7 @@ public class Product {
     public Product( @JsonProperty("id") int id, 
                     @JsonProperty("name") String name, 
                     @JsonProperty("price") double price,
-                    @JsonProperty("category") String category,
+                    @JsonProperty("category") Category category,
                     @JsonProperty("quantity") int quantity, 
                     @JsonProperty("description") String description,
                     @JsonProperty("image") String image,
@@ -89,7 +108,7 @@ public class Product {
      * Retrieves the category of the product
      * @return The category of the product
      */
-    public String getCategory() { 
+    public Category getCategory() { 
         return category; 
     }
 
@@ -126,19 +145,13 @@ public class Product {
      */
     public Review[] getReviews(){
         return reviews;
-}
+    }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean equals(Object other) {
         if(other instanceof Product){

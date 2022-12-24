@@ -3,16 +3,16 @@ package estoreapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents a Lesson
+ * Represents a lesson
  * 
  * @author Damon Gonzalez
  */
 public class Lesson {
 
-    /** Format string for toString() method */
+    /** Format string for a Lesson */
     static final String STRING_FORMAT = "lesson [id=%d, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
 
-    /** The unique identifier for this lesson object */
+    /** The id of the lesson, a unique identifier in storage */
     @JsonProperty("id") private int id;
     /** The category of instrument that this lesson is for */
     @JsonProperty("category") private String category;
