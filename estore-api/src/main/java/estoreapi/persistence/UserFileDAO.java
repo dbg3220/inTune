@@ -3,7 +3,6 @@ package estoreapi.persistence;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,6 @@ import estoreapi.model.User;
  */
 @Component
 public class UserFileDAO implements UserDAO{
-    private static final Logger LOG = Logger.getLogger(UserFileDAO.class.getName());
     Map<Integer,User> users;   // Provides a local cache of the user objects
                                            // so that we don't need to read from the file
                                            // each time
@@ -106,7 +104,6 @@ public class UserFileDAO implements UserDAO{
         if(username == null){
             return null;
         }
-        System.out.println("received name" + username + "\n uservalues: " + users.values());
         for (User user: users.values()){
             System.out.println(user.getUsername());
             if ((user.getUsername()).equals(username)){
@@ -184,6 +181,7 @@ public class UserFileDAO implements UserDAO{
     public User createUser(User user) throws IOException {
         synchronized(users){
             //TODO redo this horrifying piece
+            nextId();
             return null;
         }
     }
