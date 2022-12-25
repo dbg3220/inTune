@@ -29,8 +29,8 @@ public class LessonFileDAO implements LessonDAO{
 
     /**
      * Public constructor for LessonFileDAO
-     * @param filename The path of the file to write to
-     * @param objectMapper The java object injected by spring
+     * @param filename The path of the file to read/write
+     * @param objectMapper Provides JSON Object serialization and deserialization
      * @throws IOException If there is an issue with underlying storage
      */
     public LessonFileDAO(@Value("${lessons.file}") String filename,
@@ -53,7 +53,8 @@ public class LessonFileDAO implements LessonDAO{
     }
 
     /**
-     * Saves lesson objects in lessons to file storage
+     * Saves lesson objects in the map of lessons to file storage
+     * @throws IOException when file cannot be accessed or written to
      */
     private void save() throws IOException {
         Lesson[] lessonArray = getLessonsArray();
@@ -62,6 +63,7 @@ public class LessonFileDAO implements LessonDAO{
 
     /**
      * Loads lesson objects from file storage
+     * @throws IOException when file cannot be accessed or read from
      */
     private void load() throws IOException {
         lessons = new TreeMap<>();
@@ -72,11 +74,11 @@ public class LessonFileDAO implements LessonDAO{
             if (lesson.getID() > nextId)
                 nextId = lesson.getID();
         }
-        ++nextId;
+        ++nextId;//make the next id greater than the last
     }
 
     /**
-     * Generates an array of lesson from the tree map
+     * Generates an array of lessons from the map of lessons
      * 
      * @return The array of lessons, may be empty
      */
