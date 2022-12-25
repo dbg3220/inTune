@@ -96,32 +96,35 @@ public class ProductFileDAO implements ProductDAO {
     }
 
     @Override
-    public Product[] getProducts() {
+    public Product[] getProducts() throws IOException{
         synchronized(products) {
             return getProductsArray();
         }
     }
 
     @Override
-    public Product getProduct(int id) {
+    public Product getProduct(int id) throws IOException{
         synchronized(products) {
-            if (products.containsKey(id))
-                return products.get(id);
-            else
+            if( !products.containsKey(id) )
                 return null;
+                
+            return products.get(id);
         }
     }
 
     @Override
     public Product createProduct(Product product) throws IOException {
         synchronized(products) {
-            // We create a new Product object because the id field is immutable
-            // and we need to assign the next unique id
-            Product newProduct = new Product(nextId(), product.getName(), product.getPrice(), product.getCategory(),
-                                             product.getQuantity(), product.getDescription(), product.getImage(),
+            Product newProduct = new Product(nextId(),
+                                             product.getName(),
+                                             product.getPrice(),
+                                             product.getCategory(),
+                                             product.getQuantity(),
+                                             product.getDescription(),
+                                             product.getImage(),
                                              product.getReviews());
             products.put(newProduct.getId(),newProduct);
-            save(); // may throw an IOException
+            save();
             return newProduct;
         }
     }
@@ -129,11 +132,11 @@ public class ProductFileDAO implements ProductDAO {
     @Override
     public Product updateProduct(Product product) throws IOException {
         synchronized(products) {
-            if (products.containsKey(product.getId()) == false)
-                return null;  // product does not exist
+            if( !products.containsKey(product.getId()) )
+                return null;
 
             products.put(product.getId(),product);
-            save(); // may throw an IOException
+            save();
             return product;
         }
     }
@@ -141,13 +144,12 @@ public class ProductFileDAO implements ProductDAO {
     @Override
     public boolean deleteProduct(int id) throws IOException {
         synchronized(products) {
-            if (products.containsKey(id)) {
-                products.remove(id);
-                save();
-                return true;
-            }
-            else
+            if( !products.containsKey(id) )
                 return false;
+
+            products.remove(id);
+            save();
+            return true;
         }
     }
 }

@@ -102,12 +102,10 @@ public class LessonFileDAO implements LessonDAO{
     @Override
     public Lesson getLesson(int id) throws IOException {
         synchronized(lessons){
-            if(lessons.containsKey(id)){
-                return lessons.get(id);
-            }
-            else{
+            if( !lessons.containsKey(id) )
                 return null;
-            }
+
+            return lessons.get(id);
         }
     }
 
@@ -131,28 +129,24 @@ public class LessonFileDAO implements LessonDAO{
     @Override
     public Lesson updateLesson(Lesson lesson) throws IOException {
         synchronized(lessons){
-            if(lessons.containsKey(lesson.getID())){
-                lessons.put(lesson.getID(), lesson);
-                save();
-                return lesson;
-            }
-            else{
+            if( !lessons.containsKey(lesson.getID()) )
                 return null;
-            }
+
+            lessons.put(lesson.getID(), lesson);
+            save();
+            return lesson;
         }
     }
 
     @Override
     public boolean deleteLesson(int id) throws IOException {
         synchronized(lessons){
-            if(lessons.containsKey(id)){
-                lessons.remove(id);
-                save();
-                return true;
-            }
-            else{
+            if( !lessons.containsKey(id) )
                 return false;
-            }
+
+            lessons.remove(id);
+            save();
+            return true;
         }
     }
 }
