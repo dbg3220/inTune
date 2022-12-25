@@ -2,6 +2,8 @@ package estoreapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import estoreapi.model.Product.Category;
+
 /**
  * Represents a lesson
  * 
@@ -9,17 +11,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Lesson {
 
+    /** Possible days that a lesson could be on */
+    public enum Weekday{
+        MONDAY,
+        TUESDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY;
+    }
+
     /** Format string for a Lesson */
     static final String STRING_FORMAT = "lesson [id=%d, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
 
     /** The id of the lesson, a unique identifier in storage */
     @JsonProperty("id") private int id;
     /** The category of instrument that this lesson is for */
-    @JsonProperty("category") private String category;
+    @JsonProperty("category") private Category category;
     /** The name of the instructor for this lesson */
     @JsonProperty("instructor") private String instructor;
     /** The day of the week this lesson is held on(MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY) */
-    @JsonProperty("weekday") private String weekday;
+    @JsonProperty("weekday") private Weekday weekday;
     /** The starting time (in hours) of this lesson */
     @JsonProperty("startTime") private int startTime;
     /** The id of the user who has taken this lesson, if not taken by a user is set to -1 */
@@ -33,9 +44,9 @@ public class Lesson {
      * Public constructor to deserialize lesson objects from a json file
      */
     public Lesson(@JsonProperty("id") int id,
-                  @JsonProperty("category") String category,
+                  @JsonProperty("category") Category category,
                   @JsonProperty("instructor") String instructor,
-                  @JsonProperty("weekday") String weekday,
+                  @JsonProperty("weekday") Weekday weekday,
                   @JsonProperty("startTime") int startTime,
                   @JsonProperty("userID") int userID,
                   @JsonProperty("price") double price,
@@ -56,7 +67,7 @@ public class Lesson {
     }
     
     /** Getter for the category */
-    public String getCategory(){
+    public Category getCategory(){
         return category;
     }
 
@@ -66,7 +77,7 @@ public class Lesson {
     }
 
     /** Getter for the weekday */
-    public String getWeekDay(){
+    public Weekday getWeekDay(){
         return weekday;
     }
 
@@ -97,7 +108,7 @@ public class Lesson {
 
     @Override
     public boolean equals(Object other){
-        if( other instanceof Lesson){
+        if(other instanceof Lesson){
             Lesson otherLesson = (Lesson) other;
             return this.id == otherLesson.id &&
                    this.category.equals(otherLesson.category) &&
