@@ -23,14 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Handles the REST API requests for the product resource
- * <p>
- * {@literal @}RestController Spring annotation identifies this class as a REST
- * API
- * method handler to the Spring framework
+ * Spring Controller to handle http requests for Product objects
  * 
- * @author Hayden Cieniawski
- * @author Clayton Acheson
  * @author Damon Gonzalez
  */
 @RestController
@@ -43,126 +37,11 @@ public class ProductController {
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param productDao The {@link ProductDAO Product Data Access Object} to
-     *                   perform CRUD operations
-     *                   <br>
-     * @param userDao    The {@link UserDAO User Data Access Object} to perform
-     *                   perform CRUD operations
-     *                   
-     * These dependencies are injected by the spring framework
+     * @param productDAO The product data access object to perform CRUD operations
+     * @param userDAO The user data access object to perform CRUD operations
      */
     public ProductController(ProductDAO productDao, UserDAO userDao) {
         this.productDao = productDao;
         this.userDao = userDao;
-    }
-
-   /**
-    * Handles the HTTP GET request for the product resource
-    * @param id The id of the product to retrieve
-    * @return The product with the specified id
-    */
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable int id) {
-        LOG.info("GET /Products/" + id);   
-        try {
-            Product product = productDao.getProduct(id);
-            if (product != null)
-                return new ResponseEntity<>(product, HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IOException e){
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    /**
-     * Handles the HTTP GET request for the product resource
-     * @return All products
-     */
-    @GetMapping("")
-    public ResponseEntity<Product[]> getProducts() {
-        LOG.info("GET /products");
-        try {
-            Product[] products = productDao.getProducts();
-            return new ResponseEntity<>(products, HttpStatus.OK);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    }
-    /**
-     * Handles the HTTP GET request for the product resource
-     * @param name The text to search against
-     * @return All products whose name includes the specified parameter
-     */
-    @GetMapping("/")
-    public ResponseEntity<Product[]> findProducts(@RequestParam String name) {
-        LOG.info("GET /products/?name=" + name);
-        try {
-            Product[] products = productDao.findProducts(name);
-            return new ResponseEntity<>(products, HttpStatus.OK);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Handles the HTTP POST request for the product resource
-     * @param product The product to create
-     * @return The product that was created including a unique identifier id that
-     *  was assigned by the server
-     */
-    @PostMapping("")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        LOG.info("POST /products " + product);
-        try {
-            Product newProduct = productDao.createProduct(product);
-            if (newProduct != null)
-                return new ResponseEntity<Product>(newProduct,HttpStatus.CREATED);
-            else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Handles the HTTP PUT request to update an existing product
-     * @param product The product to update
-     * @return The HTTP response
-     */
-    @PutMapping("")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-        LOG.info("PUT /products " + product);
-        try {
-            //TODO redo this garbage
-            throw new IOException();
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-   /**
-    * Handles the HTTP DELETE request to delete an existing product
-    * @param id The id of the product to delete
-    * @return The HTTP response
-    */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
-        LOG.info("DELETE /Products/" + id);
-        try {
-            //TODO replace this garbage
-            throw new IOException();
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }
