@@ -37,7 +37,7 @@ public class UserFileDAO implements UserDAO {
      * @throws IOException when file cannot be accessed or read from
      */
     public UserFileDAO(@Value("${users.file}") String filename,
-                          ObjectMapper objectMapper) throws IOException {
+                       ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
         load();
