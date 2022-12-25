@@ -14,14 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Implements the functionality for JSON file-based peristance for products
- * 
- * {@literal @}Component Spring annotation instantiates a single instance of this
- * class and injects the instance into other classes as needed
- * 
- * @author Hayden Cieniawski
- * @author Clayton Acheson
- */
+* Implements methods described in ProductDAO
+* 
+* @author Damon Gonzalez
+*/
 @Component
 public class ProductFileDAO implements ProductDAO {
     Map<Integer,Product> products;   // Provides a local cache of the product objects

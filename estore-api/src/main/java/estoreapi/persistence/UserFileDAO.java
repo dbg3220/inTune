@@ -13,10 +13,7 @@ import estoreapi.model.Cart;
 import estoreapi.model.User;
 
 /**
- * Implements the functionality for JSON file-based peristance for users
- * 
- * {@literal @}Component Spring annotation instantiates a single instance of this
- * class and injects the instance into other classes as needed
+ * Implements methods described in UserDAO
  * 
  * @author Damon Gonzalez
  */
