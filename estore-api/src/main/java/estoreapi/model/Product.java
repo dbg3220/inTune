@@ -9,16 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Product {
 
-    /** Possible categories of a Product */
-    public enum Category {
-        STRING,
-        WOODWIND,
-        BRASS,
-        KEYBOARD,
-        PERCUSSION,
-        OTHER;
-    }
-
     /** Format string for a Product */
     static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";
 

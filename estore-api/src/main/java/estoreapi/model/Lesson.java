@@ -2,23 +2,12 @@ package estoreapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import estoreapi.model.Product.Category;
-
 /**
  * Represents a lesson
  * 
  * @author Damon Gonzalez
  */
 public class Lesson {
-
-    /** Possible days that a lesson could be on */
-    public enum Weekday{
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY;
-    }
 
     /** Format string for a Lesson */
     static final String STRING_FORMAT = "lesson [id=%d, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
