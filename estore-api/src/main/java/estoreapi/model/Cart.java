@@ -20,7 +20,7 @@ public class Cart {
      * @param quantities An array of quantities for each product where the index of
      * each quantity corresponds to the index of each product id
      */
-    public Cart (@JsonProperty("products") int[] productIDS, 
+    public Cart (@JsonProperty("productIDS") int[] productIDS, 
                  @JsonProperty("quantities") int[] quantities) {
         this.productIDS = productIDS;
         this.quantities = quantities;
