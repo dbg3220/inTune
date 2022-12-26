@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents a review of a product
  */
 public class Review {
+
+    /** Format string for a Review */
+    static final String STRING_FORMAT = "[username=%s, rating=%d, description=%s]";
+
     /** The username of the user who left the review */
     @JsonProperty("username")
     private String username;
@@ -49,5 +53,10 @@ public class Review {
      */
     public String getDescription(){
         return description;
+    }
+    
+    @Override
+    public String toString(){
+        return String.format(STRING_FORMAT, username, rating, description);
     }
 }

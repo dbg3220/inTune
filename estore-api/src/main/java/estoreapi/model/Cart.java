@@ -9,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Cart {
 
+    /** Format string for a Cart */
+    static final String STRING_FORMAT = "[productIDS=%s, quantities=%s]";
+
     /** The ids of the products in this cart */
     @JsonProperty("productIDS") private int[] productIDS;
     /** The quantites of the products in this cart, with corresponding indices to productIDS */
@@ -37,5 +40,10 @@ public class Cart {
      */
     public int[] getQuantities() {
         return quantities;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(STRING_FORMAT, productIDS.toString(), quantities.toString());
     }
 }

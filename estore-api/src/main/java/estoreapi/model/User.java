@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User {
 
     /** Format string for a User */
-    static final String STRING_FORMAT = "User [id=%d, username=%s]";
+    static final String STRING_FORMAT = "User [id=%d, username=%s, cart=%s]";
 
     /** The id of the user */
     @JsonProperty("id") private int id;
@@ -56,6 +56,6 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,username);
+        return String.format(STRING_FORMAT, id, username, cart.toString());
     }
 }

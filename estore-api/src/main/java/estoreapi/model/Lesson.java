@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Lesson {
 
     /** Format string for a Lesson */
-    static final String STRING_FORMAT = "lesson [id=%d, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
+    static final String STRING_FORMAT = "Lesson [id=%d, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
 
     /** The id of the lesson, a unique identifier in storage */
     @JsonProperty("id") private int id;
