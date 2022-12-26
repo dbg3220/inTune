@@ -74,4 +74,24 @@ public class LessonController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Handles DELETE request for a single lesson
+     * @param id The id of the lesson
+     * @return A response entity with code OK if succesful, NOT_FOUND if 
+     * unsuccessful
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Lesson> deleteLesson(@PathVariable int id ){
+        LOG.info("DELETE /lessons/" + id);
+        try {
+            if(!lessonDAO.deleteItem(id)){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

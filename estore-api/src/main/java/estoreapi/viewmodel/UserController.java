@@ -83,4 +83,24 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Handles DELETE request for a single user
+     * @param id The id of the user
+     * @return A response entity with code OK if succesful, NOT_FOUND if 
+     * unsuccessful
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable int id ){
+        LOG.info("DELETE /users/" + id);
+        try {
+            if(!userDAO.deleteItem(id)){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

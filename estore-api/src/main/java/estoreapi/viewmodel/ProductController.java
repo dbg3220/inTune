@@ -83,4 +83,24 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Handles DELETE request for a single product
+     * @param id The id of the product
+     * @return A response entity with code OK if succesful, NOT_FOUND if 
+     * unsuccessful
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable int id ){
+        LOG.info("DELETE /products/" + id);
+        try {
+            if(!productDAO.deleteItem(id)){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
