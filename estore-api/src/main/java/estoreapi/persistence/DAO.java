@@ -33,7 +33,7 @@ public interface DAO<T> {
      * @return The newly created item if successful, null otherwise 
      * @throws IOException if an issue with underlying storage
      */
-    T createItem(T t) throws IOException;
+    T createItem(T item) throws IOException;
 
     /**
      * Updates and saves an item
@@ -42,7 +42,7 @@ public interface DAO<T> {
      * item could not be found
      * @throws IOException if underlying storage cannot be accessed
      */
-    T updateItem(T t) throws IOException;
+    T updateItem(T item) throws IOException;
 
     /**
      * Deletes an item with the given id
