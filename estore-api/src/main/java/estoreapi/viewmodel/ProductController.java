@@ -27,21 +27,44 @@ import java.util.logging.Logger;
  * @author Damon Gonzalez
  */
 @RestController
-@RequestMapping("products")
+@RequestMapping("/products")
 public class ProductController {
 
+    /** Logger object user for this controller */
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
+    /** DAO used to access product objects */
     private DAO<Product> productDAO;
+    /** DAO used to access user objects */
     private DAO<User> userDAO;
 
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param productDAO The product data access object to perform CRUD operations
-     * @param userDAO The user data access object to perform CRUD operations
+     * @param productDAO The product data access object to perform CRUD operations, injected by spring
+     * @param userDAO The user data access object to perform CRUD operations, injected by spring
      */
     public ProductController(DAO<Product> productDAO, DAO<User> userDAO) {
         this.productDAO = productDAO;
         this.userDAO = userDAO;
+    }
+
+    /**
+     * Handles GET request for a single product
+     * @param id The id of the product
+     * @return A response entity with the appropriate body and status
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable int id){
+        LOG.info("GET /products/" + id);
+        try {
+            Product product = productDAO.getItem(id);
+            if(product == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

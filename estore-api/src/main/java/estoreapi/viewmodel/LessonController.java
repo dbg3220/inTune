@@ -35,4 +35,24 @@ public class LessonController {
     public LessonController(DAO<Lesson> lessonDAO){
         this.lessonDAO = lessonDAO;
     }
+
+    /**
+     * Handles GET request for a single lesson
+     * @param id The id of the lesson
+     * @return A response entity with the appropriate body and status
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Lesson> getLesson(@PathVariable int id){
+        LOG.info("GET /products/" + id);
+        try {
+            Lesson lesson = lessonDAO.getItem(id);
+            if(lesson == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(lesson, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

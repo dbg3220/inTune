@@ -44,4 +44,24 @@ public class UserController {
         this.userDAO = userDAO;
         this.productDAO = productDAO;
     }
+
+    /**
+     * Handles GET request for a single user
+     * @param id The id of the user
+     * @return A response entity with the appropriate body and status
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable int id){
+        LOG.info("GET /products/" + id);
+        try {
+            User user = userDAO.getItem(id);
+            if(user == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
