@@ -85,6 +85,27 @@ public class ProductController {
     }
 
     /**
+     * Handles the POST request for a single product
+     * @param product The product to be created
+     * @return A response entity with the product as body and status of OK
+     * if successful, status of BAD_REQUEST otherwise
+     */
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product){
+        LOG.info("POST /products " + product);
+        try {//TODO implement this further with logical checks
+            Product result = productDAO.createItem(product);
+            if(result == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Handles DELETE request for a single product
      * @param id The id of the product
      * @return A response entity with code OK if succesful, NOT_FOUND if 

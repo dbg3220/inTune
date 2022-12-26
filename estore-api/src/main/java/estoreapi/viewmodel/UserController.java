@@ -85,6 +85,27 @@ public class UserController {
     }
 
     /**
+     * Handles the POST request for a single user
+     * @param user The user to be created
+     * @return A response entity with the user as body and status of OK
+     * if successful, status of BAD_REQUEST otherwise
+     */
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user){
+        LOG.info("POST /users " + user);
+        try {//TODO implement this further with logical checks
+            User result = userDAO.createItem(user);
+            if(result == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Handles DELETE request for a single user
      * @param id The id of the user
      * @return A response entity with code OK if succesful, NOT_FOUND if 

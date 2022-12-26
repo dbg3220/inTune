@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Cart {
 
     /** The ids of the products in this cart */
-    @JsonProperty("products") private int[] productIDS;
+    @JsonProperty("productIDS") private int[] productIDS;
     /** The quantites of the products in this cart */
     @JsonProperty("quantities") private int[] quantities;
 
