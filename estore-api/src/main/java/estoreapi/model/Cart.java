@@ -11,14 +11,11 @@ public class Cart {
 
     /** The ids of the products in this cart */
     @JsonProperty("productIDS") private int[] productIDS;
-    /** The quantites of the products in this cart */
+    /** The quantites of the products in this cart, with corresponding indices to productIDS */
     @JsonProperty("quantities") private int[] quantities;
 
     /**
      * Public constructor for the Cart class
-     * @param productIDS An array of products by id that are present in the cart
-     * @param quantities An array of quantities for each product where the index of
-     * each quantity corresponds to the index of each product id
      */
     public Cart (@JsonProperty("productIDS") int[] productIDS, 
                  @JsonProperty("quantities") int[] quantities) {

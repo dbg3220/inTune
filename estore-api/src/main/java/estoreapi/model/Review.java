@@ -18,10 +18,6 @@ public class Review {
 
     /**
      * Public constructor for the Review class
-     * 
-     * @param username The user's name
-     * @param rating The numeric rating of the product
-     * @param description The description of the product
      */
     public Review(@JsonProperty("username") String username,
                   @JsonProperty("rating") int rating,

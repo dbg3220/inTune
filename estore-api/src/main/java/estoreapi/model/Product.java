@@ -13,41 +13,24 @@ public class Product {
     static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";
 
     /** The id of the product, a unique identifier in storage */
-    @JsonProperty("id")
-    private int id;
+    @JsonProperty("id") private int id;
     /** The name of the product */
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("name") private String name;
     /** The price of the product */
-    @JsonProperty("price")
-    private double price;
+    @JsonProperty("price") private double price;
     /** The category of the product */
-    @JsonProperty("category")
-    private Category category;
+    @JsonProperty("category") private Category category;
     /** The quantity of the product in the store's inventory */
-    @JsonProperty("quantity")
-    private int quantity;
+    @JsonProperty("quantity") private int quantity;
     /** A description of the product given by the store owner */
-    @JsonProperty("description")
-    private String description;
+    @JsonProperty("description") private String description;
     /** The URL of an image representing this product */
-    @JsonProperty("image")
-    private String image;
+    @JsonProperty("image") private String image;
     /** An array of reviews of this product left by Users, may be empty */
-    @JsonProperty("reviews")
-    private Review[] reviews;
+    @JsonProperty("reviews") private Review[] reviews;
 
     /**
-     * Public constructor for Product class
-     * 
-     * @param id          The id of the product
-     * @param name        The name of the product
-     * @param price       The price of the product
-     * @param string      The category of the product
-     * @param quantity    The quantity of the product
-     * @param description The description of the product
-     * @param image       The image to be displayed with the product
-     * @param reviews     The reviews of the product left by users
+     * Public constructor to deserialize products objects from a json file
      */
     public Product( @JsonProperty("id") int id, 
                     @JsonProperty("name") String name, 

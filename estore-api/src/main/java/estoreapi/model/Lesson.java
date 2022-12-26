@@ -18,11 +18,11 @@ public class Lesson {
     @JsonProperty("category") private Category category;
     /** The name of the instructor for this lesson */
     @JsonProperty("instructor") private String instructor;
-    /** The day of the week this lesson is held on(MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY) */
+    /** The day of the week this lesson is held on */
     @JsonProperty("weekday") private Weekday weekday;
     /** The starting time (in hours) of this lesson */
     @JsonProperty("startTime") private int startTime;
-    /** The id of the user who has taken this lesson, if not taken by a user is set to -1 */
+    /** The id of the user who has scheduled this lesson, -1 if scheduled by no user */
     @JsonProperty("userID") private int userID;
     /** The weekly price of this lesson */
     @JsonProperty("price") private double price;
