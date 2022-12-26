@@ -29,9 +29,12 @@ import estoreapi.persistence.DAO;
 @RestController
 @RequestMapping("users")
 public class UserController {
-
+    
+    /** Logger object user for this controller */
     private static final Logger LOG = Logger.getLogger(UserController.class.getName());
+    /** DAO used to access user objects */
     private DAO<User> userDAO;
+    /** DAO used to access product objects */
     private DAO<Product> productDAO;
 
     /**

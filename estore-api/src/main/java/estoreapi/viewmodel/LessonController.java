@@ -24,7 +24,10 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("lessons")
 public class LessonController {
+
+    /** Logger object user for this controller */
     private static final Logger LOG = Logger.getLogger(LessonController.class.getName());
+    /** DAO used to access lesson objects */
     private DAO<Lesson> lessonDAO;
 
     /**
