@@ -67,7 +67,7 @@ public class LessonFileDAO implements DAO<Lesson>{
      */
     private void load() throws IOException {
         lessons = new TreeMap<>();
-        nextId = 0;
+        nextId = -1;
         Lesson[] lessonArray = objectMapper.readValue(new File(filename),Lesson[].class);
         for (Lesson lesson : lessonArray) {
             lessons.put(lesson.getID(), lesson);

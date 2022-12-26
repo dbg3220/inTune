@@ -70,7 +70,7 @@ public class ProductFileDAO implements DAO<Product> {
      */
     private void load() throws IOException {
         products = new TreeMap<>();
-        nextId = 0;
+        nextId = -1;
         Product[] productArray = objectMapper.readValue(new File(filename),Product[].class);
         for (Product product : productArray) {
             products.put(product.getId(), product);

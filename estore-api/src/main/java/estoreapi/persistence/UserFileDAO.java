@@ -70,7 +70,7 @@ public class UserFileDAO implements DAO<User> {
      */
     private void load() throws IOException {
         users = new TreeMap<>();
-        nextId = 0;
+        nextId = -1;
         User[] userArray = objectMapper.readValue(new File(filename),User[].class);
         for (User user : userArray) {
             users.put(user.getId(), user);
