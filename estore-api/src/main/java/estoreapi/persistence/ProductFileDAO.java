@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
-* Implements methods described in ProductDAO
-* 
-* @author Damon Gonzalez
-*/
+ * Implements methods described in DAO<T> using the type Product.
+ * 
+ * @author Damon Gonzalez
+ */
 @Component
-public class ProductFileDAO implements ProductDAO {
+public class ProductFileDAO implements DAO<Product> {
 
     /** The map storing products that are mapped from their id */
     Map<Integer, Product> products;
@@ -96,14 +96,14 @@ public class ProductFileDAO implements ProductDAO {
     }
 
     @Override
-    public Product[] getProducts() throws IOException{
+    public Product[] getItems() throws IOException{
         synchronized(products) {
             return getProductsArray();
         }
     }
 
     @Override
-    public Product getProduct(int id) throws IOException{
+    public Product getItem(int id) throws IOException{
         synchronized(products) {
             if( !products.containsKey(id) )
                 return null;
@@ -113,7 +113,7 @@ public class ProductFileDAO implements ProductDAO {
     }
 
     @Override
-    public Product createProduct(Product product) throws IOException {
+    public Product createItem(Product product) throws IOException {
         synchronized(products) {
             Product newProduct = new Product(nextId(),
                                              product.getName(),
@@ -130,7 +130,7 @@ public class ProductFileDAO implements ProductDAO {
     }
 
     @Override
-    public Product updateProduct(Product product) throws IOException {
+    public Product updateItem(Product product) throws IOException {
         synchronized(products) {
             if( !products.containsKey(product.getId()) )
                 return null;
@@ -142,7 +142,7 @@ public class ProductFileDAO implements ProductDAO {
     }
 
     @Override
-    public boolean deleteProduct(int id) throws IOException {
+    public boolean deleteItem(int id) throws IOException {
         synchronized(products) {
             if( !products.containsKey(id) )
                 return false;

@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoreapi.model.Cart;
+import estoreapi.model.Product;
 import estoreapi.model.User;
-import estoreapi.persistence.UserDAO;
-import estoreapi.persistence.ProductDAO;
+import estoreapi.persistence.DAO;
 
 /**
  * Spring Controller to handle http requests for User objects
@@ -29,10 +29,10 @@ import estoreapi.persistence.ProductDAO;
 @RestController
 @RequestMapping("users")
 public class UserController {
-    private static final Logger LOG = Logger.getLogger(UserController.class.getName());
 
-    private UserDAO userDAO;
-    private ProductDAO productDAO;
+    private static final Logger LOG = Logger.getLogger(UserController.class.getName());
+    private DAO<User> userDAO;
+    private DAO<Product> productDAO;
 
     /**
      * Creates a REST API controller to respond to requests
@@ -40,7 +40,7 @@ public class UserController {
      * @param userDAO The user data access object to perform CRUD operations
      * @param productDAO The product data access object to perform CRUD operations
      */
-    public UserController(UserDAO userDAO, ProductDAO productDAO) {
+    public UserController(DAO<User> userDAO, DAO<Product> productDAO) {
         this.userDAO = userDAO;
         this.productDAO = productDAO;
     }

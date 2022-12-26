@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 * @author Damon Gonzalez
 */
 @Component
-public class UserFileDAO implements UserDAO {
+public class UserFileDAO implements DAO<User> {
 
     /** The map storing users that are mapped from their id */
     Map<Integer, User> users;
@@ -96,14 +96,14 @@ public class UserFileDAO implements UserDAO {
     }
 
     @Override
-    public User[] getUsers() throws IOException{
+    public User[] getItems() throws IOException{
         synchronized(users) {
             return getUsersArray();
         }
     }
 
     @Override
-    public User getUser(int id) throws IOException{
+    public User getItem(int id) throws IOException{
         synchronized(users) {
             if( !users.containsKey(id) )
                 return null;
@@ -113,7 +113,7 @@ public class UserFileDAO implements UserDAO {
     }
 
     @Override
-    public User createUser(User user) throws IOException {
+    public User createItem(User user) throws IOException {
         synchronized(users) {
             User newUser = new User(nextId(),
                                     user.getUsername(),
@@ -125,7 +125,7 @@ public class UserFileDAO implements UserDAO {
     }
 
     @Override
-    public User updateUser(User user) throws IOException {
+    public User updateItem(User user) throws IOException {
         synchronized(users) {
             if( !users.containsKey(user.getId()) )
                 return null;
@@ -137,7 +137,7 @@ public class UserFileDAO implements UserDAO {
     }
 
     @Override
-    public boolean deleteUser(int id) throws IOException {
+    public boolean deleteItem(int id) throws IOException {
         synchronized(users) {
             if( !users.containsKey(id) )
                 return false;

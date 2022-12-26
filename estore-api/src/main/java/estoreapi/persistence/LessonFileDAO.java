@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 import estoreapi.model.Lesson;
 
 /**
- * Implements methods described in LessonDAO
+ * Implements methods described in DAO<T> using the type Lesson.
  * 
  * @author Damon Gonzalez
  */
 @Component
-public class LessonFileDAO implements LessonDAO{
+public class LessonFileDAO implements DAO<Lesson>{
 
     /** The map storing lessons that are mapped from their id */
     private Map<Integer, Lesson> lessons;
@@ -93,14 +93,14 @@ public class LessonFileDAO implements LessonDAO{
     }
 
     @Override
-    public Lesson[] getLessons() throws IOException {
+    public Lesson[] getItems() throws IOException {
         synchronized(lessons){
             return getLessonsArray();
         }
     }
 
     @Override
-    public Lesson getLesson(int id) throws IOException {
+    public Lesson getItem(int id) throws IOException {
         synchronized(lessons){
             if( !lessons.containsKey(id) )
                 return null;
@@ -110,7 +110,7 @@ public class LessonFileDAO implements LessonDAO{
     }
 
     @Override
-    public Lesson createLesson(Lesson lesson) throws IOException {
+    public Lesson createItem(Lesson lesson) throws IOException {
         synchronized(lessons){//TODO implement this so that if attributes are invalid a lesson isn't created
             Lesson newLesson = new Lesson(nextId(),//the next unique id
                                           lesson.getCategory(),
@@ -127,7 +127,7 @@ public class LessonFileDAO implements LessonDAO{
     }
 
     @Override
-    public Lesson updateLesson(Lesson lesson) throws IOException {
+    public Lesson updateItem(Lesson lesson) throws IOException {
         synchronized(lessons){
             if( !lessons.containsKey(lesson.getID()) )
                 return null;
@@ -139,7 +139,7 @@ public class LessonFileDAO implements LessonDAO{
     }
 
     @Override
-    public boolean deleteLesson(int id) throws IOException {
+    public boolean deleteItem(int id) throws IOException {
         synchronized(lessons){
             if( !lessons.containsKey(id) )
                 return false;

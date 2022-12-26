@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import estoreapi.model.Lesson;
-import estoreapi.persistence.LessonDAO;
+import estoreapi.persistence.DAO;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,14 +25,14 @@ import java.util.logging.Logger;
 @RequestMapping("lessons")
 public class LessonController {
     private static final Logger LOG = Logger.getLogger(LessonController.class.getName());
-    private LessonDAO lessonDao;
+    private DAO<Lesson> lessonDAO;
 
     /**
      * Creates a REST API controller to respond to requests
      * 
      * @param lessonDAO The lesson data access object to perform CRUD operations
      */
-    public LessonController(LessonDAO lessonDao){
-        this.lessonDao = lessonDao;
+    public LessonController(DAO<Lesson> lessonDAO){
+        this.lessonDAO = lessonDAO;
     }
 }
