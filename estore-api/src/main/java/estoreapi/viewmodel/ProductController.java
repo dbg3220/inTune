@@ -34,7 +34,7 @@ public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
     /** DAO used to access product objects */
     private DAO<Product> productDAO;
-    /** DAO used to access user objects */
+    /** DAO used to access user objects, will not modify user object persistence here */
     private DAO<User> userDAO;
 
     /**
@@ -46,6 +46,22 @@ public class ProductController {
     public ProductController(DAO<Product> productDAO, DAO<User> userDAO) {
         this.productDAO = productDAO;
         this.userDAO = userDAO;
+    }
+
+    /**
+     * Handles GET request for all products
+     * @return A response entity with a body of all the products in the inventory
+     */
+    @GetMapping
+    public ResponseEntity<Product[]> getProducts(){
+        LOG.info("GET /products");
+        try {
+            Product[] products = productDAO.getItems();
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

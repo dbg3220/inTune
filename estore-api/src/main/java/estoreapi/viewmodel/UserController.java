@@ -27,14 +27,14 @@ import estoreapi.persistence.DAO;
  * @author Damon Gonzalez
  */
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
     
     /** Logger object user for this controller */
     private static final Logger LOG = Logger.getLogger(UserController.class.getName());
     /** DAO used to access user objects */
     private DAO<User> userDAO;
-    /** DAO used to access product objects */
+    /** DAO used to access product objects, will not modify product object persistence here */
     private DAO<Product> productDAO;
 
     /**
@@ -49,13 +49,29 @@ public class UserController {
     }
 
     /**
+     * Handles GET request for all users
+     * @return A response entity with a body of all the users in the inventory
+     */
+    @GetMapping
+    public ResponseEntity<User[]> getUsers(){
+        LOG.info("GET /users");
+        try {
+            User[] users = userDAO.getItems();
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Handles GET request for a single user
      * @param id The id of the user
      * @return A response entity with the appropriate body and status
      */
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable int id){
-        LOG.info("GET /products/" + id);
+        LOG.info("GET /users/" + id);
         try {
             User user = userDAO.getItem(id);
             if(user == null){

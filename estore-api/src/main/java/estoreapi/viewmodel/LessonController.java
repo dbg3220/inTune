@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author Damon Gonzalez
  */
 @RestController
-@RequestMapping("lessons")
+@RequestMapping("/lessons")
 public class LessonController {
 
     /** Logger object user for this controller */
@@ -40,13 +40,29 @@ public class LessonController {
     }
 
     /**
+     * Handles GET request for all lessons
+     * @return A response entity with a body of all the lessons in the inventory
+     */
+    @GetMapping
+    public ResponseEntity<Lesson[]> getLessons(){
+        LOG.info("GET /lessons");
+        try {
+            Lesson[] lessons = lessonDAO.getItems();
+            return new ResponseEntity<>(lessons, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Handles GET request for a single lesson
      * @param id The id of the lesson
      * @return A response entity with the appropriate body and status
      */
     @GetMapping("/{id}")
     public ResponseEntity<Lesson> getLesson(@PathVariable int id){
-        LOG.info("GET /products/" + id);
+        LOG.info("GET /lessons/" + id);
         try {
             Lesson lesson = lessonDAO.getItem(id);
             if(lesson == null){
