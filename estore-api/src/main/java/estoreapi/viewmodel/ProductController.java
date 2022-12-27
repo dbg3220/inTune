@@ -34,7 +34,7 @@ public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
     /** DAO used to access product objects */
     private DAO<Product> productDAO;
-    /** DAO used to access user objects, will not modify user object persistence here */
+    /** DAO used to access user objects */
     private DAO<User> userDAO;
 
     /**
@@ -106,6 +106,27 @@ public class ProductController {
     }
 
     /**
+     * Handles the PUT request for a single product
+     * @param product The product to be updated, containing its unique identifier
+     * @return A response entity with a body of the product and a status of OK
+     * if successful, gives status of NOT_FOUND otherwise
+     */
+    @PutMapping
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product){
+        LOG.info("PUT /proucts" + product);
+        try {//TODO implement this further with logical checks
+            Product result = productDAO.updateItem(product);
+            if(result == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Handles DELETE request for a single product
      * @param id The id of the product
      * @return A response entity with code OK if succesful, NOT_FOUND if 
@@ -114,7 +135,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id ){
         LOG.info("DELETE /products/" + id);
-        try {
+        try {//TODO implement this further with logical checks
             if(!productDAO.deleteItem(id)){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

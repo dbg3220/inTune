@@ -106,6 +106,27 @@ public class UserController {
     }
 
     /**
+     * Handles the PUT request for a single user
+     * @param user The user to be updated, containing its unique identifier
+     * @return A response entity with a body of the user and a status of OK
+     * if successful, gives status of NOT_FOUND otherwise
+     */
+    @PutMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user){
+        LOG.info("PUT /proucts" + user);
+        try {//TODO implement this further with logical checks
+            User result = userDAO.updateItem(user);
+            if(result == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Handles DELETE request for a single user
      * @param id The id of the user
      * @return A response entity with code OK if succesful, NOT_FOUND if 

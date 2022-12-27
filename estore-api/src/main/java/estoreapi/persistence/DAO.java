@@ -38,8 +38,8 @@ public interface DAO<T> {
     /**
      * Updates and saves an item
      * @param item The item to be updated and saved
-     * @return The updated item if successful, null if
-     * item could not be found
+     * @return The updated item if successful, null if item with matching
+     * id could not be found
      * @throws IOException if underlying storage cannot be accessed
      */
     T updateItem(T item) throws IOException;
