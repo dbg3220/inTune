@@ -58,4 +58,16 @@ public class User {
     public String toString() {
         return String.format(STRING_FORMAT, id, username, cart.toString());
     }
+
+    /**
+     * This equals() disregards the id and cart attributes for comparison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof User){
+            User other = (User) obj;
+            return this.username.equals(other.username);
+        }
+        return false;
+    }
 }

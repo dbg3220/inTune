@@ -125,12 +125,15 @@ public class Product {
         return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image, reviews.toString());
     }
 
+    /**
+     * This equals() disregards the id and reviews attributes of the Product
+     * class for comparison.
+     */
     @Override
     public boolean equals(Object other) {
         if(other instanceof Product){
             Product otherProduct = (Product) other;
-            return this.id == otherProduct.id &&
-                   this.name.equals(otherProduct.name) &&
+            return this.name.equals(otherProduct.name) &&
                    this.price == otherProduct.price &&
                    this.category.equals(otherProduct.category) &&
                    this.quantity == otherProduct.quantity &&

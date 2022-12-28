@@ -95,12 +95,15 @@ public class Lesson {
         return String.format(STRING_FORMAT, id, category, instructor, weekday, startTime, userID, price, name);
     }
 
+    /**
+     * This equals() disregards the id attribute of the Lesson class for
+     * comparison.
+     */
     @Override
     public boolean equals(Object other){
         if(other instanceof Lesson){
             Lesson otherLesson = (Lesson) other;
-            return this.id == otherLesson.id &&
-                   this.category.equals(otherLesson.category) &&
+            return this.category.equals(otherLesson.category) &&
                    this.instructor.equals(otherLesson.instructor) &&
                    this.weekday.equals(otherLesson.weekday) &&
                    this.startTime == otherLesson.startTime &&
