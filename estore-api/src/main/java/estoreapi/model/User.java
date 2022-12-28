@@ -1,44 +1,33 @@
 package estoreapi.model;
 
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Represents a user
  * 
- * @author Hayden Cieniawski
  * @author Damon Gonzalez
- * @author Clayton Acheson
  */
 public class User {
 
-    private static final Logger LOG = Logger.getLogger(User.class.getName());
+    /** Format string for a User */
+    static final String STRING_FORMAT = "User [id=%d, username=%s, cart=%s]";
 
-    // Package private for tests
-    static final String STRING_FORMAT = "User [id=%d, username=%s]";
-
+    /** The id of the user */
     @JsonProperty("id") private int id;
+    /** The username of the user */
     @JsonProperty("username") private String username;
+    /** The cart of this user */
     @JsonProperty("cart") private Cart cart;
-    @JsonProperty("productsPurchased") private int[] productsPurchased;
 
     /**
-     * Create a user with the given id and username
-     * @param id The id of the user
-     * @param username The username of the user
-     *  
-     * {@literal @}JsonProperty is used in serialization and deserialization
-     * of the JSON object to the Java object in mapping the fields.  If a field
-     * is not provided in the JSON object, the Java field gets the default Java
-     * value, i.e. 0 for int
+     * Public constructor to deserialize user objects from a json file
      */
-    public User(@JsonProperty("id") int id , @JsonProperty("username") String username, @JsonProperty("cart") Cart cart, @JsonProperty("productsPurchased") int[] productsPurchased) {
+    public User(@JsonProperty("id") int id, 
+                @JsonProperty("username") String username, 
+                @JsonProperty("cart") Cart cart) {
         this.id = id;
         this.username = username;
         this.cart = cart;
-        this.productsPurchased = productsPurchased;
     }
 
     /**
@@ -65,28 +54,8 @@ public class User {
         return cart;
     }
 
-    /**
-     * Retrieves a list of the product ID's the user has purchased
-     * @return a list of the product ID's the user has purchased
-     */
-    public int[] getProductsPurchased() {
-        return productsPurchased;
-    }
-
-    public void setProductsPurchased(int[] productsPurchased) {
-        this.productsPurchased = productsPurchased;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT,id,username,cart,productsPurchased);
+        return String.format(STRING_FORMAT, id, username, cart.toString());
     }
-
-	public void setCart(Cart cart) {
-        this.cart = cart;
-	}
-
 }
