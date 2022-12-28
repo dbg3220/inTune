@@ -31,6 +31,14 @@ public class Lesson {
 
     /**
      * Public constructor to deserialize lesson objects from a json file
+     * @param id The id of the lesson
+     * @param category The category of instrument this lesson will teach
+     * @param instructor The name of the instructor for this lesson
+     * @param weekday The day of the week this lesson is taught on
+     * @param startTime The time during the day this lesson starts on
+     * @param userID The id of the user who has scheduled this lesson, -1 is default
+     * @param price The weekly price of this lesson
+     * @param name The name of this lesson
      */
     public Lesson(@JsonProperty("id") int id,
                   @JsonProperty("category") Category category,

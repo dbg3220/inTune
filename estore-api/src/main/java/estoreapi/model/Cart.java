@@ -19,6 +19,9 @@ public class Cart {
 
     /**
      * Public constructor for the Cart class
+     * @param productIDS An array of product ids this cart contains
+     * @param quantities An array of quantities of the corresponding productIDS
+     * array
      */
     public Cart (@JsonProperty("productIDS") int[] productIDS, 
                  @JsonProperty("quantities") int[] quantities) {

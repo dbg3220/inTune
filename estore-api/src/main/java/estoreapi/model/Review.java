@@ -22,6 +22,9 @@ public class Review {
 
     /**
      * Public constructor for the Review class
+     * @param username The username of the user who left this review
+     * @param rating The rating from 1-5 left by the user
+     * @param description The description left by the user
      */
     public Review(@JsonProperty("username") String username,
                   @JsonProperty("rating") int rating,

@@ -12,7 +12,7 @@ public class User {
     /** Format string for a User */
     static final String STRING_FORMAT = "User [id=%d, username=%s, cart=%s]";
 
-    /** The id of the user */
+    /** The id of the user, a unique identifier in storage */
     @JsonProperty("id") private int id;
     /** The username of the user */
     @JsonProperty("username") private String username;
@@ -21,6 +21,9 @@ public class User {
 
     /**
      * Public constructor to deserialize user objects from a json file
+     * @param id The id of the user
+     * @param username The username of the user
+     * @param cart The cart of this user
      */
     public User(@JsonProperty("id") int id, 
                 @JsonProperty("username") String username, 

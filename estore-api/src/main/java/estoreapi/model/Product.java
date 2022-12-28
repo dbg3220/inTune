@@ -31,6 +31,14 @@ public class Product {
 
     /**
      * Public constructor to deserialize products objects from a json file
+     * @param id The id of the product
+     * @param name The name of the product
+     * @param price The price of the product
+     * @param category The category the product falls under
+     * @param quantity The amount of this product in the store's inventory
+     * @param description The description of this product created by the admin
+     * @param image The url to an image representing this product
+     * @param reviews The reviews of this product left by users who purchased it
      */
     public Product( @JsonProperty("id") int id, 
                     @JsonProperty("name") String name, 
