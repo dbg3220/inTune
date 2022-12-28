@@ -113,7 +113,7 @@ public class UserController {
      */
     @PutMapping
     public ResponseEntity<User> updateUser(@RequestBody User user){
-        LOG.info("PUT /proucts" + user);
+        LOG.info("PUT /users " + user);
         try {//TODO implement this further with logical checks
             User result = userDAO.updateItem(user);
             if(result == null){

@@ -104,7 +104,7 @@ public class LessonController {
      */
     @PutMapping
     public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson){
-        LOG.info("PUT /proucts" + lesson);
+        LOG.info("PUT /lessons " + lesson);
         try {//TODO implement this further with logical checks
             Lesson result = lessonDAO.updateItem(lesson);
             if(result == null){
