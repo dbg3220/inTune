@@ -36,6 +36,11 @@ public class ProductController {
     private DAO<Product> productDAO;
     /** DAO used to access user objects */
     private DAO<User> userDAO;
+    /** Service used by this controller to handle the business logic of the
+     * product resource. This service can modify user objects when a change in
+     * a product object is requested.
+     */
+    private ProductService eService;
 
     /**
      * Creates a REST API controller to respond to requests
@@ -43,9 +48,10 @@ public class ProductController {
      * @param productDAO The product data access object to perform CRUD operations, injected by spring
      * @param userDAO The user data access object to perform CRUD operations, injected by spring
      */
-    public ProductController(DAO<Product> productDAO, DAO<User> userDAO) {
+    public ProductController(DAO<Product> productDAO, DAO<User> userDAO, ProductService eService) {
         this.productDAO = productDAO;
         this.userDAO = userDAO;
+        this.eService = eService;
     }
 
     /**

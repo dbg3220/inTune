@@ -29,14 +29,18 @@ public class LessonController {
     private static final Logger LOG = Logger.getLogger(LessonController.class.getName());
     /** DAO used to access lesson objects */
     private DAO<Lesson> lessonDAO;
+    /** Service used by this controller to handle the business logic of the lesson resource */
+    private LessonService eService;
 
     /**
      * Creates a REST API controller to respond to requests
      * 
      * @param lessonDAO The lesson data access object to perform CRUD operations
+     * @param eService The service that handles the business logic of the lesson resource
      */
-    public LessonController(DAO<Lesson> lessonDAO){
+    public LessonController(DAO<Lesson> lessonDAO, LessonService eService){
         this.lessonDAO = lessonDAO;
+        this.eService = eService;
     }
 
     /**

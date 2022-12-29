@@ -36,6 +36,11 @@ public class UserController {
     private DAO<User> userDAO;
     /** DAO used to access product objects, will not modify product object persistence here */
     private DAO<Product> productDAO;
+    /** Service used by this controller to handle the business logic of the
+     * user resource. This service will be capable of viewing product objects
+     * when a request to change a user is made.
+     */
+    private UserService eService;
 
     /**
      * Creates a REST API controller to respond to requests
@@ -43,9 +48,10 @@ public class UserController {
      * @param userDAO The user data access object to perform CRUD operations
      * @param productDAO The product data access object to perform CRUD operations
      */
-    public UserController(DAO<User> userDAO, DAO<Product> productDAO) {
+    public UserController(DAO<User> userDAO, DAO<Product> productDAO, UserService eService) {
         this.userDAO = userDAO;
         this.productDAO = productDAO;
+        this.eService = eService;
     }
 
     /**
