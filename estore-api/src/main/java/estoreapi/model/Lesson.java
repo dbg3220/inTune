@@ -39,6 +39,8 @@ public class Lesson {
      * @param userID The id of the user who has scheduled this lesson, -1 is default
      * @param price The weekly price of this lesson
      * @param name The name of this lesson
+     * 
+     * throws an IllegalLessonException if business logic is violated
      */
     public Lesson(@JsonProperty("id") int id,
                   @JsonProperty("category") Category category,
@@ -48,6 +50,14 @@ public class Lesson {
                   @JsonProperty("userID") int userID,
                   @JsonProperty("price") double price,
                   @JsonProperty("name") String name){
+        if(instructor == null || instructor.equals(""))
+            throw new IllegalLessonException("instructor cannot be null or an empty string");
+        if(startTime < 9 || startTime > 5)
+            throw new IllegalLessonException("startTime must be between the hours of 9 to 5(inclusive)");
+        if(userID < -1)
+            throw new IllegalLessonException("userID must be -1 or a nonnegative integer");
+        if(price < 0) 
+            throw new IllegalLessonException("price cannot be negative");
         this.id = id;
         this.category = category;
         this.instructor = instructor;
@@ -56,6 +66,17 @@ public class Lesson {
         this.userID = userID;
         this.price = price;
         this.name = name;
+    }
+
+    /**
+     * Private exception class to halt program when a Lesson is
+     * instantiated with values that are illegal under the business logic of this
+     * API.
+     */
+    private class IllegalLessonException extends RuntimeException {
+        public IllegalLessonException(String message){
+            super(message);
+        }
     }
 
     /** Getter for id */

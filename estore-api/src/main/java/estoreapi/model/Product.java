@@ -39,15 +39,25 @@ public class Product {
      * @param description The description of this product created by the admin
      * @param image The url to an image representing this product
      * @param reviews The reviews of this product left by users who purchased it
+     * 
+     * throws an IllegalProductException if business logic is violated
      */
-    public Product( @JsonProperty("id") int id, 
-                    @JsonProperty("name") String name, 
-                    @JsonProperty("price") double price,
-                    @JsonProperty("category") Category category,
-                    @JsonProperty("quantity") int quantity, 
-                    @JsonProperty("description") String description,
-                    @JsonProperty("image") String image,
-                    @JsonProperty("reviews") Review[] reviews) {
+    public Product(@JsonProperty("id") int id, 
+                   @JsonProperty("name") String name, 
+                   @JsonProperty("price") double price,
+                   @JsonProperty("category") Category category,
+                   @JsonProperty("quantity") int quantity, 
+                   @JsonProperty("description") String description,
+                   @JsonProperty("image") String image,
+                   @JsonProperty("reviews") Review[] reviews) {
+        if(name == null || name.equals(""))
+            throw new IllegalProductException("name cannot be null or an empty string");
+        if(price < 0)
+            throw new IllegalProductException("price cannot be negative");
+        if(quantity < 0)
+            throw new IllegalProductException("quantity cannot be negative");
+        if(reviews == null)
+            throw new IllegalProductException("reviews cannot be null");
         this.id = id;
         this.name = name;
         this.price = price;
@@ -56,6 +66,17 @@ public class Product {
         this.description = description;
         this.image = image;
         this.reviews = reviews;
+    }
+
+    /**
+     * Private exception class to halt program when a Product is
+     * instantiated with values that are illegal under the business logic of this
+     * API.
+     */
+    private class IllegalProductException extends RuntimeException {
+        public IllegalProductException(String message){
+            super(message);
+        }
     }
 
     /**
