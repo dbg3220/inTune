@@ -25,7 +25,7 @@ public class LessonService {
      * @return true if the operation was successful, false otherwise
      */
     protected boolean updateLesson(DAO<Lesson> lessonDAO, Lesson lesson) throws IOException{
-        Lesson existing = lessonDAO.getItem(lesson.getID());
+        Lesson existing = lessonDAO.getItem(lesson.getId());
         if(existing.getUserID() != -1 && lesson.getUserID() != -1){
             return false;
         }

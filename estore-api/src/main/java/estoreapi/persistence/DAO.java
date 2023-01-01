@@ -28,7 +28,9 @@ public interface DAO<T> {
     T getItem(int id) throws IOException;
 
     /**
-     * Creates and saves an item
+     * Creates and saves an item. When creating an item certain attributes
+     * of the item passed in as a parameter may be ignored due to the logic of
+     * the domain of the item.
      * @param item The item to create
      * @return The newly created item if successful, null otherwise 
      * @throws IOException if an issue with underlying storage

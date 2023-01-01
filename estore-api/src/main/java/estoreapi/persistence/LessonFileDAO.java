@@ -70,9 +70,9 @@ public class LessonFileDAO implements DAO<Lesson>{
         nextId = -1;
         Lesson[] lessonArray = objectMapper.readValue(new File(filename),Lesson[].class);
         for (Lesson lesson : lessonArray) {
-            lessons.put(lesson.getID(), lesson);
-            if (lesson.getID() > nextId)
-                nextId = lesson.getID();
+            lessons.put(lesson.getId(), lesson);
+            if (lesson.getId() > nextId)
+                nextId = lesson.getId();
         }
         ++nextId;//make the next id greater than the last
     }
@@ -111,7 +111,7 @@ public class LessonFileDAO implements DAO<Lesson>{
 
     @Override
     public Lesson createItem(Lesson lesson) throws IOException {
-        synchronized(lessons){//TODO implement this so that if attributes are invalid a lesson isn't created
+        synchronized(lessons){
             Lesson newLesson = new Lesson(nextId(),//the next unique id
                                           lesson.getCategory(),
                                           lesson.getInstructor(), 
@@ -120,7 +120,7 @@ public class LessonFileDAO implements DAO<Lesson>{
                                           -1,//default value
                                           lesson.getPrice(),
                                           lesson.getName());
-            lessons.put(newLesson.getID(), newLesson);
+            lessons.put(newLesson.getId(), newLesson);
             save();
             return newLesson;
         }
@@ -129,10 +129,10 @@ public class LessonFileDAO implements DAO<Lesson>{
     @Override
     public Lesson updateItem(Lesson lesson) throws IOException {
         synchronized(lessons){
-            if( !lessons.containsKey(lesson.getID()) )
+            if( !lessons.containsKey(lesson.getId()) )
                 return null;
 
-            lessons.put(lesson.getID(), lesson);
+            lessons.put(lesson.getId(), lesson);
             save();
             return lesson;
         }

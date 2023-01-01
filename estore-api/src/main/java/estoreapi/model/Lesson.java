@@ -80,7 +80,7 @@ public class Lesson {
     }
 
     /** Getter for id */
-    public int getID(){
+    public int getId(){
         return id;
     }
     
@@ -117,6 +117,41 @@ public class Lesson {
     /** Getter for the name */
     public String getName(){
         return name;
+    }
+
+    /** Setter for the category */
+    public void setCategory(Category category){
+        this.category = category;
+    }
+
+    /** Setter for the instructor */
+    public void setInstructor(String instructor){
+        this.instructor = instructor;
+    }
+
+    /** Setter for the weekday */
+    public void setWeekday(Weekday weekday){
+        this.weekday = weekday;
+    }
+
+    /** Setter for the start time */
+    public void setStartTime(int startTime){
+        this.startTime = startTime;
+    }
+
+    /** Setter for the userID */
+    public void setUserID(int userID){
+        this.userID = userID;
+    }
+
+    /** Setter for the price */
+    public void setPrice(double price){
+        this.price = price;
+    }
+
+    /** Setter for the name */
+    public void setName(String name){
+        this.name = name;
     }
 
     @Override
