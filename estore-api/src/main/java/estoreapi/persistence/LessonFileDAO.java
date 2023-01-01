@@ -112,12 +112,12 @@ public class LessonFileDAO implements DAO<Lesson>{
     @Override
     public Lesson createItem(Lesson lesson) throws IOException {
         synchronized(lessons){
-            Lesson newLesson = new Lesson(nextId(),//the next unique id
+            Lesson newLesson = new Lesson(nextId(),
                                           lesson.getCategory(),
                                           lesson.getInstructor(), 
                                           lesson.getWeekDay(),
                                           lesson.getStartTime(),
-                                          -1,//default value
+                                          lesson.getUserID(),
                                           lesson.getPrice(),
                                           lesson.getName());
             lessons.put(newLesson.getId(), newLesson);
