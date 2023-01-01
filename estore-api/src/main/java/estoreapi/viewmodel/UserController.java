@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import estoreapi.model.Cart;
+import estoreapi.model.Lesson;
 import estoreapi.model.Product;
 import estoreapi.model.User;
 import estoreapi.persistence.DAO;
@@ -35,6 +35,8 @@ public class UserController {
     private DAO<User> userDAO;
     /** DAO used to access product objects, will not modify product object persistence here */
     private DAO<Product> productDAO;
+    /** DAO used to access lesson objects */
+    private DAO<Lesson> lessonDAO;
     /** Service used by this controller to handle the business logic of the
      * user resource. This service will be capable of viewing product objects
      * when a request to change a user is made.
@@ -47,9 +49,11 @@ public class UserController {
      * @param userDAO The user data access object to perform CRUD operations
      * @param productDAO The product data access object to perform CRUD operations
      */
-    public UserController(DAO<User> userDAO, DAO<Product> productDAO, UserService eService) {
+    public UserController(DAO<User> userDAO, DAO<Product> productDAO, DAO<Lesson> lessonDAO,
+                            UserService eService) {
         this.userDAO = userDAO;
         this.productDAO = productDAO;
+        this.lessonDAO = lessonDAO;
         this.eService = eService;
     }
 
@@ -98,7 +102,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user){
         LOG.info("POST /users " + user);
-        try {//TODO implement this further with logical checks
+        try {
             User result = userDAO.createItem(user);
             if(result == null){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -119,12 +123,8 @@ public class UserController {
     @PutMapping
     public ResponseEntity<User> updateUser(@RequestBody User user){
         LOG.info("PUT /users " + user);
-        try {//TODO implement this further with logical checks
-            User result = userDAO.updateItem(user);
-            if(result == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(eService.updateUser(userDAO, productDAO, user));
         } catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -141,10 +141,7 @@ public class UserController {
     public ResponseEntity<User> deleteUser(@PathVariable int id ){
         LOG.info("DELETE /users/" + id);
         try {
-            if(!userDAO.deleteItem(id)){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(eService.deleteUser(userDAO, lessonDAO, id));
         } catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

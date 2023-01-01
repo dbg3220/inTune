@@ -29,7 +29,7 @@ public class Cart {
             throw new IllegalCartException("the productIDS and quantities of a cart must be the same length");
         for(int i = 0; i < productIDS.length; i++){
             if(productIDS[i] < 0)
-                throw new IllegalCartException("a cart cannot contain negative productIDS because all products have nonnegative ids");
+                throw new IllegalCartException("a cart cannot contain negative product ids because all products have nonnegative ids");
             if(quantities[i] < 0)
                 throw new IllegalCartException("a quantity of a product cannot be negative");
         }

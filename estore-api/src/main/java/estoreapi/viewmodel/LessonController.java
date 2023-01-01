@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import estoreapi.model.Lesson;
 import estoreapi.persistence.DAO;
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class LessonController {
     @PostMapping
     public ResponseEntity<Lesson> createLesson(@RequestBody Lesson lesson){
         LOG.info("POST /lessons " + lesson);
-        try {//TODO implement this further with logical checks
+        try {
             Lesson result = lessonDAO.createItem(lesson);
             if(result == null){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -109,12 +110,8 @@ public class LessonController {
     @PutMapping
     public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson){
         LOG.info("PUT /lessons " + lesson);
-        try {//TODO implement this further with logical checks
-            Lesson result = lessonDAO.updateItem(lesson);
-            if(result == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(eService.updateLesson(lessonDAO, lesson));
         } catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

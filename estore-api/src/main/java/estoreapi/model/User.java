@@ -74,6 +74,16 @@ public class User {
         return cart;
     }
 
+    /** Setter for the username */
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    /** Setter for the cart */
+    public void setCart(Cart cart){
+        this.cart = cart;
+    }
+
     @Override
     public String toString() {
         return String.format(STRING_FORMAT, id, username, cart.toString());

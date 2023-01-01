@@ -1,5 +1,6 @@
 package estoreapi.viewmodel;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import estoreapi.model.Lesson;
@@ -24,12 +25,15 @@ public class LessonService {
      * @param lesson The lesson to update
      * @return true if the operation was successful, false otherwise
      */
-    protected boolean updateLesson(DAO<Lesson> lessonDAO, Lesson lesson) throws IOException{
+    protected HttpStatus updateLesson(DAO<Lesson> lessonDAO, Lesson lesson) throws IOException{
         Lesson existing = lessonDAO.getItem(lesson.getId());
+        if(existing == null){
+            return HttpStatus.NOT_FOUND;
+        }
         if(existing.getUserID() != -1 && lesson.getUserID() != -1){
-            return false;
+            return HttpStatus.BAD_REQUEST;
         }
         lessonDAO.updateItem(lesson);
-        return true;
+        return HttpStatus.OK;
     }
 }

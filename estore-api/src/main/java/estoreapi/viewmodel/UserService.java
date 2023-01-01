@@ -2,6 +2,7 @@ package estoreapi.viewmodel;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import estoreapi.model.User;
@@ -29,7 +30,10 @@ public class UserService {
      * @return true if the operation was successful, false otherwise
      * @throws IOException
      */
-    protected boolean updateUser(DAO<User> userDAO, DAO<Product> productDAO, User user) throws IOException{
+    protected HttpStatus updateUser(DAO<User> userDAO, DAO<Product> productDAO, User user) throws IOException{
+        if(userDAO.getItem(user.getId()) == null){
+            return HttpStatus.NOT_FOUND;
+        }
         Cart cart = user.getCart();
         int[] productIDS = cart.getProductIDS();
         int[] quantities = cart.getQuantities();
@@ -37,20 +41,18 @@ public class UserService {
             int thisID = productIDS[i];
             int thisQuantity = quantities[i];
             Product product;
-            if((product = productDAO.getItem(thisID)) == null)
-                return false;
-            if(product.getQuantity() > thisQuantity)
-                return false;
+            if((product = productDAO.getItem(thisID)) == null || product.getQuantity() > thisQuantity)
+                return HttpStatus.BAD_REQUEST;
         }
         userDAO.updateItem(user);
-        return true;
+        return HttpStatus.OK;
     }
 
     /**
      * Handles the business logic behind deleting a user
      * 
      * -lessons are associated with users by id so when a user is deleted any
-     * lessons that the user were connected must be reverted to a free lesson
+     * lessons that the user were connected to must be reverted to a free lesson
      * to ensure other users can schedule them.
      * @param userDAO The DAO for users
      * @param lessonDAO The DAO for lessons
@@ -58,13 +60,15 @@ public class UserService {
      * @return true if the operation was successful, false otherwise
      * @throws IOException
      */
-    protected boolean deleteUser(DAO<User> userDAO, DAO<Lesson> lessonDAO, User user) throws IOException{
-        int userID = user.getId();
+    protected HttpStatus deleteUser(DAO<User> userDAO, DAO<Lesson> lessonDAO, int id) throws IOException{
+        if(userDAO.getItem(id) == null){
+            return HttpStatus.NOT_FOUND;
+        }
         Lesson[] lessons = lessonDAO.getItems();
         for(Lesson lesson : lessons){
-            if(lesson.getUserID() == userID)
+            if(lesson.getUserID() == id)
                 lesson.setUserID(-1);
         }
-        return true;
+        return HttpStatus.OK;
     }
 }

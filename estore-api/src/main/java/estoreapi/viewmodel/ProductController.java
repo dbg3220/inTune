@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoreapi.model.User;
-import estoreapi.model.Cart;
 import estoreapi.model.Product;
 import estoreapi.persistence.DAO;
 import java.io.IOException;
@@ -97,7 +96,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product){
         LOG.info("POST /products " + product);
-        try {//TODO implement this further with logical checks
+        try {
             Product result = productDAO.createItem(product);
             if(result == null){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -118,12 +117,8 @@ public class ProductController {
     @PutMapping
     public ResponseEntity<Product> updateProduct(@RequestBody Product product){
         LOG.info("PUT /products " + product);
-        try {//TODO implement this further with logical checks
-            Product result = productDAO.updateItem(product);
-            if(result == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(eService.updateProduct(productDAO, userDAO, product));
         } catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -139,11 +134,8 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id ){
         LOG.info("DELETE /products/" + id);
-        try {//TODO implement this further with logical checks
-            if(!productDAO.deleteItem(id)){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(eService.deleteProduct(productDAO, userDAO, id));
         } catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
