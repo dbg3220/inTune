@@ -1,66 +1,63 @@
 package estoreapi.model;
 
-import java.util.logging.Logger;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents an product
+ * Represents a product
  * 
- * @author Hayden Cieniawski
- * @author Clayton Acheson
  * @author Damon Gonzalez
  */
-public class    Product {
+public class Product {
 
-    private static final Logger LOG = Logger.getLogger(Product.class.getName());
+    /** Format string for a Product */
+    static final String STRING_FORMAT = "Product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s, reviews=%s]";
 
-    // Package private for tests
-    static final String STRING_FORMAT = "product [id=%d, name=%s, price=%.2f, category=%s, quantity=%d, description=%s, image=%s]";
-
-    @JsonProperty("id")
-    private int id; // The product ID
-    @JsonProperty("name")
-    private String name; // The name of the product to be displayed
-    @JsonProperty("price")
-    private double price; // The price of the given product
-    @JsonProperty("category")
-    private String category; // The category of the product, for front-end classification
-    @JsonProperty("quantity")
-    private int quantity; // The amount of the product in stock
-    @JsonProperty("description")
-    private String description; // The description of the product, for the product page
-    @JsonProperty("image")
-    private String image; // The size of the intrument (Ex. 1/2)
-    @JsonProperty("reviews")
-    private Review[] reviews;
+    /** The id of the product, a unique identifier in storage */
+    @JsonProperty("id") private int id;
+    /** The name of the product */
+    @JsonProperty("name") private String name;
+    /** The price of the product */
+    @JsonProperty("price") private double price;
+    /** The category of the product */
+    @JsonProperty("category") private Category category;
+    /** The quantity of the product in the store's inventory */
+    @JsonProperty("quantity") private int quantity;
+    /** A description of the product given by the store owner */
+    @JsonProperty("description") private String description;
+    /** The URL of an image representing this product */
+    @JsonProperty("image") private String image;
+    /** An array of reviews of this product left by Users, may be empty */
+    @JsonProperty("reviews") private Review[] reviews;
 
     /**
-     * Create a product with the given id, name, and price.
+     * Public constructor to deserialize products objects from a json file
+     * @param id The id of the product
+     * @param name The name of the product
+     * @param price The price of the product
+     * @param category The category the product falls under
+     * @param quantity The amount of this product in the store's inventory
+     * @param description The description of this product created by the admin
+     * @param image The url to an image representing this product
+     * @param reviews The reviews of this product left by users who purchased it
      * 
-     * @param id          The id of the product
-     * @param name        The name of the product
-     * @param price       The price of the product
-     * @param string    The category of the product
-     * @param quantity    The quantity of the product
-     * @param description The description of the product
-     * @param image       The image to be displayed with the product
-     * @param reviews     The reviews of the product left by users
-     *                    *
-     *{@literal @}JsonProperty is used in serialization and deserialization
-     * of the JSON object to the Java object in mapping the fields. If a field
-     * is not provided in the JSON object, the Java field gets
-     *                    the default Java
-     *                    value, i.e. 0 for int
+     * throws an IllegalProductException if business logic is violated
      */
-    public Product( @JsonProperty("id") int id, 
-                    @JsonProperty("name") String name, 
-                    @JsonProperty("price") double price,
-                    @JsonProperty("category") String category,
-                    @JsonProperty("quantity") int quantity, 
-                    @JsonProperty("description") String description,
-                    @JsonProperty("image") String image,
-                    @JsonProperty("reviews") Review[] reviews) {
+    public Product(@JsonProperty("id") int id, 
+                   @JsonProperty("name") String name, 
+                   @JsonProperty("price") double price,
+                   @JsonProperty("category") Category category,
+                   @JsonProperty("quantity") int quantity, 
+                   @JsonProperty("description") String description,
+                   @JsonProperty("image") String image,
+                   @JsonProperty("reviews") Review[] reviews) {
+        if(name == null || name.equals(""))
+            throw new IllegalProductException("name cannot be null or an empty string");
+        if(price < 0)
+            throw new IllegalProductException("price cannot be negative");
+        if(quantity < 0)
+            throw new IllegalProductException("quantity cannot be negative");
+        if(reviews == null)
+            throw new IllegalProductException("reviews cannot be null");
         this.id = id;
         this.name = name;
         this.price = price;
@@ -69,6 +66,17 @@ public class    Product {
         this.description = description;
         this.image = image;
         this.reviews = reviews;
+    }
+
+    /**
+     * Private exception class to halt program when a Product is
+     * instantiated with values that are illegal under the business logic of this
+     * API.
+     */
+    private class IllegalProductException extends RuntimeException {
+        public IllegalProductException(String message){
+            super("Product: " + message);
+        }
     }
 
     /**
@@ -81,32 +89,12 @@ public class    Product {
     }
 
     /**
-     * Sets the name of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param name The name of the product
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Retrieves the name of the product
      * 
      * @return The name of the product
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Sets the price of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param price The price of the product
-     */
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     /**
@@ -119,29 +107,11 @@ public class    Product {
     }
 
     /**
-     * Sets the category of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param category The category of the product
-     */
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
      * Retrieves the category of the product
      * @return The category of the product
      */
-    public String getCategory() {return category;}
-
-    /**
-     * Sets the quantity of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param quantity The quantity of the product
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public Category getCategory() { 
+        return category; 
     }
 
     /**
@@ -154,13 +124,6 @@ public class    Product {
     }
 
     /**
-     * Sets the Description of the product
-     */
-    public void setDescription(String desc) {
-        this.description = desc;
-    }
-
-    /**
      * Retrieves the Description of the product
      * 
      * @return The Description of the product
@@ -168,14 +131,7 @@ public class    Product {
     public String getDescription() {
         return description;
     }
-
-    /**
-     * Sets the Image of the product
-     */
-    public void setImage(String img) {
-        this.image = img;
-    }
-
+    
     /**
      * Retrieves the Image of the product
      * 
@@ -191,25 +147,22 @@ public class    Product {
      */
     public Review[] getReviews(){
         return reviews;
-}
+    }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image);
+        return String.format(STRING_FORMAT, id, name, price, category, quantity, description, image, reviews.toString());
     }
 
     /**
-     * {@inheritDoc}
+     * This equals() disregards the id and reviews attributes of the Product
+     * class for comparison.
      */
     @Override
     public boolean equals(Object other) {
         if(other instanceof Product){
             Product otherProduct = (Product) other;
-            return this.id == otherProduct.id &&
-                   this.name.equals(otherProduct.name) &&
+            return this.name.equals(otherProduct.name) &&
                    this.price == otherProduct.price &&
                    this.category.equals(otherProduct.category) &&
                    this.quantity == otherProduct.quantity &&

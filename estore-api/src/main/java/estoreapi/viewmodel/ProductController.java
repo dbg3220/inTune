@@ -9,209 +9,135 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import estoreapi.model.Cart;
+import estoreapi.model.User;
 import estoreapi.model.Product;
-import estoreapi.persistence.ProductDAO;
-import estoreapi.persistence.UserDAO;
-
+import estoreapi.persistence.DAO;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Handles the REST API requests for the product resource
- * <p>
- * {@literal @}RestController Spring annotation identifies this class as a REST
- * API
- * method handler to the Spring framework
+ * Spring Controller to handle http requests for Product objects
  * 
- * @author Hayden Cieniawski
- * @author Clayton Acheson
  * @author Damon Gonzalez
  */
 @RestController
-@RequestMapping("products")
+@RequestMapping("/products")
 public class ProductController {
+
+    /** Logger object user for this controller */
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
-    private ProductDAO productDao;
-    private UserDAO userDao;
+    /** DAO used to access product objects */
+    private DAO<Product> productDAO;
+    /** DAO used to access user objects */
+    private DAO<User> userDAO;
+    /** Service used by this controller to handle the business logic of the
+     * product resource. This service can modify user objects when a change in
+     * a product object is requested.
+     */
+    private ProductService eService;
 
     /**
      * Creates a REST API controller to respond to requests
      * 
-     * @param productDao The {@link ProductDAO Product Data Access Object} to
-     *                   perform CRUD operations
-     *                   <br>
-     * @param userDao    The {@link UserDAO User Data Access Object} to perform
-     *                   perform CRUD operations
-     *                   
-     * These dependencies are injected by the spring framework
+     * @param productDAO The product data access object to perform CRUD operations, injected by spring
+     * @param userDAO The user data access object to perform CRUD operations, injected by spring
      */
-    public ProductController(ProductDAO productDao, UserDAO userDao) {
-        this.productDao = productDao;
-        this.userDao = userDao;
+    public ProductController(DAO<Product> productDAO, DAO<User> userDAO, ProductService eService) {
+        this.productDAO = productDAO;
+        this.userDAO = userDAO;
+        this.eService = eService;
     }
 
-   /**
-    * Handles the HTTP GET request for the product resource
-    * @param id The id of the product to retrieve
-    * @return The product with the specified id
-    */
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable int id) {
-        LOG.info("GET /Products/" + id);   
-        try {
-            Product product = productDao.getProduct(id);
-            if (product != null)
-                return new ResponseEntity<>(product, HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IOException e){
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     /**
-     * Handles the HTTP GET request for the product resource
-     * @return All products
+     * Handles GET request for all products
+     * @return A response entity with a body of all the products in the inventory
      */
-    @GetMapping("")
-    public ResponseEntity<Product[]> getProducts() {
+    @GetMapping
+    public ResponseEntity<Product[]> getProducts(){
         LOG.info("GET /products");
         try {
-            Product[] products = productDao.getProducts();
+            Product[] products = productDAO.getItems();
             return new ResponseEntity<>(products, HttpStatus.OK);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    }
-    /**
-     * Handles the HTTP GET request for the product resource
-     * @param name The text to search against
-     * @return All products whose name includes the specified parameter
-     */
-    @GetMapping("/")
-    public ResponseEntity<Product[]> findProducts(@RequestParam String name) {
-        LOG.info("GET /products/?name=" + name);
-        try {
-            Product[] products = productDao.findProducts(name);
-            return new ResponseEntity<>(products, HttpStatus.OK);
-        } catch (IOException e) {
+        } catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Handles the HTTP POST request for the product resource
-     * @param product The product to create
-     * @return The product that was created including a unique identifier id that
-     *  was assigned by the server
+     * Handles GET request for a single product
+     * @param id The id of the product
+     * @return A response entity with the appropriate body and status
      */
-    @PostMapping("")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable int id){
+        LOG.info("GET /products/" + id);
+        try {
+            Product product = productDAO.getItem(id);
+            if(product == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Handles the POST request for a single product
+     * @param product The product to be created
+     * @return A response entity with the product as body and status of OK
+     * if successful, status of BAD_REQUEST otherwise
+     */
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product){
         LOG.info("POST /products " + product);
         try {
-            Product newProduct = productDao.createProduct(product);
-            if (newProduct != null)
-                return new ResponseEntity<Product>(newProduct,HttpStatus.CREATED);
-            else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            Product result = productDAO.createItem(product);
+            if(result == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Handles the HTTP PUT request to update an existing product
-     * @param product The product to update
-     * @return The HTTP response
+     * Handles the PUT request for a single product
+     * @param product The product to be updated, containing its unique identifier
+     * @return A response entity with a body of the product and a status of OK
+     * if successful, gives status of NOT_FOUND otherwise
      */
-    @PutMapping("")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+    @PutMapping
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product){
         LOG.info("PUT /products " + product);
         try {
-            if(product.getPrice() < 0){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if(product.getQuantity() < 0){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            Product newProduct = productDao.updateProduct(product);
-            if (newProduct != null){
-                int productID = newProduct.getId();
-                Cart[] carts = userDao.getCarts();
-                for(Cart cart : carts){
-                    boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
-                    ArrayList<Integer> productIDS = cart.getProductIDS();
-                    ArrayList<Integer> quantities = cart.getQuantities();
-                    for(int i = 0; i < productIDS.size(); i++){
-                        if(productIDS.get(i) == productID && quantities.get(i) > newProduct.getQuantity()){
-                            adjustCart = true;
-                            quantities.set(i, newProduct.getQuantity());
-                        }
-                    }
-                    // if(adjustCart){
-                    //     Cart newCart = new Cart(cart.getId(), productIDS, quantities);
-                    //     userDao.updateCart(newCart);
-                    // }
-                }
-                return new ResponseEntity<Product>(newProduct,HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(eService.updateProduct(productDAO, userDAO, product));
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-   /**
-    * Handles the HTTP DELETE request to delete an existing product
-    * @param id The id of the product to delete
-    * @return The HTTP response
-    */
+    /**
+     * Handles DELETE request for a single product
+     * @param id The id of the product
+     * @return A response entity with code OK if succesful, NOT_FOUND if 
+     * unsuccessful
+     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
-        LOG.info("DELETE /Products/" + id);
+    public ResponseEntity<Product> deleteProduct(@PathVariable int id ){
+        LOG.info("DELETE /products/" + id);
         try {
-            boolean result = productDao.deleteProduct(id);
-            if (result){
-                Cart[] carts = userDao.getCarts();
-                for(Cart cart : carts){
-                    boolean adjustCart = false;//becomes true if the cart needs to be changed by the dao
-                    ArrayList<Integer> productIDS = cart.getProductIDS();
-                    ArrayList<Integer> quantities = cart.getQuantities();
-                    for(int i = 0; i < productIDS.size(); i++){
-                        if(productIDS.get(i) == id){
-                            adjustCart = true;
-                            productIDS.remove(i);
-                            quantities.remove(i);
-                        }
-                    }
-                    // if(adjustCart){
-                    //     Cart newCart = new Cart(cart.getId(), productIDS, quantities);
-                    //     userDao.updateCart(newCart);
-                    // }
-                }
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(eService.deleteProduct(productDAO, userDAO, id));
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

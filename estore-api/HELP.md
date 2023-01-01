@@ -20,3 +20,8 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
 
+### Notes
+
+- Following some testing I found out that classes annotaed with @Component are instantiated
+by Spring's bean processor only once. This means in development I don't have to worry about
+DAO's that are injected into multiple contructors, they all refer to the same object.

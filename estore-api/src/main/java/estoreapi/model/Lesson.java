@@ -3,28 +3,26 @@ package estoreapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents a Lesson
+ * Represents a lesson
  * 
  * @author Damon Gonzalez
  */
 public class Lesson {
 
-    /** Format string for toString() method */
-    static final String STRING_FORMAT = "lesson [id=%d, isFull=%b, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
+    /** Format string for a Lesson */
+    static final String STRING_FORMAT = "Lesson [id=%d, category=%s, instructor=%s, weekday=%s, startTime=%d, userID=%d, price=%s, name=%s]";
 
-    /** The unique identifier for this lesson object */
+    /** The id of the lesson, a unique identifier in storage */
     @JsonProperty("id") private int id;
-    /** Boolean to identify whether this lesson is taken by a user */
-    @JsonProperty("isFull") private boolean isFull;
     /** The category of instrument that this lesson is for */
-    @JsonProperty("category") private String category;
+    @JsonProperty("category") private Category category;
     /** The name of the instructor for this lesson */
     @JsonProperty("instructor") private String instructor;
-    /** The day of the week this lesson is held on(MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY) */
-    @JsonProperty("weekday") private String weekday;
+    /** The day of the week this lesson is held on */
+    @JsonProperty("weekday") private Weekday weekday;
     /** The starting time (in hours) of this lesson */
     @JsonProperty("startTime") private int startTime;
-    /** The id of the user who has taken this lesson, if not taken by a user is set to -1 */
+    /** The id of the user who has scheduled this lesson, -1 if scheduled by no user */
     @JsonProperty("userID") private int userID;
     /** The weekly price of this lesson */
     @JsonProperty("price") private double price;
@@ -33,18 +31,34 @@ public class Lesson {
 
     /**
      * Public constructor to deserialize lesson objects from a json file
+     * @param id The id of the lesson
+     * @param category The category of instrument this lesson will teach
+     * @param instructor The name of the instructor for this lesson
+     * @param weekday The day of the week this lesson is taught on
+     * @param startTime The time during the day this lesson starts on
+     * @param userID The id of the user who has scheduled this lesson, -1 is default
+     * @param price The weekly price of this lesson
+     * @param name The name of this lesson
+     * 
+     * throws an IllegalLessonException if business logic is violated
      */
     public Lesson(@JsonProperty("id") int id,
-                  @JsonProperty("isFull") boolean isFull,
-                  @JsonProperty("category") String category,
+                  @JsonProperty("category") Category category,
                   @JsonProperty("instructor") String instructor,
-                  @JsonProperty("weekday") String weekday,
+                  @JsonProperty("weekday") Weekday weekday,
                   @JsonProperty("startTime") int startTime,
                   @JsonProperty("userID") int userID,
                   @JsonProperty("price") double price,
                   @JsonProperty("name") String name){
+        if(instructor == null || instructor.equals(""))
+            throw new IllegalLessonException("instructor cannot be null or an empty string");
+        if(startTime < 9 && startTime > 5)
+            throw new IllegalLessonException("startTime must be between the hours of 9 to 5(inclusive)");
+        if(userID < -1)
+            throw new IllegalLessonException("userID must be -1 or a nonnegative integer");
+        if(price < 0) 
+            throw new IllegalLessonException("price cannot be negative");
         this.id = id;
-        this.isFull = isFull;
         this.category = category;
         this.instructor = instructor;
         this.weekday = weekday;
@@ -54,18 +68,24 @@ public class Lesson {
         this.name = name;
     }
 
-    /** Getter for id */
-    public int getID(){
-        return id;
+    /**
+     * Private exception class to halt program when a Lesson is
+     * instantiated with values that are illegal under the business logic of this
+     * API.
+     */
+    private class IllegalLessonException extends RuntimeException {
+        public IllegalLessonException(String message){
+            super("Lesson: " + message);
+        }
     }
 
-    /** Getter for isFull */
-    public boolean isFull(){
-        return isFull;
+    /** Getter for id */
+    public int getId(){
+        return id;
     }
     
     /** Getter for the category */
-    public String getCategory(){
+    public Category getCategory(){
         return category;
     }
 
@@ -75,7 +95,7 @@ public class Lesson {
     }
 
     /** Getter for the weekday */
-    public String getWeekDay(){
+    public Weekday getWeekDay(){
         return weekday;
     }
 
@@ -99,18 +119,55 @@ public class Lesson {
         return name;
     }
 
-    @Override
-    public String toString(){
-        return String.format(STRING_FORMAT, id, isFull, category, instructor, weekday, startTime, userID, price, name);
+    /** Setter for the category */
+    public void setCategory(Category category){
+        this.category = category;
+    }
+
+    /** Setter for the instructor */
+    public void setInstructor(String instructor){
+        this.instructor = instructor;
+    }
+
+    /** Setter for the weekday */
+    public void setWeekday(Weekday weekday){
+        this.weekday = weekday;
+    }
+
+    /** Setter for the start time */
+    public void setStartTime(int startTime){
+        this.startTime = startTime;
+    }
+
+    /** Setter for the userID */
+    public void setUserID(int userID){
+        this.userID = userID;
+    }
+
+    /** Setter for the price */
+    public void setPrice(double price){
+        this.price = price;
+    }
+
+    /** Setter for the name */
+    public void setName(String name){
+        this.name = name;
     }
 
     @Override
+    public String toString(){
+        return String.format(STRING_FORMAT, id, category, instructor, weekday, startTime, userID, price, name);
+    }
+
+    /**
+     * This equals() disregards the id attribute of the Lesson class for
+     * comparison.
+     */
+    @Override
     public boolean equals(Object other){
-        if( other instanceof Lesson){
+        if(other instanceof Lesson){
             Lesson otherLesson = (Lesson) other;
-            return this.id == otherLesson.id &&
-                   this.isFull == otherLesson.isFull &&
-                   this.category.equals(otherLesson.category) &&
+            return this.category.equals(otherLesson.category) &&
                    this.instructor.equals(otherLesson.instructor) &&
                    this.weekday.equals(otherLesson.weekday) &&
                    this.startTime == otherLesson.startTime &&
@@ -119,18 +176,5 @@ public class Lesson {
                    this.name.equals(otherLesson.name);
         }
         return false;
-    }
-
-    @Override
-    public int hashCode(){
-        return Integer.hashCode(id) +
-               Boolean.hashCode(isFull) +
-               category.hashCode() +
-               instructor.hashCode() +
-               weekday.hashCode() +
-               Integer.hashCode(startTime) +
-               Integer.hashCode(userID) +
-               Double.hashCode(price) +
-               name.hashCode();
     }
 }
