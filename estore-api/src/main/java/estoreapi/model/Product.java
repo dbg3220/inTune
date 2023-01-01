@@ -75,7 +75,7 @@ public class Product {
      */
     private class IllegalProductException extends RuntimeException {
         public IllegalProductException(String message){
-            super(message);
+            super("Product: " + message);
         }
     }
 

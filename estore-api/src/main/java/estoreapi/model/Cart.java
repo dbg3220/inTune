@@ -25,8 +25,27 @@ public class Cart {
      */
     public Cart (@JsonProperty("productIDS") int[] productIDS, 
                  @JsonProperty("quantities") int[] quantities) {
+        if(productIDS.length != quantities.length)
+            throw new IllegalCartException("the productIDS and quantities of a cart must be the same length");
+        for(int i = 0; i < productIDS.length; i++){
+            if(productIDS[i] < 0)
+                throw new IllegalCartException("a cart cannot contain negative productIDS because all products have nonnegative ids");
+            if(quantities[i] < 0)
+                throw new IllegalCartException("a quantity of a product cannot be negative");
+        }
         this.productIDS = productIDS;
         this.quantities = quantities;
+    }
+
+    /**
+     * Private exception class to halt program when a cart is attempted to be
+     * instantiated with values that are illegal under the logic of this
+     * program.
+     */
+    private class IllegalCartException extends RuntimeException {
+        public IllegalCartException(String message){
+            super("Cart: " + message);
+        }
     }
 
     /**

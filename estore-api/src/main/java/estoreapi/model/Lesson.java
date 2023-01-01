@@ -52,7 +52,7 @@ public class Lesson {
                   @JsonProperty("name") String name){
         if(instructor == null || instructor.equals(""))
             throw new IllegalLessonException("instructor cannot be null or an empty string");
-        if(startTime < 9 || startTime > 5)
+        if(startTime < 9 && startTime > 5)
             throw new IllegalLessonException("startTime must be between the hours of 9 to 5(inclusive)");
         if(userID < -1)
             throw new IllegalLessonException("userID must be -1 or a nonnegative integer");
@@ -75,7 +75,7 @@ public class Lesson {
      */
     private class IllegalLessonException extends RuntimeException {
         public IllegalLessonException(String message){
-            super(message);
+            super("Lesson: " + message);
         }
     }
 

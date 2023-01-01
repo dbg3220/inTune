@@ -46,7 +46,7 @@ public class User {
      */
     private class IllegalUserException extends RuntimeException {
         public IllegalUserException(String message){
-            super(message);
+            super("User: " + message);
         }
     }
 
