@@ -1,19 +1,18 @@
+import { NgModel } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../product';
-// import { PRODUCTS } from '../mock-products';
 import { ProductService } from '../product.service';
 import { MessageService } from '../message.service';
-import {filter, Subject, takeUntil} from "rxjs";
+import { filter, Subject, takeUntil} from "rxjs";
 import { UserService } from '../user.service';
 import {
   FormGroup,
   FormBuilder,
   Validators,
 } from "@angular/forms";
-import { ThisReceiver } from '@angular/compiler';
 import { User } from '../user';
-import { Review } from '../review';
 
 @Component({
   selector: 'app-products',
@@ -29,7 +28,6 @@ export class ProductsComponent implements OnInit {
   user: User | undefined;
   isAdmin: boolean = false;
   form!: FormGroup;
-  test: string = "BRASS";
   alreadyExists: boolean = false;
   invalid: boolean = false;
 

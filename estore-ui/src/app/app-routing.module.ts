@@ -6,8 +6,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { LoginComponent } from './login/login.component';
 import { CartComponent } from './cart/cart.component';
-import {CheckoutComponent} from "./checkout/checkout.component";
-import {ConfirmComponent} from "./confirm/confirm.component";
+import { CheckoutComponent} from "./checkout/checkout.component";
+import { ConfirmComponent} from "./confirm/confirm.component";
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { LessonsComponent } from './lessons/lessons.component';
 
