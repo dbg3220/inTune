@@ -5,13 +5,12 @@ import { Location } from '@angular/common';
 
 import { ProductService } from '../product.service';
 import { Product } from '../product';
-import { MessengerService } from '../messenger.service';
 import { UserService } from '../user.service';
 import { filter, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Review } from '../review';
 import { User } from '../user';
-
+import { MessageService } from '../message.service';
 
 
 
@@ -34,14 +33,13 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
     private location: Location,
-    private msg: MessengerService,
+    private msg: MessageService,
     private userService: UserService,
     private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
     this.getProduct();
-    // console.log(this.product)
     this.userService.getCurrentUser().pipe(filter(user => !!user))
       .subscribe(user =>{
         this.user = user;
@@ -54,8 +52,6 @@ export class ProductDetailComponent implements OnInit {
       rating: ['', Validators.required],
       description: ['', Validators.required]
     });
-    // console.log(this.user)
-
   }
 
   getProduct(): void {
@@ -65,7 +61,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    // console.log("works")
     this.location.back();
   }
 
@@ -87,10 +82,8 @@ export class ProductDetailComponent implements OnInit {
   }
 
   handleAddToCart(){
-    // console.log("works")
     let product = JSON.parse(JSON.stringify(this.product));
     this.productService.addToCart(product);
-    // this.msg.sendMsg(this.product)
     this.added = true;
   }
 
@@ -126,4 +119,3 @@ export class ProductDetailComponent implements OnInit {
     return false;
   }
 }
-

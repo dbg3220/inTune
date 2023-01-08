@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MessengerService} from '../messenger.service';
+import { MessageService } from '../message.service';
 import {Product} from '../product';
 import {filter, Subject, takeUntil} from "rxjs";
 import {ProductService} from "../product.service";
@@ -24,7 +24,7 @@ export class CartComponent implements OnInit {
   subQuantity: number = 0;
 
   constructor(
-    private msg: MessengerService,
+    private msg: MessageService,
     private productService: ProductService,
     private router: Router,
     private location: Location,
@@ -36,12 +36,9 @@ export class CartComponent implements OnInit {
 
   removeProductCart(product: Product) {
     this.productService.removeToCart(product);
-    // when removed, set subTotals and subQuantity to 0 to refresh the amount
-    // Call subTotal() to get the new subTotals and subQuantityS
     this.subTotals = 0;
     this.subQuantity = 0;
     this.subTotal();
-
   }
 
   subTotal() {
@@ -54,7 +51,6 @@ export class CartComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // console.log('initalizing cart component', this.productService.productCart)
     this.productService.getCart().pipe(filter(cart => !!cart), takeUntil(this.componentDestroyed$))
       .subscribe(cartItems => {
         this.cartItems = cartItems
@@ -67,18 +63,12 @@ export class CartComponent implements OnInit {
     if (this.user!?.username == "admin"){
       this.isAdmin = true;
     }
-
-    this.msg.getMsg().subscribe(product => {
-      console.log(product)
-    })
   }
 
   routeToCheckoutComponent() {
     this.router.navigate(['/checkout']);
   }
   goBack(): void {
-    // console.log("works")
     this.location.back();
   }
-
 }
