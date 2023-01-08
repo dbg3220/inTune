@@ -27,7 +27,8 @@ public class ProductService {
      * @param productDAO The DAO for products
      * @param userDAO The DAO for users
      * @param product The product to update
-     * @return true if the operation was successful, false otherwise
+     * @return the http status representing the operation's outcome
+     * @throws IOException
      */
     protected HttpStatus updateProduct(DAO<Product> productDAO, DAO<User> userDAO, Product product) throws IOException{
         int id = product.getId();
@@ -67,7 +68,8 @@ public class ProductService {
      * @param productDAO The DAO for products
      * @param userDAO The DAO for users
      * @param product The product to delete
-     * @return true if the operation was successful, false otherwise
+     * @return the http status representing the operation's outcome
+     * @throws IOException
      */
     protected HttpStatus deleteProduct(DAO<Product> productDAO, DAO<User> userDAO, int id) throws IOException{
         Product existing = productDAO.getItem(id);

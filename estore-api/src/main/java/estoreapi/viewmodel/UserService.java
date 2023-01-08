@@ -27,7 +27,7 @@ public class UserService {
      * @param userDAO The DAO for users
      * @param productDAO The DAO for products
      * @param user The user to update
-     * @return true if the operation was successful, false otherwise
+     * @return the http status representing the operation's outcome
      * @throws IOException
      */
     protected HttpStatus updateUser(DAO<User> userDAO, DAO<Product> productDAO, User user) throws IOException{
@@ -57,7 +57,7 @@ public class UserService {
      * @param userDAO The DAO for users
      * @param lessonDAO The DAO for lessons
      * @param user The user to delete
-     * @return true if the operation was successful, false otherwise
+     * @return the http status representing the operation's outcome
      * @throws IOException
      */
     protected HttpStatus deleteUser(DAO<User> userDAO, DAO<Lesson> lessonDAO, int id) throws IOException{

@@ -23,7 +23,8 @@ public class LessonService {
      * to another, it must be -1 between them.
      * @param lessonDAO The DAO for lessons
      * @param lesson The lesson to update
-     * @return true if the operation was successful, false otherwise
+     * @return the http status representing the operation's outcome
+     * @throws IOException
      */
     protected HttpStatus updateLesson(DAO<Lesson> lessonDAO, Lesson lesson) throws IOException{
         Lesson existing = lessonDAO.getItem(lesson.getId());
