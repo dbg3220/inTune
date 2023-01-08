@@ -1,5 +1,4 @@
-import { NgModel } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../product';
