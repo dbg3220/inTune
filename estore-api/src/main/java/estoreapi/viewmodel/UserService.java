@@ -20,6 +20,23 @@ import estoreapi.persistence.DAO;
 public class UserService {
     
     /**
+     * Searches for a user in the database with a matching username. Returns
+     * that user if it exists, null otherwise
+     * @param userDAO The DAO for users
+     * @param username The username to search against
+     * @return A user if found, null otherwise
+     */
+    protected User searchUser(DAO<User> userDAO, String username) throws IOException{
+        User[] users = userDAO.getItems();
+        for(User user : users){
+            if(user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Handles the business logic behind updating a user
      * 
      * -When a user is updated its cart must be checked to ensure

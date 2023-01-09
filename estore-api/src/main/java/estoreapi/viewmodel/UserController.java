@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoreapi.model.Lesson;
@@ -60,6 +61,9 @@ public class UserController {
     /**
      * Handles GET request for all users
      * @return A response entity with a body of all the users in the inventory
+     * 
+     * WARNING: do not use on frontend, exists now for testing purposes,
+     * will be deleted
      */
     @GetMapping
     public ResponseEntity<User[]> getUsers(){
@@ -83,6 +87,27 @@ public class UserController {
         LOG.info("GET /users/" + id);
         try {
             User user = userDAO.getItem(id);
+            if(user == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Handles GET request for searching for a user
+     * @param username The username of the user
+     * @return A response entity with the user and a status of OK if found,
+     * status NOT_FOUND otherwise
+     */
+    @GetMapping("/search")
+    public ResponseEntity<User> searchUser(@RequestParam String username){
+        LOG.info("SEARCH /users/" + username);
+        try{
+            User user = eService.searchUser(userDAO, username);
             if(user == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
