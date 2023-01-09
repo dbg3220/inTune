@@ -1,8 +1,4 @@
-import { Product } from "./product";
-
 export interface Cart {
-    id: number;
-    username: string;
-    items: Product[];
-    
+    productIDS: number[];
+    quantities: number[];
 }

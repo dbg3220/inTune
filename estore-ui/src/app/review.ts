@@ -1,5 +1,5 @@
 export interface Review{
-    reviewUsername: String;
+    username: string;
     rating: number;
-    description: String;
+    description: string;
 }

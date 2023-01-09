@@ -1,11 +1,13 @@
+import { Category } from "./category";
+import { WeekDay } from "@angular/common";
+
 export interface Lesson{
     id: number;
-    isFull: boolean;
-    category: String;
-    instructor: String;
-    weekday: String;
+    category: Category;
+    instructor: string;
+    weekday: WeekDay;
     startTime: number;
     userID: number;
     price: number;
-    name: String;
+    name: string;
 }
