@@ -1,11 +1,11 @@
 import { Category } from "./category";
-import { WeekDay } from "@angular/common";
+import { Weekday } from "./weekday";
 
 export interface Lesson{
     id: number;
     category: Category;
     instructor: string;
-    weekday: WeekDay;
+    weekday: Weekday;
     startTime: number;
     userID: number;
     price: number;

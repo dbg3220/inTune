@@ -76,15 +76,6 @@ export class CheckoutComponent implements OnInit {
   async onSubmit(form: FormGroup) {
     this.productService.getCart().subscribe(async (cartItems) => {
       console.log('cartitems', cartItems, '\n products', this.product);
-      for (let item of cartItems) {
-        if (this.user.productsPurchased.includes(item.id)) {
-          console.log('product already purchased');
-        }
-        else {
-          this.user.productsPurchased.push(item.id);
-          console.log('product purchased');
-        }
-      }
       let stockProduct = this.getNewStockProducts(cartItems, this.product);
       console.log('stockProduct', stockProduct);
       for (let item of stockProduct) {

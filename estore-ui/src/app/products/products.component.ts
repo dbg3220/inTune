@@ -1,6 +1,4 @@
-import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { MessageService } from '../message.service';
@@ -12,6 +10,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { User } from '../user';
+import { Category } from '../category';
+import { Review } from '../review';
 
 @Component({
   selector: 'app-products',
@@ -53,42 +53,12 @@ export class ProductsComponent implements OnInit {
       .subscribe(products => this.products = products);
     }
 
-  add(name: string, price: number, category: string, quantity: number, description: string, image: string): void {
-    name = name.trim().toLowerCase();
-    category = category.trim().toLowerCase();
-    if (!name) { 
-      this.invalid = true;
-      return; 
-    }
-    if (!price) { 
-      this.invalid = true;
-      return; 
-    }
-    if (!category || category != "strings" && category != "brass" && category != "woodwinds" && category != "percussion" && category != "keyboards") { 
-      this.invalid = true;
-      return; 
-    }
-    if (!quantity) { 
-      this.invalid = true;
-      return; 
-    }
-    if (!description) { 
-      this.invalid = true;
-      return; 
-    }
-    if (!image) { 
-      this.invalid = true;
-      return; 
-    }
-    this.invalid = false;
-    for (let product of this.products) {
-      if (product.name.toLowerCase() === name) {
-        this.alreadyExists = true;
-        return;
-      }
-    }
-    category = category.toUpperCase();
-    this.productService.addProduct({ name, price, category, quantity, description, image } as Product)
+  add(name: string, price: number, category: Category, quantity: number, description: string, image: string): void {
+    //TODO this method had filter conditionals that were deleted, redo if necessary
+    var id = 0;
+    var reviews: Review[] = []
+    //TODO redo this line
+    this.productService.addProduct({ id, name, price, category, quantity, description, image, reviews } as Product)
       .subscribe(product => {
         this.products.push(product);
       });
@@ -104,7 +74,29 @@ export class ProductsComponent implements OnInit {
     return Number(price);
   }
 
-
+  /**
+   * Returns a category enum matching the parameter string,if
+   * no match than value OTHER is returned
+   * @param category The input value of a category
+   */
+  toCategory(categoryName: string): Category{
+    var str = categoryName.toUpperCase();
+    switch(str){
+      case "STRING":
+        return Category.STRING;
+      case "WOODWIND":
+        return Category.WOODWIND;
+      case "BRASS":
+        return Category.BRASS;
+      case "KEYBOARD":
+        return Category.KEYBOARD;
+      case "PERCUSSION":
+        return Category.PERCUSSION;
+      default:
+        return Category.OTHER;
+    }
+  }
+  
   ngOnInit(): void {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -126,13 +118,13 @@ export class ProductsComponent implements OnInit {
       console.log(this.isAdmin);
     }
 
-filterByCategory(category: string){
-  if(category === ""){
+filterByCategory(category: Category){
+  if(category == Category.OTHER){
     this.filteredProducts = this.products;
   }
   else{
   for (let i = 0; i < this.products.length; ++i) {
-    if(this.products[i].category === category){
+    if(this.products[i].category == category){
       this.filteredProducts.push(this.products[i]);
     }
   }
@@ -143,32 +135,26 @@ filterByCategory(category: string){
 reset() {
   this.searchText = '';
   this.productService.getClonedProductsAsObservable().subscribe(cloned => {
-    // console.log('Cloned: ', cloned);
     this.productService.setProductsView(cloned);
   });
 }
 
-changeSearch($event: any, category: string) {
+changeSearch($event: any, category: Category) {
   this.filteredProducts = [];
   this.searchText = $event;
   this.productService.getClonedProductsAsObservable().subscribe(cloned => {
-    // console.log('Cloned: ', cloned);
     this.productService.setProductsView(cloned);
   });
-  // console.log('Searching ...', $event);
   this.filterByCategory(category);
   this.productService.setProductsView(this.filteredProducts.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
 }
 
-changeFilter(category: string){
+changeFilter(category: Category){
   this.filteredProducts = [];
   this.productService.getClonedProductsAsObservable().subscribe(cloned => {
-    // console.log('Cloned: ', cloned);
     this.productService.setProductsView(cloned);
   });
-  // console.log('Searching ...', $event);
   this.filterByCategory(category);
   this.productService.setProductsView(this.filteredProducts.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase())));
 }
-
 }

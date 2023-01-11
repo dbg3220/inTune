@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Category } from '../category';
+import { Weekday } from '../weekday'
 import { Lesson } from '../lesson';
 import { LessonService } from '../lesson.service';
 import { MessageService } from '../message.service';
@@ -23,8 +25,6 @@ export class LessonsComponent implements OnInit {
   promptLogin: boolean = false;
   /** An identifier variable for this class, is turned on and off when getLessons(), getCurrentUser() starts and ends */
   refreshDone: boolean = true;
-  /** The possible days that can be entered for a lesson */
-  potentialDays: String[] = [ 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY' ];
 
   /** Public constructor for creating this ts component */
   constructor(private lessonService: LessonService,
@@ -81,7 +81,6 @@ export class LessonsComponent implements OnInit {
   /** Schedules a lesson for the current user */
   scheduleLesson(lesson: Lesson) {
     if(this.currentUser && !this.isAdmin){
-      lesson.isFull = true;
       lesson.userID = this.currentUser!.id;
       this.updateLesson(lesson);
     } else {
@@ -101,17 +100,17 @@ export class LessonsComponent implements OnInit {
   }
 
   /** Adds a lesson to the inventory */
-  addLesson(category: String, instructor: String, weekday: String,
-            startTime: number, price: number, name: String) {
+  addLesson(category: Category, instructor: string, weekday: Weekday,
+            startTime: number, price: number, name: string) {
     name = name.trim();
-    this.addLessonHelp(-1, false, category, instructor, weekday, startTime, -1, price, name);
+    this.addLessonHelp(-1, category, instructor, weekday, startTime, -1, price, name);
   }
 
   /** Helper method to lesson that calls the lesson service */
-  private addLessonHelp(id: number, isFull: boolean, category: String, 
-                instructor: String, weekday: String, startTime: number, 
-                userID: Number, price: Number, name: String) {
-    var newLesson = { id, isFull, category, instructor, weekday, startTime, userID, price, name } as Lesson;
+  private addLessonHelp(id: number, category: Category, 
+                instructor: string, weekday: Weekday, startTime: number, 
+                userID: Number, price: Number, name: string) {
+    var newLesson = { id, category, instructor, weekday, startTime, userID, price, name } as Lesson;
     this.lessonService.addLesson(newLesson).subscribe(() => {
       this.getLessons();
     });
@@ -140,10 +139,10 @@ export class LessonsComponent implements OnInit {
 
   /** Tells if a lesson is free, not scheduled by a user */
   private isFull(lesson: Lesson): boolean {
-    return lesson.isFull;
+    return lesson.userID != -1;
   }
 
-  /** Sorts and returns a given array of lessons by day of the week and time of day(MOND->FRI,9->5)  */
+  /** Sorts and returns a given array of lessons by day of the week and time of day(MON->FRI,9->5)  */
   private sort(lessons: Lesson[]): Lesson[] {
     var result: Lesson[] = lessons.sort((lesson1, lesson2) => {
      return this.compareLesson(lesson1, lesson2);
@@ -153,9 +152,11 @@ export class LessonsComponent implements OnInit {
 
   /** Compares a one lesson to another by overall date, returning 0 if they are effectively equal */
   private compareLesson(lesson1: Lesson, lesson2: Lesson): number{
-    var index1 = this.potentialDays.indexOf(lesson1.weekday);
-    var index2 = this.potentialDays.indexOf(lesson2.weekday);
-    if(index1 == index2){
+    if(lesson1.weekday > lesson2.weekday){
+      return 1;
+    } else if(lesson1.weekday < lesson2.weekday){
+      return -1;
+    } else {
       if(lesson1.startTime > lesson2.startTime){
         return 1;
       } else if(lesson1.startTime < lesson2.startTime){
@@ -163,10 +164,6 @@ export class LessonsComponent implements OnInit {
       } else {
         return 0;
       }
-    } else if(index1 > index2){
-      return 1;
-    } else {
-      return -1;
     }
   }
 }

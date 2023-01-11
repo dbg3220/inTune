@@ -88,16 +88,20 @@ export class ProductDetailComponent implements OnInit {
     this.added = true;
   }
 
-  handleAddReview(reviewUsername: String, rating: number, description: String){
-    this.product.reviews.push({reviewUsername, rating, description} as Review)
+  handleAddReview(username: string, rating: number, description: string){
+    this.product.reviews.push({username, rating, description} as Review)
     this.productService.updateProduct(this.product);
     this.save();
   }
 
   purchasedProduct(){
+    //TODO make this function work
+    /** 
     if(this.user?.productsPurchased?.includes(this.product.id)){
       return true;
     }
+    return false;
+    */
     return false;
   }
 
@@ -114,7 +118,7 @@ export class ProductDetailComponent implements OnInit {
 
   writtenReview(){
     for(let review of this.product.reviews){
-      if(review.reviewUsername === this.user?.username)
+      if(review.username === this.user?.username)
       return true;
     }
     return false;

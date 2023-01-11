@@ -8,11 +8,12 @@
       <label for="new-product">Product category: </label>
       <select class="border border-black" #productCategory >
         <option value="none" selected disabled hidden>Select a category</option>
-        <option value="STRINGS">STRINGS</option>
-        <option value="WOODWINDS">WOODWINDS</option>
+        <option value="STRING">STRING</option>
+        <option value="WOODWIND">WOODWIND</option>
         <option value="BRASS">BRASS</option>
         <option value="PERCUSSION">PERCUSSION</option>
-        <option value="KEYBOARDS">KEYBOARDS</option>
+        <option value="KEYBOARD">KEYBOARD</option>
+        <option value="OTHER">OTHER</option>
       </select>
       <label for="new-product">Product quantity: </label>
       <input type="number" class="border border-black"id="new-product" #productQuantity />
@@ -21,7 +22,7 @@
       <label for="new-product">Product image URL: </label>
       <input class="border border-black"id="new-product" #productImage />
       <button type="button" class="text-center text-3xl rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-7 py-3" (click)="add(productName.value, toNumber(productPrice.value),
-      productCategory.value, toNumber(productQuantity.value) , productDescription.value, productImage.value)">
+      toCategory(productCategory.value), toNumber(productQuantity.value) , productDescription.value, productImage.value)">
         Add product
       </button>
       <p *ngIf="alreadyExists" class="mx-auto my-auto text-red-500 "> {{productName.value}} already exists</p>
@@ -41,14 +42,15 @@
       <form class="my-auto">
       <select id="category" #categoryDropdown >
         <option value="">None</option>
-        <option value="STRINGS">Strings</option>
-        <option value="WOODWINDS">Woodwinds</option>
-        <option value="PERCUSSION">Percussion</option>
-        <option value="BRASS">Brass</option>
-        <option value="KEYBOARDS">Keyboards</option>
+        <option value="STRINGS">String</option>
+        <option value="WOODWINDS">Woodwind</option>
+        <option value="PERCUSSION">Brass</option>
+        <option value="BRASS">Percussion</option>
+        <option value="KEYBOARDS">Keyboard</option>
+        <option value="OTHER">Other</option>
       </select>
       </form>
-      <button class="category text-center rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-3 py-1" name="test" (click)="changeFilter(categoryDropdown.value)">Filter</button>
+      <button class="category text-center rounded-3xl bg-black ease-in-out duration-300 hover:bg-gray-500 tran text-white px-3 py-1" name="test" (click)="changeFilter(toCategory(categoryDropdown.value))">Filter</button>
     </div>
   </div>
   <div *ngIf="products.length == 0" class="flex h-96">
