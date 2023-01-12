@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {Product} from './product';
-// import { PRODUCTS } from './mock-products';
-import {Observable, of} from 'rxjs';
-import {MessageService} from './message.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, map, tap} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Product } from './product';
+import { Observable } from 'rxjs';
+import { MessageService } from './message.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
+  //TODO make new service
+  /*
   constructor(private messageService: MessageService, private http: HttpClient) {
   }
 
@@ -22,13 +22,6 @@ export class ProductService {
   productCart$ = this._productCart.asObservable();
   public productCart: Product[] = JSON.parse(sessionStorage.getItem('cart') || "[]") || [];
   public checkout: boolean = false;
-  // getProducts(): Observable<Product[]> {
-  //   this.messageService.add('ProductService: fetched products')
-  //   return this.http.get<Product[]>(this.productsURL)
-  //     // .pipe(
-  //     //   catchError(this.handleError<Product[]>('getProducts', []))
-  //     // )
-  // }
 
   cleanup()
   {
@@ -234,5 +227,6 @@ export class ProductService {
     return this.http.put('http://localhost:8080/users',data,this.httpOptions)
 
   }
+  */
 }
 

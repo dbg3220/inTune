@@ -12,6 +12,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 
+  //TODO make new service
+  /** 
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
   private usersURL = 'http://localhost:8080/users';  // URL to web api
@@ -19,14 +21,6 @@ export class UserService {
   private _user: BehaviorSubject<any> = new BehaviorSubject(null);
   private user: User | undefined;
   readonly currentUser$ = this._user.asObservable();
-
-  // getProducts(): Observable<Product[]> {
-  //   this.messageService.add('ProductService: fetched products')
-  //   return this.http.get<Product[]>(this.productsURL)
-  //     // .pipe(
-  //     //   catchError(this.handleError<Product[]>('getProducts', []))
-  //     // )
-  // }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersURL)
@@ -66,5 +60,6 @@ export class UserService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     
   };
+  */
 
 }

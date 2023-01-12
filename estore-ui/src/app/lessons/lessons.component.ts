@@ -4,7 +4,6 @@ import { Category } from '../category';
 import { Weekday } from '../weekday'
 import { Lesson } from '../lesson';
 import { LessonService } from '../lesson.service';
-import { MessageService } from '../message.service';
 import { User } from '../user';
 import { UserService } from '../user.service';
 
@@ -147,6 +146,7 @@ export class LessonsComponent implements OnInit {
     var result: Lesson[] = lessons.sort((lesson1, lesson2) => {
      return this.compareLesson(lesson1, lesson2);
    });
+
    return result;
   }
 

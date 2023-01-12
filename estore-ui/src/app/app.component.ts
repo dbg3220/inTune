@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from './product';
 import { ProductService } from './product.service';
-import {BehaviorSubject, filter, Subject, takeUntil} from "rxjs";
+import { BehaviorSubject, filter, Subject, takeUntil } from "rxjs";
 import { User } from './user';
 import { UserService } from './user.service';
 
@@ -10,15 +10,12 @@ import { UserService } from './user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
 export class AppComponent implements OnInit {
   title = 'inTune';
   products: Product[] = [];
   filteredItems: Product[] = [];
   searchText: any;
   componentDestroyed$ = new Subject();
-  private userSource = new BehaviorSubject('test');
-  currentUser = this.userSource.asObservable();
   user: User | undefined;
   isAdmin = false;
 
@@ -46,11 +43,6 @@ export class AppComponent implements OnInit {
     console.log("user changes ... ", this.user)
   }
 
-
-  changeUser(user: string) {
-    this.userSource.next(user);
-  }
-
   getProducts(): void {
     this.productService.fetchProducts().subscribe(products =>
     {
@@ -64,4 +56,3 @@ export class AppComponent implements OnInit {
       .subscribe(products => this.products = products);
   }
 }
-

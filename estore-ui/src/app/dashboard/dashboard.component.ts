@@ -14,8 +14,6 @@ export class DashboardComponent implements OnInit {
   topProducts: Product[] = [];
   test: boolean = false;
   filteredProducts: Product[] = [];
-
-  //Merriweather Font
   
   constructor(private productService: ProductService) { }
 
